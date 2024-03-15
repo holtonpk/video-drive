@@ -1,0 +1,17 @@
+{
+  "id": "1001",
+  "title": "Why Your Social Media Content Is Not Working",
+  "videoURL": "/dummy/video/demo.mp4",
+  "dueDate": "2021-12-31",
+  "updated": "2021-12-31",
+  "status": "in progress",
+  "client": "blaze",
+  "assets": [
+    {
+      "link": "/demo/asset",
+      "title": "video_1_narration.mp3"
+    }
+  ],
+  "script": "You won’t believe how we accidentally finished a whole escape room in 30 seconds. Me and my buddies decided to take on a pirate-themed escape room. There was treasure on the floor, a cannon, a parrot, some maps scattered around, and, oddly enough, a piano. My buddy spots the piano and goes, 'Oh cool, I can play some backing music.' No big deal, right? Wrong. Turns out, the whole point of the escape room was to solve puzzles and collect pieces of the music sheet for the 'Pirates of the Caribbean' theme. So, my friend starts jamming out to the tune like he's auditioning for a pirate band, and BOOM! The door unlocks, and the game is done. We couldn't stop laughing. We paid for a 60 minute experience, and it was over in 30 seconds flat. We never stopped telling that story.",
+  "notes": "Please use a fun and engaging tone for this video. The client wants to make sure the video is engaging and entertaining. The video should be 2 minutes long."
+}
