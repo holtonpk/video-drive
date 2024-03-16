@@ -17,5 +17,10 @@ export async function GET() {
     videos.push(doc.data() as Video);
   });
 
-  return Response.json(videos);
+  const headers = new Headers();
+  headers.set("Cache-Control", "no-store, max-age=0");
+  return new Response(JSON.stringify(videos), {
+    headers: headers,
+    status: 200, // HTTP status code
+  });
 }
