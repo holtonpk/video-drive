@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import {Video} from "@/src/app/video-sheet/data/schema";
 
-export async function GET(req: NextApiRequest) {
+export async function GET() {
   const docsQuery = query(collection(db, "videos"), orderBy("dueDate", "desc"));
   const querySnapshot = await getDocs(docsQuery);
   const videos: Video[] = [];
