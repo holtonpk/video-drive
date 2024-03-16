@@ -9,10 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import {Input} from "@/components/ui/input";
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {Label} from "@/components/ui/label";
+import {Calendar as CalendarIcon} from "lucide-react";
+import {cn} from "@/lib/utils";
+import {format} from "date-fns";
 import {
   Select,
   SelectContent,
@@ -20,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {VideoData} from "@/src/app/video/[videoId]/data/data";
@@ -27,6 +31,7 @@ import {clients, statuses} from "@/src/app/video-sheet/data/data";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {formatDateFromTimestamp} from "@/lib/utils";
 import {setDoc, doc} from "firebase/firestore";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {
   uploadBytesResumable,
   getDownloadURL,
@@ -275,23 +280,50 @@ const VideoDetails = () => {
     seconds: number;
   }
 
+  // convert the timestamp to a date
+
+  type TimeStamp = {
+    nanoseconds: number;
+    seconds: number;
+  };
+
+  const convertTimestampToDate = (timestamp: Timestamp): Date => {
+    const milliseconds =
+      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
+    return new Date(milliseconds);
+  };
+
   const [notes, setNotes] = React.useState(video.notes);
+  const [title, setTitle] = React.useState(video.title);
+  const [dueDate, setDueDate] = React.useState<Date | undefined>(
+    convertTimestampToDate(video.dueDate)
+  );
+
+  console.log("dd", dueDate);
+
+  async function updateNotes(field: string, value: any) {
+    await setDoc(
+      doc(db, "videos", video.videoNumber.toLocaleString()),
+      {
+        [field]: value,
+        updatedAt: new Date(),
+      },
+      {
+        merge: true,
+      }
+    );
+  }
+  useEffect(() => {
+    updateNotes("notes", notes);
+  }, [notes, video.videoNumber]);
 
   useEffect(() => {
-    async function updateNotes() {
-      await setDoc(
-        doc(db, "videos", video.videoNumber.toLocaleString()),
-        {
-          notes: notes,
-          updatedAt: new Date(),
-        },
-        {
-          merge: true,
-        }
-      );
-    }
-    updateNotes();
-  }, [notes, video.videoNumber]);
+    updateNotes("dueDate", dueDate);
+  }, [dueDate, video.videoNumber]);
+
+  useEffect(() => {
+    updateNotes("title", title);
+  }, [title, video.videoNumber]);
 
   return (
     <Card className="h-fit shadow-sm max-w-[400px]">
@@ -304,22 +336,39 @@ const VideoDetails = () => {
       <CardContent className="grid gap-6">
         <div className="grid gap-2">
           <Label htmlFor="title">Title</Label>
-          <Label htmlFor="title" className="font-bold text-lg">
-            {video.title}
-          </Label>
+          <Input
+            value={title}
+            id="title"
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="video-id">Video #</Label>
-            <Label id="video-id" className="font-bold text-lg">
-              {video.videoNumber}
-            </Label>
-          </div>
-          <div className="grid gap-2">
             <Label htmlFor="due-date">Due Date</Label>
-            <Label id="due-date" className="font-bold text-lg">
-              {formatDateFromTimestamp(video.dueDate)}
-            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-fit justify-start text-left font-normal",
+                    !video.dueDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={dueDate}
+                  onSelect={setDueDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 

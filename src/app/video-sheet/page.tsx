@@ -51,13 +51,13 @@ export default async function VideoSheetPage() {
       <div className="hidden h-full flex-1 flex-col space-y-4 p-4 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Video Sheet</h2>
             <p className="text-muted-foreground">
-              Here&apos;s a list of your tasks for this month!
+              Here&apos;s a list of videos for this month
             </p>
           </div>
           <Link
-            href={"/video-sheet"}
+            href={"/new-video"}
             className={buttonVariants({variant: "default"})}
           >
             <Icons.add className="h-5 w-5 mr-2" />

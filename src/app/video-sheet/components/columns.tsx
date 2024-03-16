@@ -147,32 +147,15 @@ export const columns: ColumnDef<Video>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "updatedAt",
+    accessorKey: "notes",
     header: ({column}) => (
-      <DataTableColumnHeader column={column} title="Last Updated" />
+      <DataTableColumnHeader column={column} title="Notes" />
     ),
     cell: ({row}) => {
+      const note: string = row.getValue("notes");
       return (
-        <div className="flex space-x-2 z-20">
-          <span className="max-w-[500px] truncate font-medium">
-            {formatDateFromTimestamp(row.getValue("updatedAt"))}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "script",
-    header: ({column}) => (
-      <DataTableColumnHeader column={column} title="Script" />
-    ),
-    cell: ({row}) => {
-      const script = row.getValue("script");
-      return (
-        <div className="flex z-20  w-16 items-center justify-center">
-          <span className="w-fit  truncate font-medium ">
-            {script ? "✅" : "❌"}
-          </span>
+        <div className="flex z-20  w-[200px] items-center ">
+          <span className="w-fit  truncate font-medium ">{note}</span>
         </div>
       );
     },
