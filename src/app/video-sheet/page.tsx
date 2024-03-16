@@ -23,7 +23,7 @@ const url = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
 async function getVideos() {
   console.log("url", `${url}/api/videos`);
   const videos = await fetch(`${url}/api/videos`, {
-    cache: "no-cache",
+    cache: "no-store",
   });
 
   const videoData = await videos.json();
