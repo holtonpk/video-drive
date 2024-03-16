@@ -14,33 +14,20 @@ import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
 export const metadata: Metadata = {
-  title: "Tasks",
-  description: "A task and issue tracker build using Tanstack Table.",
+  title: "Video Sheet",
+  description: "A list of videos for this month",
 };
 
-// Simulate a database read for tasks.
+const url = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
+
 async function getVideos() {
-  // get all the docs from the collection "videos"
-  const docsQuery = await query(
-    collection(db, "videos"),
-    orderBy("dueDate", "desc")
-  );
-  const querySnapshot = await getDocs(docsQuery);
-  const videos: Video[] = [];
-  querySnapshot.forEach((doc) => {
-    videos.push(doc.data() as Video);
+  const videos = await fetch(`${url}/api/videos`, {
+    cache: "no-cache",
   });
 
-  // Custom sort function to order by status
-  videos.sort((a, b) => {
-    const statusOrder = ["needs revision", "in progress", "todo", "done"];
-    const indexA = statusOrder.indexOf(a.status.toLowerCase());
-    const indexB = statusOrder.indexOf(b.status.toLowerCase());
+  const videoData = await videos.json();
 
-    return indexA - indexB;
-  });
-
-  return videos;
+  return videoData as Video[];
 }
 
 export default async function VideoSheetPage() {
