@@ -46,8 +46,6 @@ export const columns: ColumnDef<Video>[] = [
         {row.getValue("videoNumber")}
       </div>
     ),
-    enableSorting: false,
-    enableHiding: false,
   },
   {
     accessorKey: "title",
