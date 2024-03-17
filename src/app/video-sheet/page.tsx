@@ -24,18 +24,6 @@ import Link from "next/link";
 import {Icons} from "@/components/icons";
 import {use, useEffect} from "react";
 
-const url = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
-
-// async function getVideos() {
-//   const videos = await fetch(`${url}/api/videos`, {
-//     cache: "no-store",
-//   });
-
-//   const videoData = await videos.json();
-
-//   return videoData as Video[];
-// }
-
 export default function VideoSheetPage() {
   const [videos, setVideos] = React.useState<Video[]>([]);
 
@@ -89,7 +77,9 @@ export default function VideoSheetPage() {
             <DataTable data={videos} columns={columns} />
           </div>
         ) : (
-          <>loading ...</>
+          <div className="w-full h-[400px] border rounded-md flex items-center justify-center">
+            <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
+          </div>
         )}
       </div>
     </>
