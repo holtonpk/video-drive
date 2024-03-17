@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import {promises as fs} from "fs";
 import path from "path";
 import {Metadata} from "next";
@@ -13,10 +15,7 @@ import {doc, getDocs, collection, query, orderBy} from "firebase/firestore";
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
-export const metadata: Metadata = {
-  title: "Video Sheet",
-  description: "A list of videos for this month",
-};
+import {use, useEffect} from "react";
 
 const url = process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000";
 
@@ -30,8 +29,16 @@ async function getVideos() {
   return videoData as Video[];
 }
 
-export default async function VideoSheetPage() {
-  const videos = await getVideos();
+export default function VideoSheetPage() {
+  const [videos, setVideos] = React.useState<Video[]>([]);
+
+  useEffect(() => {
+    getVideos().then((data) => {
+      setVideos(data);
+    });
+  }, []);
+
+  console.log("videos", videos);
 
   return (
     <>
@@ -51,9 +58,13 @@ export default async function VideoSheetPage() {
             New Video
           </Link>
         </div>
-        <div className="p-4 border rounded-md">
-          <DataTable data={videos} columns={columns} />
-        </div>
+        {videos ? (
+          <div className="p-4 border rounded-md">
+            <DataTable data={videos} columns={columns} />
+          </div>
+        ) : (
+          <>loading ...</>
+        )}
       </div>
     </>
   );
