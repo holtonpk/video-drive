@@ -26,8 +26,8 @@ import {
 import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
-import {VideoData} from "@/src/app/video/[videoId]/data/data";
-import {clients, statuses} from "@/src/app/(video-sheet)/data/data";
+import {VideoData} from "@/src/app/(tool)/[videoId]/data/data";
+import {clients, statuses} from "@/src/app/(tool)/(video-sheet)/data/data";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {formatDateFromTimestamp} from "@/lib/utils";
 import {setDoc, doc} from "firebase/firestore";
@@ -39,7 +39,7 @@ import {
   getStorage,
 } from "firebase/storage";
 import {Progress} from "@/components/ui/progress";
-import {AssetType} from "@/src/app/new-video/new-video-context";
+import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
 import {db, app} from "@/config/firebase";
 import {Timestamp} from "@/lib/utils";
 

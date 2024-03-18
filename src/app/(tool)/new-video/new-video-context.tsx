@@ -1,5 +1,5 @@
 "use client";
-import {VideoData} from "@/src/app/video/[videoId]/data/data";
+import {VideoData} from "@/src/app/(tool)/[videoId]/data/data";
 import {
   doc,
   getDocs,

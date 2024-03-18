@@ -4,13 +4,13 @@ import {Calendar} from "@/components/ui/calendar";
 import {Icons} from "@/components/icons";
 import {collection, query, getDocs, where} from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData} from "@/src/app/video/[videoId]/data/data";
-import {clients} from "@/src/app/video/[videoId]/data/data";
+import {VideoData} from "@/src/app/(tool)/[videoId]/data/data";
+import {clients} from "@/src/app/(tool)/[videoId]/data/data";
 import {format} from "date-fns";
 import {Card} from "@/components/ui/card";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
-import {AssetType} from "@/src/app/new-video/new-video-context";
+import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
 
 const PostingSheet = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());

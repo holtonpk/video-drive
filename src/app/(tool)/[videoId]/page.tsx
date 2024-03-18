@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import VideoInfo from "./video-info";
 import {doc, getDoc, onSnapshot} from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData} from "@/src/app/video/[videoId]/data/data";
+import {VideoData} from "@/src/app/(tool)/[videoId]/data/data";
 import {Icons} from "@/components/icons";
 
 // Simulate a database read for tasks.
