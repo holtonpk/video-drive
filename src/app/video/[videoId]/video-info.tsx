@@ -41,6 +41,7 @@ import {
 import {Progress} from "@/components/ui/progress";
 import {AssetType} from "@/src/app/new-video/new-video-context";
 import {db, app} from "@/config/firebase";
+import {Timestamp} from "@/lib/utils";
 
 const VideoInfo = ({video}: {video: VideoData}) => {
   return (
@@ -172,28 +173,98 @@ const Caption = () => {
   };
 
   return (
-    <div className=" shadow-sm min-h-[200px] h-fit w-[300px] relative">
-      <Button
-        onClick={copyCaption}
-        variant="ghost"
-        className="absolute top-1 right-1 p-1 aspect-square"
-      >
-        {copied ? (
-          <Icons.check className="h-3 w-3 " />
-        ) : (
-          <Icons.copy className="h-3 w-3" />
-        )}
-      </Button>
-      <Textarea
-        value={caption}
-        onChange={(e) => setCaption(e.target.value)}
-        id="caption"
-        className="min-h-[200px] w-full p-6"
-        placeholder="The caption for the video goes here..."
-      />
-    </div>
+    <Card className=" shadow-sm min-h-[200px] h-fit w-[300px] relative">
+      <CardHeader>
+        <CardTitle>Post Info</CardTitle>
+      </CardHeader>
+
+      <CardContent className="grid gap-6">
+        <div className="grid gap-2 relative">
+          <Button
+            onClick={copyCaption}
+            variant="ghost"
+            className="absolute bottom-0 left-0 p-0 aspect-square"
+          >
+            {copied ? (
+              <Icons.check className="h-3 w-3 " />
+            ) : (
+              <Icons.copy className="h-3 w-3" />
+            )}
+          </Button>
+          <Label htmlFor="caption">Caption</Label>
+          <Textarea
+            value={caption}
+            onChange={(e) => setCaption(e.target.value)}
+            id="caption"
+            className="min-h-[200px] w-full p-6"
+            placeholder="The caption for the video goes here..."
+          />
+        </div>
+        <div className="grid-gap-2">
+          <Label htmlFor="post-date">Post Date</Label>
+          <PostDatePicker />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
+
+export function PostDatePicker() {
+  // const {postDate, setPostDate} = useNewVideo()!;
+  const {video} = useVideo()!;
+
+  const [postDate, setPostDate] = React.useState<Date | undefined>(
+    video?.postDate ? convertTimestampToDate(video?.postDate) : undefined
+  );
+
+  useEffect(() => {
+    async function updatePostDate() {
+      await setDoc(
+        doc(db, "videos", video.videoNumber.toLocaleString()),
+        {
+          postDate: postDate,
+          updatedAt: new Date(),
+        },
+        {
+          merge: true,
+        }
+      );
+    }
+    if (postDate) {
+      updatePostDate();
+    }
+  }, [postDate, video.videoNumber]);
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          id="post-date"
+          variant={"outline"}
+          className={cn(
+            " justify-start text-left font-normal  w-full rounded-t-none",
+            !postDate && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {postDate ? (
+            "Post date: " + format(postDate, "PPP")
+          ) : (
+            <span>Post Date</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={postDate}
+          onSelect={setPostDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 const VideoAssets = () => {
   const {video} = useVideo()!;
@@ -333,17 +404,6 @@ const VideoDetails = () => {
   }
 
   // convert the timestamp to a date
-
-  type TimeStamp = {
-    nanoseconds: number;
-    seconds: number;
-  };
-
-  const convertTimestampToDate = (timestamp: Timestamp): Date => {
-    const milliseconds =
-      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
-    return new Date(milliseconds);
-  };
 
   const [notes, setNotes] = React.useState(video.notes);
   const [title, setTitle] = React.useState(video.title);
@@ -546,4 +606,10 @@ const VideoPreview = () => {
       )}
     </div>
   );
+};
+
+const convertTimestampToDate = (timestamp: Timestamp): Date => {
+  const milliseconds =
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
+  return new Date(milliseconds);
 };

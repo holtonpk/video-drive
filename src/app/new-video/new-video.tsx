@@ -295,9 +295,15 @@ const VideoDetails = () => {
               placeholder="#"
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="video-id">Due Date</Label>
-            <DueDatePicker />
+          <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-2">
+              <Label htmlFor="video-id">Due Date</Label>
+              <DueDatePicker />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="video-id">Post Date</Label>
+              <PostDatePicker />
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -365,6 +371,35 @@ const VideoDetails = () => {
   );
 };
 
+export function PostDatePicker() {
+  const {postDate, setPostDate} = useNewVideo()!;
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-[150px] justify-start text-left font-normal",
+            !postDate && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {postDate ? format(postDate, "PPP") : <span>Post Date</span>}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={postDate}
+          onSelect={setPostDate}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export function DueDatePicker() {
   const {dueDate, setDueDate} = useNewVideo()!;
 
@@ -374,7 +409,7 @@ export function DueDatePicker() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[280px] justify-start text-left font-normal",
+            "w-[150px] justify-start text-left font-normal",
             !dueDate && "text-muted-foreground"
           )}
         >

@@ -76,6 +76,7 @@ export type VideoData = {
   notes: string;
   script: string;
   caption?: string;
+  postDate: Timestamp;
 };
 
 interface Timestamp {
