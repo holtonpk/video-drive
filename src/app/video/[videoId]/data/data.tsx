@@ -75,6 +75,7 @@ export type VideoData = {
   assets: VideoAsset[];
   notes: string;
   script: string;
+  caption?: string;
 };
 
 interface Timestamp {

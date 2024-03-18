@@ -15,7 +15,7 @@ import Link from "next/link";
 import {Label} from "@/components/ui/label";
 import {Calendar as CalendarIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
-import {format} from "date-fns";
+import {format, set} from "date-fns";
 import {
   Select,
   SelectContent,
@@ -27,7 +27,7 @@ import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {VideoData} from "@/src/app/video/[videoId]/data/data";
-import {clients, statuses} from "@/src/app/video-sheet/data/data";
+import {clients, statuses} from "@/src/app/(video-sheet)/data/data";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {formatDateFromTimestamp} from "@/lib/utils";
 import {setDoc, doc} from "firebase/firestore";
@@ -48,8 +48,9 @@ const VideoInfo = ({video}: {video: VideoData}) => {
       <Header />
       <div className=" flex flex-col w-full gap-4  items-center p-8 container">
         <div className="flex gap-4 h-fit  justify-between   rounded-md items-center">
-          <VideoPreview />
           <VideoDetails />
+          <VideoPreview />
+          <Caption />
         </div>
         <VideoScript />
         <VideoAssets />
@@ -97,10 +98,7 @@ const Header = () => {
     `}
     >
       <div className="flex items-center gap-2">
-        <Link
-          href={"/video-sheet"}
-          className={buttonVariants({variant: "ghost"})}
-        >
+        <Link href={"/#"} className={buttonVariants({variant: "ghost"})}>
           <Icons.chevronLeft className="h-5 w-5" />
         </Link>
 
@@ -139,6 +137,60 @@ const Header = () => {
           ))}
         </SelectContent>
       </Select>
+    </div>
+  );
+};
+
+const Caption = () => {
+  const {video} = useVideo()!;
+
+  const [caption, setCaption] = React.useState(video.caption || "");
+
+  useEffect(() => {
+    async function updateScript() {
+      await setDoc(
+        doc(db, "videos", video.videoNumber.toLocaleString()),
+        {
+          caption: caption,
+          updatedAt: new Date(),
+        },
+        {
+          merge: true,
+        }
+      );
+    }
+    updateScript();
+  }, [caption, video.videoNumber]);
+
+  const [copied, setCopied] = React.useState(false);
+  const copyCaption = () => {
+    setCopied(true);
+    navigator.clipboard.writeText(caption);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
+  return (
+    <div className=" shadow-sm min-h-[200px] h-fit w-[300px] relative">
+      <Button
+        onClick={copyCaption}
+        variant="ghost"
+        className="absolute top-1 right-1 p-1 aspect-square"
+      >
+        {copied ? (
+          <Icons.check className="h-3 w-3 " />
+        ) : (
+          <Icons.copy className="h-3 w-3" />
+        )}
+      </Button>
+      <Textarea
+        value={caption}
+        onChange={(e) => setCaption(e.target.value)}
+        id="caption"
+        className="min-h-[200px] w-full p-6"
+        placeholder="The caption for the video goes here..."
+      />
     </div>
   );
 };

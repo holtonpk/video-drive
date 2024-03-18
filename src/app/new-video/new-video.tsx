@@ -28,7 +28,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {setDoc, doc} from "firebase/firestore";
 
 import {useNewVideo} from "./new-video-context";
-import {clients, statuses} from "@/src/app/video-sheet/data/data";
+import {clients, statuses} from "@/src/app/(video-sheet)/data/data";
 import {
   uploadBytesResumable,
   getDownloadURL,
