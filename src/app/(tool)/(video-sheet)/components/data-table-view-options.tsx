@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import {DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu";
 import {MixerHorizontalIcon} from "@radix-ui/react-icons";
 import {Table} from "@tanstack/react-table";
@@ -12,6 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {Column} from "@tanstack/react-table";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -20,6 +21,44 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
+  const DEFAULTHIDDENCOLUMNS: string[] = ["script"]; // Define your default hidden columns here
+  const [userHiddenColumns, setUserHiddenColumns] = React.useState<
+    string[] | undefined
+  >(() => {
+    const storedHiddenColumns = localStorage.getItem("hiddenColumns");
+    return storedHiddenColumns
+      ? JSON.parse(storedHiddenColumns)
+      : DEFAULTHIDDENCOLUMNS;
+  });
+
+  React.useEffect(() => {
+    // This effect sets the initial visibility of columns based on local storage
+    table.getAllColumns().forEach((column) => {
+      column.toggleVisibility(!userHiddenColumns?.includes(column.id));
+    });
+  }, []); // Runs only once on mount
+
+  React.useEffect(() => {
+    console.log("setting local to ", userHiddenColumns);
+    localStorage.setItem("hiddenColumns", JSON.stringify(userHiddenColumns));
+  }, [userHiddenColumns]);
+
+  const toggleHiddenColumn = (
+    column: Column<TData, unknown>,
+    value: boolean
+  ) => {
+    column.toggleVisibility(value);
+    setUserHiddenColumns((prev) => {
+      const newHiddenColumns = prev ? [...prev] : [];
+      if (newHiddenColumns.includes(column.id)) {
+        return newHiddenColumns.filter((id) => id !== column.id);
+      } else {
+        newHiddenColumns.push(column.id);
+        return newHiddenColumns;
+      }
+    });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -46,8 +85,10 @@ export function DataTableViewOptions<TData>({
               <DropdownMenuCheckboxItem
                 key={column.id}
                 className="capitalize"
-                checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                checked={
+                  userHiddenColumns && !userHiddenColumns.includes(column.id)
+                }
+                onCheckedChange={(value) => toggleHiddenColumn(column, !!value)}
               >
                 {column.id}
               </DropdownMenuCheckboxItem>

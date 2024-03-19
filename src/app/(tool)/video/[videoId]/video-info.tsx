@@ -26,7 +26,7 @@ import {
 import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
-import {VideoData} from "@/src/app/(tool)/[videoId]/data/data";
+import {VideoData} from "@/src/app/(tool)/video/[videoId]/data/data";
 import {clients, statuses} from "@/src/app/(tool)/(video-sheet)/data/data";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {formatDateFromTimestamp} from "@/lib/utils";
@@ -42,6 +42,13 @@ import {Progress} from "@/components/ui/progress";
 import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
 import {db, app} from "@/config/firebase";
 import {Timestamp} from "@/lib/utils";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const VideoInfo = ({video}: {video: VideoData}) => {
   return (
@@ -572,7 +579,7 @@ const VideoPreview = () => {
     setLoading(false);
   }
   return (
-    <div className="border rounded-md h-[550px] min-h-full s aspect-[9/16] bg-muted flex justify-center items-center overflow-hidden shadow-sm ">
+    <div className="border rounded-md h-[550px] w-[300px]  mx-10 bg-muted  shadow-sm ">
       {loading ? (
         <div className="flex flex-col gap-3 items-center">
           <h1 className="text-primary font-bold">Uploading Video</h1>
@@ -581,9 +588,48 @@ const VideoPreview = () => {
       ) : (
         <>
           {videoUrl ? (
-            <div className="">
-              <video controls className="w-full h-full" src={videoUrl}></video>
-            </div>
+            <Carousel>
+              <CarouselContent>
+                <CarouselItem className="group h-[550px] w-[309px] rounded-lg  relative ">
+                  <div className="absolute bg-background/60 flex-row items-center justify-between hidden group-hover:flex z-20 p-2 border  rounded-br-lg h-fit  w-fit gap-4">
+                    <h1 className="font-bold text-primary">V1.0</h1>
+                    <Button
+                      variant={"secondary"}
+                      className=" hover:bg-opacity-80 cursor-pointer z-20"
+                    >
+                      <Icons.add className="h-4 w-4 mr-2" />
+                      new version
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="  hover:bg-opacity-80   z-20"
+                    >
+                      <Icons.trash className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="relative z-10 h-[550px] w-[309px]  aspecst-[9/16] overflow-hidden ">
+                    <video controls className="w-full  " src={videoUrl}></video>
+                  </div>
+                </CarouselItem>
+                <CarouselItem className="group  h-[550px] w-[309px]  relative ">
+                  <Button
+                    variant="destructive"
+                    className="absolute top-3 right-3 hidden group-hover:flex hover:bg-opacity-80   z-20"
+                  >
+                    <Icons.trash className="h-4 w-4" />
+                  </Button>
+                  <Button className="absolute top-3 left-3 hidden group-hover:flex hover:bg-opacity-80 cursor-pointer z-20">
+                    <Icons.add className="h-4 w-4 mr-2" />
+                    new version
+                  </Button>
+                  <div className="relative z-10 h-[550px] w-[309px]  aspect-[9/16] overflow-hidden">
+                    <video controls className="w-full  " src={videoUrl}></video>
+                  </div>
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
           ) : (
             <div className="flex flex-col gap-4 items-center">
               <h1>Completed video goes here</h1>

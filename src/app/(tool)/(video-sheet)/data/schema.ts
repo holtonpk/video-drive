@@ -17,6 +17,7 @@ export const videoSchema = z.object({
     nanoseconds: z.number(),
     seconds: z.number(),
   }),
+  videoURL: z.string().optional(),
 });
 
 export type Video = z.infer<typeof videoSchema>;

@@ -160,28 +160,56 @@ export const columns: ColumnDef<Video>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // {
-  //   accessorKey: "uploaded",
-  //   header: ({column}) => (
-  //     <DataTableColumnHeader column={column} title="Video Uploaded" />
-  //   ),
-  //   cell: ({row}) => {
-  //     const videoUploaded = row.getValue("videoFile") ? true : false;
-  //     return (
-  //       <div className="flex z-20  w-[200px] items-center ">
-  //         <span className="w-fit  truncate font-medium ">
-  //           {videoUploaded ? (
-  //             <Icons.check className="h-4 w-4 text-green-500" />
-  //           ) : (
-  //             <Icons.close className="h-4 w-4 text-red-500" />
-  //           )}
-  //         </span>
-  //       </div>
-  //     );
-  //   },
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
+  {
+    accessorKey: "videoURL",
+    header: ({column}) => {
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title="Video Uploaded"
+          className="w-fit  "
+        />
+      );
+    },
+    cell: ({row}) => {
+      const videoUploaded = row.getValue("videoURL") ? true : false;
+      return (
+        <div className="flex z-20  w-full  justify-center items-center ">
+          <span className="w-fit  truncate font-medium ">
+            {videoUploaded ? (
+              <Icons.check className="h-4 w-4 text-green-500" />
+            ) : (
+              <Icons.close className="h-4 w-4 text-red-500" />
+            )}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "script",
+    header: ({column}) => {
+      return <DataTableColumnHeader column={column} title="Has Script" />;
+    },
+    cell: ({row}) => {
+      const videoUploaded = row.getValue("script") ? true : false;
+      return (
+        <div className="flex z-20  w-full justify-center items-center ">
+          <span className="w-fit  truncate font-medium ">
+            {videoUploaded ? (
+              <Icons.check className="h-4 w-4 text-green-500" />
+            ) : (
+              <Icons.close className="h-4 w-4 text-red-500" />
+            )}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
   {
     id: "actions",
     cell: ({row}) => <DataTableRowActions row={row} />,
