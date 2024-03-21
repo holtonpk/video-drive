@@ -30,7 +30,7 @@ export default function VideoSheetPage() {
   useEffect(() => {
     const docsQuery = query(
       collection(db, "videos"),
-      orderBy("dueDate", "desc")
+      orderBy("dueDate", "asc")
     );
 
     const unsubscribe = onSnapshot(docsQuery, (querySnapshot) => {

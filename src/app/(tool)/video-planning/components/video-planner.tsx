@@ -9,6 +9,7 @@ import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+
 import {Label} from "@/components/ui/label";
 import {
   Select,
@@ -17,14 +18,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {clients} from "@/src/app/(tool)/(video-sheet)/data/data";
+import {clients, statuses} from "@/src/app/(tool)/(video-sheet)/data/data";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {db} from "@/config/firebase";
 import {setDoc, doc} from "firebase/firestore";
 
-const SUBDAYS_VIDEO_DUE = 7;
-const SUBDAYS_SCRIPT_DUE = 7;
+const SUBDAYS_VIDEO_DUE = 2;
+const SUBDAYS_SCRIPT_DUE = 3;
 
 type NewVideo = {
   title: string;
@@ -159,7 +160,7 @@ const VideoPlanner = () => {
         return Array.from({length: day.videosForThisDay}).map(() => {
           videoCount++;
           return {
-            title: "",
+            title: "video - #" + videoCount.toString(),
             videoNumber: videoCount.toString(),
             clientId: client,
             status: "todo",
@@ -264,49 +265,91 @@ const VideoLine = ({
 
   const [title, setTitle] = React.useState(video.title);
   const [notes, setNotes] = React.useState(video.notes);
-
+  const [status, setStatus] = React.useState(video.status);
   return (
     <VideoProvider
       video={video}
       setNewVideos={setNewVideos}
       newVideos={newVideos}
     >
-      <div className="w-full p-6 rounded-md border h-fit shadow-md flex items-center gap-4">
-        <h1>
-          Video <span className="font-bold">#{video.videoNumber}</span>
+      <div className="w-full p-6  relative rounded-md border h-fit shadow-md flex items-start  gap-4">
+        <h1 className="mr-6">
+          <span className="font-bold">#{video.videoNumber}</span>
         </h1>
-        <div className="grid gap-2">
-          <Label htmlFor="video-id">Title</Label>
+        <div className="grid gap-4">
+          <div className="grid gap-2 h-fit ">
+            <Label htmlFor="video-id">Title</Label>
 
-          <Input
-            placeholder="title"
-            className="w-[250px]"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              setNewVideos(
-                newVideos.map((v) => {
-                  if (v.videoNumber === video.videoNumber) {
-                    return {...v, title: e.target.value};
-                  }
-                  return v;
-                })
-              );
-            }}
-          />
+            <Input
+              placeholder="title"
+              className="w-[250px]"
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setNewVideos(
+                  newVideos.map((v) => {
+                    if (v.videoNumber === video.videoNumber) {
+                      return {...v, title: e.target.value};
+                    }
+                    return v;
+                  })
+                );
+              }}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="client">Status</Label>
+            <Select
+              value={status}
+              onValueChange={(value) => {
+                setStatus(value);
+                setNewVideos(
+                  newVideos.map((v) => {
+                    if (v.videoNumber === video.videoNumber) {
+                      return {...v, status: value};
+                    }
+                    return v;
+                  })
+                );
+              }}
+            >
+              <SelectTrigger id="status" className=" w-full truncate">
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                {statuses.map((option) => (
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                    className="flex flex-nowrap"
+                  >
+                    <div className="flex items-center">
+                      {option.icon && (
+                        <option.icon className="mr-2 h-4 w-4 text-muted-foreground rounded-sm" />
+                      )}
+                      <span>{option.label}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="video-id">Video Due </Label>
-          <DueDatePicker />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-2 h-fit">
+            <Label htmlFor="video-id">Video Due </Label>
+            <DueDatePicker />
+          </div>
+          <div className="grid gap-2 h-fit">
+            <Label htmlFor="video-id">Script Due</Label>
+            <ScriptDatePicker />
+          </div>
+          <div className="grid gap-2 h-fit">
+            <Label htmlFor="video-id">Post Date</Label>
+            <PostDatePicker />
+          </div>
         </div>
-        <div className="grid gap-2">
-          <Label htmlFor="video-id">Script Due</Label>
-          <ScriptDatePicker />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="video-id">Post Date</Label>
-          <PostDatePicker />
-        </div>
+
         <div className="grid gap-2 col-span-2 flex-grow">
           <Label htmlFor="client">Notes</Label>
           <Textarea

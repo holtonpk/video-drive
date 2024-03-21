@@ -52,7 +52,7 @@ export const VideoAssets = () => {
       <CardHeader>
         <CardTitle>Assets</CardTitle>
       </CardHeader>
-      {video.assets.length === 0 ? (
+      {!video.assets || video.assets?.length === 0 ? (
         <span className="flex w-full justify-center items-center mb-8 ">
           No assets for this video{" "}
         </span>
