@@ -79,7 +79,7 @@ const PostingSheet = () => {
 export default PostingSheet;
 
 const PostRow = ({video}: {video: VideoData}) => {
-  const client = clients.find((c: any) => c.value === video.client)!;
+  const client = clients.find((c: any) => c.value === video.clientId)!;
 
   const [copied, setCopied] = React.useState<boolean>(false);
 
