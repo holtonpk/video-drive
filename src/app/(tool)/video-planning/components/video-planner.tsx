@@ -46,56 +46,11 @@ const VideoPlanner = () => {
 
   const [newVideos, setNewVideos] = React.useState<NewVideo[]>([]);
 
-  //   React.useEffect(() => {
-  //     const postDates =
-  //       date?.from && date?.to
-  //         ? Array.from(
-  //             {length: (date.to.getTime() - date.from.getTime()) / 86400000 + 1},
-  //             (_, index) => addDays(date.from!, index)
-  //           )
-  //         : [];
-  //     const baseVideosPerDay = Math.floor(totalVideos / postDates.length);
-  //     const leftoverVideos = totalVideos % postDates.length;
-
-  //     const videoSchedule = postDates.map((date, index) => {
-  //       let videosForThisDay = baseVideosPerDay;
-  //       if (index < leftoverVideos) {
-  //         videosForThisDay += 1; // Distribute leftover videos one by one to the initial days
-  //       }
-
-  //       return {date, videosForThisDay};
-  //     });
-
-  //     if (videoSchedule.length > 0) {
-  //       let videoCount = 1000;
-  //       let newVideos = videoSchedule.flatMap((day) => {
-  //         return Array.from({length: day.videosForThisDay}).map(() => {
-  //           videoCount++;
-  //           return {
-  //             title: "",
-  //             videoNumber: videoCount.toString(),
-  //             clientId: client,
-  //             status: "todo",
-  //             dueDate: subDays(day.date, SUBDAYS_VIDEO_DUE),
-  //             postDate: day.date,
-  //             scriptDueDate: subDays(day.date, SUBDAYS_SCRIPT_DUE),
-  //             notes: "",
-  //             script: "",
-  //           };
-  //         });
-  //       });
-  //       setNewVideos(newVideos as NewVideo[]);
-  //     }
-  //   }, [client, date, totalVideos]);
-
-  //   const clientID = client ? clients.find((c) => c.value === client) : undefined;
-
-  //   videoNumber should have clientID then the number example. the video number would be 1001 for the first video and 10100 for the 100th video and 11000 for the 1000th video
   const clientID = clients.find((c) => c.value === client)?.id;
   const currentClientTotalVideo = 100;
 
   const generateVideoNumber = (sequenceNumber: number) => {
-    const sequenceString = sequenceNumber.toString().padStart(4, "0");
+    const sequenceString = sequenceNumber.toString().padStart(3, "0");
     return `${clientID}${sequenceString}`;
   };
 
@@ -155,13 +110,14 @@ const VideoPlanner = () => {
     });
 
     if (videoSchedule.length > 0) {
-      let videoCount = 1000;
+      let videoCount = 0;
       let newVideos = videoSchedule.flatMap((day) => {
         return Array.from({length: day.videosForThisDay}).map(() => {
           videoCount++;
+          const videoNumber = generateVideoNumber(videoCount);
           return {
-            title: "video - #" + videoCount.toString(),
-            videoNumber: videoCount.toString(),
+            title: "video - #" + videoNumber.toString(),
+            videoNumber: videoNumber.toString(),
             clientId: client,
             status: "todo",
             dueDate: subDays(day.date, SUBDAYS_VIDEO_DUE),
@@ -585,3 +541,231 @@ export const VideoProvider = ({
     </NewVideoContext.Provider>
   );
 };
+
+const MortyData = [
+  {
+    title: "Urban Legends from every US State; Colorado",
+    videoNumber: "2001",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-03T05:00:00.000Z"),
+    postDate: new Date("2024-03-04T05:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-01T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Story ",
+    videoNumber: "2002",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-03T05:00:00.000Z"),
+    postDate: new Date("2024-03-05T05:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-01T05:00:00.000Z"),
+    notes: "Escape",
+    script: "",
+  },
+  {
+    title:
+      "Story Behind Picture: 3 Photos that look normal until you find out the story behind them",
+    videoNumber: "2003",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-04T05:00:00.000Z"),
+    postDate: new Date("2024-03-06T05:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-01T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title:
+      "Puzzle Solving - Get from TikTok, add hook, narrate it same as the og video, in the middle of the video ask viewer to comment the solution before we reveal it. ",
+    videoNumber: "2004",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-04T05:00:00.000Z"),
+    postDate: new Date("2024-03-07T05:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-01T05:00:00.000Z"),
+    notes: "Escpape",
+    script: "",
+  },
+  {
+    title:
+      "Morty Educational: Maximise style video explaing principle of IRL entertainment + then CTA to go outside + Top 3 immersive experiences we found this week",
+    videoNumber: "2005",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-04T05:00:00.000Z"),
+    postDate: new Date("2024-03-08T05:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-01T05:00:00.000Z"),
+    notes: "Educational",
+    script: "",
+  },
+  {
+    title: "Urban Legends from every US State",
+    videoNumber: "2006",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-07T05:00:00.000Z"),
+    postDate: new Date("2024-03-11T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-05T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Story 1",
+    videoNumber: "2007",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-07T05:00:00.000Z"),
+    postDate: new Date("2024-03-12T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-05T05:00:00.000Z"),
+    notes: "Escape Room Story 1",
+    script: "",
+  },
+  {
+    title: "Creepiest places to see if you are a thrill seeker",
+    videoNumber: "2008",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-07T05:00:00.000Z"),
+    postDate: new Date("2024-03-13T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-05T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Story 2",
+    videoNumber: "2009",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-07T05:00:00.000Z"),
+    postDate: new Date("2024-03-14T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-05T05:00:00.000Z"),
+    notes: "Escpape",
+    script: "",
+  },
+  {
+    title:
+      "Morty Educational: Maximise style video explaing principle of IRL entertainment + then CTA to go outside + Top 3 immersive experiences we found this week",
+    videoNumber: "2010",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-07T05:00:00.000Z"),
+    postDate: new Date("2024-03-15T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-05T05:00:00.000Z"),
+    notes: "Educational",
+    script: "",
+  },
+  {
+    title: "Urban Legends - Illinois ",
+    videoNumber: "2011",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-13T04:00:00.000Z"),
+    postDate: new Date("2024-03-18T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-08T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Story 1",
+    videoNumber: "2012",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-13T04:00:00.000Z"),
+    postDate: new Date("2024-03-19T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-08T05:00:00.000Z"),
+    notes: "Escape",
+    script: "",
+  },
+  {
+    title:
+      "Story Behind Picture: 3 Photos that look normal until you find out the story behind them",
+    videoNumber: "2013",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-13T04:00:00.000Z"),
+    postDate: new Date("2024-03-20T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-08T05:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Tips",
+    videoNumber: "2014",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-13T04:00:00.000Z"),
+    postDate: new Date("2024-03-21T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-08T05:00:00.000Z"),
+    notes: "Escape",
+    script: "",
+  },
+  {
+    title: "This is your sign...",
+    videoNumber: "2015",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-13T04:00:00.000Z"),
+    postDate: new Date("2024-03-22T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-08T05:00:00.000Z"),
+    notes: "Educational",
+    script: "",
+  },
+  {
+    title: "Urban Legends - Clarke Family",
+    videoNumber: "2016",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-20T04:00:00.000Z"),
+    postDate: new Date("2024-03-25T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-15T04:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Conversations",
+    videoNumber: "2017",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-20T04:00:00.000Z"),
+    postDate: new Date("2024-03-26T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-15T04:00:00.000Z"),
+    notes: "Escape",
+    script: "",
+  },
+  {
+    title: "Unsolved Mysetries",
+    videoNumber: "2018",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-20T04:00:00.000Z"),
+    postDate: new Date("2024-03-27T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-15T04:00:00.000Z"),
+    notes: "Horror",
+    script: "",
+  },
+  {
+    title: "Escape Room Tips",
+    videoNumber: "2019",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-20T04:00:00.000Z"),
+    postDate: new Date("2024-03-28T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-15T04:00:00.000Z"),
+    notes: "Escpape",
+    script: "",
+  },
+  {
+    title: "Morty Educational - Hey Siri",
+    videoNumber: "2020",
+    clientId: "morty",
+    status: "done",
+    dueDate: new Date("2024-03-20T04:00:00.000Z"),
+    postDate: new Date("2024-03-29T04:00:00.000Z"),
+    scriptDueDate: new Date("2024-03-15T04:00:00.000Z"),
+    notes: "Educational",
+    script: "",
+  },
+];
