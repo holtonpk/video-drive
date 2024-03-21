@@ -35,9 +35,9 @@ export function DataTableToolbar<TData>({table}: DataTableToolbarProps<TData>) {
             options={statuses}
           />
         )}
-        {table.getColumn("client") && (
+        {table.getColumn("clientId") && (
           <DataTableFacetedFilter
-            column={table.getColumn("client")}
+            column={table.getColumn("clientId")}
             title="Client"
             options={clients}
           />

@@ -7,7 +7,7 @@ export const videoSchema = z.object({
   videoNumber: z.string(),
   title: z.string(),
   status: z.string(),
-  client: z.string(),
+  clientId: z.string(),
 
   dueDate: z.object({
     nanoseconds: z.number(),

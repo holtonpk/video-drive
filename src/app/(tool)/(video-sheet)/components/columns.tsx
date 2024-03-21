@@ -34,7 +34,7 @@ export const columns: ColumnDef<Video>[] = [
       />
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "videoNumber",
@@ -58,7 +58,7 @@ export const columns: ColumnDef<Video>[] = [
       </div>
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "dueDate",
@@ -118,13 +118,13 @@ export const columns: ColumnDef<Video>[] = [
     },
   },
   {
-    accessorKey: "client",
+    accessorKey: "clientId",
     header: ({column}) => (
       <DataTableColumnHeader column={column} title="Client" />
     ),
     cell: ({row}) => {
       const client = clients.find(
-        (client) => client.value === row.getValue("client")
+        (client) => client.value === row.getValue("clientId")
       );
 
       if (!client) {
@@ -142,7 +142,7 @@ export const columns: ColumnDef<Video>[] = [
       return value.includes(row.getValue(id));
     },
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "notes",
@@ -158,7 +158,7 @@ export const columns: ColumnDef<Video>[] = [
       );
     },
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: true,
   },
   {
     accessorKey: "videoURL",
@@ -167,7 +167,7 @@ export const columns: ColumnDef<Video>[] = [
         <DataTableColumnHeader
           column={column}
           title="Video Uploaded"
-          className="w-fit  "
+          className="w-fit  whitespace-nowrap "
         />
       );
     },
@@ -191,7 +191,13 @@ export const columns: ColumnDef<Video>[] = [
   {
     accessorKey: "script",
     header: ({column}) => {
-      return <DataTableColumnHeader column={column} title="Has Script" />;
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title="Has Script"
+          className="whitespace-nowrap"
+        />
+      );
     },
     cell: ({row}) => {
       const videoUploaded = row.getValue("script") ? true : false;
@@ -203,6 +209,29 @@ export const columns: ColumnDef<Video>[] = [
             ) : (
               <Icons.close className="h-4 w-4 text-red-500" />
             )}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "scriptDueDate",
+    header: ({column}) => {
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title="Script Due"
+          className="whitespace-nowrap"
+        />
+      );
+    },
+    cell: ({row}) => {
+      return (
+        <div className="flex z-20  w-full justify-center items-center ">
+          <span className="w-fit  truncate font-medium ">
+            {formatDateFromTimestamp(row.getValue("scriptDueDate"))}
           </span>
         </div>
       );

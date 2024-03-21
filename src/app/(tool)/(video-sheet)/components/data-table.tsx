@@ -94,7 +94,6 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
-                console.log("row", row);
                 const status = row.getValue("status");
                 return (
                   <TableRow
@@ -112,11 +111,6 @@ export function DataTable<TData, TValue>({
                     }
                     `}
                   >
-                    {/* <div
-                      // href={`/video/3`}
-                      // href={`/video/${row.original?.videoNumber}`}
-                      className="w-full absolute h-full hover:bg-gray-100 "
-                    /> */}
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(

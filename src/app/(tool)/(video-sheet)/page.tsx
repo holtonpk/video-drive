@@ -54,6 +54,8 @@ export default function VideoSheetPage() {
     return () => unsubscribe();
   }, []);
 
+  console.log(videos);
+
   return (
     <>
       <div className="hidden h-full flex-1 flex-col space-y-4 p-4 md:flex">

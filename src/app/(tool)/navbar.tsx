@@ -35,7 +35,7 @@ const Navbar = () => {
           Post Schedule
         </Link>
         <Link
-          href="/posting"
+          href="/video-planning"
           className={`font-bold
         ${
           segment === "video-planning"

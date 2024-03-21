@@ -1,27 +1,14 @@
 "use client";
 import React, {useEffect} from "react";
-import VideoInfo from "./video-info";
 import {doc, getDoc, onSnapshot} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {VideoData} from "@/src/app/(tool)/video/[videoId]/data/data";
 import {Icons} from "@/components/icons";
-
-// Simulate a database read for tasks.
-// async function getVideos(videoId: string) {
-//   try {
-//     const docSnapshot = await getDoc(doc(db, "videos", videoId));
-//     if (docSnapshot.exists()) {
-//       console.log("Document data:", docSnapshot.data());
-//       return docSnapshot.data() as VideoData; // Return the document data
-//     } else {
-//       console.log("No such document!");
-//       return null; // Return null if the document doesn't exist
-//     }
-//   } catch (error) {
-//     console.log("Error getting document:", error);
-//     return null; // Return null in case of an error
-//   }
-// }
+import {VideoProvider} from "./data/video-context";
+import {VideoAssets} from "./components/video-assets";
+import {VideoDetails} from "./components/video-details";
+import {PostDetails} from "./components/post-details";
+import {VideoScript} from "./components/script";
 
 export default function Page({params}: {params: {videoId: string}}) {
   const [video, setVideo] = React.useState<VideoData | null>(null);
@@ -44,7 +31,14 @@ export default function Page({params}: {params: {videoId: string}}) {
   return (
     <div className=" w-screen  flex flex-col space-y-4">
       {video ? (
-        <VideoInfo video={video} />
+        <VideoProvider videoData={video}>
+          <div className=" flex flex-col w-full gap-10 items-center p-8 container">
+            <VideoDetails />
+            <PostDetails />
+            <VideoScript />
+            <VideoAssets />
+          </div>
+        </VideoProvider>
       ) : (
         <div className="w-full h-[400px] border rounded-md flex items-center justify-center">
           <Icons.spinner className="h-8 w-8 animate-spin text-primary" />

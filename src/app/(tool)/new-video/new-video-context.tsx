@@ -45,6 +45,8 @@ interface NewVideoContextType {
   setLoading: (loading: boolean) => void;
   postDate: Date | undefined;
   setPostDate: (postDate: Date | undefined) => void;
+  scriptDueDate: Date | undefined;
+  setScriptDueDate: (scriptDueDate: Date | undefined) => void;
 }
 export type AssetType = {
   title: string;
@@ -62,6 +64,7 @@ export const NewVideoProvider = ({children}: Props) => {
   const [videoFile, setVideoFile] = useState<string | null>(null);
   const [assets, setAssets] = useState<AssetType[]>([]);
   const [postDate, setPostDate] = useState<Date | undefined>();
+  const [scriptDueDate, setScriptDueDate] = useState<Date | undefined>();
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -70,7 +73,7 @@ export const NewVideoProvider = ({children}: Props) => {
     const newVideo = {
       title,
       videoNumber,
-      client,
+      clientId: client,
       status,
       dueDate,
       notes,
@@ -79,6 +82,7 @@ export const NewVideoProvider = ({children}: Props) => {
       updatedAt: new Date(),
       assets,
       postDate,
+      scriptDueDate,
     };
     // create new video in firebase set doc name to videoNumber
     await setDoc(doc(db, "videos", videoNumber), newVideo);
@@ -87,6 +91,8 @@ export const NewVideoProvider = ({children}: Props) => {
   };
 
   const values = {
+    scriptDueDate,
+    setScriptDueDate,
     loading,
     setLoading,
     saveVideo,

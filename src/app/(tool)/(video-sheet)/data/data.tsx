@@ -32,11 +32,11 @@ export const statuses = [
     label: "Todo",
     icon: CircleIcon,
   },
-  {
-    value: "in progress",
-    label: "In Progress",
-    icon: StopwatchIcon,
-  },
+  // {
+  //   value: "in progress",
+  //   label: "In Progress",
+  //   icon: StopwatchIcon,
+  // },
   {
     value: "done",
     label: "Done",
@@ -51,16 +51,19 @@ export const statuses = [
 
 export const clients = [
   {
-    value: "morty",
-    label: "Morty",
-    icon: MortyLogo,
-  },
-  {
+    id: "1",
     value: "blaze",
     label: "Blaze",
     icon: BlazeLogo,
   },
   {
+    id: "2",
+    value: "morty",
+    label: "Morty",
+    icon: MortyLogo,
+  },
+  {
+    id: "3",
     value: "founderCentral",
     label: "Founder Central",
     icon: FcLogo,
@@ -82,5 +85,20 @@ export const priorities = [
     label: "High",
     value: "high",
     icon: ArrowUpIcon,
+  },
+];
+
+export const platforms = [
+  {
+    label: "Youtube",
+    value: "youtube",
+  },
+  {
+    label: "Instagram",
+    value: "instagram",
+  },
+  {
+    label: "Tiktok",
+    value: "tiktok",
   },
 ];

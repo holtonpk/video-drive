@@ -21,7 +21,7 @@ interface DataTableViewOptionsProps<TData> {
 export function DataTableViewOptions<TData>({
   table,
 }: DataTableViewOptionsProps<TData>) {
-  const DEFAULTHIDDENCOLUMNS: string[] = ["script"]; // Define your default hidden columns here
+  const DEFAULTHIDDENCOLUMNS: string[] = ["script", "scriptDueDate"]; // Define your default hidden columns here
   const [userHiddenColumns, setUserHiddenColumns] = React.useState<
     string[] | undefined
   >(() => {
@@ -36,10 +36,9 @@ export function DataTableViewOptions<TData>({
     table.getAllColumns().forEach((column) => {
       column.toggleVisibility(!userHiddenColumns?.includes(column.id));
     });
-  }, []); // Runs only once on mount
+  }, [table, userHiddenColumns]); // Runs only once on mount
 
   React.useEffect(() => {
-    console.log("setting local to ", userHiddenColumns);
     localStorage.setItem("hiddenColumns", JSON.stringify(userHiddenColumns));
   }, [userHiddenColumns]);
 

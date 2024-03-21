@@ -64,13 +64,29 @@ type status = {
   icon: typeof Icons;
 };
 
+export type Platforms = "youtube" | "instagram" | "tiktok" | "all";
+
+export type Post = {
+  id: string;
+  title: string;
+  videoURL?: string;
+  platforms?: Platforms[];
+  notes?: string;
+  clientId: string;
+  caption?: string;
+  postDate: Timestamp;
+};
+
+export type UploadedVideo = {};
+
 export type VideoData = {
   id: number;
   title: string;
   videoNumber: number;
   videoURL?: string;
+  postIds?: string[];
   dueDate: Timestamp;
-  client: typeof clients;
+  clientId: string;
   status: string;
   assets: VideoAsset[];
   notes: string;
