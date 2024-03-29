@@ -102,7 +102,7 @@ export const columns: ColumnDef<Video>[] = [
               ? "text-green-500"
               : status.value === "todo"
               ? "text-blue-500"
-              : status.value === "in progress"
+              : status.value === "draft"
               ? "text-yellow-500"
               : "text-red-500"
           }
@@ -248,6 +248,7 @@ export const columns: ColumnDef<Video>[] = [
     cell: ({row}) => {
       return (
         <Link
+          target="_blank"
           href={`/video/${row.getValue("videoNumber")}`}
           className="absolute cursor-pointer w-full h-full left-0 top-0 z-10 "
         />

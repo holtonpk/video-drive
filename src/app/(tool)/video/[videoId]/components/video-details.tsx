@@ -93,6 +93,8 @@ export const VideoDetails = () => {
           ? "border-green-500/20"
           : status === "todo"
           ? "border-blue-500/20"
+          : status === "draft"
+          ? "border-yellow-500/20"
           : "border-red-500/20"
       }
     `}
@@ -133,6 +135,8 @@ export const VideoDetails = () => {
                         ? "stroke-green-500 "
                         : option.value === "todo"
                         ? "stroke-blue-500"
+                        : option.value === "draft"
+                        ? "stroke-yellow-500"
                         : "stroke-red-500"
                     }
                     `}

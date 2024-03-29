@@ -7,9 +7,12 @@ import {
   CrossCircledIcon,
   QuestionMarkCircledIcon,
   StopwatchIcon,
+  Pencil1Icon,
 } from "@radix-ui/react-icons";
 import {Icons} from "@/components/icons";
 import {BlazeLogo, MortyLogo, FcLogo} from "@/components/icons";
+
+import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 
 export const labels = [
   {
@@ -28,24 +31,29 @@ export const labels = [
 
 export const statuses = [
   {
+    value: "draft",
+    label: "Draft",
+    icon: Pencil,
+    description:
+      "The videos is planned. But still needs the script or assets added",
+  },
+  {
     value: "todo",
     label: "Todo",
-    icon: CircleIcon,
+    icon: Circle,
+    description: "Ready for edit",
   },
-  // {
-  //   value: "in progress",
-  //   label: "In Progress",
-  //   icon: StopwatchIcon,
-  // },
   {
     value: "done",
     label: "Done",
-    icon: CheckCircledIcon,
+    icon: CircleCheckBig,
+    description: "Editing is finished and the video is ready for upload.",
   },
   {
     value: "needs revision",
     label: "Needs Revision",
-    icon: CrossCircledIcon,
+    icon: CircleX,
+    description: "The video needs to be revised.",
   },
 ];
 

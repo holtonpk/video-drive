@@ -55,11 +55,6 @@ export function DataTableRowActions<TData>({
 
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
 
-  const router = useRouter();
-  const viewProject = () => {
-    router.push(`/video/${task.videoNumber}`);
-  };
-
   async function updateStatus(status: string) {
     await setDoc(
       doc(db, "videos", task.videoNumber),
@@ -87,9 +82,6 @@ export function DataTableRowActions<TData>({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem onClick={viewProject}>View</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Change Status</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
@@ -108,7 +100,7 @@ export function DataTableRowActions<TData>({
               ? "text-green-500"
               : status.value === "todo"
               ? "text-blue-500"
-              : status.value === "in progress"
+              : status.value === "draft"
               ? "text-yellow-500"
               : "text-red-500"
           }

@@ -119,7 +119,7 @@ const VideoPlanner = () => {
             title: "video - #" + videoNumber.toString(),
             videoNumber: videoNumber.toString(),
             clientId: client,
-            status: "todo",
+            status: "draft",
             dueDate: subDays(day.date, SUBDAYS_VIDEO_DUE),
             postDate: day.date,
             scriptDueDate: subDays(day.date, SUBDAYS_SCRIPT_DUE),
@@ -281,7 +281,20 @@ const VideoLine = ({
                   >
                     <div className="flex items-center">
                       {option.icon && (
-                        <option.icon className="mr-2 h-4 w-4 text-muted-foreground rounded-sm" />
+                        <option.icon
+                          className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
+                        ${
+                          option.value === "done"
+                            ? "stroke-green-500 "
+                            : option.value === "todo"
+                            ? "stroke-blue-500"
+                            : option.value === "draft"
+                            ? "stroke-yellow-500"
+                            : "stroke-red-500"
+                        }
+                        
+                        `}
+                        />
                       )}
                       <span>{option.label}</span>
                     </div>

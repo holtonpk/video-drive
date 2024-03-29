@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
                         ? "bg-green-500/5"
                         : status === "todo"
                         ? "bg-blue-500/5"
-                        : status === "in progress"
+                        : status === "draft"
                         ? "bg-yellow-500/5"
                         : "bg-red-500/5"
                     }

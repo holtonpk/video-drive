@@ -68,7 +68,7 @@ export const PostDetails = () => {
           })
         );
         setPosts(postsData);
-        if (postsData[0]) setSelectedPost(postsData[0]);
+        if (postsData.length) setSelectedPost(postsData[postsData.length - 1]);
       } else {
         // create a new post
         const newPostRef = doc(collection(db, `posts`));
@@ -539,12 +539,19 @@ function VideoDisplay({
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
 
-  async function saveFileToFirebase(file: any) {
+  const getFileExtension = (fname: string) => {
+    return fname.slice(((fname.lastIndexOf(".") - 1) >>> 0) + 2);
+  };
+
+  async function saveFileToFirebase(file: File) {
     console.log("post", post);
 
     if (!post) return;
     const storage = getStorage(app);
-    const storageRef = ref(storage, `post/${post.id}`);
+    const storageRef = ref(
+      storage,
+      `post/${post.id + "." + getFileExtension(file.name)}`
+    );
 
     // Start the file upload
     const uploadTask = uploadBytesResumable(storageRef, file);
