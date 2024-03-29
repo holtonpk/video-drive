@@ -72,7 +72,7 @@ export default function VideoSheetPage() {
           </CardHeader>
           <CardContent>
             {statuses.map((status) => (
-              <div className="flex items-center">
+              <div key={status.value} className="flex items-center">
                 {status.icon && (
                   <status.icon
                     className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
