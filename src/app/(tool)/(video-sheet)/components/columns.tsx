@@ -12,30 +12,30 @@ import {formatDateFromTimestamp} from "@/lib/utils";
 import Link from "next/link";
 
 export const columns: ColumnDef<Video>[] = [
-  {
-    id: "select",
-    header: ({table}) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({row}) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px] z-20 relative"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: true,
-  },
+  // {
+  //   id: "select",
+  //   header: ({table}) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //       className="translate-y-[2px]"
+  //     />
+  //   ),
+  //   cell: ({row}) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //       className="translate-y-[2px] z-20 relative"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: true,
+  // },
   {
     accessorKey: "videoNumber",
     header: ({column}) => (
@@ -60,21 +60,7 @@ export const columns: ColumnDef<Video>[] = [
     enableSorting: false,
     enableHiding: true,
   },
-  {
-    accessorKey: "dueDate",
-    header: ({column}) => (
-      <DataTableColumnHeader column={column} title="Due Date" />
-    ),
-    cell: ({row}) => {
-      return (
-        <div className="flex space-x-2 z-20 relative pointer-events-none">
-          <span className="max-w-[500px] truncate font-medium">
-            {formatDateFromTimestamp(row.getValue("dueDate"))}
-          </span>
-        </div>
-      );
-    },
-  },
+
   {
     accessorKey: "status",
     header: ({column}) => (
@@ -216,6 +202,7 @@ export const columns: ColumnDef<Video>[] = [
     enableSorting: false,
     enableHiding: true,
   },
+
   {
     accessorKey: "scriptDueDate",
     header: ({column}) => {
@@ -232,6 +219,40 @@ export const columns: ColumnDef<Video>[] = [
         <div className="flex z-20  w-full justify-center items-center ">
           <span className="w-fit  truncate font-medium ">
             {formatDateFromTimestamp(row.getValue("scriptDueDate"))}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "dueDate",
+    header: ({column}) => (
+      <DataTableColumnHeader column={column} title="Editing Due" />
+    ),
+    cell: ({row}) => {
+      return (
+        <div className="flex space-x-2 z-20 relative pointer-events-none">
+          <span className="max-w-[500px] truncate font-medium">
+            {formatDateFromTimestamp(row.getValue("dueDate"))}
+          </span>
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
+  },
+  {
+    accessorKey: "postDate",
+    header: ({column}) => (
+      <DataTableColumnHeader column={column} title="Post Date" />
+    ),
+    cell: ({row}) => {
+      return (
+        <div className="flex space-x-2 z-20 relative pointer-events-none">
+          <span className="max-w-[500px] truncate font-medium">
+            {formatDateFromTimestamp(row.getValue("postDate"))}
           </span>
         </div>
       );

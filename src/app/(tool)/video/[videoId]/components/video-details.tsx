@@ -13,18 +13,18 @@ import {
 } from "@/components/ui/select";
 import {statuses, clients} from "@/config/data";
 
-import {Label} from "@/components/ui/label";
 import {Calendar as CalendarIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {format} from "date-fns";
 
+import {Label} from "@/components/ui/label";
 import {Calendar} from "@/components/ui/calendar";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Textarea} from "@/components/ui/textarea";
 
 import {useVideo} from "../data/video-context";
 
 import {setDoc, doc} from "firebase/firestore";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 
 import {db} from "@/config/firebase";
 import {convertTimestampToDate} from "@/lib/utils";
@@ -104,7 +104,7 @@ export const VideoDetails = () => {
             View and edit the details of the video.
           </CardDescription> */}
       </CardHeader>
-      <CardContent className="grid gap-6">
+      <CardContent className="grid gap-6 ">
         <Select
           defaultValue={status}
           onValueChange={(value) => {
@@ -147,8 +147,8 @@ export const VideoDetails = () => {
             ))}
           </SelectContent>
         </Select>
-        <div className="grid grid-cols-3 gap-6">
-          <div className="grid gap-2">
+        <div className="grid grid-cols-3 gap-6 ">
+          <div className="grid gap-2 col-span-2">
             <Label htmlFor="title">Title</Label>
             <Input
               value={title}
@@ -159,9 +159,20 @@ export const VideoDetails = () => {
               }}
             />
           </div>
-
           <div className="grid gap-2">
-            <Label htmlFor="due-date">Due Date</Label>
+            <Label htmlFor="client">Client</Label>
+            <div
+              id="client"
+              className="w-full border p-2 flex items-center rounded-md"
+            >
+              {client.icon && (
+                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
+              )}
+              <span>{client.label}</span>
+            </div>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="due-date">Editing Due Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -189,16 +200,32 @@ export const VideoDetails = () => {
             </Popover>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="client">Client</Label>
-            <div
-              id="client"
-              className="w-full border p-2 flex items-center rounded-md"
-            >
-              {client.icon && (
-                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
-              )}
-              <span>{client.label}</span>
-            </div>
+            <Label htmlFor="due-date">Post Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !video.postDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {postDate ? format(postDate, "PPP") : <span>Post Date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={postDate}
+                  onSelect={(value) => {
+                    setPostDate(value);
+                    updateField("postDate", value);
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 

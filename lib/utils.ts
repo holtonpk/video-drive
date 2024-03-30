@@ -1,5 +1,6 @@
 import {ClassValue, clsx} from "clsx";
 import {twMerge} from "tailwind-merge";
+import {Metadata} from "next";
 
 // import { env } from "@/env.mjs"
 
@@ -30,3 +31,34 @@ export const convertTimestampToDate = (timestamp: Timestamp): Date => {
     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
   return new Date(milliseconds);
 };
+
+export function constructMetadata({
+  title = "Video Drive",
+  description = "Founder Central Agency Video Drive",
+  image = "image/favicon.ico",
+}: {
+  title?: string;
+  description?: string;
+  image?: string;
+}): Metadata {
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      // images: [
+      //   {
+      //     url: image,
+      //   },
+      // ],
+    },
+    // icons: {
+    //   icon: "image/favicon.ico",
+    //   shortcut: "image/favicon-16x16.png",
+    //   apple: "image/apple-touch-icon.png",
+    // },
+    // metadataBase: new URL("https://moltar.ai"),
+    themeColor: "#FFF",
+  };
+}

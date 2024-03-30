@@ -26,7 +26,6 @@ import {
   onSnapshot,
   setDoc,
 } from "firebase/firestore";
-
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
