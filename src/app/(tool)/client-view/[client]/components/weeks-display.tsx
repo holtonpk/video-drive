@@ -208,7 +208,7 @@ export const WeeksDisplay = ({
                     >
                       <Link
                         href={`/video/${post.videoNumber}`}
-                        className="absolute w-full h-full z-10 cursor-pointer hover:bg-gray-200 "
+                        className="absolute w-full h-full top-0 left-0 z-10 cursor-pointer hover:bg-gray-200 "
                       />
                       <span className="whitespace-nowrap overflow-hidden text-ellipsis font-bold relative z-20 pointer-events-none">
                         #{post.videoNumber}
