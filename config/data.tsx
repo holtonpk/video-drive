@@ -2,15 +2,9 @@ import {
   ArrowDownIcon,
   ArrowRightIcon,
   ArrowUpIcon,
-  CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
-  QuestionMarkCircledIcon,
-  StopwatchIcon,
-  Pencil1Icon,
 } from "@radix-ui/react-icons";
-import {Icons} from "@/components/icons";
 import {BlazeLogo, MortyLogo, FcLogo} from "@/components/icons";
+import {Icons} from "@/components/icons";
 
 import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 
@@ -110,3 +104,51 @@ export const platforms = [
     value: "tiktok",
   },
 ];
+
+export type VideoAsset = {
+  title: string;
+  url: string;
+};
+
+type status = {
+  value: string;
+  label: string;
+  icon: typeof Icons;
+};
+
+export type Platforms = "youtube" | "instagram" | "tiktok" | "all";
+
+export type Post = {
+  id: string;
+  title: string;
+  videoURL?: string;
+  platforms?: Platforms[];
+  notes?: string;
+  clientId: string;
+  caption?: string;
+  postDate: Timestamp;
+};
+
+export type UploadedVideo = {};
+
+export type VideoData = {
+  id: number;
+  title: string;
+  videoNumber: string;
+  scriptDueDate: Timestamp;
+  videoURL?: string;
+  postIds?: string[];
+  dueDate: Timestamp;
+  clientId: string;
+  status: string;
+  assets: VideoAsset[];
+  notes: string;
+  script: string;
+  caption?: string;
+  postDate: Timestamp;
+};
+
+interface Timestamp {
+  nanoseconds: number;
+  seconds: number;
+}

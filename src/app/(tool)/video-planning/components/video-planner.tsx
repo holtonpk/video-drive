@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {clients, statuses} from "@/src/app/(tool)/(video-sheet)/data/data";
+import {clients, statuses} from "@/config/data";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {db} from "@/config/firebase";

@@ -97,11 +97,9 @@ export const VideoAssets = () => {
               newAssets = [{title: file.name, url: fileUrl}];
               // save assets to video in firebase
 
-              await getDoc(
-                doc(db, "videos", video.videoNumber.toLocaleString())
-              );
+              await getDoc(doc(db, "videos", video.videoNumber.toString()));
               await setDoc(
-                doc(db, "videos", video.videoNumber.toLocaleString()),
+                doc(db, "videos", video.videoNumber.toString()),
                 {
                   assets: newAssets,
                 },
@@ -109,11 +107,9 @@ export const VideoAssets = () => {
               );
             } else {
               newAssets = [...assets, {title: file.name, url: fileUrl}];
-              await getDoc(
-                doc(db, "videos", video.videoNumber.toLocaleString())
-              );
+              await getDoc(doc(db, "videos", video.videoNumber.toString()));
               await setDoc(
-                doc(db, "videos", video.videoNumber.toLocaleString()),
+                doc(db, "videos", video.videoNumber.toString()),
                 {
                   assets: newAssets,
                 },
@@ -143,7 +139,7 @@ export const VideoAssets = () => {
     if (!assets) return;
     const newAssets = assets.filter((a) => a.title !== asset.title);
     await setDoc(
-      doc(db, "videos", video.videoNumber.toLocaleString()),
+      doc(db, "videos", video.videoNumber.toString()),
       {
         assets: newAssets,
       },

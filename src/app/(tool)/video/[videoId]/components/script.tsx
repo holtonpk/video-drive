@@ -1,15 +1,13 @@
 "use client";
-import React, {useEffect } from "react";
+import React, {useEffect} from "react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {useVideo} from "../data/video-context";
-import {setDoc, doc, } from "firebase/firestore";
+import {setDoc, doc} from "firebase/firestore";
 
 import {db, app} from "@/config/firebase";
-
-
 
 export const VideoScript = () => {
   const {video} = useVideo()!;
@@ -29,7 +27,7 @@ export const VideoScript = () => {
   useEffect(() => {
     async function updateScript() {
       await setDoc(
-        doc(db, "videos", video.videoNumber.toLocaleString()),
+        doc(db, "videos", video.videoNumber.toString()),
         {
           script: script,
           updatedAt: new Date(),

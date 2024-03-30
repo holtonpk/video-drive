@@ -15,6 +15,7 @@ import {
 import {columns} from "./components/columns";
 import {DataTable} from "./components/data-table";
 import {Video} from "./data/schema";
+import {Button} from "@/components/ui/button";
 import {db} from "@/config/firebase";
 import {
   doc,
@@ -23,13 +24,15 @@ import {
   query,
   orderBy,
   onSnapshot,
+  setDoc,
 } from "firebase/firestore";
 
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
 import {use, useEffect} from "react";
-import {statuses} from "./data/data";
+import {statuses} from "@/config/data";
+
 export default function VideoSheetPage() {
   const [videos, setVideos] = React.useState<Video[]>([]);
 
@@ -60,7 +63,19 @@ export default function VideoSheetPage() {
     return () => unsubscribe();
   }, []);
 
-  console.log(videos);
+  console.log("v", videos);
+
+  const updateNumberTOString = async () => {
+    let i = 0;
+
+    videos.forEach(async (video) => {
+      i++;
+      console.log(i, "of", videos.length);
+      const docRef = doc(db, "videos", video.videoNumber.toString());
+      const videoNumber = video.videoNumber.toString();
+      await setDoc(docRef, {videoNumber: videoNumber}, {merge: true});
+    });
+  };
 
   return (
     <>

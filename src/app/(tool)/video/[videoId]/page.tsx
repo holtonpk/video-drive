@@ -2,7 +2,7 @@
 import React, {useEffect} from "react";
 import {doc, getDoc, onSnapshot} from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData} from "@/src/app/(tool)/video/[videoId]/data/data";
+import {VideoData} from "@/config/data";
 import {Icons} from "@/components/icons";
 import {VideoProvider} from "./data/video-context";
 import {VideoAssets} from "./components/video-assets";

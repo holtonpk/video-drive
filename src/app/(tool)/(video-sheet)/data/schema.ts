@@ -8,15 +8,14 @@ export const videoSchema = z.object({
   title: z.string(),
   status: z.string(),
   clientId: z.string(),
-
   dueDate: z.object({
     nanoseconds: z.number(),
     seconds: z.number(),
   }),
-  updatedAt: z.object({
-    nanoseconds: z.number(),
-    seconds: z.number(),
-  }),
+  // updatedAt: z.object({
+  //   nanoseconds: z.number(),
+  //   seconds: z.number(),
+  // }),
   videoURL: z.string().optional(),
 });
 

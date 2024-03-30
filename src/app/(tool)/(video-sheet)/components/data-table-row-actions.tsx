@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import {videoSchema} from "../data/schema";
-import {statuses} from "../data/data";
+import {statuses} from "@/config/data";
 import {doc, deleteDoc, setDoc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import Link from "next/link";
@@ -46,7 +46,7 @@ export function DataTableRowActions<TData>({
   const task = videoSchema.parse(row.original);
 
   async function handleDelete() {
-    const docRef = doc(db, "videos/", task.videoNumber);
+    const docRef = doc(db, "videos/", task.videoNumber.toString());
     deleteDoc(docRef);
     setShowDeleteDialog(false);
     // reload the page
@@ -57,7 +57,7 @@ export function DataTableRowActions<TData>({
 
   async function updateStatus(status: string) {
     await setDoc(
-      doc(db, "videos", task.videoNumber),
+      doc(db, "videos", task.videoNumber.toString()),
       {
         status: status,
         updatedAt: new Date(),
@@ -85,7 +85,7 @@ export function DataTableRowActions<TData>({
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Change Status</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup value={task.videoNumber}>
+              <DropdownMenuRadioGroup value={task.videoNumber.toString()}>
                 {statuses.map((status) => (
                   <DropdownMenuRadioItem
                     key={status.value}

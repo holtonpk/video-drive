@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {statuses} from "@/src/app/(tool)/(video-sheet)/data/data";
+import {statuses, clients} from "@/config/data";
 
 import {Label} from "@/components/ui/label";
 import {Calendar as CalendarIcon} from "lucide-react";
@@ -21,7 +21,6 @@ import {format} from "date-fns";
 import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 
-import {clients} from "@/src/app/(tool)/(video-sheet)/data/data";
 import {useVideo} from "../data/video-context";
 
 import {setDoc, doc} from "firebase/firestore";
@@ -56,7 +55,7 @@ export const VideoDetails = () => {
 
   async function updateField(field: string, value: any) {
     await setDoc(
-      doc(db, "videos", video.videoNumber.toLocaleString()),
+      doc(db, "videos", video.videoNumber.toString()),
       {
         [field]: value,
         updatedAt: new Date(),
@@ -72,7 +71,7 @@ export const VideoDetails = () => {
   useEffect(() => {
     async function changeStatus(status: string) {
       await setDoc(
-        doc(db, "videos", video.videoNumber.toLocaleString()),
+        doc(db, "videos", video.videoNumber.toString()),
         {
           status: status,
           updatedAt: new Date(),

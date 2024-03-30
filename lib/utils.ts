@@ -18,6 +18,13 @@ export function formatDateFromTimestamp(timestamp: Timestamp | any): string {
   return date.toLocaleDateString(); // Convert the date to a local date string
 }
 
+export function formatDateFromTimestampToTime(
+  timestamp: Timestamp | any
+): string {
+  const date = new Date(timestamp.seconds * 1000);
+  return date.toLocaleTimeString(); // Convert the date to a local date string
+}
+
 export const convertTimestampToDate = (timestamp: Timestamp): Date => {
   const milliseconds =
     timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;

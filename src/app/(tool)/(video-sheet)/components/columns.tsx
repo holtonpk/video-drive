@@ -4,7 +4,7 @@ import {ColumnDef} from "@tanstack/react-table";
 import {Badge} from "@/components/ui/badge";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Icons} from "@/components/icons";
-import {labels, clients, statuses} from "../data/data";
+import {labels, clients, statuses} from "@/config/data";
 import {Video} from "../data/schema";
 import {DataTableColumnHeader} from "./data-table-column-header";
 import {DataTableRowActions} from "./data-table-row-actions";

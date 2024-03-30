@@ -12,14 +12,14 @@ import {Badge} from "@/components/ui/badge";
 import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
-import {VideoData} from "@/src/app/(tool)/video/[videoId]/data/data";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {platforms} from "@/src/app/(tool)/(video-sheet)/data/data";
+import {platforms, Post} from "@/config/data";
+
 import {VideoProvider, useVideo} from "../data/video-context";
 import {setDoc, doc, collection, getDoc, deleteDoc} from "firebase/firestore";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
@@ -31,7 +31,7 @@ import {
 } from "firebase/storage";
 import {Progress} from "@/components/ui/progress";
 import {db, app} from "@/config/firebase";
-import {UploadedVideo, Post} from "@/src/app/(tool)/video/[videoId]/data/data";
+
 import {convertTimestampToDate} from "@/lib/utils";
 import {
   Command,
@@ -62,7 +62,7 @@ export const PostDetails = () => {
       if (video.postIds) {
         // get all the post data from the post ids
         const postsData = await Promise.all(
-          video.postIds.map(async (postId) => {
+          video.postIds.map(async (postId: any) => {
             const post = await getDoc(doc(db, "posts", postId));
             return post.data() as Post;
           })
@@ -83,7 +83,7 @@ export const PostDetails = () => {
         await setDoc(newPostRef, newPost);
         //  add new post id to the video
         await setDoc(
-          doc(db, "videos", video.videoNumber.toLocaleString()),
+          doc(db, "videos", video.videoNumber.toString()),
           {
             postIds: [newPostRef.id],
             updatedAt: new Date(),
@@ -168,7 +168,7 @@ function PostSelector({
     await deleteDoc(doc(db, "posts", postId));
     //  remove post id from the video
     await setDoc(
-      doc(db, "videos", video.videoNumber.toLocaleString()),
+      doc(db, "videos", video.videoNumber.toString()),
       {
         postIds: newPosts?.map((post) => post.id),
         updatedAt: new Date(),
@@ -192,7 +192,7 @@ function PostSelector({
 
     const existingPostIds = posts?.map((post) => post.id) || [];
     await setDoc(
-      doc(db, "videos", video.videoNumber.toLocaleString()),
+      doc(db, "videos", video.videoNumber.toString()),
       {
         postIds: [...existingPostIds, newPostRef.id],
         updatedAt: new Date(),
