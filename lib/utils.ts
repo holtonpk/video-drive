@@ -33,6 +33,20 @@ export function formatDayMonthDay(timestamp: Timestamp | any): string {
   return date.toLocaleDateString(undefined, options); // Convert the date to a formatted string
 }
 
+export function formatDaynameMonthDay(timestamp: Timestamp | any): string {
+  // Convert the seconds to milliseconds (JavaScript Date uses milliseconds)
+  const date = new Date(timestamp.seconds * 1000);
+
+  // Define options for formatting the date
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short", // Short weekday name (e.g., Fri)
+    month: "numeric", // Numeric month (e.g., 4)
+    day: "numeric", // Numeric day (e.g., 3)
+  };
+
+  return date.toLocaleDateString(undefined, options); // Convert the date to a formatted string
+}
+
 export function formatDateFromTimestampToTime(
   timestamp: Timestamp | any
 ): string {

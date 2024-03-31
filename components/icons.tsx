@@ -139,6 +139,7 @@ import {
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  play: Play,
   expand: Expand,
   bookText: BookText,
   loader: Loader,
