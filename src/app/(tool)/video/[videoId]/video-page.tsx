@@ -252,7 +252,6 @@ const VideoPlayer = ({videoURL, post}: {videoURL: string; post: Post}) => {
         ref={videoRef}
         autoPlay
         loop
-        autoPlay={play}
         className="w-full aspect-[9/16]   z-20 mobileVideo"
         src={videoURL}
       />
