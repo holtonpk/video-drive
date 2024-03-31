@@ -19,7 +19,7 @@ import {clients} from "@/config/data";
 const Navbar = () => {
   const segment = useSelectedLayoutSegment();
   return (
-    <div className="justify-between top-0 flex gap-8 p-4 items-center z-[50] bg-muted px-6">
+    <div className="justify-between top-0 gap-8 p-4 items-center z-[50] bg-muted px-6 hidden sm:flex">
       <NavigationMenu>
         <NavigationMenuList className="gap-8">
           <NavigationMenuItem>
