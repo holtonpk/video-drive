@@ -97,7 +97,10 @@ const MobileVideoView = () => {
         <div className="flex flex-col h-screen w-screen snap-y overflow-scroll">
           <div className=" flex flex-col h-fit ">
             {posts?.map((post, index) => (
-              <div className=" z-10  w-screen snap-center  aspect-[9/16] overflow-hidden relative">
+              <div
+                key={index}
+                className=" z-10  w-screen snap-center  aspect-[9/16] overflow-hidden relative"
+              >
                 {post.videoURL && <VideoPlayer videoURL={post.videoURL} />}
               </div>
             ))}
