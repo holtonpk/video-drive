@@ -173,7 +173,7 @@ const MobileVideoView = () => {
                 <Icons.chevronDown className="h-5 w-5 animate-bounce" />
               </div>
             </div>
-            {[...posts]?.reverse().map((post, index) => (
+            {[...(posts || [])]?.reverse().map((post, index) => (
               <div
                 key={index}
                 className=" z-10  w-screen snap-center  aspect-[9/16] overflow-hidden relative"
