@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {doc, getDoc, onSnapshot, setDoc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {VideoData, Post, clients, statuses} from "@/config/data";
@@ -12,6 +12,13 @@ import {VideoScript} from "./components/script";
 import {formatDaynameMonthDay} from "@/lib/utils";
 import {Textarea} from "@/components/ui/textarea";
 import {set} from "date-fns";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function VideoPage({videoId}: {videoId: string}) {
   const [video, setVideo] = React.useState<VideoData | null>(null);
@@ -32,7 +39,7 @@ export default function VideoPage({videoId}: {videoId: string}) {
   }, [videoId]);
 
   return (
-    <div className=" w-screen max-h-screen sm:max-h-none  flex flex-col space-y-4">
+    <div className=" w-screen max-h-screen sm:max-h-none overflow-hidden sm:overflow-visible  flex flex-col space-y-4">
       {video ? (
         <VideoProvider videoData={video}>
           <div className=" flex-col w-full gap-10 items-center p-8 container hidden sm:flex">
@@ -87,6 +94,7 @@ const MobileVideoView = () => {
   }, [video]);
 
   const [notes, setNotes] = React.useState<string>(video.notes);
+  const [status, setStatus] = React.useState<string>(video.status);
 
   async function updateField(field: string, value: any) {
     await setDoc(
@@ -102,7 +110,6 @@ const MobileVideoView = () => {
   }
 
   const clientData = clients.find((client) => client.value === video.clientId);
-  const status = statuses.find((status) => status.value === video.status);
 
   console.log("posts", posts);
   return (
@@ -111,8 +118,21 @@ const MobileVideoView = () => {
         <>loading</>
       ) : (
         <div className="flex flex-col h-screen w-screen snap-y overflow-scroll ">
-          <div className=" flex flex-col h-fit ">
-            <div className="h-screen relative justify-center items-center bg-card p-2 flex flex-col snap-center">
+          <div className=" flex flex-col h-fit items-center">
+            <div
+              className={`h-[95vh] w-[90%] relative justify-center items-center  p-2 flex flex-col snap-center border-4 rounded-md mb-8
+            ${
+              status === "done"
+                ? "border-green-500/20 bg-green-500/10"
+                : status === "todo"
+                ? "border-blue-500/20 bg-blue-500/10"
+                : status === "draft"
+                ? "border-yellow-500/20 bg-yellow-500/10"
+                : "border-red-500/20 bg-red-500/10"
+            }
+            
+            `}
+            >
               <h1 className="font-bold text-2xl">{"#" + video.videoNumber}</h1>
 
               <h1 className="font-bold text-2xl">{video.title}</h1>
@@ -122,27 +142,48 @@ const MobileVideoView = () => {
                 )}
                 <span className="font-bold text-xl">{clientData?.label}</span>
               </div>
-              {status && (
-                <div className="flex items-center ">
-                  <span className="font-bold mr-2">Status:</span>
-                  {status.icon && (
-                    <status.icon
-                      className={`mr-2 h-4 w-4 
-          ${
-            status.value === "done"
-              ? "text-green-500"
-              : status.value === "todo"
-              ? "text-blue-500"
-              : status.value === "draft"
-              ? "text-yellow-500"
-              : "text-red-500"
-          }
-          `}
-                    />
-                  )}
-                  <span>{status.label}</span>
-                </div>
-              )}
+              <Select
+                defaultValue={status}
+                onValueChange={(value) => {
+                  setStatus(value);
+                  updateField("status", value);
+                }}
+              >
+                <SelectTrigger
+                  id="status"
+                  className=" w-[200px] truncate absolute top-4 right-4"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {statuses.map((option) => (
+                    <SelectItem
+                      key={option.value}
+                      value={option.value}
+                      className="flex flex-nowrap"
+                    >
+                      <div className="flex items-center">
+                        {option.icon && (
+                          <option.icon
+                            className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
+                    ${
+                      option.value === "done"
+                        ? "stroke-green-500 "
+                        : option.value === "todo"
+                        ? "stroke-blue-500"
+                        : option.value === "draft"
+                        ? "stroke-yellow-500"
+                        : "stroke-red-500"
+                    }
+                    `}
+                          />
+                        )}
+                        <span>{option.label}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <div className="flex">
                 <span className="font-bold">Post Date:</span>
                 <span>{formatDaynameMonthDay(video.postDate)}</span>
@@ -191,60 +232,36 @@ const MobileVideoView = () => {
 };
 
 const VideoPlayer = ({videoURL, post}: {videoURL: string; post: Post}) => {
-  const [play, setPlay] = React.useState<boolean>(false);
+  // const [play, setPlay] = React.useState<boolean>(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
+  const [isPlaying, setIsPlaying] = React.useState<boolean>(false);
+
+  const togglePlay = () => {
     const videoElement = videoRef.current;
-
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setPlay(true); // Play video when it's visible
-        } else {
-          setPlay(false); // Pause video when it's not visible
-        }
-      });
-    };
-
-    // Create an Intersection Observer
-    const observer = new IntersectionObserver(handleIntersection, {
-      root: null, // Use the viewport as the root
-      rootMargin: "0px", // No margin around the viewport
-      threshold: 0.5, // Trigger when at least 50% of the video is visible
-    });
-
     if (videoElement) {
-      observer.observe(videoElement); // Start observing the video
-    }
-
-    // Cleanup function
-    return () => {
-      if (videoElement) {
-        observer.unobserve(videoElement); // Stop observing when component unmounts
+      if (videoElement.paused) {
+        videoElement.play();
+        setIsPlaying(true);
+      } else {
+        videoElement.pause();
+        setIsPlaying(false);
       }
-    };
-  }, [videoRef]);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      if (play) videoRef.current.play();
-      if (!play) videoRef.current.pause();
     }
-  }, [play, videoRef]);
-
-  console.log("play", videoURL);
+  };
 
   return (
-    <div className="w-full h-screen relative bg-muted">
-      <div className="w-full p-2">
+    <div className="w-full h-screen relative  border rounded-md">
+      <div className="w-full p-2 font-bold">
         <h1>{post.title}</h1>
       </div>
       <button
-        onClick={() => setPlay(!play)}
+        onClick={togglePlay}
         className="absolute top-0 left-0 h-full w-full flex items-center justify-center z-30 "
       >
-        {!play && <Icons.play className="h-20 w-20 text-white fill-white" />}
+        {!isPlaying && (
+          <Icons.play className="h-20 w-20 text-white fill-white" />
+        )}
       </button>
       <video
         webkit-playsinline
