@@ -173,12 +173,14 @@ const MobileVideoView = () => {
                 <Icons.chevronDown className="h-5 w-5 animate-bounce" />
               </div>
             </div>
-            {posts?.map((post, index) => (
+            {[...posts]?.reverse().map((post, index) => (
               <div
                 key={index}
                 className=" z-10  w-screen snap-center  aspect-[9/16] overflow-hidden relative"
               >
-                {post.videoURL && <VideoPlayer videoURL={post.videoURL} />}
+                {post.videoURL && (
+                  <VideoPlayer videoURL={post.videoURL} post={post} />
+                )}
               </div>
             ))}
           </div>
@@ -188,7 +190,7 @@ const MobileVideoView = () => {
   );
 };
 
-const VideoPlayer = ({videoURL}: {videoURL: string}) => {
+const VideoPlayer = ({videoURL, post}: {videoURL: string; post: Post}) => {
   const [play, setPlay] = React.useState<boolean>(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -234,7 +236,10 @@ const VideoPlayer = ({videoURL}: {videoURL: string}) => {
   console.log("play", videoURL);
 
   return (
-    <div className="w-full aspect-[9/16] relative ">
+    <div className="w-full h-screen relative bg-muted">
+      <div className="w-full p-2">
+        <h1>{post.title}</h1>
+      </div>
       <button
         onClick={() => setPlay(!play)}
         className="absolute top-0 left-0 h-full w-full flex items-center justify-center z-30 "
@@ -248,7 +253,7 @@ const VideoPlayer = ({videoURL}: {videoURL: string}) => {
         // controls
         loop
         autoPlay={play}
-        className="w-full aspect-[9/16] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20 mobileVideo"
+        className="w-full aspect-[9/16]   z-20 mobileVideo"
         src={videoURL}
       />
     </div>
