@@ -32,7 +32,7 @@ export default function VideoPage({videoId}: {videoId: string}) {
   }, [videoId]);
 
   return (
-    <div className=" w-screen  flex flex-col space-y-4">
+    <div className=" w-screen max-h-screen sm:max-h-none  flex flex-col space-y-4">
       {video ? (
         <VideoProvider videoData={video}>
           <div className=" flex-col w-full gap-10 items-center p-8 container hidden sm:flex">
@@ -250,7 +250,7 @@ const VideoPlayer = ({videoURL, post}: {videoURL: string; post: Post}) => {
         webkit-playsinline
         playsInline
         ref={videoRef}
-        // controls
+        autoPlay
         loop
         autoPlay={play}
         className="w-full aspect-[9/16]   z-20 mobileVideo"
