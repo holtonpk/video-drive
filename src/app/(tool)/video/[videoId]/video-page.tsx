@@ -120,7 +120,7 @@ const MobileVideoView = () => {
         <div className="flex flex-col h-full w-screen snap-y overflow-scroll ">
           <div className=" flex flex-col  items-center">
             <div
-              className={`h-[95vh] w-[90%] relative justify-center items-center  p-2 flex flex-col snap-center border-4 rounded-md mb-8
+              className={`h-full w-[90%] relative justify-center items-center  p-2 flex flex-col snap-center border-4 rounded-md mb-8
             ${
               status === "done"
                 ? "border-green-500/20 bg-green-500/10"
