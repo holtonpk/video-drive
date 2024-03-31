@@ -117,8 +117,8 @@ const MobileVideoView = () => {
       {isLoading ? (
         <>loading</>
       ) : (
-        <div className="flex flex-col h-screen w-screen snap-y overflow-scroll ">
-          <div className=" flex flex-col h-fit items-center">
+        <div className="flex flex-col h-full w-screen snap-y overflow-scroll ">
+          <div className=" flex flex-col  items-center">
             <div
               className={`h-[95vh] w-[90%] relative justify-center items-center  p-2 flex flex-col snap-center border-4 rounded-md mb-8
             ${
@@ -217,7 +217,7 @@ const MobileVideoView = () => {
             {[...(posts || [])]?.reverse().map((post, index) => (
               <div
                 key={index}
-                className=" z-10  w-screen snap-center  aspect-[9/16] overflow-hidden relative"
+                className=" z-10 h-full w-screen snap-center  aspect-[9/16] overflow-hidden relative"
               >
                 {post.videoURL && (
                   <VideoPlayer videoURL={post.videoURL} post={post} />
