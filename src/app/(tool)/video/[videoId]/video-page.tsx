@@ -267,7 +267,6 @@ const VideoPlayer = ({videoURL, post}: {videoURL: string; post: Post}) => {
         webkit-playsinline
         playsInline
         ref={videoRef}
-        autoPlay
         loop
         className="w-full aspect-[9/16]   z-20 mobileVideo"
         src={videoURL}
