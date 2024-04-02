@@ -365,15 +365,23 @@ export function PostInfo({post}: {post: Post}) {
                     <div className="hidden space-x-1 lg:flex">
                       {selectedPlatforms.length > 2 ? (
                         <>
-                          {selectedPlatforms.map((platform) => (
-                            <Badge
-                              key={platform}
-                              variant="secondary"
-                              className="rounded-sm px-1 font-normal"
-                            >
-                              {platform}
-                            </Badge>
-                          ))}
+                          {selectedPlatforms.map((platform) => {
+                            const platformObj = platforms.find(
+                              (p) => p.value === platform
+                            );
+
+                            return (
+                              <Badge
+                                key={platform}
+                                variant="secondary"
+                                className="rounded-sm px-1 font-normal"
+                              >
+                                {platformObj?.icon && (
+                                  <platformObj.icon className="h-6 w-6" />
+                                )}
+                              </Badge>
+                            );
+                          })}
                         </>
                       ) : (
                         platforms
@@ -406,6 +414,7 @@ export function PostInfo({post}: {post: Post}) {
                       const isSelected =
                         selectedPlatforms &&
                         selectedPlatforms.includes(option.value);
+
                       return (
                         <CommandItem
                           key={option.value}
@@ -436,7 +445,7 @@ export function PostInfo({post}: {post: Post}) {
                         >
                           <div
                             className={cn(
-                              "mr-2 flex h-4 w-4  items-center justify-center rounded-sm border border-primary",
+                              "mr-2 flex h-4 w-4 gap-2 items-center justify-center rounded-sm border border-primary",
                               isSelected
                                 ? "bg-primary text-primary-foreground"
                                 : "opacity-50 [&_svg]:invisible"
@@ -444,8 +453,13 @@ export function PostInfo({post}: {post: Post}) {
                           >
                             <Icons.check className={cn("h-4 w-4")} />
                           </div>
+                          <div className="flex gap-2 items-center">
+                            {option?.icon && (
+                              <option.icon className="h-6 w-6" />
+                            )}
 
-                          {option.label}
+                            {option.label}
+                          </div>
                         </CommandItem>
                       );
                     })}

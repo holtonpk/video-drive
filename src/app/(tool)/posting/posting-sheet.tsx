@@ -2,15 +2,29 @@
 import React, {useEffect} from "react";
 import {Calendar} from "@/components/ui/calendar";
 import {Icons} from "@/components/icons";
-import {collection, query, getDocs, where} from "firebase/firestore";
+import {
+  collection,
+  query,
+  getDocs,
+  where,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import {db} from "@/config/firebase";
-
-import {clients, VideoData} from "@/config/data";
+import {cn} from "@/lib/utils";
+import {
+  clients,
+  VideoData,
+  Post,
+  VideoDataWithPosts,
+  platforms,
+} from "@/config/data";
 import {format} from "date-fns";
 import {Card} from "@/components/ui/card";
 import Link from "next/link";
-import {Button} from "@/components/ui/button";
+import {Button, buttonVariants} from "@/components/ui/button";
 import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
+import {get} from "http";
 
 const PostingSheet = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -18,7 +32,7 @@ const PostingSheet = () => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const [displayVideos, setDisplayVideos] = React.useState<
-    VideoData[] | undefined
+    VideoDataWithPosts[] | undefined
   >();
 
   useEffect(() => {
@@ -36,8 +50,28 @@ const PostingSheet = () => {
           where("postDate", "<=", endOfDay)
         );
         const querySnapshot = await getDocs(docsQuery);
-        const filteredVideos = querySnapshot.docs.map(
-          (doc) => doc.data() as VideoData
+
+        const filteredVideos = await Promise.all(
+          querySnapshot.docs.map(async (docRef) => {
+            const docData = docRef.data();
+
+            const postData = await Promise.all(
+              docData.postIds.map(async (postId: string) => {
+                const postDoc = doc(db, "posts", postId);
+                const postRef = getDoc(postDoc);
+                const postSnap = await postRef;
+                if (postSnap.exists()) {
+                  return postSnap.data();
+                }
+              })
+            );
+
+            const data = {
+              ...docData,
+              posts: postData.filter((post) => post !== undefined) as Post[],
+            };
+            return data as VideoDataWithPosts;
+          })
         );
         setDisplayVideos(filteredVideos);
       }
@@ -48,7 +82,7 @@ const PostingSheet = () => {
   }, [date]);
 
   return (
-    <div className="flex flex-col gap-8 justify-center  items-center py-10 w-screen px-10">
+    <div className="flex flex-col gap-8 justify-center  items-center py-10 w-screen md:px-10">
       <Calendar
         mode="single"
         selected={date}
@@ -59,9 +93,9 @@ const PostingSheet = () => {
       {loading ? (
         <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
       ) : (
-        <Card className="w-full">
+        <div className="w-full  ">
           {displayVideos && displayVideos.length > 0 ? (
-            <div className="flex flex-col gap-2 p-8">
+            <div className="flex flex-col gap-2 p-2 md:p-8">
               <h1>Posts Scheduled for {date && format(date, "PPP")}</h1>
               {displayVideos.map((video: any) => (
                 <PostRow video={video} key={video.id} />
@@ -70,7 +104,7 @@ const PostingSheet = () => {
           ) : (
             <h1 className="p-4">No posts scheduled for this date</h1>
           )}
-        </Card>
+        </div>
       )}
     </div>
   );
@@ -78,43 +112,36 @@ const PostingSheet = () => {
 
 export default PostingSheet;
 
-const PostRow = ({video}: {video: VideoData}) => {
+const PostRow = ({video}: {video: VideoDataWithPosts}) => {
   const client = clients.find((c: any) => c.value === video.clientId)!;
 
   const [copied, setCopied] = React.useState<boolean>(false);
 
-  const copyCaption = () => {
-    navigator.clipboard.writeText(video?.caption as string);
+  const copyCaption = (caption: string) => {
+    navigator.clipboard.writeText(caption);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
     }, 3000);
   };
 
-  const downloadVideo = async () => {
-    console.log("Video URL:", video.videoURL);
-    if (!video.videoURL) return;
+  const [isDownloading, setIsDownloading] = React.useState<boolean>(false);
+
+  const downloadFile = async (videoUrl: string, title: string) => {
+    setIsDownloading(true);
+
     try {
-      const response = await fetch(video.videoURL);
-      console.log("Fetch response:", response);
+      const response = await fetch(videoUrl);
       if (!response.ok) {
         throw new Error(
           `Network response was not ok, status: ${response.status}`
         );
       }
       const blob = await response.blob();
-      if (blob.size > 0) {
-        const downloadUrl = window.URL.createObjectURL(blob);
-        window.location.href = downloadUrl; // This might start the download directly
-      } else {
-        console.error("Received empty blob.");
-      }
-      console.log("Blob:", blob);
       const downloadUrl = window.URL.createObjectURL(blob);
-      console.log("Download URL:", downloadUrl);
       const a = document.createElement("a");
       a.href = downloadUrl;
-      a.download = "test.mp4"; // Assuming the file is an MP4 video
+      a.download = title + ".mp4";
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(downloadUrl);
@@ -122,38 +149,103 @@ const PostRow = ({video}: {video: VideoData}) => {
     } catch (error) {
       console.error("Error downloading the file:", error);
     }
+    setIsDownloading(false);
   };
 
   return (
-    <div className="w-full rounded-md border p-3 flex items-center gap-2 relative justify-between overflow-hidden">
-      <div className="grid grid-cols-[24px_1fr] gap-2">
-        <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
-        <span className="relative z-20 pointer-events-none">{video.title}</span>
-      </div>
-      <div className="flex items-center gap-4">
-        <Button
-          onClick={copyCaption}
-          variant={"outline"}
-          className="relative z-20 w-fit"
-        >
-          {copied ? (
-            <>Copied</>
-          ) : (
-            <>
-              <Icons.copy className="h-5 w-5 mr-2" />
-              Copy Caption
-            </>
-          )}
-        </Button>
-        <Button onClick={downloadVideo} className="relative z-20 w-fit">
-          <Icons.download className="h-5 w-5  mr-2" />
-          Download Video
-        </Button>
-      </div>
+    <div
+      className={`w-full rounded-md border-4 p-3 flex  flex-col  gap-4 relative justify-between overflow-hidden
+    ${
+      video.status === "done"
+        ? "border-green-500/20"
+        : video.status === "todo"
+        ? "border-blue-500/20"
+        : video.status === "draft"
+        ? "border-yellow-500/20"
+        : "border-red-500/20"
+    }
+    
+    `}
+    >
       <Link
         href={`/video/${video.videoNumber}`}
-        className="w-full absolute h-full left-0 right-0 z-10 hover:bg-muted"
-      ></Link>
+        className="grid grid-cols-[24px_1fr] gap-2 hover:opacity-40s"
+      >
+        <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
+        <span className="relative z-20 pointer-events-none font-bold">
+          {video.title}
+        </span>
+      </Link>
+      {video.posts.map((post: Post) => (
+        <>
+          {post?.videoURL || post.caption ? (
+            <div className="w-full flex flex-col md:flex-row border gap-4 rounded-md p-2 items-center justify-between ">
+              {post.platforms ? (
+                <div className="flex flex-row gap-2">
+                  {post.platforms.map((platform) => {
+                    const platformObj = platforms.find(
+                      (p) => p.value === platform
+                    );
+                    if (!platformObj) return null;
+                    return (
+                      <platformObj.icon key={platform} className="h-10 w-10" />
+                    );
+                  })}
+                </div>
+              ) : (
+                <span className="text-destructive">No platforms selected</span>
+              )}
+              <div className="flex flex-col w-full md:w-fit md:flex-row gap-2">
+                {post.caption && (
+                  <Button
+                    onClick={() => copyCaption(post.caption as string)}
+                    variant={"outline"}
+                    className="relative z-20  w-full md:w-fit"
+                  >
+                    {copied ? (
+                      <>Copied</>
+                    ) : (
+                      <>
+                        <Icons.copy className="h-5 w-5 mr-2" />
+                        Copy Caption
+                      </>
+                    )}
+                  </Button>
+                )}
+                {post.videoURL && (
+                  <Button
+                    onClick={() =>
+                      downloadFile(post.videoURL as string, video.title)
+                    }
+                    className="relative z-20 w-full md:w-fit"
+                  >
+                    {isDownloading ? (
+                      <Icons.spinner className="h-5 w-5 animate-spin mr-2 " />
+                    ) : (
+                      <Icons.download className="h-5 w-5  mr-2" />
+                    )}
+                    Download Video
+                  </Button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="w-full flex flex-col gap-2 justify-center items-center p-2 ">
+              <span className="text-destructive">Video not uploaded</span>
+              <Link
+                target="_blank"
+                href={`/video/${video.videoNumber}`}
+                className={cn(
+                  buttonVariants({variant: "outline"}),
+                  "relative w-fit"
+                )}
+              >
+                View Video
+              </Link>
+            </div>
+          )}
+        </>
+      ))}
     </div>
   );
 };

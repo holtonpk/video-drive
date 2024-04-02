@@ -3,7 +3,14 @@ import {
   ArrowRightIcon,
   ArrowUpIcon,
 } from "@radix-ui/react-icons";
-import {BlazeLogo, MortyLogo, FcLogo} from "@/components/icons";
+import {
+  BlazeLogo,
+  MortyLogo,
+  FcLogo,
+  YoutubeLogo,
+  InstagramLogo,
+  TiktokLogo,
+} from "@/components/icons";
 import {Icons} from "@/components/icons";
 
 import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
@@ -94,14 +101,17 @@ export const platforms = [
   {
     label: "Youtube",
     value: "youtube",
+    icon: YoutubeLogo,
   },
   {
     label: "Instagram",
     value: "instagram",
+    icon: InstagramLogo,
   },
   {
     label: "Tiktok",
     value: "tiktok",
+    icon: TiktokLogo,
   },
 ];
 
@@ -138,6 +148,24 @@ export type VideoData = {
   scriptDueDate: Timestamp;
   videoURL?: string;
   postIds?: string[];
+  dueDate: Timestamp;
+  clientId: string;
+  status: string;
+  assets: VideoAsset[];
+  notes: string;
+  script: string;
+  caption?: string;
+  postDate: Timestamp;
+};
+
+export type VideoDataWithPosts = {
+  id: number;
+  title: string;
+  videoNumber: string;
+  scriptDueDate: Timestamp;
+  videoURL?: string;
+  postIds: string[];
+  posts: Post[];
   dueDate: Timestamp;
   clientId: string;
   status: string;
