@@ -63,11 +63,18 @@ export const VideoAssets = () => {
     video.assets
   );
 
+  const getFileExtension = (fname: string) => {
+    return fname.slice(((fname.lastIndexOf(".") - 1) >>> 0) + 2);
+  };
+
   async function saveFileToFirebase(file: any) {
     if (!video) return;
     const fileID = Math.random().toString(36).substring(7);
     const storage = getStorage(app);
-    const storageRef = ref(storage, `assets/${fileID}`);
+    const storageRef = ref(
+      storage,
+      `assets/${fileID + "." + getFileExtension(file.name)}`
+    );
 
     // Start the file upload
     const uploadTask = uploadBytesResumable(storageRef, file);
