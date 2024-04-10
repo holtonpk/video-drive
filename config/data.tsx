@@ -64,18 +64,23 @@ export const clients = [
     value: "blaze",
     label: "Blaze",
     icon: BlazeLogo,
+    description:
+      "Say goodbye to ordinary marketing. Embrace ai-driven success with our cutting-edge tools. The largest AI models don't know what works for your brand and product.",
   },
   {
     id: "2",
     value: "morty",
     label: "Morty",
     icon: MortyLogo,
+    description: "Blaze is a company that sells candles.",
   },
   {
     id: "3",
     value: "founderCentral",
     label: "Founder Central",
     icon: FcLogo,
+    description:
+      "Viral Factory create viral short video that are perfect for social media.",
   },
 ];
 
