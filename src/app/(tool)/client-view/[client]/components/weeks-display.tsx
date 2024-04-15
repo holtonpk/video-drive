@@ -141,9 +141,11 @@ export const WeeksDisplay = ({
                 <span className="w-[150px] ">Status</span>
               </div>
               <div className="flex flex-col  ">
-                {week.posts.map((post: VideoData, index) => (
-                  <VideoColumn key={index} post={post} index={index} />
-                ))}
+                {week.posts
+                  .sort((a: any, b: any) => a.postDate - b.postDate)
+                  .map((post: VideoData, index) => (
+                    <VideoColumn key={index} post={post} index={index} />
+                  ))}
               </div>
             </div>
           ))}
