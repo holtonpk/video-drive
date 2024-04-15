@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from "react";
+import React, {use, useEffect} from "react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Textarea} from "@/components/ui/textarea";
@@ -64,6 +64,12 @@ export const VideoScript = () => {
     );
   }
 
+  const [wordCount, setWordCount] = React.useState(0);
+
+  useEffect(() => {
+    setWordCount(script.split(" ").length);
+  }, [script]);
+
   return (
     <Card className="relative shadow-sm h-fit w-full ">
       <CardHeader>
@@ -99,10 +105,11 @@ export const VideoScript = () => {
       </CardHeader>
       <CardContent className="grid gap-6">
         <Textarea
-          className="h-[300px]"
+          className="h-[300px] "
           value={script}
           onChange={(e) => setScript(e.target.value)}
         />
+        <h1 className="">Word count:{" " + wordCount}</h1>
       </CardContent>
       <Button onClick={copyToClipboard} className="absolute top-3 right-3">
         {copied ? (

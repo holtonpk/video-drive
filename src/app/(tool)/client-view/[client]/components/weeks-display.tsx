@@ -173,7 +173,7 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const post = docSnap.data();
-          if (post?.caption) {
+          if (post?.caption && post.caption.split(" ").length > 0) {
             setHasCaption(true);
           }
         }
@@ -217,7 +217,9 @@ ${index % 2 === 0 ? "bg-gray-100" : ""}
         {videoAlreadyPosted ? (
           "✅"
         ) : (
-          <span className="font-bold">{post.script ? "✅" : "❌"}</span>
+          <span className="font-bold">
+            {post.script && post.script.split(" ").length > 1 ? "✅" : "❌"}
+          </span>
         )}
       </span>
       <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
