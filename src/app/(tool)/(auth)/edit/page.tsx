@@ -1,7 +1,8 @@
 import React from "react";
+import EditDashboard from "./editor-dashboard";
 
 const Page = () => {
-  return <div>Page</div>;
+  return <EditDashboard />;
 };
 
 export default Page;

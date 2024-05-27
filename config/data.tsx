@@ -15,8 +15,8 @@ import {Icons} from "@/components/icons";
 
 import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 
-export const ADMIN_USERS = ["Mi4yipMXrlckU117edbYNiwrmI92"];
-export const EDITORS = ["V8EWxrW4M2TV833wTSl8A5odPgh1"];
+export const ADMIN_USERS = ["Mi4yipMXrlckU117edbYNiwrmI92", "3tUbkjbrK9gZ86byUxpbdGsdWyj1"];
+export const EDITORS = ["b3KX58Ly1ibf5bulqTyfBgROrdf1"];
 
 export const labels = [
   {
