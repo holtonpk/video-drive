@@ -1,11 +1,10 @@
 import React from "react";
-import Navbar from "./navbar";
-
+import Navbar from "./(auth)/(admin)/navbar";
+import {AuthProvider} from "@/context/user-auth";
 const MainLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <div className="flex flex-col ">
-      <Navbar />
-      {children}
+      <AuthProvider>{children}</AuthProvider>
     </div>
   );
 };

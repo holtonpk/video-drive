@@ -16,8 +16,22 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import {clients} from "@/config/data";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {useAuth} from "@/context/user-auth";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import {Button} from "@/components/ui/button";
+
 const Navbar = () => {
   const segment = useSelectedLayoutSegment();
+  const {currentUser, logOut} = useAuth()!;
+
   return (
     <div className="justify-between top-0 gap-8 p-4 items-center z-[50] bg-muted px-6 hidden sm:flex">
       <NavigationMenu>
@@ -90,6 +104,33 @@ const Navbar = () => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+      {currentUser && (
+        <div className="flex gap-2 items-center text-foreground md:ml-auto">
+          <Avatar className="h-9 w-9">
+            <AvatarImage
+              src={currentUser?.photoURL}
+              alt={currentUser.displayName || "User"}
+            />
+            <AvatarFallback>
+              {currentUser?.firstName?.charAt(0).toUpperCase() +
+                currentUser?.lastName?.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="text-xl">
+              {currentUser.displayName}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Your Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+
+              <Button onClick={logOut} variant="destructive" className="w-full">
+                Logout
+              </Button>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </div>
   );
 };

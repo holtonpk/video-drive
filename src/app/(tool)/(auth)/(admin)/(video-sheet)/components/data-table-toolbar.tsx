@@ -7,7 +7,7 @@ import {cn} from "@/lib/utils";
 
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {DataTableViewOptions} from "@/src/app/(tool)/(video-sheet)/components/data-table-view-options";
+import {DataTableViewOptions} from "@/src/app/(tool)/(auth)/(admin)/(video-sheet)/components/data-table-view-options";
 import {Calendar as CalendarIcon} from "lucide-react";
 import {DateRange} from "react-day-picker";
 import {statuses, clients} from "@/config/data";

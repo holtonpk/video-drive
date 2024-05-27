@@ -15,6 +15,9 @@ import {Icons} from "@/components/icons";
 
 import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 
+export const ADMIN_USERS = ["Mi4yipMXrlckU117edbYNiwrmI92"];
+export const EDITORS = ["V8EWxrW4M2TV833wTSl8A5odPgh1"];
+
 export const labels = [
   {
     value: "bug",
@@ -55,6 +58,21 @@ export const statuses = [
     label: "Needs Revision",
     icon: CircleX,
     description: "The video needs to be revised.",
+  },
+];
+
+export const editorStatuses = [
+  {
+    value: "todo",
+    label: "Todo",
+    icon: Circle,
+    description: "Ready for edit",
+  },
+  {
+    value: "done",
+    label: "Done",
+    icon: CircleCheckBig,
+    description: "Editing is finished and the video is ready for upload.",
   },
 ];
 
@@ -144,8 +162,6 @@ export type Post = {
   postDate: Timestamp;
 };
 
-export type UploadedVideo = {};
-
 export type VideoData = {
   id: number;
   title: string;
@@ -157,10 +173,18 @@ export type VideoData = {
   clientId: string;
   status: string;
   assets: VideoAsset[];
+  voiceOver: VideoAsset[];
   notes: string;
   script: string;
   caption?: string;
   postDate: Timestamp;
+  uploadedVideos?: UploadedVideo[];
+};
+
+type UploadedVideo = {
+  id: string;
+  title: string;
+  videoURL: string;
 };
 
 export type VideoDataWithPosts = {

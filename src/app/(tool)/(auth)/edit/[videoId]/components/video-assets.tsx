@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
+import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-context";
 import {
   uploadBytesResumable,
   getDownloadURL,

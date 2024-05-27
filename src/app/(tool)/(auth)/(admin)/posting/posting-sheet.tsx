@@ -23,7 +23,7 @@ import {format} from "date-fns";
 import {Card} from "@/components/ui/card";
 import Link from "next/link";
 import {Button, buttonVariants} from "@/components/ui/button";
-import {AssetType} from "@/src/app/(tool)/new-video/new-video-context";
+import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-context";
 import {get} from "http";
 
 const PostingSheet = () => {
