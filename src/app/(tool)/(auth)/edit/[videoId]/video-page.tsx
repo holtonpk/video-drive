@@ -2,7 +2,7 @@
 import React, {useEffect, useRef} from "react";
 import {doc, getDoc, onSnapshot, setDoc} from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData, Post, clients, statuses} from "@/config/data";
+import {VideoData, Post, clients, statuses, ADMIN_USERS} from "@/config/data";
 import {Icons} from "@/components/icons";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {VideoDetails} from "./components/video-details";
@@ -39,19 +39,34 @@ export default function VideoPage({videoId}: {videoId: string}) {
     return () => unsubscribe();
   }, [videoId]);
 
+  const {currentUser} = useAuth()!;
+
+  if (
+    video &&
+    currentUser &&
+    currentUser.uid !== video.editor &&
+    ADMIN_USERS.includes(currentUser.uid) === false
+  ) {
+    return (
+      <div className="flex items-center justify-center w-screen h-screen text-foreground">
+        Sorry you don&apos;t have access to this video
+      </div>
+    );
+  }
+
   return (
     <>
       {video ? (
         <VideoProvider videoData={video}>
-          <div className=" grid max-w-[700px]  w-full h-full  gap-10 items-center  pb-10">
+          <div className=" grid w-[600px] max-w-screen h-full  gap-10 items-center  pb-10">
             <VideoDetails />
             <Requirements />
           </div>
         </VideoProvider>
       ) : (
         <div
-          className="w-full h-[400px] 
-        border rounded-md flex items-center justify-center"
+          className="  w-[600px] max-w-screen h-[400px] 
+         rounded-md flex items-center justify-center"
         >
           <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
         </div>

@@ -351,34 +351,16 @@ export const VideoDetails = () => {
             </div>
           </div>
         </div>
-
-        <div className="grid gap-2 w-full">
-          <Label htmlFor="notes">Notes</Label>
-          <span className="w-full  flex items-center rounded-md text-sm">
-            - Video format: Use stock footage to tell this story. most can be
-            sourced on youtube
-          </span>
-          <span className="w-full  flex items-center rounded-md text-sm">
-            - The video needs to be less than 60s
-          </span>
-          <span className="w-full  flex items-center rounded-md text-sm">
-            - Example of the editing style
-            <Link href="" className="underline text-primary mx-1">
-              here
-            </Link>
-            <Link href="" className="underline text-primary mx-1">
-              here
-            </Link>
-            <Link href="" className="underline text-primary mx-1">
-              here
-            </Link>
-          </span>
-          <span className="w-full  flex items-center rounded-md text-sm">
-            - Let us know if you need midjourney to create assets
-          </span>
-        </div>
-        {!video.uploadedVideos ||
-          (video.uploadedVideos.length === 0 && !isUploading && (
+        {video.notes && (
+          <div className="grid gap-2 w-full">
+            <Label htmlFor="notes">Notes</Label>
+            <span className="w-full  flex items-center rounded-md text-sm">
+              {video.notes}
+            </span>
+          </div>
+        )}
+        {(!video.uploadedVideos || video.uploadedVideos.length == 0) &&
+          !isUploading && (
             <div className="w-full border border-dashed border-primary rounded-md p-4 flex items-center justify-center flex-col">
               <h1>Upload completed video here </h1>
               <Button
@@ -390,7 +372,7 @@ export const VideoDetails = () => {
                 Click to upload{" "}
               </Button>
             </div>
-          ))}
+          )}
         <input
           multiple
           id="selectedFile2"

@@ -36,19 +36,32 @@ const Requirements = () => {
             <span className="text-muted-foreground">No assets uploaded</span>
           </div>
         )}
-        <div>
-          {video.assets && video.assets.length > 0 && (
-            <div className="flex flex-col gap-2">
-              <div className="flex items-end text-foreground">
-                <Icons.video className="mr-2 h-4 w-4" />
-                <Label htmlFor="footage">Footage</Label>
-              </div>
 
-              {video.assets.map((asset) => (
-                <AssetRow asset={asset} key={asset.title} />
-              ))}
+        {video.assets && video.assets.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-end text-foreground">
+              <Icons.video className="mr-2 h-4 w-4" />
+              <Label htmlFor="footage">Footage</Label>
             </div>
-          )}
+
+            {video.assets.map((asset) => (
+              <AssetRow asset={asset} key={asset.title} />
+            ))}
+          </div>
+        )}
+
+        <div className="grid gap-2">
+          <div className="flex items-end text-foreground">
+            <Icons.script className="mr-2 h-4 w-4" />
+            <Label>Script</Label>
+          </div>
+
+          <textarea
+            readOnly
+            className="h-[400px] border rounded-md w-full bg-background text-foreground p-2"
+          >
+            {video.script}
+          </textarea>
         </div>
       </div>
     </div>

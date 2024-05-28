@@ -10,6 +10,7 @@ import {
   writeBatch,
   doc,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {Button} from "@/components/ui/button";
@@ -19,7 +20,7 @@ import {Calendar as CalendarIcon, Car} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {addDays, format, set, subDays} from "date-fns";
 import {DateRange} from "react-day-picker";
-
+import {UserData} from "@/context/user-auth";
 import {
   Card,
   CardHeader,
@@ -42,7 +43,7 @@ import {
 } from "@/lib/utils";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
-import {VideoData} from "@/config/data";
+import {VideoData, EDITORS} from "@/config/data";
 import {Input} from "@/components/ui/input";
 import {NewVideoProvider} from "../../../new-video/new-video-context";
 import {Textarea} from "@/components/ui/textarea";
@@ -465,9 +466,20 @@ const NewVideoDraft = () => {
               <Label>Script Due</Label>
               <ScriptDatePicker />
             </div>
-            <div className="grid gap-1">
-              <Label>Editing Due</Label>
-              <DueDatePicker />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="grid gap-1">
+                <Label>Editor</Label>
+                <EditorSelector
+                  selectedEditor={undefined}
+                  newVideos={newVideos}
+                  video={video}
+                  setNewVideos={setNewVideos}
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label>Editing Due</Label>
+                <DueDatePicker />
+              </div>
             </div>
           </div>
         </div>
@@ -684,5 +696,83 @@ export const VideoProvider = ({
     <NewVideoContext.Provider value={{video, newVideos, setNewVideos}}>
       {children}
     </NewVideoContext.Provider>
+  );
+};
+
+const EditorSelector = ({
+  selectedEditor,
+  setNewVideos,
+  newVideos,
+  video,
+}: {
+  selectedEditor: string | undefined;
+  setNewVideos: (videos: NewVideo[]) => void;
+  newVideos: NewVideo[];
+  video: NewVideo;
+}) => {
+  const [editor, setEditor] = React.useState<string | undefined>(
+    selectedEditor
+  );
+  const [editors, setEditors] = React.useState<UserData[] | undefined>();
+
+  useEffect(() => {
+    const fetchEditors = async () => {
+      try {
+        const editorPromises = EDITORS.map(async (editor) => {
+          const dataSnap = await getDoc(doc(db, "users", editor));
+          return dataSnap.data() as UserData;
+        });
+
+        const editorData = await Promise.all(editorPromises);
+        setEditors(editorData);
+      } catch (error) {
+        console.error("Error fetching editor data: ", error);
+      }
+    };
+
+    fetchEditors();
+  }, []);
+
+  return (
+    <>
+      {editors && editors.length > 0 && (
+        <Select
+          value={editor}
+          onValueChange={(value) => {
+            setEditor(value);
+            setNewVideos(
+              newVideos.map((v) => {
+                if (v.videoNumber === video.videoNumber) {
+                  return {...v, editor: value};
+                }
+                return v;
+              })
+            );
+          }}
+        >
+          <SelectTrigger id="editor" className=" truncate w-full">
+            <SelectValue placeholder="Select an editor" />
+          </SelectTrigger>
+          <SelectContent>
+            {editors.map((option) => (
+              <SelectItem
+                key={option.uid}
+                value={option.uid}
+                className="flex flex-nowrap"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={option.photoURL}
+                    alt="editor"
+                    className="h-6 w-6 rounded-full mr-2"
+                  />
+                  <span>{option.firstName}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+    </>
   );
 };

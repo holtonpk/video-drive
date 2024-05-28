@@ -2,62 +2,57 @@
 import React, {useEffect} from "react";
 import Cards from "./components/stat-cards";
 import {Icons} from "@/components/icons";
-import {getDoc, doc} from "firebase/firestore";
+import {
+  getDoc,
+  getDocs,
+  query,
+  where,
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData} from "@/config/data";
+import {ADMIN_USERS, EDITORS, VideoData} from "@/config/data";
 import {formatDaynameMonthDay} from "@/lib/utils";
 import {clients} from "@/config/data";
 import Link from "next/link";
-
+import {useAuth} from "@/context/user-auth";
+import {EditorSelector} from "./components/editor-selector";
 const EditDashboard = () => {
-  const videoIds = [
-    "1051",
-    "1052",
-    "1053",
-    "1054",
-    "1055",
-    "1056",
-    "1057",
-    "1058",
-    "1059",
-    "1060",
-    "1061",
-    "1062",
-    "1063",
-    "1064",
-    "1065",
-    "1066",
-    "1067",
-    "1068",
-    "1070",
-    "1071",
-    "1072",
-    "1073",
-  ];
-
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
 
+  const {currentUser} = useAuth()!;
+
+  const [dummyUid, setDummyUid] = React.useState<string>(EDITORS[0]);
+
   useEffect(() => {
-    const fetchVideos = async () => {
-      // get docs from firestore /videos/videoId
+    if (!currentUser) return;
+    let uid = currentUser.uid;
+    if (ADMIN_USERS.includes(currentUser.uid)) {
+      uid = dummyUid;
+    }
+    const q = query(collection(db, "videos"), where("editor", "==", uid));
 
-      const videos = await Promise.all(
-        videoIds.map(async (videoId) => {
-          const docRef = await getDoc(doc(db, `videos`, videoId));
-          const docData = docRef.data();
-          return docData;
-        })
-      );
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const videos = querySnapshot.docs.map((doc) => doc.data() as VideoData);
+        setVideoData(videos);
+      },
+      (error) => {
+        console.error("Error fetching video data: ", error);
+      }
+    );
 
-      setVideoData(videos as VideoData[]);
-    };
-
-    fetchVideos();
-  }, []);
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [dummyUid]);
 
   return (
     <div className="container h-screen overflow-hidden flex flex-col pb-10">
       {/* <Cards /> */}
+      {currentUser && ADMIN_USERS.includes(currentUser.uid) && (
+        <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
+      )}
       {videoData && <VideoSheet videoData={videoData} />}
     </div>
   );
@@ -134,14 +129,15 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
           {completed && completed.length > 0 ? (
             <div className="flex flex-col gap-4">
               {completed.map((video) => (
-                <div
+                <Link
+                  href={`/edit/${video.videoNumber}`}
                   key={video.videoNumber}
                   className="w-full border border-green-500/40 p-6 rounded-md hover:bg-muted/40 cursor-pointer"
                 >
                   <h1 className="text-xl text-foreground">
                     #{video.videoNumber}
                   </h1>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (
@@ -162,14 +158,15 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
           {needsRevision && needsRevision.length > 0 ? (
             <div className="flex flex-col gap-4">
               {needsRevision.map((video) => (
-                <div
+                <Link
+                  href={`/edit/${video.videoNumber}`}
                   key={video.videoNumber}
                   className="w-full border border-red-500/40 p-6 rounded-md hover:bg-muted/40 cursor-pointer"
                 >
                   <h1 className="text-xl text-foreground">
                     #{video.videoNumber}
                   </h1>
-                </div>
+                </Link>
               ))}
             </div>
           ) : (

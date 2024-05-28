@@ -18,9 +18,11 @@ import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 export const ADMIN_USERS = [
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
-  "orxFlEC5v8euefk1OSJVTVXgilE2",
 ];
-export const EDITORS = ["b3KX58Ly1ibf5bulqTyfBgROrdf1"];
+export const EDITORS = [
+  "orxFlEC5v8euefk1OSJVTVXgilE2",
+  "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+];
 
 export const labels = [
   {
@@ -183,6 +185,7 @@ export type VideoData = {
   caption?: string;
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
+  editor?: string;
 };
 
 type UploadedVideo = {

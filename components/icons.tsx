@@ -1,5 +1,6 @@
 import {
   ListTodo,
+  ScrollText,
   Video,
   AudioLines,
   AlertTriangle,
@@ -143,6 +144,7 @@ import {todo} from "node:test";
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  script: ScrollText,
   todo: ListTodo,
   video: Video,
   play: Play,

@@ -15,19 +15,18 @@ import {statuses, clients} from "@/config/data";
 
 import {Calendar as CalendarIcon} from "lucide-react";
 import {cn} from "@/lib/utils";
-import {format} from "date-fns";
+import {format, set} from "date-fns";
 
 import {Label} from "@/components/ui/label";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Textarea} from "@/components/ui/textarea";
-
 import {useVideo} from "../data/video-context";
-
-import {setDoc, doc} from "firebase/firestore";
-
+import {setDoc, getDoc, doc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {convertTimestampToDate} from "@/lib/utils";
+import {EDITORS} from "@/config/data";
+import {UserData} from "@/context/user-auth";
 
 export const VideoDetails = () => {
   const {video} = useVideo()!;
@@ -50,8 +49,6 @@ export const VideoDetails = () => {
   const [postDate, setPostDate] = React.useState<Date | undefined>(
     video.postDate ? convertTimestampToDate(video.postDate) : undefined
   );
-
-  console.log("dd", dueDate);
 
   async function updateField(field: string, value: any) {
     await setDoc(
@@ -148,7 +145,7 @@ export const VideoDetails = () => {
           </SelectContent>
         </Select>
         <div className="grid grid-cols-3 gap-6 ">
-          <div className="grid gap-2 col-span-2">
+          <div className="grid gap-2 ">
             <Label htmlFor="title">Title</Label>
             <Input
               value={title}
@@ -157,6 +154,13 @@ export const VideoDetails = () => {
                 setTitle(e.target.value);
                 updateField("title", e.target.value);
               }}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="editor">Editor</Label>
+            <EditorSelector
+              updateField={updateField}
+              selectedEditor={video.editor}
             />
           </div>
           <div className="grid gap-2">
@@ -243,5 +247,82 @@ export const VideoDetails = () => {
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+const EditorSelector = ({
+  updateField,
+  selectedEditor,
+}: {
+  updateField: (field: string, value: any) => void;
+  selectedEditor: string | undefined;
+}) => {
+  const [editor, setEditor] = React.useState<string | undefined>(
+    selectedEditor
+  );
+  const [editors, setEditors] = React.useState<UserData[] | undefined>();
+
+  useEffect(() => {
+    const fetchEditors = async () => {
+      try {
+        const editorPromises = EDITORS.map(async (editor) => {
+          const dataSnap = await getDoc(doc(db, "users", editor));
+          return dataSnap.data() as UserData;
+        });
+
+        const editorData = await Promise.all(editorPromises);
+        setEditors(editorData);
+      } catch (error) {
+        console.error("Error fetching editor data: ", error);
+      }
+    };
+
+    fetchEditors();
+  }, []);
+
+  console.log("editors", editors);
+
+  return (
+    <>
+      {editors && editors.length > 0 && (
+        <Select
+          value={editor}
+          onValueChange={(value) => {
+            setEditor(value);
+            updateField("editor", value);
+            // setNewVideos(
+            //   newVideos.map((v) => {
+            //     if (v.videoNumber === video.videoNumber) {
+            //       return {...v, status: value};
+            //     }
+            //     return v;
+            //   })
+            // );
+          }}
+        >
+          <SelectTrigger id="editor" className=" truncate w-full">
+            <SelectValue placeholder="Select an editor" />
+          </SelectTrigger>
+          <SelectContent>
+            {editors.map((option) => (
+              <SelectItem
+                key={option.uid}
+                value={option.uid}
+                className="flex flex-nowrap"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={option.photoURL}
+                    alt="editor"
+                    className="h-6 w-6 rounded-full mr-2"
+                  />
+                  <span>{option.firstName}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+    </>
   );
 };
