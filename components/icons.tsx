@@ -138,12 +138,14 @@ import {
   Loader,
   BookText,
   Expand,
+  NotebookPen,
 } from "lucide-react";
 import {todo} from "node:test";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  note: NotebookPen,
   script: ScrollText,
   todo: ListTodo,
   video: Video,

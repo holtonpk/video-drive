@@ -10,15 +10,17 @@ import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-con
 const Requirements = () => {
   const {video} = useVideo()!;
 
+  console.log("vo", video.voiceOver);
+
   return (
-    <div className="w-full border-4 rounded-md overflow-hidden p-6">
+    <div className="w-full border rounded-md overflow-hidden p-6">
       <h1 className="font-bold text-2xl text-foreground w-full ">
         Video Assets
       </h1>
       <div className="flex flex-col gap-4 mt-4">
         {video.script?.length > 0 ? (
           <div className="flex flex-col gap-2">
-            {video.voiceOver && (
+            {video.voiceOver && video.voiceOver.length > 0 && (
               <div className="flex flex-col gap-2">
                 <div className="flex items-end text-foreground">
                   <Icons.audio className="mr-2 h-4 w-4" />

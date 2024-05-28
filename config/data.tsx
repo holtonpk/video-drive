@@ -80,6 +80,12 @@ export const editorStatuses = [
     icon: CircleCheckBig,
     description: "Editing is finished and the video is ready for upload.",
   },
+  {
+    value: "needs revision",
+    label: "Needs Revision",
+    icon: CircleX,
+    description: "The video needs to be revised.",
+  },
 ];
 
 export const clients = [
@@ -186,6 +192,7 @@ export type VideoData = {
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
   editor?: string;
+  editorNotes?: string;
 };
 
 type UploadedVideo = {

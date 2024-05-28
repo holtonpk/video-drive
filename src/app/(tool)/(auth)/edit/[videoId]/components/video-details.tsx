@@ -248,7 +248,13 @@ export const VideoDetails = () => {
   return (
     <Card
       className={` shadow-sm w-full relative border-4 h-full
-     
+     ${
+       status === "done"
+         ? "border-green-500/20"
+         : status === "todo"
+         ? "border-primary/20"
+         : "border-red-500/20"
+     }
     `}
     >
       <CardHeader>
@@ -285,7 +291,9 @@ export const VideoDetails = () => {
                     ${
                       option.value === "done"
                         ? "stroke-green-500 "
-                        : "stroke-blue-500"
+                        : option.value === "todo"
+                        ? "stroke-primary"
+                        : "stroke-red-500"
                     }
                     `}
                     />
@@ -353,7 +361,10 @@ export const VideoDetails = () => {
         </div>
         {video.notes && (
           <div className="grid gap-2 w-full">
-            <Label htmlFor="notes">Notes</Label>
+            <div className="flex items-end">
+              <Icons.info className="mr-2 h-4 w-4" />
+              <Label htmlFor="notes">Details</Label>
+            </div>
             <span className="w-full  flex items-center rounded-md text-sm">
               {video.notes}
             </span>
@@ -432,6 +443,17 @@ export const VideoDetails = () => {
             Upload new version
           </Button>
         )}
+        <div className="grid gap-2">
+          <div className="flex items-end">
+            <Icons.note className="mr-2 h-4 w-4" />
+            <Label>Editor Notes</Label>
+          </div>
+          <Textarea
+            value={video.editorNotes}
+            onChange={(e) => setNotes(e.target.value)}
+            onBlur={() => updateField("editorNotes", notes)}
+          />
+        </div>
       </CardContent>
     </Card>
   );
