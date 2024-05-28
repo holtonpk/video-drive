@@ -121,7 +121,7 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
       <div className="flex flex-col h-full overflow-hidden">
         <div className="flex items-center gap-2 mb-2 ">
           <div className="h-fit w-fit p-1 bg-green-500/20 rounded-md">
-            <Icons.todo className="h-4 w-4 text-green-500" />
+            <Icons.checkCircle className="h-4 w-4 text-green-500" />
           </div>
           <h1 className="text-foreground font-bold text-xl">Complete</h1>
         </div>
