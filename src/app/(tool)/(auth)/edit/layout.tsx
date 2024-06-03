@@ -35,12 +35,12 @@ const Layout = ({children}: {children: React.ReactNode}) => {
   return (
     <div className="bg-background w-screen dark min-h-screen px-4 md:px-0  flex flex-col items-center  ">
       <div className="flex w-full md:flex-row flex-col  p-4 items-center px-8">
-        <div className="flex items-center">
+        <Link href={"/edit"} className="flex items-center">
           <Logo className="fill-foreground h-6  md:h-6 mb-1" />
           <h1 className="text-3xl text-foreground font-bold whitespace-nowrap  font1 ml-2">
             Whitespace Media
           </h1>
-        </div>
+        </Link>
         {currentUser && (
           <div className="flex gap-2 items-center text-foreground md:ml-auto">
             <Avatar className="h-9 w-9">
