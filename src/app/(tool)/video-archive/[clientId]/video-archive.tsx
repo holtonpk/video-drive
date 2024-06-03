@@ -125,7 +125,7 @@ const VideoArchive = ({clientId}: {clientId: string}) => {
               <span className="p-3 font-bold font1 text-2xl text-center">
                 {week.weekRange}
               </span>
-              <div className="grid grid-cols-5 gap-8 w-fit  ">
+              <div className="grid md:grid-cols-5 gap-8 w-fit  ">
                 {week.posts
                   .sort((a: any, b: any) => a.postDate - b.postDate)
                   .map((post: VideoData, index) => (
