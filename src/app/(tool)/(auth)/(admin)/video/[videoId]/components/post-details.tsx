@@ -119,7 +119,7 @@ export const PostDetails = () => {
         setSelectedPost(posts[0]);
       }
     }
-  }, [video, posts, selectedPost]);
+  }, [video, posts, selectedPost, currentUser]);
 
   useEffect(() => {
     setLoadingPostData(true);
@@ -194,8 +194,6 @@ function PostSelector({
   };
 
   const createNewPost = async () => {
-    const {currentUser} = useAuth()!;
-
     const newPostRef = doc(collection(db, `posts`));
     await setDoc(newPostRef, {
       id: newPostRef.id,

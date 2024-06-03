@@ -116,7 +116,7 @@ export const PostDetails = () => {
         setSelectedPost(posts[0]);
       }
     }
-  }, [video, posts, selectedPost]);
+  }, [video, posts, selectedPost, currentUser]);
 
   useEffect(() => {
     setLoadingPostData(true);
@@ -586,7 +586,6 @@ function VideoDisplay({
 
     // Start the file upload
     const uploadTask = uploadBytesResumable(storageRef, file);
-    const {currentUser} = useAuth()!;
 
     // Return a promise that resolves with the download URL
     // after the upload is complete

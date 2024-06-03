@@ -81,7 +81,7 @@ export const VideoDetails = () => {
       );
     }
     changeStatus(status);
-  }, [status, video.videoNumber]);
+  }, [status, video.videoNumber, currentUser]);
 
   return (
     <Card

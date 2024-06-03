@@ -45,7 +45,7 @@ const EditDashboard = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [dummyUid]);
+  }, [dummyUid, currentUser]);
 
   return (
     <div className="container h-screen overflow-hidden flex flex-col pb-10">

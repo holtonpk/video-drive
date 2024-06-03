@@ -40,15 +40,16 @@ export function Editor({post, setScript}: EditorProps) {
   const router = useRouter();
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
-  let editor: any = {isReady: false};
+  const editorRef = React.useRef<any>(null);
+
   React.useEffect(() => {
-    if (!editor.isReady) {
+    if (!editorRef.current) {
       const body = postPatchSchema.parse(post);
 
-      editor = new EditorJS({
+      editorRef.current = new EditorJS({
         holder: "script-editor",
         onReady() {
-          ref.current = editor;
+          ref.current = editorRef.current;
         },
         onChange: () => {
           SaveData();
@@ -67,7 +68,7 @@ export function Editor({post, setScript}: EditorProps) {
         },
       });
       const SaveData = () => {
-        editor
+        editorRef.current
           .save()
           .then((savedData: any) => {
             console.log("savedData", savedData);
@@ -78,7 +79,7 @@ export function Editor({post, setScript}: EditorProps) {
           });
       };
     }
-  }, []);
+  }, [post, setScript]);
 
   const SaveBlogPost = async (id: string, data: any) => {
     return null;

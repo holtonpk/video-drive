@@ -87,13 +87,7 @@ export const VideoDetails = () => {
       );
     }
     changeStatus(status);
-    sendNotifications({
-      subject: `${currentUser?.firstName} marked video #${video.videoNumber} as ${status}`,
-      line_1: `The status of video #${video.videoNumber} has been updated to ${status}`,
-      line_2: "Please review the video and provide feedback",
-      action_url: `https://video-drive.vercel.app/video/${video.videoNumber}`,
-    });
-  }, [status, video.videoNumber]);
+  }, [status, video.videoNumber, currentUser]);
 
   const createdPost = React.useRef(false);
 
@@ -145,7 +139,7 @@ export const VideoDetails = () => {
         }
       }
     }
-  }, [video, posts]);
+  }, [video, posts, currentUser]);
 
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
@@ -249,25 +243,6 @@ export const VideoDetails = () => {
             (video) => video.id !== uploadedVideoId
           ),
         } as VideoData)
-    );
-  };
-
-  type EmailTemplate = {
-    subject: string;
-    line_1: string;
-    line_2: string;
-    action_url: string;
-  };
-
-  const sendNotifications = async (emailTemp: EmailTemplate) => {
-    emailjs.send(
-      "service_xh39zvd",
-      "template_7ccloj9",
-      {
-        ...emailTemp,
-        to_email: "holtonpk@gmail.com",
-      },
-      "_xxtFZFU5RPJivl-9"
     );
   };
 

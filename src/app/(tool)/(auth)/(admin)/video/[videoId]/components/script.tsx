@@ -63,7 +63,7 @@ export const VideoScript = () => {
       );
     }
     updateScript();
-  }, [script, video.videoNumber]);
+  }, [script, video.videoNumber, currentUser]);
 
   async function updateField(field: string, value: any) {
     await setDoc(
