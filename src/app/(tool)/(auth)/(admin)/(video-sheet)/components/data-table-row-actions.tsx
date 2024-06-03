@@ -35,7 +35,7 @@ import {doc, deleteDoc, setDoc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
-
+import {useAuth} from "@/context/user-auth";
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
@@ -44,6 +44,7 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const task = videoSchema.parse(row.original);
+  const {currentUser} = useAuth()!;
 
   async function handleDelete() {
     const docRef = doc(db, "videos/", task.videoNumber.toString());
@@ -60,7 +61,7 @@ export function DataTableRowActions<TData>({
       doc(db, "videos", task.videoNumber.toString()),
       {
         status: status,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,

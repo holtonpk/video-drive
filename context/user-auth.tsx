@@ -18,6 +18,7 @@ import {
 
 import {doc, setDoc, getDoc} from "firebase/firestore";
 import {db, auth, app} from "@/config/firebase";
+import {Notifications} from "@/config/data";
 
 interface AuthContextType {
   currentUser: UserData | undefined;
@@ -39,6 +40,7 @@ export interface UserData extends FirebaseUser {
   firstName: string;
   lastName: string;
   photoURL: string;
+  notificationSettings: Notifications;
 }
 
 export function AuthProvider({children}: {children: React.ReactNode}) {
@@ -119,6 +121,13 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         photoURL: photoUrl,
         uid: uid,
         welcome_intro: false,
+        notificationSettings: {
+          email: email,
+          new_video: false,
+          revision: false,
+          done: false,
+          notes: false,
+        },
       });
     }
 
@@ -150,6 +159,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             firstName: userData?.firstName,
             lastName: userData?.lastName,
             photoURL: userData?.photoURL,
+            notificationSettings: userData?.notificationSettings,
           });
         }
       } else {

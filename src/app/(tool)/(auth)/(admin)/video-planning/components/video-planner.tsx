@@ -23,6 +23,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
 import {db} from "@/config/firebase";
 import {setDoc, doc} from "firebase/firestore";
+import {useAuth} from "@/context/user-auth";
 
 const SUBDAYS_VIDEO_DUE = 2;
 const SUBDAYS_SCRIPT_DUE = 3;
@@ -58,6 +59,7 @@ const VideoPlanner = () => {
   let videoCount = currentClientTotalVideo;
 
   const [createIsLoading, setCreateIsLoading] = React.useState(false);
+  const {currentUser} = useAuth()!;
 
   async function CreateVideos() {
     setCreateIsLoading(true);
@@ -67,7 +69,7 @@ const VideoPlanner = () => {
       newVideos.map(async (video) => {
         await setDoc(doc(db, "videos", video.videoNumber.toString()), {
           ...video,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
         });
       })
     );

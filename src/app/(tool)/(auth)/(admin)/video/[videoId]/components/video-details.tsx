@@ -27,8 +27,10 @@ import {db} from "@/config/firebase";
 import {convertTimestampToDate} from "@/lib/utils";
 import {EDITORS} from "@/config/data";
 import {UserData} from "@/context/user-auth";
+import {useAuth} from "@/context/user-auth";
 
 export const VideoDetails = () => {
+  const {currentUser} = useAuth()!;
   const {video} = useVideo()!;
 
   const client = clients.find((c: any) => c.value === video.clientId)!;
@@ -55,7 +57,7 @@ export const VideoDetails = () => {
       doc(db, "videos", video.videoNumber.toString()),
       {
         [field]: value,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -71,7 +73,7 @@ export const VideoDetails = () => {
         doc(db, "videos", video.videoNumber.toString()),
         {
           status: status,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
         },
         {
           merge: true,

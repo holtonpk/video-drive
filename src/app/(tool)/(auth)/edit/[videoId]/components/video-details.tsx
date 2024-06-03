@@ -12,10 +12,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import emailjs from "@emailjs/browser";
 import {editorStatuses, clients, VideoData, Post} from "@/config/data";
 import Link from "next/link";
 import {Calendar as CalendarIcon} from "lucide-react";
-import {cn} from "@/lib/utils";
+import {cn, convertToUserLocalTime} from "@/lib/utils";
 import {format} from "date-fns";
 import {
   uploadBytesResumable,
@@ -30,13 +31,13 @@ import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Textarea} from "@/components/ui/textarea";
 import {useVideo} from "../data/video-context";
-
+import {useAuth} from "@/context/user-auth";
 import {setDoc, deleteDoc, doc, getDoc, collection} from "firebase/firestore";
-
 import {convertTimestampToDate} from "@/lib/utils";
 
 export const VideoDetails = () => {
   const {video, setVideo} = useVideo()!;
+  const {currentUser} = useAuth()!;
 
   const client = clients.find((c: any) => c.value === video.clientId)!;
 
@@ -62,7 +63,7 @@ export const VideoDetails = () => {
       doc(db, "videos", video.videoNumber.toString()),
       {
         [field]: value,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -78,7 +79,7 @@ export const VideoDetails = () => {
         doc(db, "videos", video.videoNumber.toString()),
         {
           status: status,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
         },
         {
           merge: true,
@@ -86,6 +87,12 @@ export const VideoDetails = () => {
       );
     }
     changeStatus(status);
+    sendNotifications({
+      subject: `${currentUser?.firstName} marked video #${video.videoNumber} as ${status}`,
+      line_1: `The status of video #${video.videoNumber} has been updated to ${status}`,
+      line_2: "Please review the video and provide feedback",
+      action_url: `https://video-drive.vercel.app/video/${video.videoNumber}`,
+    });
   }, [status, video.videoNumber]);
 
   const createdPost = React.useRef(false);
@@ -111,7 +118,7 @@ export const VideoDetails = () => {
           id: newPostRef.id,
           title: "v 1.0",
           clientId: video.clientId,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
           postDate: video.postDate,
         };
 
@@ -121,7 +128,7 @@ export const VideoDetails = () => {
           doc(db, "videos", video.videoNumber.toString()),
           {
             postIds: [newPostRef.id],
-            updatedAt: new Date(),
+            updatedAt: {date: new Date(), user: currentUser?.firstName},
           },
           {
             merge: true,
@@ -191,7 +198,7 @@ export const VideoDetails = () => {
                 uploadedVideos: video.uploadedVideos
                   ? [...video.uploadedVideos, newUploadedVideo]
                   : [newUploadedVideo],
-                updatedAt: new Date(),
+                updatedAt: {date: new Date(), user: currentUser?.firstName},
               },
               {
                 merge: true,
@@ -228,7 +235,7 @@ export const VideoDetails = () => {
         uploadedVideos: video.uploadedVideos?.filter(
           (video) => video.id !== uploadedVideoId
         ),
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -242,6 +249,25 @@ export const VideoDetails = () => {
             (video) => video.id !== uploadedVideoId
           ),
         } as VideoData)
+    );
+  };
+
+  type EmailTemplate = {
+    subject: string;
+    line_1: string;
+    line_2: string;
+    action_url: string;
+  };
+
+  const sendNotifications = async (emailTemp: EmailTemplate) => {
+    emailjs.send(
+      "service_xh39zvd",
+      "template_7ccloj9",
+      {
+        ...emailTemp,
+        to_email: "holtonpk@gmail.com",
+      },
+      "_xxtFZFU5RPJivl-9"
     );
   };
 
@@ -337,7 +363,11 @@ export const VideoDetails = () => {
                 !video.dueDate && "text-muted-foreground"
               )}
             >
-              {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+              {dueDate ? (
+                convertToUserLocalTime(video.dueDate)
+              ) : (
+                <span>Due Date</span>
+              )}
             </div>
           </div>
           <div className="grid gap-2">
@@ -345,7 +375,7 @@ export const VideoDetails = () => {
               <Icons.money className="mr-2 h-4 w-4" />
               <Label htmlFor="due-date">Payout</Label>
             </div>
-            <div className="w-full justify-start text-left  flex  items-center font-bold ">
+            <div className="w-full justify-start text-left  flex mx-auto items-center font-bold ">
               $50.00 usd
             </div>
           </div>
@@ -354,7 +384,7 @@ export const VideoDetails = () => {
               <Icons.clock className="mr-2 h-4 w-4" />
               <Label htmlFor="due-date">Duration</Label>
             </div>
-            <div className="w-full justify-start text-left  flex  items-center font-bold ">
+            <div className="w-full justify-start text-left font-bold flex  items-center mx-auto  ">
               30-60s
             </div>
           </div>

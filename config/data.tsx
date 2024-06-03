@@ -12,7 +12,7 @@ import {
   TiktokLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
-
+import {OutputData} from "@editorjs/editorjs";
 import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 
 export const ADMIN_USERS = [
@@ -23,6 +23,14 @@ export const EDITORS = [
   "orxFlEC5v8euefk1OSJVTVXgilE2",
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
 ];
+
+export type Notifications = {
+  email: string;
+  new_video: boolean;
+  revision: boolean;
+  done: boolean;
+  notes: boolean;
+};
 
 export const labels = [
   {
@@ -174,6 +182,11 @@ export type Post = {
   postDate: Timestamp;
 };
 
+type UpdatedAt = {
+  time: Timestamp;
+  user: string;
+};
+
 export type VideoData = {
   id: number;
   title: string;
@@ -187,12 +200,13 @@ export type VideoData = {
   assets: VideoAsset[];
   voiceOver: VideoAsset[];
   notes: string;
-  script: string;
+  script: OutputData | string;
   caption?: string;
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
   editor?: string;
   editorNotes?: string;
+  updatedAt: UpdatedAt;
 };
 
 type UploadedVideo = {

@@ -15,10 +15,11 @@ import {
 import {useAuth} from "@/context/user-auth";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
-import Link from "next/link";
+
 import {Logo} from "@/components/icons";
 import AuthModal from "@/components/auth/auth-modal";
 import RegisterForm from "@/components/auth/register";
+import Link from "next/link";
 
 const Layout = ({children}: {children: React.ReactNode}) => {
   const {currentUser, logOut} = useAuth()!;

@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
 import React, {useContext, createContext, useEffect, useState} from "react";
-
+import {useAuth} from "@/context/user-auth";
 const NewVideoContext = createContext<NewVideoContextType | null>(null);
 
 export function useNewVideo() {
@@ -67,7 +67,7 @@ export const NewVideoProvider = ({children}: Props) => {
   const [scriptDueDate, setScriptDueDate] = useState<Date | undefined>();
 
   const [loading, setLoading] = useState<boolean>(false);
-
+  const {currentUser} = useAuth()!;
   const saveVideo = async () => {
     setLoading(true);
     const newVideo = {
@@ -79,7 +79,7 @@ export const NewVideoProvider = ({children}: Props) => {
       notes,
       script,
       videoFile,
-      updatedAt: new Date(),
+      updatedAt: {date: new Date(), user: currentUser?.firstName},
       assets,
       postDate,
       scriptDueDate,

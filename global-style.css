@@ -81,3 +81,39 @@
 .blurBack {
   backdrop-filter: blur(10px);
 }
+
+.editor-js-view h2 {
+  @apply text-2xl font-bold;
+}
+.editor-js-view a {
+  text-decoration: underline;
+  color: hsl(var(--primary));
+}
+
+.editor-js-view li {
+  @apply list-disc;
+  margin-left: 20px;
+}
+.editor-js-view #text {
+  display: none;
+  color: red;
+}
+
+.editor-js-view h1 {
+  @apply text-4xl;
+}
+.editor-js-view h2 {
+  @apply text-3xl;
+}
+.editor-js-view h3 {
+  @apply text-2xl;
+}
+.editor-js-view h4 {
+  @apply text-xl;
+}
+.editor-js-view h5 {
+  @apply text-lg;
+}
+.editor-js-view h6 {
+  @apply text-base;
+}

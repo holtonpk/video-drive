@@ -54,6 +54,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import {useAuth} from "@/context/user-auth";
 
 export const PostDetails = () => {
   const {video} = useVideo()!;
@@ -65,6 +66,8 @@ export const PostDetails = () => {
   const createdPost = useRef(false);
 
   const [loadingPostData, setLoadingPostData] = React.useState(false);
+
+  const {currentUser} = useAuth()!;
 
   useEffect(() => {
     // fetch all posts for the video
@@ -86,7 +89,7 @@ export const PostDetails = () => {
           id: newPostRef.id,
           title: "v 1.0",
           clientId: video.clientId,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
           postDate: video.postDate,
         };
 
@@ -96,7 +99,7 @@ export const PostDetails = () => {
           doc(db, "videos", video.videoNumber.toString()),
           {
             postIds: [newPostRef.id],
-            updatedAt: new Date(),
+            updatedAt: {date: new Date(), user: currentUser?.firstName},
           },
           {
             merge: true,
@@ -170,6 +173,7 @@ function PostSelector({
   setSelectedPost: React.Dispatch<React.SetStateAction<Post | undefined>>;
 }) {
   const {video} = useVideo()!;
+  const {currentUser} = useAuth()!;
 
   const deletePost = async (postId: string) => {
     const newPosts = posts?.filter((post) => post.id !== postId);
@@ -181,7 +185,7 @@ function PostSelector({
       doc(db, "videos", video.videoNumber.toString()),
       {
         postIds: newPosts?.map((post) => post.id),
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -190,11 +194,13 @@ function PostSelector({
   };
 
   const createNewPost = async () => {
+    const {currentUser} = useAuth()!;
+
     const newPostRef = doc(collection(db, `posts`));
     await setDoc(newPostRef, {
       id: newPostRef.id,
       clientId: video.clientId,
-      updatedAt: new Date(),
+      updatedAt: {date: new Date(), user: currentUser?.firstName},
       title: `v 1.${posts ? posts.length : "0"}`,
       postDate: video.postDate,
     });
@@ -205,7 +211,7 @@ function PostSelector({
       doc(db, "videos", video.videoNumber.toString()),
       {
         postIds: [...existingPostIds, newPostRef.id],
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -266,6 +272,7 @@ function PostSelector({
 
 export function PostInfo({post}: {post: Post}) {
   const [copiedURL, setCopiedURL] = React.useState(false);
+  const {currentUser} = useAuth()!;
 
   const copyVideoURL = () => {
     setCopiedURL(true);
@@ -281,7 +288,7 @@ export function PostInfo({post}: {post: Post}) {
       doc(db, "posts", post?.id),
       {
         [field]: value,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -566,6 +573,7 @@ function VideoDisplay({
 }) {
   const [isUploading, setIsUploading] = React.useState(false);
   const [uploadProgress, setUploadProgress] = React.useState(0);
+  const {currentUser} = useAuth()!;
 
   const getFileExtension = (fname: string) => {
     return fname.slice(((fname.lastIndexOf(".") - 1) >>> 0) + 2);
@@ -611,7 +619,7 @@ function VideoDisplay({
               doc(db, "posts", postId),
               {
                 videoURL: fileUrl,
-                updatedAt: new Date(),
+                updatedAt: {date: new Date(), user: currentUser?.firstName},
               },
               {
                 merge: true,
@@ -651,7 +659,7 @@ function VideoDisplay({
       doc(db, "posts", post.id),
       {
         videoURL: "",
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,
@@ -672,7 +680,7 @@ function VideoDisplay({
       doc(db, "posts", post ? post?.id : posts[0].id),
       {
         videoURL: videoUrl,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,

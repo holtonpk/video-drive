@@ -6,19 +6,19 @@ import Link from "next/link";
 import {cn} from "@/lib/utils";
 import {Label} from "@/components/ui/label";
 import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-context";
+import edjsHTML from "editorjs-html";
+import {OutputData} from "@editorjs/editorjs";
 
 const Requirements = () => {
   const {video} = useVideo()!;
 
-  console.log("vo", video.voiceOver);
-
   return (
-    <div className="w-full border rounded-md overflow-hidden p-6">
-      <h1 className="font-bold text-2xl text-foreground w-full ">
+    <div className="w-full border rounded-md overflow-hidden ">
+      <h1 className="font-bold text-2xl text-foreground w-full pb-0 p-6">
         Video Assets
       </h1>
       <div className="flex flex-col gap-4 mt-4">
-        {video.script?.length > 0 ? (
+        {video.script ? (
           <div className="flex flex-col gap-2">
             {video.voiceOver && video.voiceOver.length > 0 && (
               <div className="flex flex-col gap-2">
@@ -53,20 +53,36 @@ const Requirements = () => {
         )}
 
         <div className="grid gap-2">
-          <div className="flex items-end text-foreground">
+          <div className="flex items-end text-foreground px-6">
             <Icons.script className="mr-2 h-4 w-4" />
             <Label>Script</Label>
           </div>
-
-          <textarea
-            readOnly
-            className="h-[400px] border rounded-md w-full bg-background text-foreground p-2"
-          >
-            {video.script}
-          </textarea>
+          {typeof video.script === "string" ? (
+            <textarea
+              readOnly
+              className="h-fit border rounded-md w-full bg-background text-foreground p-2"
+            >
+              {video.script}
+            </textarea>
+          ) : (
+            <EditorJsRender script={video.script} />
+          )}
         </div>
       </div>
     </div>
+  );
+};
+
+const EditorJsRender = ({script}: {script: OutputData}) => {
+  const edjsParser = edjsHTML();
+  const htmlList = edjsParser.parse(script);
+
+  const html = htmlList.join("");
+  return (
+    <div
+      dangerouslySetInnerHTML={{__html: html}}
+      className="h-fit overflow-scroll w-full p-6 text-foreground bg-muted/20  editor-js-view flex flex-col gap-4 "
+    />
   );
 };
 

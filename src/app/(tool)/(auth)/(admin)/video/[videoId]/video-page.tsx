@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
+import {useAuth} from "@/context/user-auth";
 export default function VideoPage({videoId}: {videoId: string}) {
   const [video, setVideo] = React.useState<VideoData | null>(null);
 
@@ -93,6 +93,8 @@ const MobileVideoView = () => {
     fetchPost();
   }, [video]);
 
+  const {currentUser} = useAuth()!;
+
   const [notes, setNotes] = React.useState<string>(video.notes);
   const [status, setStatus] = React.useState<string>(video.status);
 
@@ -101,7 +103,7 @@ const MobileVideoView = () => {
       doc(db, "videos", video.videoNumber.toString()),
       {
         [field]: value,
-        updatedAt: new Date(),
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
       },
       {
         merge: true,

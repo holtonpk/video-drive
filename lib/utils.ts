@@ -1,6 +1,7 @@
 import {ClassValue, clsx} from "clsx";
 import {twMerge} from "tailwind-merge";
 import {Metadata} from "next";
+import {format} from "date-fns";
 
 // import { env } from "@/env.mjs"
 
@@ -12,6 +13,35 @@ export type Timestamp = {
   nanoseconds: number;
   seconds: number;
 };
+
+export function convertToUserLocalTime(timestamp: Timestamp): string {
+  // Create a Date object from the EST Timestamp
+  const estDate = new Date(
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+  );
+
+  // EST offset in minutes (-5 hours)
+  const estOffset = -5 * 60;
+
+  // Get the user's local timezone offset in minutes
+  const userTimezoneOffset = estDate.getTimezoneOffset(); // In minutes
+  const userTimezoneOffsetKey = (-userTimezoneOffset).toString();
+
+  // Convert EST to the user's local time by adding the offset difference
+  const localTime = new Date(
+    estDate.getTime() + (estOffset - userTimezoneOffset) * 60000
+  );
+
+  // Format the local time using date-fns
+  const formattedDate = format(localTime, "iiii M/d h:mm a");
+
+  // Get the timezone abbreviation from the map
+  const timezoneAbbreviation =
+    timezoneMap[userTimezoneOffsetKey] || "Unknown Timezone";
+
+  // Return the formatted date with timezone in parentheses
+  return `${formattedDate} (${timezoneAbbreviation})`;
+}
 
 export function formatDateFromTimestamp(timestamp: Timestamp | any): string {
   // Convert the seconds to milliseconds (JavaScript Date uses milliseconds)
@@ -90,3 +120,34 @@ export function constructMetadata({
     themeColor: "#FFF",
   };
 }
+
+const timezoneMap: {[key: string]: string} = {
+  "-720": "UTC-12",
+  "-660": "HST", // Hawaii Standard Time, UTC-10
+  "-600": "HDT", // Hawaii-Aleutian Daylight Time, UTC-10
+  "-540": "AKST", // Alaska Standard Time, UTC-9
+  "-480": "PST", // Pacific Standard Time, UTC-8
+  "-420": "MST", // Mountain Standard Time, UTC-7
+  "-360": "CST", // Central Standard Time, UTC-6
+  "-300": "EST", // Eastern Standard Time, UTC-5
+  "-240": "AST", // Atlantic Standard Time, UTC-4
+  "-180": "ADT", // Atlantic Daylight Time, UTC-4
+  "-120": "PMST", // Pierre & Miquelon Standard Time, UTC-3
+  "-60": "PMDT", // Pierre & Miquelon Daylight Time, UTC-3
+  "0": "UTC", // Coordinated Universal Time, UTC
+  "60": "CET", // Central European Time, UTC+1
+  "120": "EET", // Eastern European Time, UTC+2
+  "180": "MSK", // Moscow Time, UTC+3
+  "240": "GST", // Gulf Standard Time, UTC+4
+  "300": "PKT", // Pakistan Standard Time, UTC+5
+  "330": "IST", // India Standard Time, UTC+5:30
+  "360": "BST", // Bangladesh Standard Time, UTC+6
+  "420": "ICT", // Indochina Time, UTC+7
+  "480": "CST", // China Standard Time, UTC+8
+  "540": "JST", // Japan Standard Time, UTC+9
+  "600": "AEST", // Australian Eastern Standard Time, UTC+10
+  "660": "ACST", // Australian Central Standard Time, UTC+9:30
+  "720": "AEDT", // Australian Eastern Daylight Time, UTC+11
+  "780": "NZDT", // New Zealand Daylight Time, UTC+13
+  "840": "ChST", // Chamorro Standard Time, UTC+10
+};

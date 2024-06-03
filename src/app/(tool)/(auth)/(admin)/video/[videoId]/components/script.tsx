@@ -16,7 +16,8 @@ import {convertTimestampToDate} from "@/lib/utils";
 import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-context";
 import Link from "next/link";
 import {Progress} from "@/components/ui/progress";
-
+import {Editor} from "./editor";
+import {useAuth} from "@/context/user-auth";
 import {cn} from "@/lib/utils";
 import {
   uploadBytesResumable,
@@ -30,13 +31,13 @@ export const VideoScript = () => {
 
   const [copied, setCopied] = React.useState(false);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(video.script);
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
-  };
+  // const copyToClipboard = () => {
+  //   navigator.clipboard.writeText(video.script);
+  //   setCopied(true);
+  //   setTimeout(() => {
+  //     setCopied(false);
+  //   }, 2000);
+  // };
 
   const [script, setScript] = React.useState(video.script);
 
@@ -46,13 +47,15 @@ export const VideoScript = () => {
       : undefined
   );
 
+  const {currentUser} = useAuth()!;
+
   useEffect(() => {
     async function updateScript() {
       await setDoc(
         doc(db, "videos", video.videoNumber.toString()),
         {
           script: script,
-          updatedAt: new Date(),
+          updatedAt: {date: new Date(), user: currentUser?.firstName},
         },
         {
           merge: true,
@@ -74,11 +77,11 @@ export const VideoScript = () => {
     );
   }
 
-  const [wordCount, setWordCount] = React.useState(0);
+  // const [wordCount, setWordCount] = React.useState(0);
 
-  useEffect(() => {
-    setWordCount(script.split(" ").length);
-  }, [script]);
+  // useEffect(() => {
+  //   setWordCount(script.split(" ").length);
+  // }, [script]);
 
   const [uploadName, setUploadName] = React.useState<string>("test.mp4"); // State to track the name of the file being uploaded
   const [assetUploading, setAssetUploading] = React.useState<boolean>(false);
@@ -210,22 +213,24 @@ export const VideoScript = () => {
   };
 
   return (
-    <Card className="relative shadow-sm h-fit w-full ">
+    <Card className="relative shadow-sm h-fit w-fit ">
       <CardHeader>
-        <CardTitle>Video Script</CardTitle>
-        <div className="grid gap-2">
-          <Label htmlFor="due-date">Script Due Date</Label>
+        <CardTitle className="flex justify-between items-center">
+          Video Script
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-fit justify-start text-left font-normal",
                   !video.dueDate && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+                <span className="mr-2">Script Due Date:</span>
+                <span className="font-bold">
+                  {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+                </span>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -240,15 +245,24 @@ export const VideoScript = () => {
               />
             </PopoverContent>
           </Popover>
-        </div>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-6">
-        <Textarea
+      <CardContent className="grid gap-6 ">
+        {/* <Textarea
           className="h-[300px] "
           value={script}
           onChange={(e) => setScript(e.target.value)}
+        /> */}
+        {/* {video && (
+        )} */}
+        <Editor
+          post={{
+            id: "1",
+            content: video.script,
+          }}
+          setScript={setScript}
         />
-        <h1 className="">Word count:{" " + wordCount}</h1>
+        {/* <h1 className="">Word count:{" " + wordCount}</h1> */}
         {assetUploading && (
           <div className="w-full bg-muted border rounded-md p-4 items-center grid grid-cols-2 gap-4">
             <h1 className=" font-bold whitespace-nowrap text-ellipsis overflow-hidden">
@@ -306,7 +320,7 @@ export const VideoScript = () => {
           </div>
         )}
       </CardContent>
-      <Button onClick={copyToClipboard} className="absolute top-3 right-3">
+      {/* <Button onClick={copyToClipboard} className="absolute top-3 right-3">
         {copied ? (
           <>
             <Icons.check className="h-4 w-4 mr-2" />
@@ -318,7 +332,7 @@ export const VideoScript = () => {
             Copy
           </>
         )}
-      </Button>
+      </Button> */}
     </Card>
   );
 };

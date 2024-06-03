@@ -120,13 +120,17 @@ const Navbar = () => {
             <DropdownMenuTrigger className="text-xl">
               {currentUser.displayName}
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className=" w-[100px]">
               <DropdownMenuLabel>Your Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-
-              <Button onClick={logOut} variant="destructive" className="w-full">
-                Logout
-              </Button>
+              <DropdownMenuItem>
+                <Link href="/settings">Notifications</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-destructive/30">
+                <button onClick={logOut} className=" text-destructive">
+                  Logout
+                </button>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
