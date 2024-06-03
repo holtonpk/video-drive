@@ -11,6 +11,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
+import {OutputData} from "@editorjs/editorjs";
 
 import {
   formatDateFromTimestamp,
@@ -185,6 +186,22 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
   // video is already posted
   const videoAlreadyPosted = post.postDate.seconds * 1000 < Date.now();
 
+  function isOutputData(data: any): data is OutputData {
+    return (
+      typeof data === "object" &&
+      data !== null &&
+      "blocks" in data &&
+      Array.isArray(data.blocks)
+    );
+  }
+
+  const hasScript =
+    typeof post.script === "string"
+      ? post.script.length > 1
+      : isOutputData(post.script) && post.script.blocks.length > 1;
+
+  console.log(post.videoNumber, hasScript, post.script);
+
   return (
     <div
       key={post.id}
@@ -217,9 +234,7 @@ ${index % 2 === 0 ? "bg-gray-100" : ""}
         {videoAlreadyPosted ? (
           "✅"
         ) : (
-          <span className="font-bold">
-            {post.script && post.script.split(" ").length > 1 ? "✅" : "❌"}
-          </span>
+          <span className="font-bold">{hasScript ? "✅" : "❌"}</span>
         )}
       </span>
       <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
