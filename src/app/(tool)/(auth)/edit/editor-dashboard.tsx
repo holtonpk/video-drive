@@ -69,7 +69,7 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
 
   return (
     <div className="w-full flex-grow overflow-hidden grid grid-cols-3 items-start gap-8 dark mt-6 ">
-      <div className="w-full col-span-3 grid grid-cols-4 gap-8  ">
+      {/* <div className="w-full col-span-3 grid grid-cols-4 gap-8  ">
         <div className="border rounded-md w-full h-[100px] flex flex-col p-4 ">
           <h1 className="text-foreground font1 text-xl">Total Videos</h1>
           <h1 className="text-foreground text-2xl font-bold font1">
@@ -86,7 +86,7 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
             $1,000.00
           </h1>
         </div>
-      </div>
+      </div> */}
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-2">
           <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
