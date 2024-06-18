@@ -35,7 +35,7 @@ export const WeeksDisplay = ({
   setTotalVideos,
 }: {
   clientInfo: any;
-  setTotalVideos: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setTotalVideos: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [ClientData, setClientData] = React.useState<ClientDataByWeek[] | null>(
     null
