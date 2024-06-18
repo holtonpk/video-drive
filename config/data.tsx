@@ -10,6 +10,7 @@ import {
   YoutubeLogo,
   InstagramLogo,
   TiktokLogo,
+  LearnXYZLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -119,6 +120,13 @@ export const clients = [
     icon: FcLogo,
     description:
       "Viral Factory create viral short video that are perfect for social media.",
+  },
+  {
+    id: "4",
+    value: "learnXYZ",
+    label: "Learn XYZ",
+    icon: LearnXYZLogo,
+    description: "Explore bite-sized Learning with the magic of AI",
   },
 ];
 

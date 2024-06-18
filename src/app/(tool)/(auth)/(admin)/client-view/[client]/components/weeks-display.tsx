@@ -93,7 +93,7 @@ export const WeeksDisplay = ({
     const daysDifference = Math.floor(
       (date.getTime() - startDate.getTime()) / oneDayMilliseconds
     );
-    console.log(daysDifference, date);
+
     const daysOffset = (startDate.getUTCDay() + 6) % 7; // Adjust for Monday being the first day of the week
     return Math.ceil((daysDifference - daysOffset + 1) / 7);
   };
@@ -199,8 +199,6 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
     typeof post.script === "string"
       ? post.script.length > 1
       : isOutputData(post.script) && post.script.blocks.length > 1;
-
-  console.log(post.videoNumber, hasScript, post.script);
 
   return (
     <div

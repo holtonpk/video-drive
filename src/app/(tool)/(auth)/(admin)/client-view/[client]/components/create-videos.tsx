@@ -118,6 +118,7 @@ export const CreateVideo = ({
         script: "",
       },
     ]);
+    // if()
   };
 
   const [showBulkSchedule, setShowBulkSchedule] =

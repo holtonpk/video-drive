@@ -69,12 +69,32 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
 
   return (
     <div className="w-full flex-grow overflow-hidden grid grid-cols-3 items-start gap-8 dark mt-6 ">
+      <div className="w-full col-span-3 grid grid-cols-4 gap-8  ">
+        <div className="border rounded-md w-full h-[100px] flex flex-col p-4 ">
+          <h1 className="text-foreground font1 text-xl">Total Videos</h1>
+          <h1 className="text-foreground text-2xl font-bold font1">
+            {videoData.length}
+          </h1>
+        </div>
+        <div className="border rounded-md w-full h-[100px] flex flex-col p-4 ">
+          <h1 className="text-foreground font1 text-xl">Total payouts</h1>
+          <h1 className="text-foreground text-2xl font-bold font1">$150.00</h1>
+        </div>
+        <div className="border rounded-md w-full h-[100px] flex flex-col p-4 ">
+          <h1 className="text-foreground text-xl font1">Next payout</h1>
+          <h1 className="text-foreground font-bold text-2xl font1">
+            $1,000.00
+          </h1>
+        </div>
+      </div>
       <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-2">
           <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
             <Icons.todo className="h-4 w-4 text-blue-500" />
           </div>
-          <h1 className="text-foreground font-bold text-xl">Todo</h1>
+          <h1 className="text-foreground font-bold text-xl">
+            Todo{todo.length > 0 && ` (${todo.length})`}
+          </h1>
         </div>
         <div className="border p-2 rounded-md h-full overflow-scroll">
           {todo.length && todo.length > 0 ? (
@@ -123,7 +143,9 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
           <div className="h-fit w-fit p-1 bg-green-500/20 rounded-md">
             <Icons.checkCircle className="h-4 w-4 text-green-500" />
           </div>
-          <h1 className="text-foreground font-bold text-xl">Complete</h1>
+          <h1 className="text-foreground font-bold text-xl">
+            Complete{completed.length > 0 && ` (${completed.length})`}
+          </h1>
         </div>
         <div className="border p-2 rounded-md h-full flex-grow overflow-scroll">
           {completed && completed.length > 0 ? (
@@ -152,7 +174,10 @@ const VideoSheet = ({videoData}: {videoData: VideoData[]}) => {
           <div className="h-fit w-fit p-1 bg-red-500/20 rounded-md">
             <Icons.xCircle className="h-4 w-4 text-red-500" />
           </div>
-          <h1 className="text-foreground font-bold text-xl">Needs revision</h1>
+          <h1 className="text-foreground font-bold text-xl">
+            Needs revision
+            {needsRevision.length > 0 && ` (${needsRevision.length})`}
+          </h1>
         </div>
         <div className="border p-2 rounded-md h-full ">
           {needsRevision && needsRevision.length > 0 ? (

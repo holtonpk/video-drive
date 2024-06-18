@@ -17,32 +17,107 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
+import {convertTimestampToDate} from "@/lib/utils";
+
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {format, set} from "date-fns";
 import {Icons} from "@/components/icons";
 import Link from "next/link";
+import {EditorSelector} from "../../edit/components/editor-selector";
+import {EDITORS} from "@/config/data";
+import {Label} from "@/components/ui/label";
+import {Calendar} from "@/components/ui/calendar";
+import {addDays, format, subDays} from "date-fns";
+import {DateRange} from "react-day-picker";
+
 const InvoicePage = () => {
-  const [data, setData] = React.useState<Invoice[] | undefined>(undefined);
+  const [invoices, setInvoices] = React.useState<Invoice[] | undefined>(
+    undefined
+  );
+  const [dummyUid, setDummyUid] = React.useState<string>(EDITORS[0]);
 
   useEffect(() => {
-    const clientDataQuery = query(collection(db, "invoices"));
+    const clientDataQuery = query(
+      collection(db, "invoices"),
+      where("editor", "==", dummyUid)
+    );
     const unsubscribe = onSnapshot(clientDataQuery, (querySnapshot) => {
       const invoiceDataLocal: Invoice[] = [];
       querySnapshot.forEach((doc) => {
         invoiceDataLocal.push(doc.data() as Invoice);
       });
-      setData(invoiceDataLocal);
+      setInvoices(invoiceDataLocal);
     });
     return () => unsubscribe();
   }, []);
 
+  const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
+
+  useEffect(() => {
+    const q = query(collection(db, "videos"), where("editor", "==", dummyUid));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const videos = querySnapshot.docs.map((doc) => doc.data() as VideoData);
+        setVideoData(videos);
+      },
+      (error) => {
+        console.error("Error fetching video data: ", error);
+      }
+    );
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [dummyUid]);
+
+  const [createInvoice, setCreateInvoice] = React.useState(true);
+
   return (
     <>
-      <div>
-        {data ? (
+      <div className="p-6 relative">
+        <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
+        <Button className="absolute top-4 right-4">
+          <Icons.add className="mr-2" />
+          Create New Invoice
+        </Button>
+        {createInvoice && (
+          <InvoiceCreator videoData={videoData} dummyUid={dummyUid} />
+        )}
+        <div className="flex gap-4 flex-col mt-4">
+          {videoData?.map((video) => {
+            return (
+              <div
+                key={video.videoNumber}
+                className="border rounded-md p-2 flex items-center gap-4 "
+              >
+                <div className="font-bold">#{video.videoNumber}</div>
+                <Link
+                  target="_blank"
+                  href={`/video/${video.videoNumber}`}
+                  className="hover:opacity-60"
+                >
+                  {video.title}
+                </Link>
+                <div className="flex gap-1 items-center ml-auto">
+                  <h1>$</h1>
+                  <Input
+                    placeholder="Price"
+                    className="w-fit "
+                    // value={video.price}
+                    // onChange={(e) => updateVideoPrice(video, e.target.value)}
+                    type="number"
+                    min="1"
+                    step="any"
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        {invoices ? (
           <div className="container flex flex-col gap-4 mt-6">
-            {data.map((invoice, i) => {
+            {invoices.map((invoice, i) => {
               return <InvoiceRow invoice={invoice} key={i} />;
             })}
           </div>
@@ -55,6 +130,101 @@ const InvoicePage = () => {
 };
 
 export default InvoicePage;
+
+const InvoiceCreator = ({
+  videoData,
+  dummyUid,
+}: {
+  videoData: VideoData[] | undefined;
+  dummyUid: string;
+}) => {
+  const [selectedVideos, setSelectedVideos] = React.useState<VideoData[]>([]);
+
+  const [startDate, setStartDate] = React.useState<Date>(new Date());
+  const [endDate, setEndDate] = React.useState<Date>(new Date());
+
+  const [date, setDate] = React.useState<DateRange | undefined>();
+
+  useEffect(() => {
+    if (date && date.from && date.to) {
+      let selectedVideosLocal: VideoData[] = [];
+      videoData?.forEach((video) => {
+        if (
+          date &&
+          date.from &&
+          date.to &&
+          convertTimestampToDate(video.dueDate) >= date.from &&
+          convertTimestampToDate(video.dueDate) <= date.to
+        ) {
+          selectedVideosLocal.push(video);
+        }
+      });
+      setSelectedVideos(selectedVideosLocal);
+    }
+  }, [date]);
+
+  return (
+    <div className="grid grid-cols-4 w-full p-6 gap-4 overflow-hidden bg-muted mt-4">
+      <div className="flex flex-col col-span-2 border items-center justify-center p-4 bg-background">
+        <Label className="w-full">Select by date completed</Label>
+
+        <Calendar
+          className="bg-foreground/10 rounded-md mt-2"
+          initialFocus
+          mode="range"
+          defaultMonth={new Date()}
+          selected={date}
+          onSelect={setDate}
+          numberOfMonths={2}
+        />
+      </div>
+      <div className="border p-4 rounded-md flex flex-col gap-2 h-[380px]  overflow-scroll bg-background">
+        <Label>Manually add</Label>
+        {videoData?.map((video) => {
+          return (
+            <button
+              onClick={() => {
+                selectedVideos.includes(video)
+                  ? setSelectedVideos(selectedVideos.filter((v) => v !== video))
+                  : setSelectedVideos([...selectedVideos, video]);
+              }}
+              key={video.videoNumber}
+              className={`border rounded-md p-2 flex items-center gap-4 overflow-hidden ${
+                selectedVideos.includes(video) && "bg-primary text-white"
+              }`}
+            >
+              <div className="font-bold">#{video.videoNumber}</div>
+              <div className="whitespace-nowrap text-ellipsis">
+                {video.title}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+      <div className="border p-4 rounded-md flex flex-col gap-2 h-[380px]  overflow-scroll bg-background">
+        <Label>Selected </Label>
+        {selectedVideos?.map((video) => {
+          return (
+            <button
+              onClick={() => {
+                selectedVideos.includes(video)
+                  ? setSelectedVideos(selectedVideos.filter((v) => v !== video))
+                  : setSelectedVideos([...selectedVideos, video]);
+              }}
+              key={video.videoNumber}
+              className={`border rounded-md p-2 flex items-center gap-4 ${
+                selectedVideos.includes(video) && "bg-green-200 "
+              }`}
+            >
+              <div className="font-bold">#{video.videoNumber}</div>
+              <div className="">{video.title}</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const InvoiceRow = ({invoice}: {invoice: Invoice}) => {
   const saveInvoice = async (invoice: Invoice) => {

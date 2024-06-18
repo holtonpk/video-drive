@@ -8,7 +8,7 @@ import {WeeksDisplay} from "./components/weeks-display";
 
 const ClientPage = ({client}: {client: string}) => {
   const clientInfo = clients.find((c: any) => c.value === client);
-  const [totalVideos, setTotalVideos] = React.useState<number>();
+  const [totalVideos, setTotalVideos] = React.useState<number>(0);
   if (!clientInfo) {
     return null;
   }
@@ -21,10 +21,9 @@ const ClientPage = ({client}: {client: string}) => {
         )}
         <span className="font-bold text-4xl">{clientInfo?.label}</span>
       </div>
-      {totalVideos && <span>Total Videos: {totalVideos.toString()}</span>}
-      {totalVideos && (
-        <CreateVideo clientInfo={clientInfo} totalVideos={totalVideos} />
-      )}
+      <span>Total Videos: {totalVideos.toString()}</span>
+
+      <CreateVideo clientInfo={clientInfo} totalVideos={totalVideos} />
 
       <WeeksDisplay clientInfo={clientInfo} setTotalVideos={setTotalVideos} />
     </div>
