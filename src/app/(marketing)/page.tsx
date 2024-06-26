@@ -13,12 +13,11 @@ import {constructMetadata} from "@/lib/utils";
 export const metadata = constructMetadata({
   title: "Whitespace Media",
   description: "We specialize in organic marketing",
-  image: "image/logo.ico",
 });
 const HomePage = () => {
   return (
     <>
-      {/* <LoadingScreen /> */}
+      <LoadingScreen />
       <div className=" ">
         <Background />
         <div className="md:h-screen justify-between  min-w-screen   flex flex-col ">

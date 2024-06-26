@@ -33,6 +33,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {Checkbox} from "@/components/ui/checkbox";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
@@ -125,24 +131,30 @@ const VideoSheet = ({
     0
   );
 
-  function Counter({from, to}) {
-    const nodeRef = React.useRef();
+  interface CounterProps {
+    from: number;
+    to: number;
+  }
+  const Counter: React.FC<CounterProps> = ({from, to}) => {
+    const nodeRef = React.useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
       const node = nodeRef.current;
+      if (node) {
+        // Add a null check
+        const controls = animate(from, to, {
+          duration: 0.5,
+          onUpdate(value) {
+            node.textContent = value.toFixed(2);
+          },
+        });
 
-      const controls = animate(from, to, {
-        duration: 0.5,
-        onUpdate(value) {
-          node.textContent = value.toFixed(2);
-        },
-      });
-
-      return () => controls.stop();
+        return () => controls.stop();
+      }
     }, [from, to]);
 
     return <p ref={nodeRef} />;
-  }
+  };
 
   return (
     <div className="w-full flex-grow  grid grid-cols-4  items-start gap-8  mt-6 relative z-20">
@@ -161,8 +173,21 @@ const VideoSheet = ({
         </div>
         <div className="grid grid-cols-2 gap-4 mt-2">
           <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
-            <h1 className="font1 text-xl text-muted-foreground">
+            <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
               Total earnings (usd)
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px]" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-[100px]">
+                      The total amount earned. This includes the available
+                      payout balance
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </h1>
             <h1 className="text-primary text-2xl font-bold font1 flex">
               {/* {totalEarnings > 0 ? formatAsUSD(totalEarnings) + " usd" : "--"} */}{" "}
@@ -171,8 +196,21 @@ const VideoSheet = ({
             </h1>
           </div>
           <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
-            <h1 className="font1 text-xl text-muted-foreground">
+            <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
               Available payouts (usd)
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px]" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-[100px]">
+                      Your unpaid earnings. This can be scheduled or requested
+                      by clicking "Request a Payout"
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </h1>
             <h1 className="text-primary font-bold text-2xl font1 flex">
               {/* {nextPayout > 0 ? formatAsUSD(nextPayout) + " usd" : "--"} */}
@@ -256,10 +294,10 @@ const VideoSheet = ({
                         whileInView={{opacity: 1, y: 0}}
                         viewport={{once: true, amount: 0.3}}
                         transition={{delay: i * 0.2}}
+                        key={video.videoNumber}
                       >
                         <Link
                           href={`/edit/${video.videoNumber}`}
-                          key={video.videoNumber}
                           className="w-full border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/80  cursor-pointer flex justify-between"
                         >
                           <h1 className="text-xl text-primary">
@@ -480,7 +518,7 @@ const PayoutRequest = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-[12px] ml-auto bg-foreground/50 hover:bg-foreground/80 text-primary border p-2 rounded-md ">
+      <DialogTrigger className="text-[10px] py-[6px] ml-auto bg-foreground/50 hover:bg-foreground/80 text-primary border p-2 rounded-md ">
         Request a Payout
       </DialogTrigger>
       {videos.length > 0 ? (

@@ -93,11 +93,9 @@ export const convertTimestampToDate = (timestamp: Timestamp): Date => {
 export function constructMetadata({
   title = "Video Drive",
   description = "Founder Central Agency Video Drive",
-  image = "image/favicon.ico",
 }: {
   title?: string;
   description?: string;
-  image?: string;
 }): Metadata {
   return {
     title,
@@ -105,17 +103,17 @@ export function constructMetadata({
     openGraph: {
       title,
       description,
-      // images: [
-      //   {
-      //     url: image,
-      //   },
-      // ],
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+        },
+      ],
     },
-    // icons: {
-    //   icon: "image/favicon.ico",
-    //   shortcut: "image/favicon-16x16.png",
-    //   apple: "image/apple-touch-icon.png",
-    // },
+    icons: {
+      icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+      shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon-16x16.png`,
+      apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
+    },
     // metadataBase: new URL("https://moltar.ai"),
     themeColor: "#FFF",
   };
