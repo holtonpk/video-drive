@@ -91,11 +91,13 @@ export const convertTimestampToDate = (timestamp: Timestamp): Date => {
 };
 
 export function constructMetadata({
-  title = "Video Drive",
-  description = "Founder Central Agency Video Drive",
+  title = "Whitespace Media",
+  description = "We specialize in organic marketing",
+  image = `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
 }: {
   title?: string;
   description?: string;
+  image?: string;
 }): Metadata {
   return {
     title,
@@ -105,7 +107,7 @@ export function constructMetadata({
       description,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+          url: image,
         },
       ],
     },
@@ -114,7 +116,7 @@ export function constructMetadata({
       shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon-16x16.png`,
       apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
     },
-    // metadataBase: new URL("https://moltar.ai"),
+    metadataBase: new URL("http://whitespace-media.com"),
     themeColor: "#FFF",
   };
 }
