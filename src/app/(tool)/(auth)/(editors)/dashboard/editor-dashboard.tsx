@@ -206,7 +206,7 @@ const VideoSheet = ({
                   <TooltipContent>
                     <p className="w-[100px]">
                       Your unpaid earnings. This can be scheduled or requested
-                      by clicking "Request a Payout"
+                      by clicking &quot;Request a Payout&quot;
                     </p>
                   </TooltipContent>
                 </Tooltip>
