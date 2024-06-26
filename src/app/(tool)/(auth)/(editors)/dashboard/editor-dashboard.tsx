@@ -39,7 +39,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+} from "@/components/ui/dropdown-menu";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
@@ -113,7 +127,20 @@ const VideoSheet = ({
     (video) => video.status === "needs revision"
   );
   const todo = videoData.filter((video) => video.status === "todo");
-  const completed = videoData.filter((video) => video.status === "done");
+
+  const [showPaid, setShowPaid] = React.useState(true);
+  const [showUnpaid, setShowUnpaid] = React.useState(true);
+  const [showDemos, setShowDemos] = React.useState(true);
+
+  const completed = videoData
+    .filter((video) => video.status === "done")
+    .filter((video) => {
+      if (showPaid && video.priceUSD > 0 && video.paid) return true;
+      if (showUnpaid && video.priceUSD > 0 && !video.paid) return true;
+      if (showDemos && video.priceUSD === 0) return true;
+      return false;
+    })
+    .sort((a, b) => b.dueDate.seconds - a.dueDate.seconds);
 
   const payableVideos = completed.filter(
     (video) => video.priceUSD !== 0 && !video.paid
@@ -178,7 +205,7 @@ const VideoSheet = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px]" />
+                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="w-[100px]">
@@ -201,7 +228,7 @@ const VideoSheet = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px]" />
+                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p className="w-[100px]">
@@ -333,18 +360,50 @@ const VideoSheet = ({
       {/* -------------------------------------------------*/}
 
       <div className="flex flex-col col-span-2 h-fit ">
-        <div className="flex items-center gap-2 mb-2 ">
-          <div className="h-fit w-fit p-1 bg-purple-500/20 rounded-md">
-            <Icons.checkCircle className="h-4 w-4 text-purple-500" />
+        <div className="flex justify-between w-full items-center">
+          <div className="flex items-center gap-2 mb-2 ">
+            <div className="h-fit w-fit p-1 bg-purple-500/20 rounded-md">
+              <Icons.checkCircle className="h-4 w-4 text-purple-500" />
+            </div>
+            <h1 className="text-primary  mt-1  font1 text-2xl">
+              Completed videos{completed.length > 0 && ` (${completed.length})`}
+            </h1>
           </div>
-          <h1 className="text-primary  mt-1  font1 text-2xl">
-            Completed videos{completed.length > 0 && ` (${completed.length})`}
-          </h1>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="text-[10px] py-[6px] ml-auto bg-foreground/50 hover:bg-foreground/80 text-primary border h-fit p-2  rounded-md flex  items-center gap-1">
+                <Icons.filter className="h-3 w-3 text-muted-foreground" />
+                Filter
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className=" w-[100px]">
+              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem
+                checked={showPaid}
+                onCheckedChange={setShowPaid}
+              >
+                Paid
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showUnpaid}
+                onCheckedChange={setShowUnpaid}
+              >
+                Unpaid
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showDemos}
+                onCheckedChange={setShowDemos}
+              >
+                Demos
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md min-h-fit md:max-h-[600px]  overflow-scroll">
           {completed && completed.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              {completed.reverse().map((video) => (
+              {completed.map((video) => (
                 <VideoDisplay video={video} key={video.videoNumber} />
               ))}
             </div>
@@ -385,13 +444,40 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
     <Link
       href={`/edit/${video.videoNumber}`}
       key={video.videoNumber}
-      className="aspect-[9/16] w-full border overflow-hiddens hover:border-primary p-6 rounded-md hover:bg-muted/40 cursor-pointer relative group"
+      className="aspect-[9/16] w-full border hover:border-primary p-6 rounded-md hover:bg-muted/40 cursor-pointer relative group"
     >
       <div className=" w-full items-center gap-2 absolute bottom-0  rounded-md left-0 p-2  justify-between z-20 flex bg-background/70 blurBack">
-        <h1 className="text-sm text-primary font-bold">#{video.videoNumber}</h1>
+        <h1 className="text-[12px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
+          {video.title}
+        </h1>
         {client.icon && (
           <client.icon className=" h-6 w-6 text-muted-foreground rounded-sm" />
         )}
+      </div>
+      <div className="absolute top-0 left-0 w-full rounded-t-md flex justify-between p-2 bg-background/70 blurBack z-20">
+        <div className=" font1 text-primary z-20 text-white">
+          #{video.videoNumber}
+        </div>
+
+        <div className=" z-20 font1 text-white flex items-center">
+          {video.priceUSD > 0 ? (
+            <>
+              {video.paid ? (
+                <>
+                  <Icons.check className="h-4 w-4 text-green-500 mr-1 mb-[2px]" />
+                  paid
+                </>
+              ) : (
+                <>
+                  <Icons.close className="h-4 w-4 text-red-500 mr-1 mb-[2px]" />
+                  unpaid
+                </>
+              )}
+            </>
+          ) : (
+            <>demo</>
+          )}
+        </div>
       </div>
 
       {postData && (
