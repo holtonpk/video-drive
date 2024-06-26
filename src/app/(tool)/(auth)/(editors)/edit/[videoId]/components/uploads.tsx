@@ -151,7 +151,7 @@ const Uploads = () => {
     );
   };
   return (
-    <div className="w-full  min-h-fit h-[400px]   flex flex-col gap-2  pl-3">
+    <div className="w-full  min-h-fit h-[400px]   flex flex-col gap-2  md:pl-3">
       <h1 className="text-primary text-2xl font-bold ">Completed Videos</h1>
       <div className="w-full border bg-foreground rounded-md p-2 flex flex-col gap-2 flex-grow">
         {(!video.uploadedVideos || video.uploadedVideos.length == 0) &&

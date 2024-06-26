@@ -67,8 +67,8 @@ export default function VideoPage({videoId}: {videoId: string}) {
             <Icons.chevronLeft className="h-8 w-8 text-primary" />
             back to dashboard
           </Link>
-          <div className=" grid grid-cols-[60%_40%] container   overflow-hidden p-6   w-screen h-full bg-transparent  pb-10">
-            <div className="w-full  pr-3">
+          <div className=" grid gap-6 md:gap-0 md:grid-cols-[60%_40%] container   overflow-hidden p-6   w-screen h-fit  bg-transparent  pb-10">
+            <div className="w-full  md:pr-3">
               <VideoDetails />
             </div>
             <Uploads />
