@@ -18,7 +18,7 @@ import {
 
 import {doc, setDoc, getDoc} from "firebase/firestore";
 import {db, auth, app} from "@/config/firebase";
-import {Notifications} from "@/config/data";
+import {Notifications, CompletedVideo, PayoutLocation} from "@/config/data";
 
 interface AuthContextType {
   currentUser: UserData | undefined;
@@ -41,6 +41,8 @@ export interface UserData extends FirebaseUser {
   lastName: string;
   photoURL: string;
   notificationSettings: Notifications;
+  completedVideos?: CompletedVideo[];
+  payoutInfo?: PayoutLocation;
 }
 
 export function AuthProvider({children}: {children: React.ReactNode}) {

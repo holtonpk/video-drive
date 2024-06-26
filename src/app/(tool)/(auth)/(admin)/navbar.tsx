@@ -27,27 +27,30 @@ import {
 import {useAuth} from "@/context/user-auth";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
+import {useTheme} from "next-themes";
+import {MoonIcon, SunIcon} from "@radix-ui/react-icons";
 
 const Navbar = () => {
   const segment = useSelectedLayoutSegment();
   const {currentUser, logOut} = useAuth()!;
+  const {setTheme} = useTheme();
 
   return (
     <div className="justify-between top-0 gap-8 p-4 items-center z-[50] bg-muted px-6 hidden sm:flex">
       <NavigationMenu>
         <NavigationMenuList className="gap-8">
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
+            <Link href="/invoices" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`font-bold
         ${
-          segment === "(video-sheet)"
+          segment === "invoices"
             ? "text-primary "
             : "text-muted-foreground hover:text-primary"
         }
         `}
               >
-                Video Sheet
+                Invoices
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
@@ -105,8 +108,8 @@ const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
       {currentUser && (
-        <div className="flex gap-2 items-center text-foreground md:ml-auto">
-          <Avatar className="h-9 w-9">
+        <div className="flex gap-2 items-center text-primary md:ml-auto">
+          <Avatar className="h-6 w-6">
             <AvatarImage
               src={currentUser?.photoURL}
               alt={currentUser.displayName || "User"}
@@ -117,7 +120,7 @@ const Navbar = () => {
             </AvatarFallback>
           </Avatar>
           <DropdownMenu>
-            <DropdownMenuTrigger className="text-xl">
+            <DropdownMenuTrigger className="text-md">
               {currentUser.displayName}
             </DropdownMenuTrigger>
             <DropdownMenuContent className=" w-[100px]">
@@ -130,6 +133,26 @@ const Navbar = () => {
                 <button onClick={logOut} className=" text-destructive">
                   Logout
                 </button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-9 px-0">
+                <SunIcon className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

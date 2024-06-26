@@ -123,15 +123,15 @@ export const WeeksDisplay = ({
         <div className="flex flex-col gap-6 ">
           {[...ClientData].reverse().map((week: ClientDataByWeek, i) => (
             <div key={i} className="border  rounded-md pt-3">
-              <span className="p-3">
-                <span className="font-bold text-lg">
+              <span className="p-3 text-primary">
+                <span className="font-bold text-lg ">
                   Week {week.weekNumber}
                 </span>
                 {" ("}
                 {week.weekRange}
                 {")"}
               </span>
-              <div className="w-full p-2 bg-card gap-4 justify-between flex border-y font-bold mt-3">
+              <div className="w-full p-2 bg-card gap-4 justify-between flex border-y font-bold mt-3 text-primary">
                 <span className="w-[80px]">Video #</span>
                 <span className=" w-[250px]">Title</span>
                 <span className="w-[60px]">Script</span>
@@ -203,14 +203,14 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
   return (
     <div
       key={post.id}
-      className={`gap-4 p-2 flex justify-between px-2  relative
-${index % 2 === 0 ? "bg-gray-100" : ""}
+      className={`gap-4 p-2 flex justify-between px-2 text-primary  relative
+${index % 2 === 0 ? "bg-background" : "bg-foreground"}
 `}
     >
       <Link
         target="_blank"
         href={`/video/${post.videoNumber}`}
-        className="absolute w-full h-full top-0 left-0 z-10 cursor-pointer hover:bg-gray-200 "
+        className="absolute w-full h-full top-0 left-0 z-10 cursor-pointer hover:bg-border "
       />
       <span className="whitespace-nowrap overflow-hidden text-ellipsis  relative z-20 pointer-events-none w-[80px]">
         #{post.videoNumber}

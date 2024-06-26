@@ -15,13 +15,15 @@ const ClientPage = ({client}: {client: string}) => {
 
   return (
     <div className="container flex flex-col gap-4 py-8 relative">
-      <div className="flex items-center gap-4   w-fit justify-center">
+      <div className="flex items-center gap-4 text-primary  w-fit justify-center">
         {clientInfo.icon && (
           <clientInfo.icon className="h-10 w-10 rounded-lg" />
         )}
         <span className="font-bold text-4xl">{clientInfo?.label}</span>
       </div>
-      <span>Total Videos: {totalVideos.toString()}</span>
+      <span className="text-primary">
+        Total Videos: {totalVideos.toString()}
+      </span>
 
       <CreateVideo clientInfo={clientInfo} totalVideos={totalVideos} />
 

@@ -1,0 +1,424 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@config "./tailwind.marketing.config.ts";
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 1rem;
+
+    /* Theme colors */
+    --red: 0 100% 50;
+    --orange: 21 92% 47%;
+    --yellow: 33 86% 51%;
+    --green: 138 40% 48%;
+    --blue: 212 90% 58%;
+    --purple: 259 82% 67%;
+    /* Initial positions */
+    --pos1-x: 50%;
+    --pos1-y: 0%;
+    --pos2-x: 0%;
+    --pos2-y: 39%;
+    --pos3-x: 10%;
+    --pos3-y: 29%;
+    --pos4-x: 97%;
+    --pos4-y: 96%;
+    --pos5-x: 33%;
+    --pos5-y: 50%;
+    --pos6-x: 79%;
+    --pos6-y: 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.font1 {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.b-b {
+  border: 1px solid rgb(0, 0, 255);
+}
+
+.b-r {
+  border: 1px solid red;
+}
+
+.blurBack {
+  backdrop-filter: blur(10px);
+}
+
+.test-grad-left {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    270deg,
+    hsl(var(--background) / 0) 0%,
+    hsl(var(--background) / 1) 80%
+  );
+}
+
+.test-grad-right {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    90deg,
+    hsl(var(--background) / 0) 0%,
+    hsl(var(--background) / 1) 80%
+  );
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonial-container {
+  width: 100%;
+  max-width: 100vw;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  snap-type: x mandatory;
+  margin-left: auto;
+}
+
+.testimonial-item {
+  transition: height 0.5s ease-in-out;
+  width: 700px;
+  flex: none;
+  position: relative;
+}
+
+.centered {
+  height: 250px;
+}
+
+.not-centered {
+  height: 150px;
+}
+
+@keyframes jumbo {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+.jumbo {
+  --stripes: repeating-linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 7%,
+    transparent 10%,
+    transparent 12%,
+    #fff 16%
+  );
+  --stripesDark: repeating-linear-gradient(
+    100deg,
+    #000 0%,
+    #000 7%,
+    transparent 10%,
+    transparent 12%,
+    #000 16%
+  );
+  --rainbow: repeating-linear-gradient(
+    100deg,
+    #60a5fa 10%,
+    #e879f9 15%,
+    #60a5fa 20%,
+    #5eead4 25%,
+    #60a5fa 30%
+  );
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 300%, 200%;
+  background-position: 50% 50%, 50% 50%;
+
+  filter: blur(10px) invert(100%);
+
+  mask-image: radial-gradient(ellipse at 100% 0%, black 40%, transparent 70%);
+  opacity: 30%;
+  pointer-events: none;
+}
+
+.jumbo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 200%, 100%;
+  animation: jumbo 60s linear infinite;
+  background-attachment: fixed;
+  mix-blend-mode: difference;
+}
+
+.dark .jumbo {
+  background-image: var(--stripesDark), var(--rainbow);
+  filter: blur(10px) opacity(50%) saturate(200%);
+}
+.dark .jumbo::after {
+  background-image: var(--stripesDark), var(--rainbow);
+}
+
+.rotate {
+  transform-origin: 50% 16px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.oldSkill-animation {
+  animation: old-skill 1s ease-in-out forwards;
+}
+
+@keyframes old-skill {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.newSkill-animation {
+  animation: new-skill 1s ease-in-out forwards;
+}
+
+@keyframes new-skill {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.cyan-blob {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 70%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #00e3ffeb, transparent);
+  /* background: red; */
+  mix-blend-mode: multiply;
+}
+.blue-blob {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #2200ff33, transparent);
+  /* background: blue; */
+  mix-blend-mode: multiply;
+}
+.purple-blob {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 50%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #d900ff8f, transparent);
+  /* background: purple; */
+}
+
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.stat-animation {
+  transform: rotateY(90deg); /* Start from just outside the visible area */
+  animation: slideIn 1000ms ease-in-out forwards;
+}
+
+#stat-container > div:nth-child(5) {
+  animation-delay: 1000ms; /* Delays the animation of the first child by 3200ms */
+}
+
+#stat-container > div:nth-child(4) {
+  animation-delay: 800ms; /* Delays the animation of the second child by 2400ms */
+}
+
+#stat-container > div:nth-child(3) {
+  animation-delay: 600ms; /* Delays the animation of the third child by 1600ms */
+}
+
+#stat-container > div:nth-child(2) {
+  animation-delay: 600ms; /* Delays the animation of the fourth child by 800ms */
+}
+
+#stat-container > div:nth-child(1) {
+  animation-delay: 200ms; /* Delays the animation of the fifth child immediately */
+}
+
+@keyframes slideIn {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+.stroke {
+  /* font: 800 80px Arial;
+   */
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 150px; */
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px;
+}
+
+.normal {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 150px; */
+}
+
+.cred-carousel-animation {
+  animation: cred-carousel 300s linear infinite;
+}
+
+@keyframes cred-carousel {
+  0% {
+    transform: translate(0%, -50%);
+  }
+  100% {
+    transform: translate(-80%, -50%);
+  }
+}
+
+.hero-animate-spin {
+  animation: spin 10s reverse linear infinite;
+}
+
+.loading-screen-animation {
+  animation: loading-screen 1s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes loading-screen {
+  from {
+    transform: translate(0);
+  }
+  to {
+    transform: translate(-100%);
+    display: hidden;
+  }
+}
+
+.loading-screen-loader {
+  animation: loading-screen-loader 2s ease-in-out forwards;
+}
+
+@keyframes loading-screen-loader {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.testimonial-animation {
+  animation: testimonial-animation-1 4s linear forwards;
+}
+
+@keyframes testimonial-animation-1 {
+  0% {
+    filter: blur(2px);
+    transform: translateX(100%);
+  }
+  10% {
+    filter: blur(0px);
+
+    transform: translateX(20%);
+  }
+  90% {
+    filter: blur(0px);
+
+    transform: translateX(-20%);
+  }
+  100% {
+    filter: blur(2px);
+
+    transform: translateX(-120%);
+  }
+}

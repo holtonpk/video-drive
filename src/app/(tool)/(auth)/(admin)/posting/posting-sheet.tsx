@@ -87,7 +87,7 @@ const PostingSheet = () => {
         mode="single"
         selected={date}
         onSelect={setDate}
-        className=" rounded-md shadow-md border w-fit h-fit"
+        className=" rounded-md shadow-md border w-fit h-fit text-primary"
       />
 
       {loading ? (
@@ -95,7 +95,7 @@ const PostingSheet = () => {
       ) : (
         <div className="w-full  ">
           {displayVideos && displayVideos.length > 0 ? (
-            <div className="flex flex-col gap-2 p-2 md:p-8">
+            <div className="flex flex-col gap-2 p-2 md:p-8 text-primary">
               <h1>Posts Scheduled for {date && format(date, "PPP")}</h1>
               {displayVideos.map((video: any) => (
                 <PostRow video={video} key={video.id} />

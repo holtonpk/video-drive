@@ -7,9 +7,12 @@ import {
   onSnapshot,
   setDoc,
   doc,
+  getDoc,
+  updateDoc,
+  orderBy,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
-import {VideoData, clients} from "@/config/data";
+import {VideoData, Invoice, EDITORS, clients} from "@/config/data";
 import {
   Select,
   SelectTrigger,
@@ -18,13 +21,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {convertTimestampToDate} from "@/lib/utils";
+import {UserData} from "@/context/user-auth";
+import {Checkbox} from "@/components/ui/checkbox";
 
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Icons} from "@/components/icons";
 import Link from "next/link";
-import {EditorSelector} from "../../edit/components/editor-selector";
-import {EDITORS} from "@/config/data";
+import {EditorSelector} from "../../(editors)/dashboard/components/editor-selector";
+import {Switch} from "@/components/ui/switch";
+
 import {Label} from "@/components/ui/label";
 import {Calendar} from "@/components/ui/calendar";
 import {addDays, format, subDays} from "date-fns";
@@ -34,33 +40,23 @@ const InvoicePage = () => {
   const [invoices, setInvoices] = React.useState<Invoice[] | undefined>(
     undefined
   );
-  const [dummyUid, setDummyUid] = React.useState<string>(EDITORS[0]);
-
-  useEffect(() => {
-    const clientDataQuery = query(
-      collection(db, "invoices"),
-      where("editor", "==", dummyUid)
-    );
-    const unsubscribe = onSnapshot(clientDataQuery, (querySnapshot) => {
-      const invoiceDataLocal: Invoice[] = [];
-      querySnapshot.forEach((doc) => {
-        invoiceDataLocal.push(doc.data() as Invoice);
-      });
-      setInvoices(invoiceDataLocal);
-    });
-    return () => unsubscribe();
-  }, []);
 
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
 
   useEffect(() => {
-    const q = query(collection(db, "videos"), where("editor", "==", dummyUid));
+    const q = query(collection(db, "invoices"), orderBy("date", "desc"));
 
     const unsubscribe = onSnapshot(
       q,
       (querySnapshot) => {
-        const videos = querySnapshot.docs.map((doc) => doc.data() as VideoData);
-        setVideoData(videos);
+        const invoiceArray = querySnapshot.docs.map(
+          (doc) =>
+            ({
+              ...doc.data(),
+              id: doc.id,
+            } as Invoice)
+        );
+        setInvoices(invoiceArray);
       },
       (error) => {
         console.error("Error fetching video data: ", error);
@@ -69,56 +65,44 @@ const InvoicePage = () => {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [dummyUid]);
+  }, []);
 
   const [createInvoice, setCreateInvoice] = React.useState(true);
+  const [editors, setEditors] = React.useState<UserData[] | undefined>();
+
+  useEffect(() => {
+    const fetchEditors = async () => {
+      try {
+        const editorPromises = EDITORS.map(async (editor) => {
+          const dataSnap = await getDoc(doc(db, "users", editor));
+          return dataSnap.data() as UserData;
+        });
+
+        const editorData = await Promise.all(editorPromises);
+        setEditors(editorData);
+      } catch (error) {
+        console.error("Error fetching editor data: ", error);
+      }
+    };
+
+    fetchEditors();
+  }, []);
+
+  const [editor, setEditor] = React.useState<string | undefined>();
 
   return (
     <>
-      <div className="p-6 relative">
-        <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
-        <Button className="absolute top-4 right-4">
-          <Icons.add className="mr-2" />
-          Create New Invoice
-        </Button>
-        {createInvoice && (
-          <InvoiceCreator videoData={videoData} dummyUid={dummyUid} />
-        )}
-        <div className="flex gap-4 flex-col mt-4">
-          {videoData?.map((video) => {
-            return (
-              <div
-                key={video.videoNumber}
-                className="border rounded-md p-2 flex items-center gap-4 "
-              >
-                <div className="font-bold">#{video.videoNumber}</div>
-                <Link
-                  target="_blank"
-                  href={`/video/${video.videoNumber}`}
-                  className="hover:opacity-60"
-                >
-                  {video.title}
-                </Link>
-                <div className="flex gap-1 items-center ml-auto">
-                  <h1>$</h1>
-                  <Input
-                    placeholder="Price"
-                    className="w-fit "
-                    // value={video.price}
-                    // onChange={(e) => updateVideoPrice(video, e.target.value)}
-                    type="number"
-                    min="1"
-                    step="any"
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        {invoices ? (
+      <div className=" relative pt-20">
+        {editors && invoices ? (
           <div className="container flex flex-col gap-4 mt-6">
             {invoices.map((invoice, i) => {
-              return <InvoiceRow invoice={invoice} key={i} />;
+              return (
+                <InvoiceRow
+                  invoice={invoice}
+                  key={invoice.id}
+                  editors={editors}
+                />
+              );
             })}
           </div>
         ) : (
@@ -131,318 +115,163 @@ const InvoicePage = () => {
 
 export default InvoicePage;
 
-const InvoiceCreator = ({
-  videoData,
-  dummyUid,
+const InvoiceRow = ({
+  invoice,
+  editors,
 }: {
-  videoData: VideoData[] | undefined;
-  dummyUid: string;
+  invoice: Invoice;
+  editors: UserData[];
 }) => {
-  const [selectedVideos, setSelectedVideos] = React.useState<VideoData[]>([]);
+  const invoiceFor = editors.find((editor) => editor.uid === invoice.editor);
 
-  const [startDate, setStartDate] = React.useState<Date>(new Date());
-  const [endDate, setEndDate] = React.useState<Date>(new Date());
-
-  const [date, setDate] = React.useState<DateRange | undefined>();
+  const [videos, setVideos] = React.useState<VideoData[] | undefined>();
 
   useEffect(() => {
-    if (date && date.from && date.to) {
-      let selectedVideosLocal: VideoData[] = [];
-      videoData?.forEach((video) => {
-        if (
-          date &&
-          date.from &&
-          date.to &&
-          convertTimestampToDate(video.dueDate) >= date.from &&
-          convertTimestampToDate(video.dueDate) <= date.to
-        ) {
-          selectedVideosLocal.push(video);
-        }
+    const fetchVideos = async () => {
+      const videosPromises = invoice.videos.map(async (videoId) => {
+        const video = await getDoc(doc(db, "videos", videoId));
+        return video.data() as VideoData;
       });
-      setSelectedVideos(selectedVideosLocal);
+
+      const videosLocal = await Promise.all(videosPromises);
+      setVideos(videosLocal);
+      setSelectedVideos(videosLocal.map((video) => video.videoNumber));
+    };
+
+    fetchVideos();
+  }, [invoice]);
+
+  const [selectedVideos, setSelectedVideos] = React.useState<string[]>();
+  const [paid, setPaid] = React.useState<boolean>(invoice.paid || false);
+
+  useEffect(() => {
+    const updatePaid = async () => {
+      await updateDoc(doc(db, "invoices", invoice.id), {
+        paid,
+      });
+    };
+
+    const updateVideos = async () => {
+      if (!videos) {
+        console.error("Videos are undefined");
+        return;
+      }
+      const videoPromises: Promise<void>[] = videos.map(async (video) => {
+        await updateDoc(doc(db, "videos", video.videoNumber), {
+          paid,
+        });
+      });
+
+      await Promise.all(videoPromises);
+    };
+
+    if (paid !== invoice.paid) {
+      updatePaid();
+      updateVideos();
     }
-  }, [date]);
-
-  return (
-    <div className="grid grid-cols-4 w-full p-6 gap-4 overflow-hidden bg-muted mt-4">
-      <div className="flex flex-col col-span-2 border items-center justify-center p-4 bg-background">
-        <Label className="w-full">Select by date completed</Label>
-
-        <Calendar
-          className="bg-foreground/10 rounded-md mt-2"
-          initialFocus
-          mode="range"
-          defaultMonth={new Date()}
-          selected={date}
-          onSelect={setDate}
-          numberOfMonths={2}
-        />
-      </div>
-      <div className="border p-4 rounded-md flex flex-col gap-2 h-[380px]  overflow-scroll bg-background">
-        <Label>Manually add</Label>
-        {videoData?.map((video) => {
-          return (
-            <button
-              onClick={() => {
-                selectedVideos.includes(video)
-                  ? setSelectedVideos(selectedVideos.filter((v) => v !== video))
-                  : setSelectedVideos([...selectedVideos, video]);
-              }}
-              key={video.videoNumber}
-              className={`border rounded-md p-2 flex items-center gap-4 overflow-hidden ${
-                selectedVideos.includes(video) && "bg-primary text-white"
-              }`}
-            >
-              <div className="font-bold">#{video.videoNumber}</div>
-              <div className="whitespace-nowrap text-ellipsis">
-                {video.title}
-              </div>
-            </button>
-          );
-        })}
-      </div>
-      <div className="border p-4 rounded-md flex flex-col gap-2 h-[380px]  overflow-scroll bg-background">
-        <Label>Selected </Label>
-        {selectedVideos?.map((video) => {
-          return (
-            <button
-              onClick={() => {
-                selectedVideos.includes(video)
-                  ? setSelectedVideos(selectedVideos.filter((v) => v !== video))
-                  : setSelectedVideos([...selectedVideos, video]);
-              }}
-              key={video.videoNumber}
-              className={`border rounded-md p-2 flex items-center gap-4 ${
-                selectedVideos.includes(video) && "bg-green-200 "
-              }`}
-            >
-              <div className="font-bold">#{video.videoNumber}</div>
-              <div className="">{video.title}</div>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
-const InvoiceRow = ({invoice}: {invoice: Invoice}) => {
-  const saveInvoice = async (invoice: Invoice) => {
-    // Save the invoice to the database
-    await setDoc(doc(db, "invoices", `100${invoice.id}`), invoice);
-  };
-
-  const moveVideoToInvoice = async (
-    video: InvoiceVideo,
-    newInvoiceId: string,
-    oldInvoiceId: string
-  ) => {
-    // Move the video to the new invoice and save to db
-  };
-
-  const [collapsed, setCollapsed] = React.useState(true);
-
-  const invoiceTotal = invoice.videos.reduce(
-    (acc, video) => acc + Number(video.price),
-    0
-  );
-
-  const updateVideoPrice = async (video: InvoiceVideo, price: string) => {
-    const videoIndex = invoice.videos.findIndex(
-      (videoData) => videoData.videoNumber === video.videoNumber
-    );
-    const newInvoice = {...invoice};
-    newInvoice.videos[videoIndex].price = Number(price);
-    await setDoc(doc(db, "invoices", invoice.id), newInvoice);
-  };
+  }, [paid, invoice, videos]);
 
   return (
     <div
-      className={`w-full border rounded-md p-2 relative flex flex-col
-    ${
-      invoice.paid ? "bg-green-50 border-green-500" : "bg-red-50 border-red-500"
-    }
+      className={`w-full border rounded-md p-4 relative flex flex-col text-primary bg-foreground 
+
     `}
     >
-      <div className="absolute top-2 right-2">
-        {invoice.paid ? (
-          <div className="text-green-500 flex items-center ">
-            <Icons.check className="mr-2" /> Paid{" "}
-          </div>
-        ) : (
-          <Button
-            onClick={() => {
-              saveInvoice(invoice);
-            }}
-          >
-            Mark as Paid
-          </Button>
-        )}
-      </div>
-      <div className="flex gap-2 items-center">
-        <h1 className="font-bold text-xl">Invoice #{invoice.id}</h1>
-        <h1>
-          - ( {format(invoice.startDate, "PPP")} -{" "}
-          {format(invoice.endDate, "PPP")})
-        </h1>
-      </div>
-      <div>
-        <div className="flex gap-4">
-          <h1>Total Videos: {invoice.videos.length}</h1>
-          {clients.map((client) => {
-            const clientVideos = invoice.videos.filter(
-              (video) => video.client === client.value
-            );
-            return (
-              <div key={client.id}>
-                {client.label}: {clientVideos.length}
-              </div>
-            );
-          })}
-        </div>
-        <h1 className="font-bold text-xl">
-          {invoiceTotal.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </h1>
-      </div>
-
-      <div
-        className="cursor-pointer mx-auto text-primary flex gap-2 "
-        onClick={() => {
-          setCollapsed(!collapsed);
-        }}
-      >
-        {collapsed ? (
-          <>
-            View Videos <Icons.chevronDown />
-          </>
-        ) : (
-          <>
-            Hide Videos <Icons.chevronUp />
-          </>
-        )}
-      </div>
-
-      {!collapsed && (
-        <div className="mt-4 flex flex-col gap-4">
-          {clients.map((client) => {
-            const clientVideos = invoice.videos.filter(
-              (video) => video.client === client.value
-            );
-
-            return (
-              <div key={client.id}>
-                <div className="flex gap-2 items-center mb-3">
-                  {client.icon && (
-                    <client.icon className="h-10 w-10 rounded-lg" />
-                  )}
-                  <h1 className="font-bold text-xl">{client.label}</h1>
-                </div>
-                <div className="flex flex-col gap-4">
-                  {clientVideos.map((video) => {
-                    const dueDate = new Date(video.dueDate);
-                    // const startDate = new Date("2024-02-16");
-                    const key = Math.random() * 1000;
-                    return (
-                      <div
-                        key={key}
-                        className={`border rounded-md w-full flex items-center gap-8 p-2 
-              
-                
-                `}
-                      >
-                        <div className="font-bold">#{video.videoNumber}</div>
-
-                        <Link
-                          target="_blank"
-                          href={`/video/${video.videoNumber}`}
-                          className="hover:opacity-60"
-                        >
-                          {video.title}
-                        </Link>
-                        <div className="flex ml-auto gap-1 items-center">
-                          <h1>$</h1>
-                          <Input
-                            placeholder="Price"
-                            className="w-fit ml-auto"
-                            value={video.price}
-                            onChange={(e) =>
-                              updateVideoPrice(video, e.target.value)
-                            }
-                            type="number"
-                            min="1"
-                            step="any"
-                          />
-                        </div>
-                        {/* <Select
-                  onValueChange={(value) => {
-                    moveVideoToInvoice(video, value, invoice.id);
-                  }}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Move to another invoice" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {invoices.map((invoiceData) => (
-                      <SelectItem key={invoiceData.id} value={invoiceData.id}>
-                        {invoiceData.id}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+      {paid && (
+        <div className="h-full w-full absolute top-0 left-0 bg-primary/60 blurBackSmaall z-20 items-center justify-center flex font-bold text-5xl text-green-500 pointer-events-none">
+          Paid
         </div>
       )}
+      <div className="flex justify-between relative z-10">
+        <div className="grid grid-cols-5">
+          <div className="grid gap-1">
+            <span className="text-muted-foreground">Editor</span>
+            {invoiceFor && (
+              <span className="text-primary text-xl font-bold">
+                {invoiceFor.firstName}
+              </span>
+            )}
+          </div>
+          <div className="grid gap-1">
+            <span className="text-muted-foreground">Amount</span>
+            <span className="text-primary text-xl font-bold">
+              {formatAsUSD(invoice.total)}
+            </span>
+          </div>
+          <div className="grid gap-1">
+            <span className="text-muted-foreground">Total Videos</span>
+            <span className="text-primary text-xl font-bold">
+              {invoice.videos.length}
+            </span>
+          </div>
+          <div className="grid gap-1">
+            <span className="text-muted-foreground">Method</span>
+            <span className="text-primary text-xl font-bold">
+              {invoice.method === "paypal" ? (
+                <div className="flex items-center">
+                  <Icons.paypal className="h-6 w-6 mr-2" />
+                  Paypal
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <Icons.wise className="h-6 w-6 mr-2 rounded-md" />
+                  Wise
+                </div>
+              )}
+            </span>
+          </div>
+          <div className="grid gap-1">
+            <h1>Date</h1>
+            <span className="text-primary text-xl font-bold">
+              {format(convertTimestampToDate(invoice.date), "MM/dd/yyyy")}
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <Switch id="paid" checked={paid} onCheckedChange={setPaid} />
+          <Label
+            htmlFor="airplane-mode"
+            className={`${paid ? "text-green-500" : "text-red-500"}`}
+          >
+            {paid ? "Paid" : "Not Paid"}
+          </Label>
+        </div>
+      </div>
+      <div className="mt-4 relative z-10">
+        {videos && (
+          <div className="grid grid-cols-2 gap-2 text-primary">
+            {videos.map((video, i) => {
+              const client = clients.find(
+                (c: any) => c.value === video.clientId
+              )!;
+              const isSelected =
+                selectedVideos && selectedVideos.includes(video.videoNumber);
+
+              return (
+                <div
+                  key={i}
+                  className="w-full flex items-center border p-2 rounded-md"
+                >
+                  <div className="flex items-center gap-1">
+                    <h1 className="text-primary mx-2">#{video.videoNumber}</h1>
+                    <client.icon className="h-6 w-6 text-muted-foreground rounded-md" />
+                  </div>
+                  <h1 className="text-primary ml-auto">
+                    {formatAsUSD(video.priceUSD)}
+                  </h1>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-interface Timestamp {
-  nanoseconds: number;
-  seconds: number;
+function formatAsUSD(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
 }
-
-type InvoiceVideo = {
-  videoNumber: string;
-  client: string;
-  title: string;
-  dueDate: Date;
-  price: number;
-};
-
-type Invoice = {
-  id: string;
-  paid: boolean;
-  startDate: string;
-  endDate: string;
-  videos: InvoiceVideo[];
-};
-
-const invoices = [
-  {
-    id: "1",
-    paid: true,
-    startDate: "2024-02-16",
-    endDate: "2024-03-08",
-  },
-  {
-    id: "2",
-    paid: true,
-    startDate: "2024-03-08",
-    endDate: "2024-04-01",
-  },
-  {
-    id: "3",
-    paid: true,
-    startDate: "2024-04-02",
-    endDate: "2024-04-15",
-  },
-];

@@ -222,7 +222,7 @@ function PostSelector({
   };
 
   return (
-    <div className="flex items-center max-w-full w-fit h-fit  absolute top-0 -translate-y-full left-2 border border-b-0 rounded-t-lg overflow-hidden">
+    <div className="flex items-center max-w-full w-fit h-fit text-primary absolute top-0 -translate-y-full left-2 border border-b-0 rounded-t-lg overflow-hidden">
       {posts.map((post) => (
         <div
           key={post.id}
@@ -319,7 +319,7 @@ export function PostInfo({post}: {post: Post}) {
   };
 
   return (
-    <div className="h-full w-full overflow-scroll  relative p-4 flex flex-col gap-4">
+    <div className="h-full w-full overflow-scroll text-primary relative p-4 flex flex-col gap-4">
       {post && (
         <>
           <div className="grid grid-cols-2 gap-6">
@@ -691,7 +691,7 @@ function VideoDisplay({
   };
 
   return (
-    <div className="group h-[550px] w-full rounded-r-lg overflow-hidden relative flex bg-muted items-center justify-center">
+    <div className="group h-[550px] w-full rounded-r-lg overflow-hidden relative flex bg-muted items-center justify-center ">
       {isUploading ? (
         <div className="flex w-[400px] flex-col gap-3 items-center justify-center h-full px-6">
           <h1 className="text-primary font-bold">Uploading Video</h1>
@@ -773,7 +773,7 @@ const AiCaption = ({
   setCaption: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [prompt, setPrompt] = React.useState(
-    "Create short video description (instagram, tiktok, youtube style) for the following video script. use relevant keywords, phrases and hashtags. don't use emojis unless relevant."
+    "Create short video description (instagram, tiktok, youtube style) for the following video script. The description should  use relevant keywords, phrases and hashtags. hashtags should be lowercase. don't use emojis or unicode characters."
   );
 
   const {video} = useVideo()!;
@@ -788,8 +788,10 @@ const AiCaption = ({
       method: "POST",
       body: JSON.stringify({
         directions: prompt,
-        videoScript: video.script,
-        // hashtags: [],
+        videoScript:
+          typeof video.script !== "string"
+            ? video.script.blocks[0].data.items.join(" ")
+            : video.script,
       }),
     });
     const data = await response.json();
@@ -804,7 +806,7 @@ const AiCaption = ({
       <DialogTrigger>
         <Button className="">Ai generated caption</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="text-primary">
         <DialogHeader>
           <DialogTitle>AI Generated Caption</DialogTitle>
           <DialogDescription>

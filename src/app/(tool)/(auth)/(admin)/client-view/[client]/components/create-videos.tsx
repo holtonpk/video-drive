@@ -318,6 +318,7 @@ const NewVideoDraft = () => {
 
   const [title, setTitle] = React.useState<string>(video.title);
   const [notes, setNotes] = React.useState<string>(video.notes);
+  const [editorPayout, setEditorPayout] = React.useState<number>();
 
   const [saving, setSaving] = React.useState<boolean>(false);
   const [saved, setSaved] = React.useState<boolean>(false);
@@ -467,7 +468,7 @@ const NewVideoDraft = () => {
               <Label>Script Due</Label>
               <ScriptDatePicker />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="grid gap-1">
                 <Label>Editor</Label>
                 <EditorSelector
@@ -475,6 +476,25 @@ const NewVideoDraft = () => {
                   newVideos={newVideos}
                   video={video}
                   setNewVideos={setNewVideos}
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label>Editor Payout</Label>
+                <Input
+                  type="number"
+                  placeholder="$"
+                  value={editorPayout}
+                  onChange={(e) => {
+                    setEditorPayout(Number(e.target.value));
+                    setNewVideos(
+                      newVideos.map((v) => {
+                        if (v.videoNumber === video.videoNumber) {
+                          return {...v, priceUSD: Number(e.target.value)};
+                        }
+                        return v;
+                      })
+                    );
+                  }}
                 />
               </div>
               <div className="grid gap-1">

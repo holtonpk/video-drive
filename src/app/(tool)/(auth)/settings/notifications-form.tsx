@@ -83,7 +83,7 @@ export function NotificationsForm() {
             render={({field}) => (
               <FormItem className="flex flex-col items-start justify-between rounded-lg  ">
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base text-foreground">
+                  <FormLabel className="text-base text-primary">
                     Send notifications to
                   </FormLabel>
                   <FormDescription>
@@ -94,13 +94,13 @@ export function NotificationsForm() {
                   <Input
                     value={field.value}
                     onChange={field.onChange}
-                    className="text-foreground"
+                    className="text-primary"
                   />
                 </FormControl>
               </FormItem>
             )}
           />
-          <h3 className="mb-4 text-lg font-medium mt-6 text-foreground">
+          <h3 className="mb-4 text-lg font-medium mt-6 text-primary">
             Email Notifications
           </h3>
           <div className="space-y-4">
@@ -110,7 +110,7 @@ export function NotificationsForm() {
               render={({field}) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base text-foreground">
+                    <FormLabel className="text-base text-primary">
                       New video created
                     </FormLabel>
                     <FormDescription>
@@ -132,7 +132,7 @@ export function NotificationsForm() {
               render={({field}) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base text-foreground">
+                    <FormLabel className="text-base text-primary">
                       Video marked as needs revision
                     </FormLabel>
                     <FormDescription>
@@ -154,7 +154,7 @@ export function NotificationsForm() {
               render={({field}) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base text-foreground">
+                    <FormLabel className="text-base text-primary">
                       Video marked as done
                     </FormLabel>
                     <FormDescription>
@@ -176,7 +176,7 @@ export function NotificationsForm() {
               render={({field}) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base text-foreground">
+                    <FormLabel className="text-base text-primary">
                       Editor Notes
                     </FormLabel>
                     <FormDescription>
@@ -196,7 +196,7 @@ export function NotificationsForm() {
           </div>
         </div>
 
-        <Button type="submit" className="text-foreground">
+        <Button type="submit">
           {isLoading && <Icons.spinner className="animate-spin mr-2" />}
           Update notifications
         </Button>

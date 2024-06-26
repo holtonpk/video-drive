@@ -120,7 +120,7 @@ export function Editor({post, setScript}: EditorProps) {
       <div className="grid w-full gap-4">
         <div
           id="script-editor"
-          className="min-h-[200px] relative w-[800px] shadow-lg p-4 mx-auto text-foreground border rounded-md editor-js-view"
+          className="min-h-[200px] relative w-[800px] shadow-lg p-4 mx-auto text-primary border rounded-md editor-js-view"
         >
           {/* s */}
         </div>

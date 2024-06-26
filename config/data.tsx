@@ -23,6 +23,7 @@ export const ADMIN_USERS = [
 export const EDITORS = [
   "orxFlEC5v8euefk1OSJVTVXgilE2",
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+  "Mi4yipMXrlckU117edbYNiwrmI92",
 ];
 
 export type Notifications = {
@@ -215,6 +216,8 @@ export type VideoData = {
   editor?: string;
   editorNotes?: string;
   updatedAt: UpdatedAt;
+  priceUSD: number;
+  paid: boolean;
 };
 
 type UploadedVideo = {
@@ -245,3 +248,26 @@ interface Timestamp {
   nanoseconds: number;
   seconds: number;
 }
+
+export type CompletedVideo = {
+  videoNumber: string;
+  payoutUSD: number;
+  dateCompleted: Date;
+  paid: boolean;
+  paidOn: Date;
+};
+
+export type PayoutLocation = {
+  type: "paypal" | "wise";
+  sendTo: string;
+};
+
+export type Invoice = {
+  id: string;
+  date: Timestamp;
+  editor: string;
+  method: string;
+  paid: boolean;
+  total: number;
+  videos: string[];
+};

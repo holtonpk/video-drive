@@ -3,6 +3,7 @@ import {constructMetadata} from "@/lib/utils";
 import {Metadata} from "next";
 import VideoArchive from "./video-archive";
 import {clients} from "@/config/data";
+import Background from "@/components/background";
 
 export const generateMetadata = ({
   params,
@@ -23,7 +24,12 @@ export const generateMetadata = ({
 };
 
 const Page = ({params}: {params: {clientId: string}}) => {
-  return <VideoArchive clientId={params.clientId} />;
+  return (
+    <div className="bg-background dark">
+      <VideoArchive clientId={params.clientId} />
+      <Background />
+    </div>
+  );
 };
 
 export default Page;

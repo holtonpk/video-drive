@@ -139,12 +139,14 @@ import {
   BookText,
   Expand,
   NotebookPen,
+  Frown,
 } from "lucide-react";
 import {todo} from "node:test";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  frown: Frown,
   note: NotebookPen,
   script: ScrollText,
   todo: ListTodo,
@@ -308,6 +310,52 @@ export const Icons = {
         d="M-1089.333-727.244c14.028 0 26.497 4.849 36.455 14.201l27.276-27.276c-16.539-15.413-38.013-24.852-63.731-24.852-37.234 0-69.359 21.388-85.032 52.561l31.692 24.592c7.533-22.514 28.575-39.226 53.34-39.226z"
         transform="translate(1184.583 765.171)"
       ></path>
+    </svg>
+  ),
+  paypal: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+      enableBackground="new 0 0 512 512"
+      viewBox="0 0 512 512"
+    >
+      <g>
+        <path
+          fill="#002D8A"
+          d="M250.585 271.874c68.566-.811 120.299-28.097 142.106-91.593 21.911-61.671 16.332-118.676-44.63-142.311-39.457-15.316-52.441-11.563-206.923-11.563-10.042 0-18.765 7.405-20.288 17.142L61.412 420.778c-1.014 7.404 4.564 14.099 12.272 14.099h75.669c2.029 0 2.738-.708 3.043-2.534 4.158-25.664 18.259-116.447 21.808-135.922 5.885-31.647 32.359-23.835 76.381-24.547z"
+        ></path>
+        <path
+          fill="#019BE1"
+          d="M423.427 150.46c-1.826-1.319-2.536-1.827-3.043 1.317-2.029 11.565-5.173 22.823-8.927 34.083C370.985 301.29 258.8 291.249 204.026 291.249c-6.188 0-10.245 3.348-11.057 9.534-22.923 142.411-27.488 172.131-27.488 172.131-1.015 7.202 3.55 13.085 10.752 13.085h64.41c8.723 0 15.925-6.391 17.65-15.112.709-5.479-1.115 6.187 14.606-92.609 4.665-22.314 14.504-19.98 29.719-19.98 72.019 0 128.211-29.214 144.948-113.91 6.595-35.3 4.668-72.425-24.139-93.928z"
+        ></path>
+      </g>
+    </svg>
+  ),
+  wise: ({...props}: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      {...props}
+      fill="none"
+      viewBox="0 0 400 400"
+    >
+      <path fill="url(#pattern0_31_6)" d="M0 0H400V400H0z"></path>
+      <defs>
+        <pattern
+          id="pattern0_31_6"
+          width="1"
+          height="1"
+          patternContentUnits="objectBoundingBox"
+        >
+          <use transform="scale(.0025)" xlinkHref="#image0_31_6"></use>
+        </pattern>
+        <image
+          id="image0_31_6"
+          width="400"
+          height="400"
+          xlinkHref="data:image/png;base64,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"
+        ></image>
+      </defs>
     </svg>
   ),
 };
