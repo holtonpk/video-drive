@@ -37,7 +37,7 @@ const Navbar = () => {
       </Link>
 
       {currentUser && (
-        <div className="flex gap-2 items-center text-primary md:ml-auto">
+        <div className=" gap-2 items-center text-primary md:ml-auto hidden md:flex">
           <Avatar className="h-6 w-6">
             <AvatarImage
               src={currentUser?.photoURL}

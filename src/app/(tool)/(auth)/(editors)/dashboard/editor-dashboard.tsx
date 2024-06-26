@@ -90,7 +90,7 @@ const EditDashboard = () => {
   }, [dummyUid, currentUser]);
 
   return (
-    <div className="container h-screen overflow-hidden flex flex-col pb-10">
+    <div className="container h-fit md:h-screen overflow-hidden flex flex-col pb-10">
       {/* <Cards /> */}
       {currentUser && ADMIN_USERS.includes(currentUser.uid) && (
         <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
@@ -157,8 +157,8 @@ const VideoSheet = ({
   };
 
   return (
-    <div className="w-full flex-grow  grid grid-cols-4  items-start gap-8  mt-6 relative z-20">
-      <div className="col-span-2 grid-cols-2  ">
+    <div className="w-full md:flex-grow h-fit   grid md:grid-cols-4  items-start gap-8  md:mt-6 relative z-20">
+      <div className="col-span-2 grid-cols-2   ">
         {/* -------------------------------------------------*/}
 
         <div className="flex items-center gap-2 mb-2">
@@ -171,7 +171,7 @@ const VideoSheet = ({
 
           <PayoutRequest videos={payableVideos} editor={dummyUid} />
         </div>
-        <div className="grid grid-cols-2 gap-4 mt-2">
+        <div className="grid md:grid-cols-2 gap-4 mt-2">
           <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
             <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
               Total earnings (usd)
@@ -244,7 +244,7 @@ const VideoSheet = ({
                         <Link
                           href={`/edit/${video.videoNumber}`}
                           key={video.videoNumber}
-                          className="w-full  border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/50  cursor-pointer flex justify-between"
+                          className="w-full  border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/50  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                         >
                           <h1 className="text-xl text-primary">
                             #{video.videoNumber}
@@ -298,7 +298,7 @@ const VideoSheet = ({
                       >
                         <Link
                           href={`/edit/${video.videoNumber}`}
-                          className="w-full border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/80  cursor-pointer flex justify-between"
+                          className="w-full border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/80  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                         >
                           <h1 className="text-xl text-primary">
                             #{video.videoNumber}
@@ -332,7 +332,7 @@ const VideoSheet = ({
       </div>
       {/* -------------------------------------------------*/}
 
-      <div className="flex flex-col col-span-2 h-full ">
+      <div className="flex flex-col col-span-2 h-fit ">
         <div className="flex items-center gap-2 mb-2 ">
           <div className="h-fit w-fit p-1 bg-purple-500/20 rounded-md">
             <Icons.checkCircle className="h-4 w-4 text-purple-500" />
@@ -341,9 +341,9 @@ const VideoSheet = ({
             Completed videos{completed.length > 0 && ` (${completed.length})`}
           </h1>
         </div>
-        <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md min-h-fit max-h-[600px]  overflow-scroll">
+        <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md min-h-fit md:max-h-[600px]  overflow-scroll">
           {completed && completed.length > 0 ? (
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               {completed.reverse().map((video) => (
                 <VideoDisplay video={video} key={video.videoNumber} />
               ))}

@@ -39,7 +39,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
 
   return (
     <div
-      className={`bg-background  w-screen overflow-hidden max-h-screen px-4 md:px-0  flex flex-col items-center `}
+      className={`h-fit md:h-screen  w-screen  md:overflow-hidden  md:max-h-screen px-4 md:px-0  flex flex-col items-center `}
     >
       <Navbar />
       {children}

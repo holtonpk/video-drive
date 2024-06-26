@@ -7,7 +7,7 @@ import "./tool-style.css";
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col  ">
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <AuthProvider>{children}</AuthProvider>
         <Toaster />
