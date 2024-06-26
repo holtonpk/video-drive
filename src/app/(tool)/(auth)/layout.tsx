@@ -24,16 +24,16 @@ const AdminLayout = ({children}: {children: React.ReactNode}) => {
     return (
       <div className=" items-center justify-center w-screen h-screen flex flex-col">
         <Icons.checkCircle className="h-10 w-10 text-green-500" />
-        <h1 className="mt-4 font-bold font1 text-2xl">
+        <h1 className="mt-4 font-bold font1 text-2xl text-primary">
           Your account has been created{" "}
         </h1>
-        <h1 className="mt-2">
+        <h1 className="mt-2 text-primary">
           you will be notified when your account is approved
         </h1>
         <Button
           onClick={logOut}
           variant={"ghost"}
-          className="fixed top-4 right-4"
+          className="fixed top-4 right-4 text-primary"
         >
           Logout
         </Button>

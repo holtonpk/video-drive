@@ -14,6 +14,7 @@ import {useRouter} from "next/navigation";
 import Link from "next/link";
 import {PasswordInput} from "@/components/ui/password-input";
 import {Logo} from "@/components/icons";
+import Background from "../background";
 
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -44,10 +45,10 @@ const RegisterForm = () => {
   }
 
   return (
-    <div className="h-fit w-full  md:w-fit p-6 overflow-hidden md:border md:border-border md:rounded-2xl shadow-xl z-20 blurBack items-center flex flex-col">
+    <div className="h-fit w-full  md:w-fit p-6 overflow-hidden md:border md:border-border md:rounded-2xl shadow-xl z-20 blurBack items-center flex flex-col ">
       <div className="flex items-center">
-        <Logo className="fill-foreground h-6 md:h-6 mb-1" />
-        <h1 className="text-3xl text-foreground font-bold whitespace-nowrap  font1 ml-2">
+        <Logo className="fill-primary h-6 md:h-6 mb-1" />
+        <h1 className="text-3xl text-primary font-bold whitespace-nowrap  font1 ml-2">
           Whitespace Media
         </h1>
       </div>
@@ -57,7 +58,7 @@ const RegisterForm = () => {
       <Button
         onClick={googleSingIn}
         type="button"
-        className="w-full bg-card hover:bg-opacity-60  dark:border-none border mt-4"
+        className="w-full bg-card hover:bg-opacity-60 text-primary  dark:border-none border mt-4"
         variant="outline"
       >
         {isGoogleLoading ? (
@@ -67,6 +68,7 @@ const RegisterForm = () => {
         )}
         Log in with Google
       </Button>
+      <Background />
     </div>
   );
 };
