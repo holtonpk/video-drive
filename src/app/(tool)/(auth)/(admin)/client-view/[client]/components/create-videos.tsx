@@ -286,7 +286,7 @@ const BulkSchedule = ({
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
       <DialogContent>
-        <div className="flex flex-col gap-4  rounded-md shadow-sm ">
+        <div className="flex flex-col gap-4 text-primary rounded-md shadow-sm ">
           <div className="grid gap-2">
             <Label>Total Videos</Label>
             <Input
