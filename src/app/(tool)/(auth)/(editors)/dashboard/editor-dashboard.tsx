@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect} from "react";
+import React, {use, useEffect} from "react";
 import Cards from "./components/stat-cards";
 import {Icons} from "@/components/icons";
 import {Button} from "@/components/ui/button";
@@ -13,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {useIsVisible} from "@/lib/hooks";
+
 import {
   getDoc,
   getDocs,
@@ -440,10 +442,30 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
     };
   }, [video]);
 
+  const [loadVideo, setLoadVideo] = React.useState(false);
+
+  const {isVisible, targetRef} = useIsVisible(
+    {
+      root: null,
+      rootMargin: "300px",
+      threshold: 0.8,
+    },
+    false
+  );
+
+  useEffect(() => {
+    if (isVisible) {
+      setLoadVideo(true);
+    } else {
+      return;
+    }
+  }, [isVisible]);
+
   return (
     <Link
       href={`/edit/${video.videoNumber}`}
       key={video.videoNumber}
+      ref={targetRef as any}
       className="aspect-[9/16] w-full border hover:border-primary p-6 rounded-md hover:bg-muted/40 cursor-pointer relative group"
     >
       <div className=" w-full items-center gap-2 absolute bottom-0  rounded-md left-0 p-2  justify-between z-20 flex bg-background/70 blurBack">
@@ -485,11 +507,14 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
           {postData.videoURL ? (
             <>
               <video
-                src={postData.videoURL}
                 className="w-full h-full object-cover absolute top-0 left-0 z-10 rounded-md"
                 // controls
+                preload={loadVideo ? "auto" : "none"}
                 autoPlay={false}
-              />
+              >
+                <source src={postData.videoURL} type="video/mp4" />
+              </video>
+
               <div className="h-full w-full z-[5] rounded-md flex justify-center items-center">
                 <Icons.spinner className="animate-spin h-4 w-4 text-primary" />
               </div>
