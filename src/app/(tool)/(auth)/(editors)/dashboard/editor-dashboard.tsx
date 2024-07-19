@@ -80,7 +80,9 @@ const EditDashboard = () => {
 
   const {currentUser} = useAuth()!;
 
-  const [dummyUid, setDummyUid] = React.useState<string>(EDITORS[0]);
+  const [dummyUid, setDummyUid] = React.useState<string>(
+    currentUser?.uid || "Mi4yipMXrlckU117edbYNiwrmI92"
+  );
 
   useEffect(() => {
     if (!currentUser) return;
