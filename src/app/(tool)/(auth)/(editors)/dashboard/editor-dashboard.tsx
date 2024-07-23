@@ -108,7 +108,7 @@ const EditDashboard = () => {
   }, [dummyUid, currentUser]);
 
   return (
-    <div className="container h-fit md:h-screen overflow-hidden flex flex-col pb-10">
+    <div className="container h-fit md:h-screen overflow-hidden  flex flex-col pb-10">
       {/* <Cards /> */}
       {currentUser && ADMIN_USERS.includes(currentUser.uid) && (
         <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
@@ -188,8 +188,8 @@ const VideoSheet = ({
   };
 
   return (
-    <div className="w-full md:flex-grow h-fit   grid md:grid-cols-4  items-start gap-8  md:mt-6 relative z-20">
-      <div className="col-span-2 grid-cols-2   ">
+    <div className="w-full md:flex-grow h-full overflow-hidden  max-h-full  grid md:grid-cols-4  items-start gap-8  md:mt-6 relative z-20">
+      <div className="col-span-2 grid-cols-2  flex-grow pb-10  max-h-full ">
         {/* -------------------------------------------------*/}
 
         <div className="flex items-center gap-2 mb-2">
@@ -251,9 +251,9 @@ const VideoSheet = ({
           </div>
         </div>
         {/* -------------------------------------------------*/}
-        <div className="col-span-2 mt-8 flex flex-col gap-8">
+        <div className="col-span-2 mt-8 flex flex-col gap-8  max-h-full h-[430px]   overflow-scroll">
           {needsRevision && needsRevision.length > 0 && (
-            <div className="flex flex-col col-span-2 h-fit ">
+            <div className="flex flex-col col-span-2 h-fit   ">
               <div className="flex items-center gap-2 mb-2">
                 <div className="h-fit w-fit p-1 bg-red-500/20 rounded-md">
                   <Icons.xCircle className="h-4 w-4 text-red-500" />
@@ -302,7 +302,7 @@ const VideoSheet = ({
           )}
           {/* -------------------------------------------------*/}
 
-          <div className="flex flex-col  col-span-2 h-fit ">
+          <div className="flex flex-col  col-span-2 h-fit     ">
             <div className="flex items-center gap-2 mb-2">
               <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
                 <Icons.todo className="h-4 w-4 text-blue-500" />
@@ -311,7 +311,7 @@ const VideoSheet = ({
                 Ready to edit{todo.length > 0 && ` (${todo.length})`}
               </h1>
             </div>
-            <div className="rounded-md max-h-full">
+            <div className="rounded-md  ">
               {todo.length && todo.length > 0 ? (
                 <div className="flex flex-col gap-2">
                   {todo.map((video, i) => {
@@ -320,13 +320,7 @@ const VideoSheet = ({
                     )!;
 
                     return (
-                      <motion.div
-                        initial={{opacity: 0, y: 100}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true, amount: 0.3}}
-                        transition={{delay: i * 0.2}}
-                        key={video.videoNumber}
-                      >
+                      <div key={video.videoNumber}>
                         <Link
                           href={`/edit/${video.videoNumber}`}
                           className="w-full border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/80  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
@@ -347,7 +341,7 @@ const VideoSheet = ({
                             <span className="text-primary">{client.label}</span>
                           </div>
                         </Link>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
