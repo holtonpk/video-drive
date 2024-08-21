@@ -21,7 +21,7 @@ export const ADMIN_USERS = [
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
 ];
 export const EDITORS = [
-  "orxFlEC5v8euefk1OSJVTVXgilE2",
+  // "orxFlEC5v8euefk1OSJVTVXgilE2",
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
   "Mi4yipMXrlckU117edbYNiwrmI92",
 ];

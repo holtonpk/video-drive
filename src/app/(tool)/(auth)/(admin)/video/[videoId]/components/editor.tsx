@@ -59,7 +59,6 @@ export function Editor({post, setScript}: EditorProps) {
         placeholder: "Type the script here...",
         tools: {
           header: Header,
-
           list: {
             class: List,
             inlineToolbar: true,
