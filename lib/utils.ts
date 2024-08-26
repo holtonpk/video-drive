@@ -53,9 +53,9 @@ export function formatDayMonthDay(timestamp: Timestamp | any): string {
   // Convert the seconds to milliseconds (JavaScript Date uses milliseconds)
   const date = new Date(timestamp.seconds * 1000);
 
-  // Define options for formatting the date
+  // Define options for formatting the date with EST time zone
   const options: Intl.DateTimeFormatOptions = {
-    // weekday: "short", // Short weekday name (e.g., Fri)
+    timeZone: "America/New_York", // US Eastern Time
     month: "numeric", // Numeric month (e.g., 4)
     day: "numeric", // Numeric day (e.g., 3)
   };
