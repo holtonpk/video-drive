@@ -100,14 +100,14 @@ export const editorStatuses = [
 ];
 
 export const clients = [
-  {
-    id: "1",
-    value: "blaze",
-    label: "Blaze",
-    icon: BlazeLogo,
-    description:
-      "Say goodbye to ordinary marketing. Embrace ai-driven success with our cutting-edge tools. The largest AI models don't know what works for your brand and product.",
-  },
+  // {
+  //   id: "1",
+  //   value: "blaze",
+  //   label: "Blaze",
+  //   icon: BlazeLogo,
+  //   description:
+  //     "Say goodbye to ordinary marketing. Embrace ai-driven success with our cutting-edge tools. The largest AI models don't know what works for your brand and product.",
+  // },
   {
     id: "2",
     value: "morty",
@@ -123,13 +123,13 @@ export const clients = [
     description:
       "Viral Factory create viral short video that are perfect for social media.",
   },
-  {
-    id: "4",
-    value: "learnXYZ",
-    label: "Learn XYZ",
-    icon: LearnXYZLogo,
-    description: "Explore bite-sized Learning with the magic of AI",
-  },
+  // {
+  //   id: "4",
+  //   value: "learnXYZ",
+  //   label: "Learn XYZ",
+  //   icon: LearnXYZLogo,
+  //   description: "Explore bite-sized Learning with the magic of AI",
+  // },
   {
     id: "8762",
     value: "mindy",
