@@ -570,3 +570,22 @@ export function Logo({...props}: LucideProps) {
     </svg>
   );
 }
+
+export function MindyLogo({...props}: LucideProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      {...props}
+      viewBox="0 0 32 34"
+    >
+      {/* <circle cx="16" cy="18" r="16" fill="#1216E5"></circle> */}
+      <rect x="0" y="2" width="32" height="32" fill="#1216E5"></rect>
+
+      <path
+        fill="#fff"
+        d="M5.474 23.594V12.406c0-.079.098-.12.157-.065l10.518 9.685a.095.095 0 00.13 0l10.088-9.678c.06-.056.16-.016.16.064v11.182c0 .05-.042.09-.094.09H5.567a.092.092 0 01-.093-.09z"
+      ></path>
+    </svg>
+  );
+}

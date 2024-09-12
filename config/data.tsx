@@ -11,6 +11,7 @@ import {
   InstagramLogo,
   TiktokLogo,
   LearnXYZLogo,
+  MindyLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -128,6 +129,14 @@ export const clients = [
     label: "Learn XYZ",
     icon: LearnXYZLogo,
     description: "Explore bite-sized Learning with the magic of AI",
+  },
+  {
+    id: "8762",
+    value: "mindy",
+    label: "Mindy",
+    icon: MindyLogo,
+    description:
+      "Mindy can help with everything from complex research to shopping for great deals to organizing your meetings.",
   },
 ];
 
