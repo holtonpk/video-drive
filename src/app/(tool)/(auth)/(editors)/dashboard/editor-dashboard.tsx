@@ -188,7 +188,7 @@ const VideoSheet = ({
   };
 
   return (
-    <div className="w-full md:flex-grow h-full overflow-hidden  max-h-full  grid md:grid-cols-4  items-start gap-8  md:mt-6 relative z-20">
+    <div className="w-full md:flex-grow h-full overflow-hidden  max-h-full  grid md:grid-cols-4  items-start gap-8  md:mt-6 relative z-20 ">
       <div className="col-span-2 grid-cols-2  flex-grow pb-10  max-h-full ">
         {/* -------------------------------------------------*/}
 
@@ -302,7 +302,7 @@ const VideoSheet = ({
           )}
           {/* -------------------------------------------------*/}
 
-          <div className="flex flex-col  col-span-2 h-fit     ">
+          <div className="flex flex-col  col-span-2 h-fit    ">
             <div className="flex items-center gap-2 mb-2">
               <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
                 <Icons.todo className="h-4 w-4 text-blue-500" />
@@ -357,7 +357,7 @@ const VideoSheet = ({
       </div>
       {/* -------------------------------------------------*/}
 
-      <div className="flex flex-col col-span-2 h-fit ">
+      <div className="flex flex-col col-span-2 flex-grow   ">
         <div className="flex justify-between w-full items-center">
           <div className="flex items-center gap-2 mb-2 ">
             <div className="h-fit w-fit p-1 bg-purple-500/20 rounded-md">
@@ -398,9 +398,9 @@ const VideoSheet = ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md min-h-fit md:max-h-[600px]  overflow-scroll">
+        <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md min-h-fit md:min-h-[400px] md:h-[500px]   overflow-scroll ">
           {completed && completed.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 h-fit">
               {completed.map((video) => (
                 <VideoDisplay video={video} key={video.videoNumber} />
               ))}
