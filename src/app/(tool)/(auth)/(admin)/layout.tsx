@@ -4,7 +4,7 @@ import Navbar from "./navbar";
 import {useRouter} from "next/navigation";
 import {useAuth} from "@/context/user-auth";
 import {ADMIN_USERS, EDITORS} from "@/config/data";
-
+import Background from "@/components/background";
 const MainLayout = ({children}: {children: React.ReactNode}) => {
   const {currentUser} = useAuth()!;
 
@@ -24,7 +24,8 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <div className="flex flex-col ">
       <Navbar />
-      {children}
+      <div className="relative z-40">{children}</div>
+      <Background />
     </div>
   );
 };

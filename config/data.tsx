@@ -228,7 +228,7 @@ export type VideoData = {
   updatedAt: UpdatedAt;
   priceUSD: number;
   paid: boolean;
-  posted: boolean;
+  posted?: boolean;
 };
 
 type UploadedVideo = {
@@ -253,7 +253,7 @@ export type VideoDataWithPosts = {
   script: string;
   caption?: string;
   postDate: Timestamp;
-  posted: boolean;
+  posted?: boolean;
 };
 
 interface Timestamp {

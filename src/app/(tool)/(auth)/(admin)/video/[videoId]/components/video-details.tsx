@@ -84,10 +84,10 @@ export const VideoDetails = () => {
     changeStatus(status);
   }, [status, video.videoNumber, currentUser]);
 
-  const [posted, setPosted] = React.useState<boolean>(video.posted);
+  const [posted, setPosted] = React.useState<boolean>(video.posted || false);
 
   useEffect(() => {
-    setPosted(video.posted);
+    setPosted(video.posted || false);
   }, [video]);
 
   async function changePosted(value: boolean) {

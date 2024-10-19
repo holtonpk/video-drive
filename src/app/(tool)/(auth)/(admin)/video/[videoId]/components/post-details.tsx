@@ -134,7 +134,7 @@ export const PostDetails = () => {
       {loadingPost ? (
         <>Loading...</>
       ) : (
-        <div className="grid grid-cols-2 w-full">
+        <div className="grid grid-cols-2 w-full bg-card">
           {posts && selectedPost && (
             <PostSelector
               posts={posts}
@@ -719,7 +719,7 @@ function VideoDisplay({
             </>
           ) : (
             <div className="flex flex-col gap-4 items-center h-full justify-center bg-muted">
-              <h1>Completed video goes here</h1>
+              <h1 className="text-primary">Completed video goes here</h1>
               <Button
                 onClick={() => document.getElementById("selectedFile")?.click()}
               >

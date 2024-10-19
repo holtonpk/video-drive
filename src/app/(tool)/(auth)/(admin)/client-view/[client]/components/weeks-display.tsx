@@ -131,7 +131,7 @@ export const WeeksDisplay = ({
                 {week.weekRange}
                 {")"}
               </span>
-              <div className="w-full p-2 bg-card gap-4 justify-between flex border-y font-bold mt-3 text-primary">
+              <div className="w-full p-2 bg-card/70 gap-4 justify-between flex border-y font-bold mt-3 text-primary">
                 <span className="w-[80px]">Video #</span>
                 <span className=" w-[250px]">Title</span>
                 <span className="w-[60px]">Script</span>
@@ -205,7 +205,7 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
     <div
       key={post.id}
       className={`gap-4 p-2 flex justify-between px-2 text-primary  relative
-${index % 2 === 0 ? "bg-background" : "bg-foreground"}
+${index % 2 === 0 ? "bg-background/40" : "bg-foreground/40"}
 `}
     >
       <Link

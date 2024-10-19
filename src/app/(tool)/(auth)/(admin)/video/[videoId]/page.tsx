@@ -1,6 +1,7 @@
 import {constructMetadata} from "@/lib/utils";
 import VideoPage from "./video-page";
 import {Metadata} from "next";
+import Background from "@/components/background";
 
 export const generateMetadata = ({
   params,
@@ -19,7 +20,11 @@ export const generateMetadata = ({
 };
 
 const Page = ({params}: {params: {videoId: string}}) => {
-  return <VideoPage videoId={params.videoId} />;
+  return (
+    <>
+      <VideoPage videoId={params.videoId} />
+    </>
+  );
 };
 
 export default Page;

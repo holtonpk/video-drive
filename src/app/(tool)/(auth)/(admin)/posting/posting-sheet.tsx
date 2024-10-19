@@ -89,7 +89,7 @@ const PostingSheet = () => {
         mode="single"
         selected={date}
         onSelect={setDate}
-        className=" rounded-md shadow-md border w-fit h-fit text-primary"
+        className=" rounded-md shadow-md border w-fit h-fit text-primary bg-card/20"
       />
 
       {loading ? (
@@ -154,10 +154,10 @@ const PostRow = ({video}: {video: VideoDataWithPosts}) => {
     setIsDownloading(false);
   };
 
-  const [posted, setPosted] = React.useState<boolean>(video.posted);
+  const [posted, setPosted] = React.useState<boolean>(video?.posted || false);
 
   useEffect(() => {
-    setPosted(video.posted);
+    setPosted(video?.posted || false);
   }, [video]);
 
   const {currentUser} = useAuth()!;
