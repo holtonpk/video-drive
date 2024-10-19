@@ -88,6 +88,7 @@ export const PostDetails = () => {
           clientId: video.clientId,
           updatedAt: {date: new Date(), user: currentUser?.firstName},
           postDate: video.postDate,
+          uploaded: false,
         };
 
         await setDoc(newPostRef, newPost);

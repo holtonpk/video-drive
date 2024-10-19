@@ -198,7 +198,7 @@ export type Post = {
   clientId: string;
   caption?: string;
   postDate: Timestamp;
-  uploaded: boolean;
+  uploaded?: boolean;
 };
 
 type UpdatedAt = {
