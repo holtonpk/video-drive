@@ -139,7 +139,8 @@ export const WeeksDisplay = ({
                 <span className="w-[60px]">Post</span>
                 <span className="w-[50px]">Script</span>
                 <span className="w-[50px]">Caption</span>
-                <span className="w-[150px] ">Status</span>
+                <span className="w-[120px] ">Status</span>
+                <span className="w-[80px] ">Posted</span>
               </div>
               <div className="flex flex-col  ">
                 {week.posts
@@ -249,24 +250,27 @@ ${index % 2 === 0 ? "bg-background" : "bg-foreground"}
           </>
         )}
       </span>
-      <span className="flex items-center relative z-20 pointer-events-none w-[150px]  ">
+      <span className="flex items-center relative z-20 pointer-events-none w-[120px]  ">
         {status?.icon && (
           <status.icon
             className={`h-4 w-4 mr-2
-${
-  status.value === "done"
-    ? "stroke-green-500 "
-    : status.value === "todo"
-    ? "stroke-blue-500"
-    : status.value === "draft"
-    ? "stroke-yellow-500"
-    : "stroke-red-500"
-}
+              ${
+                status.value === "done"
+                  ? "stroke-green-500 "
+                  : status.value === "todo"
+                  ? "stroke-blue-500"
+                  : status.value === "draft"
+                  ? "stroke-yellow-500"
+                  : "stroke-red-500"
+              }
 `}
           />
         )}
 
         {status?.label}
+      </span>
+      <span className="w-[80px] z-20  flex pl-4">
+        {post.posted ? "✅" : "❌"}
       </span>
     </div>
   );

@@ -9,6 +9,7 @@ import {
   where,
   getDoc,
   doc,
+  setDoc,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {cn} from "@/lib/utils";
@@ -24,7 +25,8 @@ import {Card} from "@/components/ui/card";
 import Link from "next/link";
 import {Button, buttonVariants} from "@/components/ui/button";
 import {AssetType} from "@/src/app/(tool)/(auth)/(admin)/new-video/new-video-context";
-import {get} from "http";
+import {useAuth} from "@/context/user-auth";
+import {Switch} from "@/components/ui/switch";
 
 const PostingSheet = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -152,6 +154,28 @@ const PostRow = ({video}: {video: VideoDataWithPosts}) => {
     setIsDownloading(false);
   };
 
+  const [posted, setPosted] = React.useState<boolean>(video.posted);
+
+  useEffect(() => {
+    setPosted(video.posted);
+  }, [video]);
+
+  const {currentUser} = useAuth()!;
+
+  async function changePosted(value: boolean) {
+    setPosted(value);
+    await setDoc(
+      doc(db, "videos", video.videoNumber.toString()),
+      {
+        posted: value,
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
+      },
+      {
+        merge: true,
+      }
+    );
+  }
+
   return (
     <div
       className={`w-full rounded-md border-4 p-3 flex  flex-col  gap-4 relative justify-between overflow-hidden
@@ -167,20 +191,33 @@ const PostRow = ({video}: {video: VideoDataWithPosts}) => {
     
     `}
     >
-      <Link
-        href={`/video/${video.videoNumber}`}
-        className="grid grid-cols-[24px_1fr] gap-2 hover:opacity-40s"
-      >
-        <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
-        <span className="relative z-20 pointer-events-none font-bold">
-          {video.title}
-        </span>
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link
+          href={`/video/${video.videoNumber}`}
+          className="grid grid-cols-[24px_1fr] gap-2 hover:opacity-40s  w-full"
+        >
+          <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
+          <span className="relative z-20 pointer-events-none font-bold">
+            {video.title}
+          </span>
+        </Link>
+        <div className="flex gap-1 items-center">
+          <span
+            className={`whitespace-nowrap ${
+              posted ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {posted ? "Posted" : "Not Posted"}
+          </span>
+          <Switch checked={posted} onCheckedChange={changePosted} />
+        </div>
+      </div>
+
       {video.posts.map((post: Post) => (
         <>
           {post?.videoURL || post.caption ? (
-            <div className="w-full flex flex-col md:flex-row border gap-4 rounded-md p-2 items-center justify-between ">
-              {post.platforms ? (
+            <div className="w-full flex flex-col md:flex-row  gap-4 rounded-md  items-center justify-between ">
+              {/* {post.platforms ? (
                 <div className="flex flex-row gap-2">
                   {post.platforms.map((platform) => {
                     const platformObj = platforms.find(
@@ -194,13 +231,13 @@ const PostRow = ({video}: {video: VideoDataWithPosts}) => {
                 </div>
               ) : (
                 <span className="text-destructive">No platforms selected</span>
-              )}
-              <div className="flex flex-col w-full md:w-fit md:flex-row gap-2">
+              )} */}
+              <div className="flex flex-col w-full md:w-full md:grid md:grid-cols-2 gap-2">
                 {post.caption && (
                   <Button
                     onClick={() => copyCaption(post.caption as string)}
                     variant={"outline"}
-                    className="relative z-20  w-full md:w-fit"
+                    className="relative z-20  w-full"
                   >
                     {copied ? (
                       <>Copied</>
@@ -217,7 +254,7 @@ const PostRow = ({video}: {video: VideoDataWithPosts}) => {
                     onClick={() =>
                       downloadFile(post.videoURL as string, video.title)
                     }
-                    className="relative z-20 w-full md:w-fit"
+                    className="relative z-20 w-full "
                   >
                     {isDownloading ? (
                       <Icons.spinner className="h-5 w-5 animate-spin mr-2 " />

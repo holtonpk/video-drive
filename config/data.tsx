@@ -198,6 +198,7 @@ export type Post = {
   clientId: string;
   caption?: string;
   postDate: Timestamp;
+  uploaded: boolean;
 };
 
 type UpdatedAt = {
@@ -227,6 +228,7 @@ export type VideoData = {
   updatedAt: UpdatedAt;
   priceUSD: number;
   paid: boolean;
+  posted: boolean;
 };
 
 type UploadedVideo = {
@@ -251,6 +253,7 @@ export type VideoDataWithPosts = {
   script: string;
   caption?: string;
   postDate: Timestamp;
+  posted: boolean;
 };
 
 interface Timestamp {

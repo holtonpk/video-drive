@@ -28,6 +28,7 @@ import {convertTimestampToDate} from "@/lib/utils";
 import {EDITORS} from "@/config/data";
 import {UserData} from "@/context/user-auth";
 import {useAuth} from "@/context/user-auth";
+import {Switch} from "@/components/ui/switch";
 
 export const VideoDetails = () => {
   const {currentUser} = useAuth()!;
@@ -82,6 +83,26 @@ export const VideoDetails = () => {
     }
     changeStatus(status);
   }, [status, video.videoNumber, currentUser]);
+
+  const [posted, setPosted] = React.useState<boolean>(video.posted);
+
+  useEffect(() => {
+    setPosted(video.posted);
+  }, [video]);
+
+  async function changePosted(value: boolean) {
+    setPosted(value);
+    await setDoc(
+      doc(db, "videos", video.videoNumber.toString()),
+      {
+        posted: value,
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
+      },
+      {
+        merge: true,
+      }
+    );
+  }
 
   return (
     <Card
@@ -232,6 +253,19 @@ export const VideoDetails = () => {
                 />
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="client">Posted</Label>
+            <div className="flex gap-1 items-center">
+              <Switch checked={posted} onCheckedChange={changePosted} />
+              <span
+                className={`whitespace-nowrap ${
+                  posted ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {posted ? "Posted" : "Not Posted"}
+              </span>
+            </div>
           </div>
         </div>
 
