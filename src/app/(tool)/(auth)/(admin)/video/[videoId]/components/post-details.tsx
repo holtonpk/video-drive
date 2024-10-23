@@ -785,13 +785,14 @@ const AiCaption = ({
 
   const getAiCaption = async () => {
     setLoadingResponse(true);
+
     const response = await fetch("/api/openai", {
       method: "POST",
       body: JSON.stringify({
         directions: prompt,
         videoScript:
           typeof video.script !== "string"
-            ? video.script.blocks[0].data.items.join(" ")
+            ? video.script.blocks.map((block) => block.data.text).join(" ")
             : video.script,
       }),
     });
