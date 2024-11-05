@@ -792,7 +792,8 @@ const AiCaption = ({
         directions: prompt,
         videoScript:
           typeof video.script !== "string"
-            ? video.script.blocks.map((block) => block.data.text).join(" ")
+            ? video.script.blocks.map((block) => block.data.text).join(" ") ||
+              video.script.blocks.map((block) => block.data.items).join(" ")
             : video.script,
       }),
     });

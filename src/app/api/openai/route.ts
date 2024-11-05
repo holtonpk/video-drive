@@ -17,7 +17,7 @@ export async function POST(req: Request) {
           content: `${directions} video script:${videoScript}`,
         },
       ],
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
     });
 
     return NextResponse.json({
