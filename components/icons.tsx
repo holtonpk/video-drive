@@ -587,5 +587,35 @@ export function MindyLogo({...props}: LucideProps) {
         d="M5.474 23.594V12.406c0-.079.098-.12.157-.065l10.518 9.685a.095.095 0 00.13 0l10.088-9.678c.06-.056.16-.016.16.064v11.182c0 .05-.042.09-.094.09H5.567a.092.092 0 01-.093-.09z"
       ></path>
     </svg>
-  );
+  )}
+  
+  export function FrizzleLogo({...props}: LucideProps) {
+    return (
+      <svg
+    xmlns="http://www.w3.org/2000/svg"
+{...props}
+    fill="none"
+    viewBox="0 0 600 600"
+  >
+    <rect width="600" height="600" fill="#fff" rx="57"></rect>
+    <path fill="#91C3FB" d="M26 254.112h547v90.775H26z"></path>
+    <path fill="#91C3FB" d="M254.112 573V26h90.775v547z"></path>
+    <path
+      fill="#91C3FB"
+      d="m298.121 236.691 162.68-162.68 64.187 64.189-162.68 162.679z"
+    ></path>
+    <path
+      fill="#91C3FB"
+      d="M138.2 74.012 524.988 460.8 460.8 524.987 74.013 138.2z"
+    ></path>
+    <path
+      fill="#348DF4"
+      d="m26 509.31 212.157-212.157 63.927 63.926L89.927 573.237z"
+    ></path>
+    <path
+      fill="#fff"
+      d="m238.07 297.689 60.01-60.01 63.927 63.926-60.01 60.01z"
+    ></path>
+  </svg>
+    );
 }

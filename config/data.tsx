@@ -12,6 +12,7 @@ import {
   TiktokLogo,
   LearnXYZLogo,
   MindyLogo,
+  FrizzleLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -115,28 +116,36 @@ export const clients = [
     icon: MortyLogo,
     description: "Blaze is a company that sells candles.",
   },
+  // {
+  //   id: "3",
+  //   value: "founderCentral",
+  //   label: "Founder Central",
+  //   icon: FcLogo,
+  //   description:
+  //     "Viral Factory create viral short video that are perfect for social media.",
+  // },
+  // {
+  //   id: "4",
+  //   value: "learnXYZ",
+  //   label: "Learn XYZ",
+  //   icon: LearnXYZLogo,
+  //   description: "Explore bite-sized Learning with the magic of AI",
+  // },
+  // {
+  //   id: "8762",
+  //   value: "mindy",
+  //   label: "Mindy",
+  //   icon: MindyLogo,
+  //   description:
+  //     "Mindy can help with everything from complex research to shopping for great deals to organizing your meetings.",
+  // },
   {
-    id: "3",
-    value: "founderCentral",
-    label: "Founder Central",
-    icon: FcLogo,
+    id: "5",
+    value: "frizzle",
+    label: "Frizzle AI",
+    icon: FrizzleLogo,
     description:
-      "Viral Factory create viral short video that are perfect for social media.",
-  },
-  {
-    id: "4",
-    value: "learnXYZ",
-    label: "Learn XYZ",
-    icon: LearnXYZLogo,
-    description: "Explore bite-sized Learning with the magic of AI",
-  },
-  {
-    id: "8762",
-    value: "mindy",
-    label: "Mindy",
-    icon: MindyLogo,
-    description:
-      "Mindy can help with everything from complex research to shopping for great deals to organizing your meetings.",
+      "Turn anything into a presentation. Frizzle AI is a presentation tool that uses AI to turn your ideas into beautiful slides.",
   },
 ];
 
