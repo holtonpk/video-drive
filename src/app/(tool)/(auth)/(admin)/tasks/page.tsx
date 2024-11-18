@@ -633,7 +633,7 @@ const EditorJsRender = ({script}: {script: OutputData}) => {
   );
 };
 
-export function FilterStatus({
+function FilterStatus({
   selectedStatus,
   setSelectedStatus,
 }: {
@@ -714,7 +714,7 @@ export function FilterStatus({
   );
 }
 
-export function FilterUser({
+function FilterUser({
   userData,
   selectedUsers,
   setSelectedUsers,
