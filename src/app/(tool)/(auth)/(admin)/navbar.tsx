@@ -40,6 +40,21 @@ const Navbar = () => {
       <NavigationMenu>
         <NavigationMenuList className="gap-8">
           <NavigationMenuItem>
+            <Link href="/tasks" legacyBehavior passHref>
+              <NavigationMenuLink
+                className={`font-bold
+        ${
+          segment === "tasks"
+            ? "text-primary "
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+              >
+                Tasks
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <Link href="/invoices" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`font-bold
