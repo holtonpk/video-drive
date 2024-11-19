@@ -766,11 +766,11 @@ const TaskTable = ({
   });
 
   return (
-    <ScrollArea className="h-[400px] overflow-scroll p-4 pt-2 w-full bg-muted/40 border-t">
+    <ScrollArea className="max-h-fit h-[400px] overflow-scroll py-2 px-4 pt-2 w-full bg-muted/40 border-t">
       <ScrollBar orientation="vertical" className="" />
       <div className="w-full h-full flex flex-col items-center gap-1">
         {!tasks || tasks.length == 0 ? (
-          <div className="text-2xl text-center w-full text-primary flex items-center justify-center  h-[400px] ">
+          <div className="text-2xl text-center w-full text-primary flex items-center justify-center  h-[200px] ">
             No tasks found
           </div>
         ) : (
