@@ -17,6 +17,8 @@ import {toast} from "@/components/ui/use-toast";
 import {Icons} from "@/components/icons";
 import {Button} from "@/components/ui/button";
 import Header from "@editorjs/header";
+import Checklist from "@editorjs/checklist";
+
 import List from "@editorjs/list";
 import LinkTool from "@editorjs/link";
 import {ScrollArea} from "@/components/ui/scroll-area";
@@ -34,6 +36,8 @@ interface EditorProps {
 type FormData = z.infer<typeof postPatchSchema>;
 
 export function Editor({post, setScript}: EditorProps) {
+  console.log("post === ", post);
+
   const {register, handleSubmit} = useForm<FormData>({
     resolver: zodResolver(postPatchSchema),
   });
@@ -48,7 +52,7 @@ export function Editor({post, setScript}: EditorProps) {
       const body = postPatchSchema.parse(post);
 
       editorRef.current = new EditorJS({
-        holder: "description-editor",
+        holder: "notes-editor",
         onReady() {
           ref.current = editorRef.current;
         },
@@ -57,9 +61,14 @@ export function Editor({post, setScript}: EditorProps) {
         },
         data: body.content,
         inlineToolbar: true,
+
         placeholder: "Type any notes here...",
         tools: {
           header: Header,
+          checklist: {
+            class: Checklist,
+            inlineToolbar: true,
+          },
           list: {
             class: List,
             inlineToolbar: true,
@@ -81,45 +90,11 @@ export function Editor({post, setScript}: EditorProps) {
     }
   }, [post, setScript]);
 
-  const SaveBlogPost = async (id: string, data: any) => {
-    return null;
-  };
-
-  async function onSave() {
-    setIsSaving(true);
-
-    const blocks = await ref.current?.save();
-
-    console.log("blocks:", blocks);
-
-    setScript(blocks);
-
-    // const response = await SaveBlogPost(post.id, {
-    //   title: data.title || "Untitled Post",
-    //   content: blocks,
-    // });
-    setIsSaving(false);
-
-    // if (response == "error") {
-    //   return toast({
-    //     title: "Something went wrong.",
-    //     description: "Your post was not saved. Please try again.",
-    //     variant: "destructive",
-    //   });
-    // }
-
-    // router.refresh();
-
-    return toast({
-      description: "Description has been saved",
-    });
-  }
-
   return (
     <ScrollArea className="grid w-full h-[200px] border rounded-md">
       <div
-        id="description-editor"
-        className="h-[200px] relative w-[500px] shadow-lg px-4  text-primary  editor-js-view "
+        id="notes-editor"
+        className="h-fit w-[500px]  relative px-4  text-primary  editor-js-view "
       ></div>
     </ScrollArea>
   );

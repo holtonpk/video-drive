@@ -27,6 +27,7 @@ import {doc, setDoc, getDoc, arrayUnion} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {get} from "http";
 import {set} from "date-fns";
+import {Task} from "../data";
 
 //  created>userIDCretedFor>userToGetNotification[]
 // completed>userIDCompletedFor>userToGetNotification[]
@@ -329,7 +330,8 @@ export const sendNotification = async (
   user: string,
   usersData: UserData[],
   currentUser: UserData,
-  taskName: string
+  task: Task,
+  notesHTML?: string
 ) => {
   const docRef = doc(db, "taskAlerts", trigger);
   const docSnap = await getDoc(docRef);
@@ -348,9 +350,8 @@ export const sendNotification = async (
               ? "you"
               : usersData.find((userData) => userData.uid === user)?.firstName
           }`,
-          line_1: ``,
-          line_2: ``,
-          action_url: `https://whitespace-media.com/tasks`,
+          line_1: `${task.name}`,
+          html_line: `${task.notes}`,
           to_email: usersData.find((userData) => userData.uid === recipient)
             ?.email,
         };
@@ -362,7 +363,7 @@ export const sendNotification = async (
               : usersData.find((userData) => userData.uid === user)?.firstName
           }`,
           line_1: `The following task has been completed:
-        \n\n ${taskName}
+        \n\n ${task.name}
         `,
           to_email: usersData.find((userData) => userData.uid === recipient)
             ?.email,

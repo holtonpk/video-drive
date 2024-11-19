@@ -1,20 +1,42 @@
-#description-editor h1 {
+#notes-view {
+  @apply text-primary;
+}
+
+#notes-view h1 {
   @apply text-4xl;
 }
-#description-editor h2 {
+#notes-view h2 {
   @apply text-3xl;
 }
-#description-editor h3 {
+#notes-view h3 {
   @apply text-2xl;
 }
-#description-editor h4 {
+#notes-view h4 {
   @apply text-xl;
 }
-#description-editor h5 {
+#notes-view h5 {
   @apply text-lg;
 }
-#description-editor h6 {
+#notes-view h6 {
   @apply text-base;
+}
+#notes-view ul {
+  margin-left: 1.5em;
+}
+#notes-view li {
+  padding: 5.5px 0 5.5px 3px;
+  margin-left: 1.5em;
+  line-height: 1.6em;
+  list-style-type: circle;
+}
+
+#notes-view a {
+  @apply text-blue-500;
+  @apply underline;
+}
+
+#notes-view a:hover {
+  @apply text-blue-400;
 }
 
 .dark .ce-block--selected .ce-block__content,
