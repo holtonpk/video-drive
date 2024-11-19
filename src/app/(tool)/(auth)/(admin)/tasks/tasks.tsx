@@ -829,7 +829,7 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
         </DialogTrigger>
         <DialogContent className="text-primary">
           <DialogHeader>
-            <DialogTitle>{task.name}</DialogTitle>
+            <DialogTitle className="text-lg">{task.name}</DialogTitle>
             {task.notes && (
               <DialogDescription>
                 <div className="grid gap-2">

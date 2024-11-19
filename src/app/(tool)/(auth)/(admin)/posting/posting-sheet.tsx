@@ -56,6 +56,7 @@ const PostingSheet = () => {
         const filteredVideos = await Promise.all(
           querySnapshot.docs.map(async (docRef) => {
             const docData = docRef.data();
+            console.log("docData", docData);
 
             const postData = await Promise.all(
               docData.postIds.map(async (postId: string) => {
