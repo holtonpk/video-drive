@@ -90,6 +90,13 @@ export const convertTimestampToDate = (timestamp: Timestamp): Date => {
   return new Date(milliseconds);
 };
 
+export const convertDateToTimestamp = (date: Date): Timestamp => {
+  const milliseconds = date.getTime(); // Total milliseconds since epoch
+  const seconds = Math.floor(milliseconds / 1000); // Whole seconds
+  const nanoseconds = (milliseconds % 1000) * 1000000; // Remaining milliseconds converted to nanoseconds
+  return {seconds, nanoseconds};
+};
+
 export function constructMetadata({
   title = "Whitespace Media",
   description = "We specialize in organic marketing",

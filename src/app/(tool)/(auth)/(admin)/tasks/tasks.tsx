@@ -10,13 +10,22 @@ import {Separator} from "@/components/ui/separator";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {db} from "@/config/firebase";
 import {CheckCircle, Circle, CircleOff, HelpCircle, Timer} from "lucide-react";
-import {cn, formatDaynameMonthDay, convertTimestampToDate} from "@/lib/utils";
+import {Checkbox} from "@/components/ui/checkbox";
+
+import {
+  cn,
+  formatDaynameMonthDay,
+  convertTimestampToDate,
+  convertDateToTimestamp,
+} from "@/lib/utils";
 import {Editor} from "./components/description";
 import {OutputData} from "@editorjs/editorjs";
 import edjsHTML from "editorjs-html";
 import {motion} from "framer-motion";
 import {AnimatePresence} from "framer-motion";
 import {sendNotification} from "./components/notifications";
+import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
+
 import {
   deleteDoc,
   getDoc,
@@ -70,10 +79,11 @@ const USERS = [
 type Task = {
   id: string;
   name: string;
-  dueDate: Date;
+  dueDate: Timestamp;
   assignee: string[];
   status: "todo" | "done";
   notes?: OutputData | string;
+  category?: string;
 };
 
 type Status = {
@@ -93,6 +103,29 @@ const statuses: Status[] = [
     value: "done",
     label: "Done",
     icon: <CheckCircle className="h-4 w-4 text-green-600" />,
+  },
+];
+
+const categories = [
+  {
+    label: "🎯 Acquisition",
+    value: "acquisition",
+  },
+  {
+    label: "🎨 Branding",
+    value: "branding",
+  },
+  {
+    label: "💰 Finance",
+    value: "finance",
+  },
+  {
+    label: "👥 Client management",
+    value: "client-management",
+  },
+  {
+    label: "📹 Videos",
+    value: "videos",
   },
 ];
 
@@ -119,30 +152,75 @@ const Tasks = () => {
     fetchUsers();
   }, []);
 
+  const [tasks, setTasks] = React.useState<Task[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "tasks"), (snapshot) => {
+      const tasks: Task[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Task[];
+      setTasks(tasks);
+      setIsLoading(false);
+    });
+
+    // Cleanup the listener when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
   console.log("userdat ==", userData);
 
   const [selectedUsers, setSelectedUsers] = React.useState<
     string[] | undefined
-  >(currentUser && [currentUser.uid]);
+  >(USERS);
 
   const [selectedStatus, setSelectedStatus] = React.useState<string[]>([
     statuses[0].value,
+    statuses[1].value,
   ]);
+
+  const [filteredTasks, setFilteredTasks] = React.useState<Task[]>([]);
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
+    new Date()
+  );
+
+  useEffect(() => {
+    const filteredTasks = tasks.filter((task) => {
+      const matchesStatus =
+        !selectedStatus.length || selectedStatus.includes(task.status);
+
+      const matchesUsers =
+        !selectedUsers?.length ||
+        selectedUsers.includes("all") ||
+        task.assignee.some((u) => selectedUsers.includes(u));
+
+      const matchesDate =
+        !selectedDate ||
+        convertTimestampToDate(task.dueDate).toDateString() ===
+          selectedDate.toDateString();
+
+      return matchesStatus && matchesUsers && matchesDate;
+    });
+
+    setFilteredTasks(filteredTasks);
+  }, [tasks, selectedStatus, selectedUsers, selectedDate]);
+
+  const taskForDate = tasks.filter((task) => {
+    return (
+      !selectedUsers?.length ||
+      selectedUsers.includes("all") ||
+      task.assignee.some((u) => selectedUsers.includes(u))
+    );
+  });
 
   return (
     <div>
       <div className="container">
         {userData && userData.length > 0 && (
-          <div className="flex flex-col gap-8 mx-auto items-center w-[80%] mt-6">
+          <div className="flex flex-col gap-4 mx-auto items-center w-[80%] mt-6">
             <div className="flex w-full justify-between">
-              <div className="flex gap-4">
-                <CreateTask userData={userData} heading="Create a new task">
-                  <Button size="sm">
-                    <Icons.add className="h-4 w-4" />
-                    <span className="hidden sm:inline">New Task</span>
-                  </Button>
-                </CreateTask>
-                <Notifications userData={userData} />
+              <div className="flex gap-4  ">
                 <FilterStatus
                   selectedStatus={selectedStatus}
                   setSelectedStatus={setSelectedStatus}
@@ -153,14 +231,31 @@ const Tasks = () => {
                   setSelectedUsers={setSelectedUsers}
                 />
               </div>
+              <div className="flex gap-4 ">
+                <Notifications userData={userData} />
+                <CreateTask userData={userData} heading="Create a new task">
+                  <Button size="sm">
+                    <Icons.add className="h-4 w-4" />
+                    <span className="hidden sm:inline">New Task</span>
+                  </Button>
+                </CreateTask>
+              </div>
             </div>
-            <TaskTable
-              userData={userData}
-              selectedStatus={selectedStatus}
-              setSelectedStatus={setSelectedStatus}
-              selectedUsers={selectedUsers}
-              setSelectedUsers={setSelectedUsers}
-            />
+            {isLoading ? (
+              <div className="w-full justify-center items-center flex">
+                <Icons.spinner className="animate-spin h-8 w-8 text-primary" />
+              </div>
+            ) : (
+              <div className="flex flex-col border rounded-md  gap-2 pt-4 w-full  bg-muted/20">
+                <DateFilter
+                  tasks={taskForDate}
+                  selectedDate={selectedDate}
+                  setSelectedDate={setSelectedDate}
+                />
+
+                <TaskTable tasks={filteredTasks} userData={userData} />
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -169,6 +264,91 @@ const Tasks = () => {
 };
 
 export default Tasks;
+
+const DateFilter = ({
+  tasks,
+
+  selectedDate,
+  setSelectedDate,
+}: {
+  tasks: Task[];
+
+  selectedDate: Date | undefined;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+}) => {
+  const handleDateClick = (date: Date) => {
+    setSelectedDate(date);
+  };
+
+  const [referenceDate, setReferenceDate] = React.useState<Date>(new Date());
+  const dates = Array.from({length: 11}, (_, i) => {
+    const date = new Date(referenceDate);
+    date.setDate(referenceDate.getDate() + i);
+    return date;
+  });
+
+  const handleMoveDate = (direction: "next" | "prev") => {
+    setReferenceDate((prev) => {
+      const newDate = new Date(prev);
+      newDate.setDate(prev.getDate() + (direction === "next" ? 10 : -10));
+      return newDate;
+    });
+  };
+
+  return (
+    <div className="flex gap-2 flex-col w-fit items-center  ">
+      <div className="flex items-center w-fit ">
+        <Button
+          variant={"ghost"}
+          size="sm"
+          className="px-2 text-primary"
+          onClick={() => handleMoveDate("prev")}
+        >
+          <Icons.chevronLeft className="h-6 w-6" />
+        </Button>
+        <div className="grid grid-cols-11 gap-4">
+          {dates.map((date) => (
+            <button
+              key={date.toISOString()}
+              className={`flex flex-col text-primary bg-background items-center  transition-colors duration-300 rounded-md relative overflow-hidden border-2 ${
+                selectedDate?.toDateString() === date.toDateString()
+                  ? "border-blue-500 "
+                  : "hover:border-blue-300"
+              }`}
+              onClick={() => handleDateClick(date)}
+            >
+              {date.toDateString() === new Date().toDateString() && (
+                <div className="absolute h-3 w-3 bottom-0 right-0  bg-blue-600 rounded-tl-full"></div>
+              )}
+              {tasks.some(
+                (task) =>
+                  convertTimestampToDate(task.dueDate).toDateString() ===
+                    date.toDateString() && task.status == "todo"
+              ) && (
+                <div className="absolute h-1 w-1 top-2 left-2  bg-blue-600 rounded-full"></div>
+              )}
+              <span className="bg-foreground dark:bg-muted w-full text-center">
+                {date.toLocaleString("en-US", {weekday: "short"})}
+              </span>
+              <div className="bg-muted dark:bg-muted/40 flex gap-1 flex-col px-6 p-2">
+                <div className="font-bold text-lg">{date.getDate()}</div>
+                <span>{date.toLocaleString("en-US", {month: "short"})}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+        <Button
+          variant={"ghost"}
+          size="sm"
+          className="px-2 text-primary"
+          onClick={() => handleMoveDate("next")}
+        >
+          <Icons.chevronRight className="h-6 w-6" />
+        </Button>
+      </div>
+    </div>
+  );
+};
 
 const CreateTask = ({
   task,
@@ -183,19 +363,26 @@ const CreateTask = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
-  const {currentUser} = useAuth()!;
+  const {currentUser, logInWithGoogleCalender} = useAuth()!;
 
   const [isSaving, setIsSaving] = React.useState(false);
 
   const [title, setTitle] = React.useState(task ? task.name : "");
+  const [selectedCategory, setSelectedCategory] = React.useState<string>(
+    task && task.category ? task.category : ""
+  );
   const [description, setDescription] = React.useState(task ? task.notes : "");
-  const [assignee, setAssignee] = React.useState(task ? task.assignee[0] : "");
-  const [dueDate, setDueDate] = React.useState<Date | undefined>(
-    task ? convertTimestampToDate(task.dueDate as any) : new Date()
+  const [assignee, setAssignee] = React.useState<string[]>(
+    task ? task.assignee : []
+  );
+  const [dueDate, setDueDate] = React.useState<Timestamp | undefined>(
+    task ? task.dueDate : undefined
   );
   const [notes, setNotes] = React.useState<OutputData | string | undefined>(
     task ? task.notes : ""
   );
+
+  const [addToCalendar, setAddToCalendar] = React.useState(false);
 
   const saveTask = async () => {
     setIsSaving(true);
@@ -204,23 +391,82 @@ const CreateTask = ({
       id,
       name: title,
       dueDate: dueDate!,
-      assignee: assignee == "all" ? USERS : [assignee],
+      assignee: assignee,
       status: "todo",
+      category: selectedCategory,
       notes,
     };
     const taskRef = doc(db, "tasks", id);
     await setDoc(taskRef, taskData);
 
     if (currentUser)
-      sendNotification("created", assignee, userData, currentUser, title);
+      assignee.forEach((assigneeSingle) => {
+        sendNotification(
+          "created",
+          assigneeSingle,
+          userData,
+          currentUser,
+          title
+        );
+      });
     // Save task logic here
+    if (addToCalendar && currentUser?.calenderToken) {
+      await saveToCalender();
+    }
+
     setIsSaving(false);
     setOpen(false);
     setTitle("");
     setDescription("");
-    setAssignee("");
-    setDueDate(new Date());
+    setAssignee([]);
+    setDueDate(undefined);
+    setSelectedCategory("");
     setNotes("");
+  };
+
+  const saveToCalender = async () => {
+    if (!currentUser?.calenderToken) return;
+
+    const startDate = convertTimestampToDate(dueDate!);
+    startDate.setHours(8, 0, 0, 0); // Set to 8:00 AM
+
+    const endDate = convertTimestampToDate(dueDate!);
+    endDate.setHours(9, 0, 0, 0); // Set to 9:00 AM
+
+    const res = await fetch("/api/save-to-google-calender", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        accessToken: currentUser.calenderToken,
+        event: {
+          summary: title,
+          description:
+            description && typeof description !== "string"
+              ? description.blocks.map((block) => block.data.text).join(" ") ||
+                description.blocks.map((block) => block.data.items).join(" ")
+              : description,
+          start: {
+            dateTime: startDate.toISOString(),
+            timeZone: "America/Chicago",
+          },
+          end: {
+            dateTime: endDate.toISOString(),
+            timeZone: "America/Chicago",
+          },
+          reminders: {
+            useDefault: false,
+            overrides: [
+              {method: "email", minutes: 10},
+              {method: "popup", minutes: 10},
+            ],
+          },
+        },
+      }),
+    });
+    const data = await res.json();
+    console.log("res", data);
   };
 
   return (
@@ -234,13 +480,33 @@ const CreateTask = ({
             Fill in the details below to create a new task
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-1 ">
-          <h1>Task name</h1>
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Task name"
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="grid gap-1 ">
+            <h1>Task name</h1>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Task name"
+            />
+          </div>
+          <div className="grid gap-1">
+            <h1>Category</h1>
+            <Select
+              value={selectedCategory}
+              onValueChange={setSelectedCategory}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="create task for" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((category) => (
+                  <SelectItem key={category.value} value={category.value}>
+                    {category.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="grid gap-4 grid-cols-2">
           <div className="grid gap-1 ">
@@ -255,23 +521,34 @@ const CreateTask = ({
                     !dueDate && "text-muted-foreground"
                   )}
                 >
-                  {dueDate ? format(dueDate, "PPP") : <span>Pick a date</span>}
+                  {dueDate ? (
+                    format(convertTimestampToDate(dueDate), "PPP")
+                  ) : (
+                    <span>Pick a date</span>
+                  )}
                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={dueDate}
-                  onSelect={setDueDate}
+                  selected={
+                    dueDate ? convertTimestampToDate(dueDate) : new Date()
+                  }
+                  onSelect={(date) =>
+                    date
+                      ? setDueDate(convertDateToTimestamp(date) as Timestamp)
+                      : setDueDate(undefined)
+                  }
                   className="rounded-md border"
                 />
               </PopoverContent>
             </Popover>
           </div>
+
           <div className="grid gap-1">
             <h1>Assign to</h1>
-            <Select value={assignee} onValueChange={setAssignee}>
+            {/* <Select value={assignee} onValueChange={setAssignee}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="create task for" />
               </SelectTrigger>
@@ -291,17 +568,79 @@ const CreateTask = ({
                   ))}
                 <SelectItem value={"all"}>Everyone</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
+            <div className=" flex h-9 items-center  rounded-md border border-border overflow-hidden  max-w-full">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-full w-full text-primary bg-transparent dark:bg-transparent"
+                  >
+                    {assignee && assignee?.length == 0 && (
+                      <>
+                        <Icons.add className="h-4 w-4" />
+                        <span className="hidden sm:inline">Assign to</span>
+                      </>
+                    )}
+                    {assignee && assignee?.length > 0 && (
+                      <div className="flex gap-1 w-full justify-start">
+                        {assignee.map((user) => (
+                          <div
+                            key={user}
+                            className="bg-foreground dark:bg-muted text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
+                          >
+                            {/* <button
+                              onClick={() => {
+                                setAssignee(assignee?.filter((u) => u != user));
+                              }}
+                              className="hover:text-primary/70"
+                            >
+                              <Icons.close className="h-3 w-3" />
+                            </button> */}
+                            {user == currentUser?.uid
+                              ? "You"
+                              : userData?.find((u) => u.uid == user)?.firstName}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-1 h-fit" align="start">
+                  <>
+                    {userData.map((user) => (
+                      <button
+                        onClick={() => {
+                          if (assignee?.includes(user.uid)) {
+                            setAssignee(assignee?.filter((u) => u != user.uid));
+                          } else {
+                            setAssignee([...(assignee || []), user.uid]);
+                          }
+                        }}
+                        key={user.uid}
+                        className="w-full px-8 p-2 h-fit flex items-center gap-2 hover:bg-muted"
+                      >
+                        <img
+                          src={user.photoURL}
+                          alt={user.firstName}
+                          className="h-6 w-6 rounded-full"
+                        />
+                        {user.uid == currentUser?.uid ? "You" : user.firstName}
+                        {assignee?.includes(user.uid) && (
+                          <Icons.check className="h-4 w-4 text-primary ml-auto absolute left-2" />
+                        )}
+                      </button>
+                    ))}
+                  </>
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
         </div>
         <div className="grid gap-1  w-[500px]">
           <h1>Notes (optional)</h1>
-          {/* <Textarea
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Task description"
-            className="w-full h-24"
-          ></Textarea> */}
+
           <Editor
             post={{
               id: "1",
@@ -310,6 +649,11 @@ const CreateTask = ({
             setScript={setNotes}
           />
         </div>
+        <GoogleCalender
+          addToCalendar={addToCalendar}
+          setAddToCalendar={setAddToCalendar}
+        />
+
         <div className="flex w-full justify-between mt-4">
           <Button onClick={() => setOpen(false)} variant={"outline"}>
             Cancel
@@ -330,75 +674,114 @@ const CreateTask = ({
   );
 };
 
-const TaskTable = ({
-  userData,
-  selectedStatus,
-  setSelectedStatus,
-  selectedUsers,
-  setSelectedUsers,
+const GoogleCalender = ({
+  addToCalendar,
+  setAddToCalendar,
 }: {
-  userData: UserData[];
-  selectedStatus: string[];
-  setSelectedStatus: React.Dispatch<React.SetStateAction<string[]>>;
-  selectedUsers: string[] | undefined;
-  setSelectedUsers: React.Dispatch<React.SetStateAction<string[] | undefined>>;
+  addToCalendar: boolean;
+  setAddToCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [tasks, setTasks] = React.useState<Task[]>([]);
-  const [filteredTasks, setFilteredTasks] = React.useState<Task[]>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const {currentUser, logInWithGoogleCalender} = useAuth()!;
+
+  const [hasToken, setHasToken] = React.useState(false);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "tasks"), (snapshot) => {
-      const tasks: Task[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Task[];
-      setTasks(tasks);
-      setIsLoading(false);
-    });
+    if (!hasToken) {
+      checkUserAccessScopes("https://www.googleapis.com/auth/calendar").then(
+        (res) => {
+          setHasToken(res);
+        }
+      );
+    }
+  }, [currentUser]);
 
-    // Cleanup the listener when the component unmounts
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const filteredTasks = tasks.filter((task) => {
-      const matchesStatus =
-        !selectedStatus.length || selectedStatus.includes(task.status);
-
-      const matchesUsers =
-        !selectedUsers?.length ||
-        selectedUsers.includes("all") ||
-        task.assignee.some((u) => selectedUsers.includes(u));
-
-      return matchesStatus && matchesUsers;
-    });
-
-    setFilteredTasks(filteredTasks);
-  }, [tasks, selectedStatus, selectedUsers]);
+  const checkUserAccessScopes = async (scope: string) => {
+    const response = await fetch(
+      `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${currentUser?.calenderToken}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error("Error checking user access scopes:", response);
+      return false;
+    }
+    const data = await response.json();
+    const scopes = data.scope.split(" ");
+    if (scopes.includes("https://www.googleapis.com/auth/calendar")) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <>
-      {isLoading ? (
-        <div className="w-full justify-center items-center flex">
-          <Icons.spinner className="animate-spin h-8 w-8 text-primary" />
-        </div>
+      {!hasToken ? (
+        <Button onClick={logInWithGoogleCalender}>
+          <Icons.google className="h-6 w-6 mr-2" />
+          Setup Google calender
+        </Button>
       ) : (
-        <div className="w-full flex flex-col items-center gap-1">
-          {!filteredTasks || filteredTasks.length == 0 ? (
-            <div className="text-2xl text-center w-full text-primary">
-              No tasks found
-            </div>
-          ) : (
-            <div className="flex flex-col items-center gap-1  w-[100%] ">
-              {filteredTasks.map((task) => (
-                <TaskRow task={task} key={task.id} userData={userData} />
-              ))}
-            </div>
-          )}
+        <div className="flex gap-2 items-center">
+          <Checkbox
+            checked={addToCalendar}
+            onCheckedChange={(checked: boolean) => setAddToCalendar(checked)}
+          />
+
+          <p
+            className={`${
+              addToCalendar ? "text-primary" : "text-muted-foreground"
+            }`}
+          >
+            Add to Google calendar
+          </p>
         </div>
       )}
     </>
+  );
+};
+
+const TaskTable = ({
+  tasks,
+  userData,
+}: {
+  tasks: Task[];
+
+  userData: UserData[];
+}) => {
+  // order by status if the status is the same order by due date
+  tasks.sort((a, b) => {
+    if (a.status == b.status) {
+      return (
+        convertTimestampToDate(a.dueDate).getTime() -
+        convertTimestampToDate(b.dueDate).getTime()
+      );
+    } else {
+      return a.status == "done" ? 1 : -1;
+    }
+  });
+
+  return (
+    <ScrollArea className="h-[400px] overflow-scroll p-4 pt-2 w-full bg-muted/40 border-t">
+      <ScrollBar orientation="vertical" className="" />
+      <div className="w-full h-full flex flex-col items-center gap-1">
+        {!tasks || tasks.length == 0 ? (
+          <div className="text-2xl text-center w-full text-primary flex items-center justify-center  h-[400px] ">
+            No tasks found
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1  w-[100%] ">
+            {tasks.map((task) => (
+              <TaskRow task={task} key={task.id} userData={userData} />
+            ))}
+          </div>
+        )}
+      </div>
+    </ScrollArea>
   );
 };
 
@@ -429,7 +812,7 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
           currentUser,
           task.name
         );
-    }, 1000);
+    }, 500);
   };
 
   const DeleteTask = async () => {
@@ -439,7 +822,7 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
   const [showViewDialog, setShowViewDialog] = React.useState(false);
 
   return (
-    <div className="flex justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg shadow-sm border relative gap-4 w-full hover:bg-foreground/60">
+    <div className="flex  justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg  border relative gap-4 w-full hover:bg-foreground/60">
       <Dialog open={showViewDialog} onOpenChange={setShowViewDialog}>
         <DialogTrigger asChild>
           <button className="absolute w-full h-full  z-10 left-0 top-0"></button>
@@ -486,24 +869,31 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
                   })}
                 </div>
               </div>
-              <Button
-                onClick={() => {
-                  updateField("status", isCompleted ? "todo" : "done");
-                  setIsCompleted(!isCompleted);
-                  setShowViewDialog(false);
-                  if (!isCompleted && currentUser)
-                    sendNotification(
-                      "completed",
-                      currentUser.uid,
-                      userData,
-                      currentUser,
-                      task.name
-                    );
-                }}
-                variant="outline"
-              >
-                {isCompleted ? "Mark as todo" : "Mark as done"}
-              </Button>
+              <div className="flex gap-2">
+                <CreateTask userData={userData} task={task} heading="Edit task">
+                  <Button variant="ghost" size="sm">
+                    <span className="hidden sm:inline">edit</span>
+                  </Button>
+                </CreateTask>
+                <Button
+                  onClick={() => {
+                    updateField("status", isCompleted ? "todo" : "done");
+                    setIsCompleted(!isCompleted);
+                    setShowViewDialog(false);
+                    if (!isCompleted && currentUser)
+                      sendNotification(
+                        "completed",
+                        currentUser.uid,
+                        userData,
+                        currentUser,
+                        task.name
+                      );
+                  }}
+                  variant="outline"
+                >
+                  {isCompleted ? "Mark as todo" : "Mark as done"}
+                </Button>
+              </div>
             </div>
           </DialogFooter>
         </DialogContent>
@@ -511,10 +901,10 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
       <AnimatePresence>
         {isCompleted && (
           <motion.div
-            animate={{width: "95%"}}
+            animate={{width: "calc(100% - 76px)"}}
             initial={{width: "0%"}}
             exit={{width: "0%"}}
-            className="absolute top-1/2 -translate-y-1/2 left-[56px] pointer-events-none  h-[2px] bg-primary z-30 origin-left"
+            className="absolute top-1/2 -translate-y-1/2 left-[56px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
           ></motion.div>
         )}
       </AnimatePresence>
@@ -534,14 +924,25 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
           <Icons.check className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-background" />
         )}
       </button>
-      <h1 className="w-[350px] overflow-hidden text-ellipsis whitespace-nowrap">
+      <h1
+        className={`w-[350px] overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300
+        ${isCompleted ? "opacity-30" : "opacity-100"}
+        `}
+      >
         {task.name}
       </h1>
       {/* <h1 className="w-[400px] overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
         {task.notes}
       </h1> */}
-      <div className="flex ml-auto gap-4 items-center">
-        <div className="flex  justify-end min-w-12">
+      <div
+        className={`flex ml-auto gap-4 items-center transition-opacity duration-300
+         ${isCompleted ? "opacity-30" : "opacity-100"}
+        `}
+      >
+        <div className="bg-foreground dark:bg-muted border  p-1 rounded-[12px] px-4 justify-center items-center text-center w-fit ">
+          {categories.find((c) => c.value == task.category)?.label}
+        </div>
+        <div className="flex  justify-end min-w-8">
           {task.assignee.map((assignee, index) => {
             const user = userData.find((u) => u.uid == assignee);
             return (
@@ -550,19 +951,15 @@ const TaskRow = ({task, userData}: {task: Task; userData: UserData[]}) => {
                 src={user?.photoURL}
                 alt={user?.firstName}
                 style={{zIndex: task.assignee.length - index}}
-                className="h-8 w-8 aspect-square rounded-full -ml-3"
+                className="h-8 min-w-8 w-8 aspect-square rounded-full -ml-3"
               />
             );
           })}
         </div>
 
-        <div className="bg-muted p-1 rounded-[12px] px-4 justify-center items-center text-center w-[120px] ">
-          {formatDaynameMonthDay(task.dueDate)}
-        </div>
-
         <Popover>
           <PopoverTrigger asChild>
-            <button className="bg-muted p-1 rounded-[12px] relative z-20">
+            <button className="bg-foreground dark:bg-muted border p-1 rounded-[12px] relative z-20">
               <Icons.ellipsis />
             </button>
           </PopoverTrigger>
@@ -648,7 +1045,7 @@ function FilterStatus({
           <Button
             variant="outline"
             size="sm"
-            className="h-full  text-primary bg-muted"
+            className="h-full  text-primary bg-foreground dark:bg-muted"
           >
             <PlusCircle className="mr-1 h-4 w-4" />
             Status
@@ -693,7 +1090,7 @@ function FilterStatus({
             {selectedStatus.map((status) => (
               <div
                 key={status}
-                className="bg-muted  text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
+                className="bg-foreground dark:bg-muted  text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
               >
                 <button
                   onClick={() => {
@@ -735,7 +1132,7 @@ function FilterUser({
           <Button
             variant="outline"
             size="sm"
-            className="h-full  text-primary bg-muted"
+            className="h-full  text-primary bg-foreground dark:bg-muted"
           >
             <PlusCircle className="mr-1 h-4 w-4" />
             Tasks for
@@ -781,7 +1178,7 @@ function FilterUser({
             {selectedUsers.map((user) => (
               <div
                 key={user}
-                className="bg-muted  text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
+                className="bg-foreground dark:bg-muted text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
               >
                 <button
                   onClick={() => {

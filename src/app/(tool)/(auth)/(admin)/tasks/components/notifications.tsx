@@ -338,6 +338,7 @@ export const sendNotification = async (
 
   if (docSnap.exists()) {
     const data = docSnap.data() as NotificationSettings;
+    if (!data[user]?.recipients) return;
     const recipients = data[user].recipients;
     recipients.forEach((recipient: string) => {
       if (trigger === "created") {

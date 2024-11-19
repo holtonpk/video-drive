@@ -23,6 +23,7 @@ import {Notifications, CompletedVideo, PayoutLocation} from "@/config/data";
 interface AuthContextType {
   currentUser: UserData | undefined;
   logInWithGoogle: () => Promise<any>;
+  logInWithGoogleCalender: () => Promise<any>;
   logOut: () => Promise<void>;
   showLoginModal: boolean;
   setShowLoginModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,6 +44,7 @@ export interface UserData extends FirebaseUser {
   notificationSettings: Notifications;
   completedVideos?: CompletedVideo[];
   payoutInfo?: PayoutLocation;
+  calenderToken?: string;
 }
 
 export function AuthProvider({children}: {children: React.ReactNode}) {
@@ -97,6 +99,30 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
           result.user.email || "",
           result.user.photoURL || undefined
         );
+        return {success: result};
+      } else {
+        return {error: result};
+      }
+    } catch (error: any) {
+      return {error};
+    }
+  }
+
+  async function logInWithGoogleCalender(): Promise<{
+    success?: any;
+    error?: any;
+  }> {
+    try {
+      const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/calendar");
+      const result = await signInWithPopup(auth, provider);
+
+      if (result.user) {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken; // This is the OAuth access token
+        // save token to user
+        const userRef = doc(db, "users", result.user.uid);
+        await setDoc(userRef, {calenderToken: token}, {merge: true});
         return {success: result};
       } else {
         return {error: result};
@@ -162,6 +188,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             lastName: userData?.lastName,
             photoURL: userData?.photoURL,
             notificationSettings: userData?.notificationSettings,
+            calenderToken: userData?.calenderToken,
           });
         }
       } else {
@@ -178,6 +205,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     logOut,
     showLoginModal,
     setShowLoginModal,
+    logInWithGoogleCalender,
   };
 
   return (

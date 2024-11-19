@@ -19,6 +19,7 @@ import {Button} from "@/components/ui/button";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import LinkTool from "@editorjs/link";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 type Post = {
   id: string;
@@ -115,11 +116,11 @@ export function Editor({post, setScript}: EditorProps) {
   }
 
   return (
-    <div className="grid w-full overflow-hidden">
+    <ScrollArea className="grid w-full h-[200px] border rounded-md">
       <div
         id="description-editor"
-        className="h-[200px] relative w-[500px] shadow-lg px-4  text-primary border rounded-md editor-js-view "
+        className="h-[200px] relative w-[500px] shadow-lg px-4  text-primary  editor-js-view "
       ></div>
-    </div>
+    </ScrollArea>
   );
 }
