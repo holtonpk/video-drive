@@ -2,7 +2,6 @@
 
 import React, {use, useEffect, useState} from "react";
 import {Icons} from "@/components/icons";
-import {useAuth, UserData} from "@/context/user-auth";
 import {Button} from "@/components/ui/button";
 import {db} from "@/config/firebase";
 import {convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
@@ -15,6 +14,7 @@ import {
 } from "firebase/firestore";
 
 import {Notifications} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
+import {useAuth, UserData} from "@/context/user-auth";
 import {
   Task,
   USERS,
@@ -66,8 +66,6 @@ const Tasks = () => {
     // Cleanup the listener when the component unmounts
     return () => unsubscribe();
   }, []);
-
-  console.log("userdat ==", userData);
 
   const [selectedUsers, setSelectedUsers] = React.useState<
     string[] | undefined

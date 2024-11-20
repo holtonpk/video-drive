@@ -43,7 +43,7 @@ export async function GET() {
           content: `${directions} video script:${videoScript}`,
         },
       ],
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o",
     });
 
     return NextResponse.json({
@@ -52,7 +52,7 @@ export async function GET() {
   } catch (error) {
     console.log("error =========", error);
     return NextResponse.json({
-      response: "Moltar isnt working right now. Please try again later.",
+      response: error,
     });
   }
 }

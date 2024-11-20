@@ -60,4 +60,12 @@ export const categories = [
     label: "📹 Videos",
     value: "videos",
   },
+  {
+    label: "💡 Strategy",
+    value: "strategy",
+  },
+  {
+    label: "🛠️ Tools",
+    value: "tools-technology",
+  },
 ];

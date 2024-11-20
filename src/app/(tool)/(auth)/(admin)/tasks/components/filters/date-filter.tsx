@@ -74,7 +74,7 @@ export const DateFilter = ({
           {dates.splice(0, displayedDays).map((date) => (
             <button
               key={date.toISOString()}
-              className={`flex flex-col text-primary bg-background items-center  transition-colors duration-300 rounded-md relative overflow-hidden border-2 ${
+              className={`flex flex-col cursor-pointer text-primary bg-background items-center  transition-colors duration-300 rounded-md relative overflow-hidden border-2 ${
                 selectedDate?.toDateString() === date.toDateString()
                   ? "border-blue-500 "
                   : "hover:border-blue-300"

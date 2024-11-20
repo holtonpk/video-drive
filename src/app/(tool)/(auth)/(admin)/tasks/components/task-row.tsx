@@ -11,7 +11,8 @@ import {OutputData} from "@editorjs/editorjs";
 import {motion} from "framer-motion";
 import {AnimatePresence} from "framer-motion";
 import {sendNotification} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
-import {deleteDoc, setDoc, doc} from "firebase/firestore";
+import {deleteDoc, setDoc, doc, getDoc} from "firebase/firestore";
+import {cn, convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,7 +41,9 @@ import {
 } from "@/src/app/(tool)/(auth)/(admin)/tasks/data";
 import {CreateTask} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/create-task";
 import {EditorJsRender} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notes/editor-js-render";
-
+import {checkUserAccessScopes} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/create-task";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {TaskCard} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/task-card";
 export const TaskRow = ({
   taskData,
   userData,
@@ -49,7 +52,7 @@ export const TaskRow = ({
   userData: UserData[];
 }) => {
   const [task, setTask] = React.useState(taskData);
-  const [isCompleted, setIsCompleted] = React.useState(task.status == "done");
+  const [isCompleted, setIsCompleted] = React.useState<boolean>();
 
   const {currentUser} = useAuth()!;
 
@@ -85,24 +88,15 @@ export const TaskRow = ({
 
   const [showViewDialog, setShowViewDialog] = React.useState(false);
 
-  const UpdateDescription = async (description: OutputData | string) => {
-    await setDoc(
-      doc(db, "tasks", task.id),
-      {
-        notes: description,
-      },
-      {merge: true}
-    );
-  };
-
-  const updateTask = async (updatedTask: Task) => {
-    console.log("updatedTask===========", updatedTask);
-    setTask(updatedTask);
-  };
-
   useEffect(() => {
-    console.log("task being set", task);
-  }, [task]);
+    console.log("useeeee");
+    setTask(taskData);
+    setIsCompleted(taskData.status == "done");
+    console.log("task.status", task.status);
+  }, [taskData]);
+
+  console.log("isCompleted", isCompleted);
+  console.log("task.status", taskData.status);
 
   return (
     <div className="flex  justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg  border relative gap-4 w-full hover:bg-foreground/60">
@@ -110,7 +104,7 @@ export const TaskRow = ({
         <DialogTrigger asChild>
           <button className="absolute w-full h-full  z-10 left-0 top-0"></button>
         </DialogTrigger>
-        <DialogContent className="text-primary">
+        {/* <DialogContent className="text-primary">
           <DialogHeader>
             <DialogTitle className="text-lg">{task.name}</DialogTitle>
             {task.notes && (
@@ -189,6 +183,15 @@ export const TaskRow = ({
               </div>
             </div>
           </DialogFooter>
+        </DialogContent> */}
+
+        <DialogContent className="p-0">
+          <TaskCard
+            task={task}
+            setTask={setTask}
+            userData={userData}
+            setShowViewDialog={setShowViewDialog}
+          />
         </DialogContent>
       </Dialog>
       <AnimatePresence>

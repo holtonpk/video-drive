@@ -36,7 +36,7 @@ const Navbar = () => {
   const {setTheme} = useTheme();
 
   return (
-    <div className="justify-between top-0 gap-8 p-4 items-center z-[50]  px-6 hidden sm:flex">
+    <div className="justify-between top-0 gap-8 p-4 items-center z-[50] h-16 px-6 hidden sm:flex">
       <NavigationMenu>
         <NavigationMenuList className="gap-8">
           <NavigationMenuItem>

@@ -68,7 +68,7 @@ export const EditorJsRender = ({
                   : ""
               }`}
             >
-              {item.text}
+              {item.text.replaceAll(/&nbsp;/g, " ")}
             </p>
           </div>
         ))}
@@ -98,7 +98,9 @@ export const EditorJsRender = ({
           return (
             <div
               key={block.id}
-              dangerouslySetInnerHTML={{__html: html.join("")}}
+              dangerouslySetInnerHTML={{
+                __html: html.join(""),
+              }}
             />
           );
         }

@@ -346,6 +346,20 @@ export const sendNotification = async (
   </p>
   `;
 
+  const openButton = `
+  <a href="whitespace-media.com/tasks/${task.id}" style="background-color: #1d4ed8; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 20px;
+  cursor: pointer;">Open Task</a>
+  `;
+
   let notesString = "";
   if (task.notes) {
     if (task.notes && typeof task.notes !== "string") {
@@ -360,15 +374,16 @@ export const sendNotification = async (
     if (!data[user]?.recipients) return;
     const recipients = data[user].recipients;
     recipients.forEach((recipient: string) => {
+      if (recipient === currentUser.uid) return;
       if (trigger === "created") {
         emailTemp = {
           subject: `${subjectCopy} for ${
-            user === currentUser.uid
+            user === recipient
               ? "you"
               : usersData.find((userData) => userData.uid === user)?.firstName
           }`,
           line_1: `${task.name}`,
-          html_line: `${dueDate} ${
+          html_line: `${openButton}${dueDate} ${
             task.notes && "<h2>Notes:</h2>" + notesString
           }`,
           to_email: usersData.find((userData) => userData.uid === recipient)
@@ -377,14 +392,14 @@ export const sendNotification = async (
       } else if (trigger === "completed") {
         emailTemp = {
           subject: `${subjectCopy} by ${
-            user === currentUser.uid
+            user === recipient
               ? "you"
               : usersData.find((userData) => userData.uid === user)?.firstName
           }`,
           line_1: `The following task has been completed:
         \n\n ${task.name}
         `,
-          html_line: `${dueDate} ${
+          html_line: `${openButton}${dueDate} ${
             task.notes && "<h2>Notes:</h2>" + notesString
           }`,
           to_email: usersData.find((userData) => userData.uid === recipient)
