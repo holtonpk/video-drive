@@ -170,3 +170,39 @@
 .editor-js-view h6 {
   @apply text-base;
 }
+
+.task-table-grad-bottom {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    180deg,
+    hsl(var(--popover) / 0) 0%,
+    hsl(var(--popover) / 0.8) 99%
+  );
+}
+
+.dark .task-table-grad-bottom {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    180deg,
+    hsl(var(--card) / 0) 0%,
+    hsl(var(--card) / 0.5) 99%
+  );
+}
+
+.task-table-grad-top {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    0deg,
+    hsl(var(--popover) / 0) 0%,
+    hsl(var(--popover) / 0.8) 99%
+  );
+}
+
+.dark .task-table-grad-top {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    0deg,
+    hsl(var(--card) / 0) 0%,
+    hsl(var(--card) / 0.5) 99%
+  );
+}

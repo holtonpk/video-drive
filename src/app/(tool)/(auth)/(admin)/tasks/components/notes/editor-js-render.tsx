@@ -107,17 +107,57 @@ export const EditorJsRender = ({
   );
 };
 
-export const EditorJsToHtml = ({script}: {script: OutputData}) => {
-  const edjsParser = edjsHTML({
-    checklist: (block: any) => {
-      // Return a placeholder since checklist blocks are rendered directly
-      return `<div data-react-checklist-id="${block.id}"></div>`;
-    },
-  });
+export const EditorJsToHtml = (outputData: OutputData) => {
+  console.log("outputData", outputData);
 
-  const html = edjsParser.parse(script);
+  // Custom parser for checklist blocks
+  const checklistParser = (block: any) => {
+    console.log("block ===", block);
+    return `
+      <div style="display: grid; gap: 16px;">
+  ${block.data.items
+    .map(
+      (item: any) => `
+  <table style="border-collapse: collapse; width: 100%; margin: 0; padding: 0;">
+    <tr>
+      <td style="width: 16px; vertical-align: top;">
+        <div style="height: 16px; width: 16px; border: 1px solid black; border-radius: 4px; position: relative; background-color: ${
+          item.checked ? "black" : "white"
+        }; text-align: center;">
+          ${
+            item.checked
+              ? '<span style="height: 16px; width: 16px; color: white; display: inline-block; line-height: 16px;">✔</span>'
+              : ""
+          }
+        </div>
+      </td>
+      <td style="vertical-align: top; padding-left: 8px;">
+        <p style="font-size: 16px; margin: 0; ${
+          item.checked ? "text-decoration: line-through;" : ""
+        }">
+          ${item.text}
+        </p>
+      </td>
+    </tr>
+  </table>
+`
+    )
+    .join("")}
+</div>
+      `;
+  };
 
-  console.log("html", html);
+  // Initialize edjsHTML with a custom parser for checklist blocks
+  const edjsParser = edjsHTML({checklist: checklistParser});
 
-  return html.join(" ");
+  // Check if blocks exist
+  if (!outputData || !outputData.blocks || !Array.isArray(outputData.blocks)) {
+    throw new Error("Invalid outputData: blocks array is required.");
+  }
+
+  // Parse the blocks and combine the output
+  const htmlArray = edjsParser.parse(outputData);
+
+  // Join the parsed blocks into a single HTML string
+  return htmlArray.join("");
 };

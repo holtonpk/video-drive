@@ -59,6 +59,9 @@ export function Editor({post, setScript}: EditorProps) {
         onChange: () => {
           SaveData();
         },
+
+        minHeight: 0,
+
         data: body.content,
         inlineToolbar: true,
 
@@ -91,10 +94,10 @@ export function Editor({post, setScript}: EditorProps) {
   }, [post, setScript]);
 
   return (
-    <ScrollArea className="grid w-full h-[200px] border rounded-md">
+    <ScrollArea className="grid w-full overflow-scroll h-[200px] border rounded-md">
       <div
         id="notes-editor"
-        className="h-fit w-[500px]  relative px-4  text-primary  editor-js-view "
+        className="h-fit  w-[500px] relative px-4  text-primary  editor-js-view "
       ></div>
     </ScrollArea>
   );

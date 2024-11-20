@@ -73,7 +73,8 @@ export const TaskRow = ({
           currentUser.uid,
           userData,
           currentUser,
-          task
+          task,
+          "A task has been completed"
         );
     }, 500);
   };
@@ -177,7 +178,8 @@ export const TaskRow = ({
                         currentUser.uid,
                         userData,
                         currentUser,
-                        task
+                        task,
+                        "A task has been completed"
                       );
                   }}
                   variant="outline"
@@ -216,13 +218,13 @@ export const TaskRow = ({
         )}
       </button>
       <h1
-        className={`w-[350px] overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300
+        className={`flex-grow overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300 
         ${isCompleted ? "opacity-30" : "opacity-100"}
         `}
       >
         {task.name}
       </h1>
-      {/* <h1 className="w-[400px] overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground">
+      {/* <h1 className="w-[400px] overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground w-[150px] sm:w-[225px] md:w-[185px]  lg:w-[350px]">
         {task.notes}
       </h1> */}
       <div
@@ -230,7 +232,7 @@ export const TaskRow = ({
          ${isCompleted ? "opacity-30" : "opacity-100"}
         `}
       >
-        <div className="bg-foreground dark:bg-muted border  p-1 rounded-[12px] px-4 justify-center items-center text-center w-fit ">
+        <div className="bg-foreground dark:bg-muted border p-1 rounded-[12px] px-4 justify-center items-center text-center w-fit ">
           {categories.find((c) => c.value == task.category)?.label}
         </div>
         <div className="flex  justify-end min-w-8">

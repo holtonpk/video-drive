@@ -36,8 +36,31 @@ export const DateFilter = ({
     });
   };
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const displayedDays =
+    screenWidth < 450
+      ? 3
+      : screenWidth < 640
+      ? 5
+      : screenWidth < 768
+      ? 7
+      : screenWidth < 1024
+      ? 7
+      : 11;
+
   return (
-    <div className="flex gap-2 flex-col w-fit items-center  ">
+    <div className="flex gap-2 flex-col w-full items-center bg-foreground/40 dark:bg-muted/40 pb-2 pt-4 ">
       <div className="flex items-center w-fit ">
         <Button
           variant={"ghost"}
@@ -47,8 +70,8 @@ export const DateFilter = ({
         >
           <Icons.chevronLeft className="h-6 w-6" />
         </Button>
-        <div className="grid grid-cols-11 gap-4">
-          {dates.map((date) => (
+        <div className="grid grid-cols-3 xsm:grid-cols-5 sm:grid-cols-7 md:grid-cols-7 lg:grid-cols-11 gap-4">
+          {dates.splice(0, displayedDays).map((date) => (
             <button
               key={date.toISOString()}
               className={`flex flex-col text-primary bg-background items-center  transition-colors duration-300 rounded-md relative overflow-hidden border-2 ${

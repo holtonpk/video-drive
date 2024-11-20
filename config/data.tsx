@@ -21,6 +21,7 @@ import {Pencil, Circle, CircleCheckBig, CircleX} from "lucide-react";
 export const ADMIN_USERS = [
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+  "x9h3UepduwQHoCkwUh7bPGqEeTj2",
 ];
 export const EDITORS = [
   // "orxFlEC5v8euefk1OSJVTVXgilE2",

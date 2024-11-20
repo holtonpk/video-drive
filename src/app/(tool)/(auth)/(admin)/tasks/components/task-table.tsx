@@ -6,6 +6,7 @@ import {convertTimestampToDate} from "@/lib/utils";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 import {Task} from "@/src/app/(tool)/(auth)/(admin)/tasks/data";
 import {TaskRow} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/task-row";
+import {motion, AnimatePresence} from "framer-motion";
 export const TaskTable = ({
   tasks,
   userData,
@@ -26,8 +27,20 @@ export const TaskTable = ({
     }
   });
 
+  const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
+
   return (
-    <ScrollArea className="max-h-fit h-[400px] overflow-scroll py-2 px-4 pt-2 w-full bg-muted/40 border-t">
+    <ScrollArea
+      onScroll={(e: any) => {
+        if (e.target.scrollTop !== 0) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+      }}
+      id="task-table"
+      className="max-h-fit h-[405px] overflow-scroll  px-4  w-full  border-t bg-muted/10"
+    >
       <ScrollBar orientation="vertical" className="" />
       <div className="w-full h-full flex flex-col items-center gap-1">
         {!tasks || tasks.length == 0 ? (
@@ -35,13 +48,35 @@ export const TaskTable = ({
             No tasks found
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-1  w-[100%] ">
+          <div className="flex flex-col items-center gap-1 py-2 w-[100%] ">
             {tasks.map((task) => (
               <TaskRow taskData={task} key={task.id} userData={userData} />
             ))}
           </div>
         )}
       </div>
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.div
+            animate={{opacity: 1}}
+            initial={{opacity: 0}}
+            exit={{opacity: 0}}
+            transition={{duration: 0.2}}
+            className="absolute top-0 left-0 w-full  z-30 pointer-events-none "
+          >
+            <div className="task-table-grad-top w-full h-20 z-30 pointer-events-none"></div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {tasks && tasks.length > 7 && (
+        <>
+          <div className="w-full h-6"></div>
+          <div className="absolute bottom-0 left-0 w-full pointer-events-none z-30 animate-in fade-in-0 duration-500">
+            <div className="task-table-grad-bottom w-full h-20 z-30 pointer-events-none"></div>
+          </div>
+        </>
+      )}
     </ScrollArea>
   );
 };

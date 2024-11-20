@@ -11,13 +11,13 @@ import {cn, convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
 import {Editor} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notes/notes";
 import {OutputData} from "@editorjs/editorjs";
 import {sendNotification} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
-import {setDoc, doc, Timestamp} from "firebase/firestore";
+import {setDoc, doc, Timestamp, getDoc} from "firebase/firestore";
 import {Input} from "@/components/ui/input";
 import {Calendar} from "@/components/ui/calendar";
 import {CalendarIcon} from "lucide-react";
 import {format} from "date-fns";
 import edjsHTML from "editorjs-html";
-
+import {EditorJsToHtml} from "./notes/editor-js-render";
 import {
   Select,
   SelectContent,
@@ -40,6 +40,7 @@ import {
   statuses,
   categories,
 } from "@/src/app/(tool)/(auth)/(admin)/tasks/data";
+import {get} from "node:http";
 
 export const CreateTask = ({
   task,
@@ -48,6 +49,7 @@ export const CreateTask = ({
   heading,
   buttonCopy,
   callBack,
+  defaultDate,
 }: {
   task?: Task;
   children: React.ReactNode;
@@ -55,7 +57,9 @@ export const CreateTask = ({
   heading: string;
   buttonCopy?: string;
   callBack?: (task: Task) => void;
+  defaultDate?: Timestamp | undefined;
 }) => {
+  console.log("defaultDate ====", defaultDate);
   const [open, setOpen] = React.useState(false);
 
   const {currentUser, logInWithGoogleCalender} = useAuth()!;
@@ -71,13 +75,20 @@ export const CreateTask = ({
     task ? task.assignee : []
   );
   const [dueDate, setDueDate] = React.useState<Timestamp | undefined>(
-    task ? task.dueDate : undefined
+    task ? task.dueDate : defaultDate ? defaultDate : undefined
   );
   const [notes, setNotes] = React.useState<OutputData | string | undefined>(
     task ? task.notes : ""
   );
 
-  const [addToCalendar, setAddToCalendar] = React.useState(false);
+  const [addToCalendar, setAddToCalendar] = React.useState(
+    localStorage.getItem("addToGoogleDefault") === "true" ? true : false
+  );
+
+  useEffect(() => {
+    // save to local storage
+    localStorage.setItem("addToGoogleDefault", addToCalendar.toString());
+  }, [addToCalendar]);
 
   const saveTask = async () => {
     setIsSaving(true);
@@ -92,9 +103,6 @@ export const CreateTask = ({
       notes,
     };
 
-    const edjsParser = edjsHTML();
-    const notesHTML = edjsParser.parse(notes as OutputData).join(" ");
-
     const taskRef = doc(db, "tasks", id);
     await setDoc(taskRef, taskData);
 
@@ -106,11 +114,11 @@ export const CreateTask = ({
           userData,
           currentUser,
           taskData,
-          notesHTML
+          task ? "A task has been updated" : "A new task has been created"
         );
       });
     // Save task logic here
-    if (addToCalendar && currentUser?.calenderToken) {
+    if (addToCalendar) {
       await saveToCalender();
     }
 
@@ -129,7 +137,36 @@ export const CreateTask = ({
   };
 
   const saveToCalender = async () => {
-    if (!currentUser?.calenderToken) return;
+    if (!currentUser) return;
+    // if (!currentUser?.calenderToken) return;
+
+    let accessToken = currentUser.calenderToken;
+
+    const hasAccess = await checkUserAccessScopes(
+      "https://www.googleapis.com/auth/calendar"
+    );
+
+    if (!hasAccess) {
+      await logInWithGoogleCalender()
+        .then(() => {
+          // Return the promise so the next `.then` can use its result
+          return getDoc(doc(db, "users", currentUser.uid));
+        })
+        .then((doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            if (data) {
+              accessToken = data.calenderToken;
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Error during Google Calendar login or fetching document:",
+            error
+          );
+        });
+    }
 
     const startDate = convertTimestampToDate(dueDate!);
     startDate.setHours(8, 0, 0, 0); // Set to 8:00 AM
@@ -143,7 +180,7 @@ export const CreateTask = ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        accessToken: currentUser.calenderToken,
+        accessToken: accessToken,
         event: {
           summary: title,
           description:
@@ -173,6 +210,39 @@ export const CreateTask = ({
     console.log("res", data);
   };
 
+  // useEffect(() => {
+  //   if (!hasToken) {
+  //     checkUserAccessScopes("https://www.googleapis.com/auth/calendar").then(
+  //       (res) => {
+  //         setHasToken(res);
+  //       }
+  //     );
+  //   }
+  // }, [currentUser]);
+
+  const checkUserAccessScopes = async (scope: string) => {
+    const response = await fetch(
+      `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${currentUser?.calenderToken}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error("Error checking user access scopes:", response);
+      return false;
+    }
+    const data = await response.json();
+    const scopes = data.scope.split(" ");
+    if (scopes.includes("https://www.googleapis.com/auth/calendar")) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const resetValues = () => {
     setTitle("");
     setAssignee([]);
@@ -188,6 +258,9 @@ export const CreateTask = ({
   }, [open]);
 
   useEffect(() => {
+    if (defaultDate) {
+      setDueDate(defaultDate);
+    }
     if (task) {
       setTitle(task.name);
       setAssignee(task.assignee);
@@ -195,13 +268,13 @@ export const CreateTask = ({
       setSelectedCategory(task.category || "");
       setNotes(task.notes || "");
     }
-  }, [task]);
+  }, [task, defaultDate]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="text-primary min-w-fit">
+      <DialogContent className="text-primary min-w-fit ">
         <DialogHeader>
           <DialogTitle className="text-primary">{heading}</DialogTitle>
           <DialogDescription className="text-muted-foreground">
@@ -377,10 +450,10 @@ export const CreateTask = ({
             setScript={setNotes}
           />
         </div>
-        {/* <GoogleCalender
-            addToCalendar={addToCalendar}
-            setAddToCalendar={setAddToCalendar}
-          /> */}
+        <GoogleCalender
+          addToCalendar={addToCalendar}
+          setAddToCalendar={setAddToCalendar}
+        />
 
         <div className="flex w-full justify-between mt-4">
           <Button onClick={() => setOpen(false)} variant={"outline"}>
@@ -406,66 +479,22 @@ const GoogleCalender = ({
   addToCalendar: boolean;
   setAddToCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const {currentUser, logInWithGoogleCalender} = useAuth()!;
-
-  const [hasToken, setHasToken] = React.useState(false);
-
-  useEffect(() => {
-    if (!hasToken) {
-      checkUserAccessScopes("https://www.googleapis.com/auth/calendar").then(
-        (res) => {
-          setHasToken(res);
-        }
-      );
-    }
-  }, [currentUser]);
-
-  const checkUserAccessScopes = async (scope: string) => {
-    const response = await fetch(
-      `https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=${currentUser?.calenderToken}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    if (!response.ok) {
-      console.error("Error checking user access scopes:", response);
-      return false;
-    }
-    const data = await response.json();
-    const scopes = data.scope.split(" ");
-    if (scopes.includes("https://www.googleapis.com/auth/calendar")) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   return (
     <>
-      {!hasToken ? (
-        <Button onClick={logInWithGoogleCalender}>
-          <Icons.google className="h-6 w-6 mr-2" />
-          Setup Google calender
-        </Button>
-      ) : (
-        <div className="flex gap-2 items-center">
-          <Checkbox
-            checked={addToCalendar}
-            onCheckedChange={(checked: boolean) => setAddToCalendar(checked)}
-          />
+      <div className="flex gap-2 items-center">
+        <Checkbox
+          checked={addToCalendar}
+          onCheckedChange={(checked: boolean) => setAddToCalendar(checked)}
+        />
 
-          <p
-            className={`${
-              addToCalendar ? "text-primary" : "text-muted-foreground"
-            }`}
-          >
-            Add to Google calendar
-          </p>
-        </div>
-      )}
+        <p
+          className={`${
+            addToCalendar ? "text-primary" : "text-muted-foreground"
+          }`}
+        >
+          Add to Google calendar
+        </p>
+      </div>
     </>
   );
 };

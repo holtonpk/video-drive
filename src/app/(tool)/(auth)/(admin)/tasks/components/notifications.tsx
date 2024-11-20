@@ -4,9 +4,10 @@ import React, {use, useEffect} from "react";
 import {Icons} from "@/components/icons";
 import {useAuth, UserData} from "@/context/user-auth";
 import axios from "axios";
-
+import {EditorJsToHtml} from "./notes/editor-js-render";
+import {OutputData} from "@editorjs/editorjs";
 import {Button} from "@/components/ui/button";
-
+import {formatDaynameMonthDay} from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -214,7 +215,7 @@ export const Notifications = ({userData}: {userData: UserData[]}) => {
         <Button
           variant="outline"
           size="sm"
-          className=" text-primary bg-muted gap-1"
+          className=" text-primary bg-muted gap-1 hidden md:flex"
         >
           <Icons.bell className="h-4 w-4" />
           Notifications
@@ -331,12 +332,28 @@ export const sendNotification = async (
   usersData: UserData[],
   currentUser: UserData,
   task: Task,
-  notesHTML?: string
+  subjectCopy: string
 ) => {
   const docRef = doc(db, "taskAlerts", trigger);
   const docSnap = await getDoc(docRef);
 
   let emailTemp: any = null;
+
+  const dueDate = `
+  <p style="color:blue;">
+    Due Date:
+  ${formatDaynameMonthDay(task.dueDate)}
+  </p>
+  `;
+
+  let notesString = "";
+  if (task.notes) {
+    if (task.notes && typeof task.notes !== "string") {
+      notesString = EditorJsToHtml(task.notes as OutputData);
+    } else {
+      notesString = task.notes;
+    }
+  }
 
   if (docSnap.exists()) {
     const data = docSnap.data() as NotificationSettings;
@@ -345,19 +362,21 @@ export const sendNotification = async (
     recipients.forEach((recipient: string) => {
       if (trigger === "created") {
         emailTemp = {
-          subject: `A new task has been created for ${
+          subject: `${subjectCopy} for ${
             user === currentUser.uid
               ? "you"
               : usersData.find((userData) => userData.uid === user)?.firstName
           }`,
           line_1: `${task.name}`,
-          html_line: `${task.notes}`,
+          html_line: `${dueDate} ${
+            task.notes && "<h2>Notes:</h2>" + notesString
+          }`,
           to_email: usersData.find((userData) => userData.uid === recipient)
             ?.email,
         };
       } else if (trigger === "completed") {
         emailTemp = {
-          subject: `a task has been completed by ${
+          subject: `${subjectCopy} by ${
             user === currentUser.uid
               ? "you"
               : usersData.find((userData) => userData.uid === user)?.firstName
@@ -365,6 +384,9 @@ export const sendNotification = async (
           line_1: `The following task has been completed:
         \n\n ${task.name}
         `,
+          html_line: `${dueDate} ${
+            task.notes && "<h2>Notes:</h2>" + notesString
+          }`,
           to_email: usersData.find((userData) => userData.uid === recipient)
             ?.email,
         };

@@ -5,8 +5,14 @@ import {Icons} from "@/components/icons";
 import {useAuth, UserData} from "@/context/user-auth";
 import {Button} from "@/components/ui/button";
 import {db} from "@/config/firebase";
-import {convertTimestampToDate} from "@/lib/utils";
-import {getDoc, doc, collection, onSnapshot} from "firebase/firestore";
+import {convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
+import {
+  getDoc,
+  doc,
+  collection,
+  onSnapshot,
+  Timestamp,
+} from "firebase/firestore";
 
 import {Notifications} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
 import {
@@ -108,11 +114,11 @@ const Tasks = () => {
 
   return (
     <div>
-      <div className="container">
+      <div className="md:container">
         {userData && userData.length > 0 && (
-          <div className="flex flex-col gap-4 mx-auto items-center w-[80%] mt-6">
-            <div className="flex w-full justify-between">
-              <div className="flex gap-4  ">
+          <div className="flex flex-col gap-4 mx-auto items-center w-full md:w-[80%] mt-6">
+            <div className="flex lg:flex-row flex-col w-full justify-between ">
+              <div className=" gap-4  md:flex-row flex-col hidden md:flex">
                 <FilterStatus
                   selectedStatus={selectedStatus}
                   setSelectedStatus={setSelectedStatus}
@@ -123,12 +129,20 @@ const Tasks = () => {
                   setSelectedUsers={setSelectedUsers}
                 />
               </div>
-              <div className="flex gap-4 ">
+              <div className="flex gap-4 md:flex-row flex-col ">
                 <Notifications userData={userData} />
-                <CreateTask userData={userData} heading="Create a new task">
+                <CreateTask
+                  userData={userData}
+                  heading="Create a new task"
+                  defaultDate={
+                    selectedDate
+                      ? (convertDateToTimestamp(selectedDate) as Timestamp)
+                      : undefined
+                  }
+                >
                   <Button size="sm">
                     <Icons.add className="h-4 w-4" />
-                    <span className="hidden sm:inline">New Task</span>
+                    <span className="">New Task</span>
                   </Button>
                 </CreateTask>
               </div>
@@ -138,7 +152,7 @@ const Tasks = () => {
                 <Icons.spinner className="animate-spin h-8 w-8 text-primary" />
               </div>
             ) : (
-              <div className="flex flex-col border rounded-md  gap-2 pt-4 w-full  bg-muted/20">
+              <div className="flex flex-col border rounded-md overflow-hidden  blurBack w-full shadow-lg  ">
                 <DateFilter
                   tasks={taskForDate}
                   selectedDate={selectedDate}

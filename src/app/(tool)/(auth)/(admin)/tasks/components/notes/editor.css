@@ -1,3 +1,11 @@
+.codex-editor__loader {
+  height: 38px !important;
+}
+.codex-editor__redactor {
+  height: 38px !important;
+  padding: 0 !important;
+}
+
 #notes-view {
   @apply text-primary;
 }

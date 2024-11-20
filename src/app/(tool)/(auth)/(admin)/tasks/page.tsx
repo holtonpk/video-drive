@@ -6,26 +6,3 @@ const Page = () => {
 };
 
 export default Page;
-
-const categories = [
-  {
-    label: "Acquisition",
-    value: "acquisition",
-  },
-  {
-    label: "Branding",
-    value: "branding",
-  },
-  {
-    label: "Finance",
-    value: "finance",
-  },
-  {
-    label: "Client management",
-    value: "client-management",
-  },
-  {
-    label: "Videos",
-    value: "videos",
-  },
-];
