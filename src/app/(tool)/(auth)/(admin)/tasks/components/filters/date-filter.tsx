@@ -22,16 +22,29 @@ export const DateFilter = ({
   };
 
   const [referenceDate, setReferenceDate] = React.useState<Date>(new Date());
+
+  const getLastMonday = (date: Date): Date => {
+    const lastMonday = new Date(date);
+    const day = date.getDay();
+    const diff = (day === 0 ? -6 : 1) - day; // Adjust for Sunday (0) and other days
+    lastMonday.setDate(date.getDate() + diff);
+    return lastMonday;
+  };
+
+  const startFrom = getLastMonday(referenceDate);
+
   const dates = Array.from({length: 11}, (_, i) => {
-    const date = new Date(referenceDate);
-    date.setDate(referenceDate.getDate() + i);
+    const date = new Date(startFrom);
+    date.setDate(startFrom.getDate() + i);
     return date;
   });
 
   const handleMoveDate = (direction: "next" | "prev") => {
     setReferenceDate((prev) => {
       const newDate = new Date(prev);
-      newDate.setDate(prev.getDate() + (direction === "next" ? 10 : -10));
+      // Move by 7 days (1 week) * number of steps (e.g., 10 days/7 = ~1.4 weeks, rounded)
+      newDate.setDate(prev.getDate() + (direction === "next" ? 7 : -7)); // Increase week ranges
+      // 👆  newDate.setDate is "given selected, offset w/ multiples"
       return newDate;
     });
   };
@@ -76,20 +89,26 @@ export const DateFilter = ({
               key={date.toISOString()}
               className={`flex flex-col cursor-pointer text-primary bg-background items-center  transition-colors duration-300 rounded-md relative overflow-hidden border-2 ${
                 selectedDate?.toDateString() === date.toDateString()
-                  ? "border-blue-500 "
+                  ? "border-blue-600 "
                   : "hover:border-blue-300"
               }`}
               onClick={() => handleDateClick(date)}
             >
               {date.toDateString() === new Date().toDateString() && (
-                <div className="absolute h-3 w-3 bottom-0 right-0  bg-blue-600 rounded-tl-full"></div>
+                <div
+                  className={`absolute h-3 w-3 bottom-0 right-0  bg-blue-600 rounded-tl-full`}
+                ></div>
               )}
               {tasks.some(
                 (task) =>
                   convertTimestampToDate(task.dueDate).toDateString() ===
                     date.toDateString() && task.status == "todo"
               ) && (
-                <div className="absolute h-1 w-1 top-2 left-2  bg-blue-600 rounded-full"></div>
+                <div
+                  className={`absolute h-1 w-1 top-2 left-2 rounded-full
+                ${date > referenceDate ? "bg-blue-600" : "bg-red-600"}
+                  `}
+                ></div>
               )}
               <span className="bg-foreground dark:bg-muted w-full text-center">
                 {date.toLocaleString("en-US", {weekday: "short"})}
