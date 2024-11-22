@@ -8,12 +8,10 @@ import {Task} from "@/src/app/(tool)/(auth)/(admin)/tasks/data";
 
 export const DateFilter = ({
   tasks,
-
   selectedDate,
   setSelectedDate,
 }: {
   tasks: Task[];
-
   selectedDate: Date | undefined;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
 }) => {

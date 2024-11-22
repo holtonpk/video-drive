@@ -85,6 +85,21 @@ const Navbar = () => {
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
+            <Link href="/video-review" legacyBehavior passHref>
+              <NavigationMenuLink
+                className={`font-bold
+        ${
+          segment === "video-review"
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+              >
+                Video Review
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
             <NavigationMenuTrigger
               className={`p-0 text-base bg-transparent font-bold
              ${

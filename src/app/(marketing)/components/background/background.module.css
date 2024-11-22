@@ -4,14 +4,34 @@
 */
 
 .main {
+  --background: rgb(15, 17, 21);
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background, #0f1115);
+  position: fixed;
+  z-index: -999;
+  /* Add the repeating background image */
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+  background-image: url("/background/noise.png");
+  background-repeat: repeat; /* Ensures the image repeats */
+  background-size: 400px 400px; /* Matches the size of the original image */
+  opacity: 0.4; /* Adjust transparency */
+  filter: brightness(0.2); /* Adjust brightness */
+}
+
+/* .main {
   width: 100vw;
   min-height: 100vh;
   position: fixed;
   display: flex;
   justify-content: center;
-
   pointer-events: none;
   top: 0;
+  left: 0;
 }
 
 .main:before {
@@ -39,7 +59,7 @@
 
 .content {
   height: 500px;
-  height: 50%;
+  height: 100%;
   width: 100%;
 
   background-image: radial-gradient(
@@ -60,6 +80,7 @@
   filter: saturate(150%) blur(100px);
   -webkit-filter: saturate(150%) blur(100px);
   bottom: 0px;
+  opacity: 0.2;
 }
 
 @keyframes moveGradients {
@@ -69,4 +90,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
+} */

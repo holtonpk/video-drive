@@ -120,7 +120,7 @@ export function constructMetadata({
     },
     icons: {
       icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
-      shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon-16x16.png`,
+      shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
       apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
     },
     metadataBase: new URL("http://whitespace-media.com"),

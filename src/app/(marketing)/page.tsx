@@ -9,39 +9,42 @@ import {Faq} from "@/src/app/(marketing)/components/faq";
 import {Process} from "@/src/app/(marketing)/components/process";
 import {ContactUs} from "@/src/app/(marketing)/components/contact";
 import {constructMetadata} from "@/lib/utils";
+import {IntroText} from "@/src/app/(marketing)/components/intro-text";
+import {Showcase} from "@/src/app/(marketing)/components/showcase";
+import {CTA} from "@/src/app/(marketing)/components/cta";
+import {delay} from "framer-motion";
+import DownArrow from "./components/down-arrow";
 
 export const metadata = constructMetadata({
   title: "Whitespace Media",
-  description: "We specialize in organic marketing",
+  description: "Experts in short form",
 });
 const HomePage = () => {
   return (
     <>
-      <LoadingScreen />
-      <div className=" ">
+      {/* <LoadingScreen /> */}
+      <div className="dark">
         <Background />
-        <div className="md:h-screen justify-between  min-w-screen   flex flex-col ">
+        <div className="md:h-screen   min-w-screen   flex flex-col ">
           <Navbar />
-          <div className="rotate-[270deg] absolute -left-16 md:left-0 top-[30%] md:top-[40%] -translate-y-1/2 ">
-            <h1 className="text-md md:text-xl font1">
-              - Whitespace Media est. 2022 -
-            </h1>
+
+          <div className=" h-screen w-full  flex pt-[140px]  relative">
+            <Hero />
+            <DownArrow />
           </div>
-          <div className="rotate-[90deg] absolute -right-16 md:right-0 top-[30%] md:top-[40%] -translate-y-1/2 ">
-            <h1 className="text-md md:text-xl font1">
-              - Speed - Insights - Seemless -{" "}
-            </h1>
-          </div>
-          <Hero />
-          <Banner />
+          {/* <Banner /> */}
         </div>
+        <IntroText />
         <Stats />
 
         <Process />
+        <Showcase />
+        <CTA />
+        {/* 
 
         <Testimonials />
         <Faq />
-        <ContactUs />
+        <ContactUs /> */}
       </div>
       <Footer />
     </>

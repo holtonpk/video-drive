@@ -85,6 +85,10 @@ export const CreateTask = ({
     localStorage.getItem("addToGoogleDefault") === "true" ? true : false
   );
 
+  const [isWeekly, setIsWeekly] = React.useState<boolean>(
+    task ? (task.isWeekly ? task.isWeekly : false) : false
+  );
+
   const [taskLocal, setTaskLocal] = React.useState<Task | undefined>(task);
 
   useEffect(() => {
@@ -102,6 +106,7 @@ export const CreateTask = ({
       assignee: assignee,
       status: "todo",
       category: selectedCategory,
+      isWeekly: isWeekly,
       notes,
     };
     setTaskLocal(taskData);
@@ -137,92 +142,9 @@ export const CreateTask = ({
     setDueDate(undefined);
     setSelectedCategory("");
     setNotes("");
+    setIsWeekly(false);
     setShowTask(true);
   };
-
-  const saveToCalender = async () => {
-    if (!currentUser) return;
-    // if (!currentUser?.calenderToken) return;
-
-    let accessToken = currentUser.calenderToken;
-
-    const hasAccess = accessToken && (await checkUserAccessScopes(accessToken));
-
-    if (!hasAccess) {
-      await logInWithGoogleCalender()
-        .then(() => {
-          // Return the promise so the next `.then` can use its result
-          return getDoc(doc(db, "users", currentUser.uid));
-        })
-        .then((doc) => {
-          if (doc.exists()) {
-            const data = doc.data();
-            if (data) {
-              accessToken = data.calenderToken;
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(
-            "Error during Google Calendar login or fetching document:",
-            error
-          );
-        });
-    }
-
-    const startDate = convertTimestampToDate(dueDate!);
-    startDate.setHours(8, 0, 0, 0); // Set to 8:00 AM
-
-    const endDate = convertTimestampToDate(dueDate!);
-    endDate.setHours(9, 0, 0, 0); // Set to 9:00 AM
-
-    const calenderEvent = {
-      summary: title,
-      description:
-        notes && typeof notes !== "string"
-          ? notes.blocks.map((block) => block.data.text).join(" ") ||
-            notes.blocks.map((block) => block.data.items).join(" ")
-          : notes,
-      start: {
-        dateTime: startDate.toISOString(),
-        timeZone: "America/Chicago",
-      },
-      end: {
-        dateTime: endDate.toISOString(),
-        timeZone: "America/Chicago",
-      },
-      reminders: {
-        useDefault: false,
-        overrides: [
-          {method: "email", minutes: 10},
-          {method: "popup", minutes: 10},
-        ],
-      },
-    };
-
-    const res = await fetch("/api/save-to-google-calender", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        accessToken: accessToken,
-        event: calenderEvent,
-      }),
-    });
-    const data = await res.json();
-    console.log("res", data);
-  };
-
-  // useEffect(() => {
-  //   if (!hasToken) {
-  //     checkUserAccessScopes("https://www.googleapis.com/auth/calendar").then(
-  //       (res) => {
-  //         setHasToken(res);
-  //       }
-  //     );
-  //   }
-  // }, [currentUser]);
 
   const resetValues = () => {
     setTitle("");
@@ -230,6 +152,7 @@ export const CreateTask = ({
     setDueDate(undefined);
     setSelectedCategory("");
     setNotes("");
+    setIsWeekly(false);
   };
 
   useEffect(() => {
@@ -248,6 +171,7 @@ export const CreateTask = ({
       setDueDate(task.dueDate);
       setSelectedCategory(task.category || "");
       setNotes(task.notes || "");
+      setIsWeekly(task.isWeekly || false);
       setTaskLocal(task);
     }
   }, [task, defaultDate]);
@@ -282,7 +206,7 @@ export const CreateTask = ({
                 onValueChange={setSelectedCategory}
               >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="create task for" />
+                  <SelectValue placeholder="select a category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((category) => (
@@ -334,27 +258,7 @@ export const CreateTask = ({
 
             <div className="grid gap-1">
               <h1>Assign to</h1>
-              {/* <Select value={assignee} onValueChange={setAssignee}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="create task for" />
-                </SelectTrigger>
-                <SelectContent>
-                  {userData &&
-                    userData.map((user) => (
-                      <SelectItem key={user.uid} value={user.uid}>
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={user.photoURL}
-                            alt={user.firstName}
-                            className="h-6 w-6 rounded-full"
-                          />
-                          {user.uid == currentUser?.uid ? "You" : user.firstName}
-                        </div>
-                      </SelectItem>
-                    ))}
-                  <SelectItem value={"all"}>Everyone</SelectItem>
-                </SelectContent>
-              </Select> */}
+
               <div className=" flex h-9 items-center  rounded-md border border-border overflow-hidden  max-w-full">
                 <Popover>
                   <PopoverTrigger asChild>
@@ -445,6 +349,8 @@ export const CreateTask = ({
           setAddToCalendar={setAddToCalendar}
         /> */}
 
+          <WeeklyTask isWeekly={isWeekly} setIsWeekly={setIsWeekly} />
+
           <div className="flex w-full justify-between mt-4">
             <Button onClick={() => setOpen(false)} variant={"outline"}>
               Cancel
@@ -474,27 +380,23 @@ export const CreateTask = ({
   );
 };
 
-const GoogleCalender = ({
-  addToCalendar,
-  setAddToCalendar,
+const WeeklyTask = ({
+  isWeekly,
+  setIsWeekly,
 }: {
-  addToCalendar: boolean;
-  setAddToCalendar: React.Dispatch<React.SetStateAction<boolean>>;
+  isWeekly: boolean;
+  setIsWeekly: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (
     <>
       <div className="flex gap-2 items-center">
         <Checkbox
-          checked={addToCalendar}
-          onCheckedChange={(checked: boolean) => setAddToCalendar(checked)}
+          checked={isWeekly}
+          onCheckedChange={(checked: boolean) => setIsWeekly(checked)}
         />
 
-        <p
-          className={`${
-            addToCalendar ? "text-primary" : "text-muted-foreground"
-          }`}
-        >
-          Add to Google calendar
+        <p className={`${isWeekly ? "text-primary" : "text-muted-foreground"}`}>
+          This is a weekly task
         </p>
       </div>
     </>

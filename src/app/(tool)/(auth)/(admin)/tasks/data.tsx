@@ -17,6 +17,7 @@ export type Task = {
   status: "todo" | "done";
   notes?: OutputData | string;
   category?: string;
+  isWeekly?: boolean;
 };
 
 export type Status = {

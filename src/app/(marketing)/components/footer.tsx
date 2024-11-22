@@ -2,14 +2,50 @@ import {LucideProps} from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="w-full h-fit bg-primary relative p-2 pt-6 flex flex-col gap-3 items-center">
+    <div className="w-full h-fit bg-[#34F4AF] relative p-2 pt-6 flex flex-col gap-3 items-center overflow-hidden">
       <div className="flex items-center mx-auto">
-        <Logo className="fill-white h-10 mb-1" />
-        <h1 className="text-4xl text-white font1 ml-2">Whitespace Media</h1>
+        <Logo className="fill-[#141516] h-10 mb-1" />
+        <h1 className="text-4xl text-[#141516] font1-bold ml-2">
+          Whitespace Media
+        </h1>
       </div>
-      <h1 className="text-white/60">
+      <h1 className="text-[#141516] opacity-70">
         © 2024 Whitespace Media. All rights reserved.
       </h1>
+      <div className="absolute z-10 left-0    top-1/2 -translate-y-1/2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          height="120%"
+          fill="none"
+          viewBox="0 0 922 380"
+        >
+          <defs>
+            <pattern
+              id="dot-matrix-footer"
+              width="18"
+              height="18"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="3" cy="3" r="3" fill="#141516" />
+              <animateTransform
+                attributeType="XML"
+                attributeName="patternTransform"
+                type="translate"
+                from="0,0"
+                to="800,0"
+                dur="80s"
+                repeatCount="indefinite"
+              />
+            </pattern>
+          </defs>
+
+          <path
+            fill="url(#dot-matrix-footer)"
+            d="M92.863 1.106c39.909 3.98 80.703 20.013 113.647 44.56 11.498 8.515 31.95 28.64 40.794 39.918 13.266 16.917 20.452 30.076 61.135 112.453 44.11 88.901 43.889 88.569 57.708 97.857 18.351 12.274 45.879 12.495 64.341.664 6.08-3.871 17.799-15.812 18.794-19.24.442-1.438-5.307-14.264-17.357-38.48-9.95-20.014-30.291-61.036-45.105-91.112s-37.256-75.3-49.748-100.622C324.469 21.894 314.409.884 314.63.553S334.971 0 359.514.22c47.537.221 54.612.774 79.707 6.635 44.774 10.283 87.778 37.042 118.843 73.973 17.467 20.677 19.457 24.437 86.673 160.663 17.246 35.052 19.236 38.479 25.758 45.446 11.94 12.605 24.985 18.134 42.563 18.244 20.23 0 38.25-8.956 49.084-24.547l2.985-4.312-18.793-38.038c-10.171-20.898-31.176-63.469-46.543-94.429C657.561 58.493 629.038.663 629.038.332c0-.11 65.889-.332 146.481-.332S922 .442 922 .885c0 .442-12.271 25.542-27.196 55.84-15.035 30.296-34.05 68.997-42.452 86.025-76.612 156.13-79.154 160.663-102.591 183.773-60.804 60.041-158.863 70.103-232.269 23.773-17.025-10.836-40.683-32.84-50.854-47.546-2.653-3.76-4.975-6.856-5.085-6.856-.221 0-3.317 4.091-6.965 9.178-7.517 10.394-25.537 28.196-38.03 37.484-22.994 17.36-54.502 30.408-83.466 34.609-52.623 7.63-100.713-4.644-144.602-36.931-10.06-7.408-30.07-28.086-38.472-39.917-7.185-10.062-31.286-57.277-80.923-158.673-7.407-15.259-26.09-52.964-41.347-83.814C12.492 26.98 0 1.327 0 .774 0-.332 81.366 0 92.863 1.106"
+          ></path>
+        </svg>
+      </div>
     </div>
   );
 };
