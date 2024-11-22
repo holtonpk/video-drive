@@ -235,7 +235,7 @@ const SelectedVideo = ({video}: {video: VideoDataWithPosts}) => {
     >
       <h1 className="font-bold text-2xl">{video.title}</h1>
 
-      <Editor post={video.script} setScript={() => {}} />
+      {/* <Editor post={video.script} setScript={() => {}} /> */}
     </div>
   );
 };
