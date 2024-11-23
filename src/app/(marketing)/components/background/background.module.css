@@ -10,7 +10,6 @@
   background-color: var(--background, #0f1115);
   position: fixed;
   z-index: -999;
-  /* Add the repeating background image */
 }
 
 .content {

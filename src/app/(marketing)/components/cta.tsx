@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import {motion} from "framer-motion";
-import {Button} from "@/components/ui/button";
+import {LinkButton} from "@/components/ui/link";
 import {Icons} from "@/components/icons";
 
 export const CTA = () => {
@@ -9,7 +9,7 @@ export const CTA = () => {
 
   return (
     <div className="flex flex-col h-fit py-32 container items-center ">
-      <div className="flex gap-2  flex-wrap mx-auto w-fit">
+      <div className="flex gap-2 flex-wrap mx-auto w-fit justify-center md:justify-normal">
         {text.map((el, i) => (
           <motion.span
             variants={{
@@ -25,7 +25,7 @@ export const CTA = () => {
             initial="hidden" // Start in the hidden state
             whileInView="visible" // Animate to the visible state when in view
             viewport={{once: true}} // Ensures animation only plays once
-            className="font1-bold text-4xl text-white  "
+            className="font1-bold text-3xl md:text-4xl text-white  "
             key={i}
           >
             {el}{" "}
@@ -48,10 +48,13 @@ export const CTA = () => {
         whileInView="visible" // Animate to the visible state when in view
         viewport={{once: true}} // Ensures animation only plays once
       >
-        <Button className="w-fit mt-4 group relative z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-[4px] items-center">
+        <LinkButton
+          href="/work-with-us"
+          className="w-fit mt-4 group relative z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-[4px] items-center"
+        >
           <span className="text-white font1">Book a call today</span>
           <Icons.chevronRight className="group-hover:ml-4 ml-2 transition-all duration-300 text-white h-4 w-4" />
-        </Button>
+        </LinkButton>
       </motion.div>
     </div>
   );

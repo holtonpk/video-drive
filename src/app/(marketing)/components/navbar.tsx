@@ -5,11 +5,12 @@ import {LucideProps} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
-const Navbar = () => {
-  const [showNavbar, setShowNavbar] = useState(false);
+const Navbar = ({show}: {show: boolean}) => {
+  const [showNavbar, setShowNavbar] = useState(show);
 
   useEffect(() => {
     // if scroll is greater than 100vh show navbar
+    if (show) return;
     const handleScroll = () => {
       if (window.scrollY > window.innerHeight * 0.8) {
         setShowNavbar(true);
@@ -32,10 +33,10 @@ const Navbar = () => {
             animate={{y: 0, opacity: 1}}
             initial={{y: -100, opacity: 0}}
             exit={{y: -100, opacity: 0}}
-            className="fixed top-0 h-fit py-4  h-[80px] w-screen px-8 z-[999] "
+            className="fixed top-0  py-4  h-[80px] w-screen px-4 md:px-8 z-[999] "
           >
-            {/* <div
-              className="w-full h-[125px] absolute left-0 top-0 z-10"
+            <div
+              className="w-full h-[80px]  absolute left-0 top-0 z-10"
               style={{
                 opacity: 0.8,
                 backgroundColor: "transparent",
@@ -50,7 +51,7 @@ const Navbar = () => {
               }}
             />
             <div
-              className="w-full h-[120px] absolute left-0 top-0 z-[5]"
+              className="w-full h-[80px]  absolute left-0 top-0 z-[5]"
               //   style={{
               //     opacity: 0.8,
               //     backgroundColor: "transparent",
@@ -72,30 +73,34 @@ const Navbar = () => {
                 WebkitMaskImage: ` linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)`,
                 opacity: 1,
               }}
-            /> */}
+            />
             <div className="absolute top-0 left-0  w-full h-[80px]"></div>
-            <Link
-              className="flex items-center flex-col md:flex-row left-[18px]  absolute z-20 bottom-2 translate-y-1/2"
-              href="/"
-            >
-              <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
-            </Link>
-            <div className=" flex justify-between items-center  w-fit right-0 pr-8 absolute z-20 bottom-2 translate-y-1/2 ">
-              <div className="hidden md:flex gap-8 ml-auto items-center ">
-                <Link href="/#stats" className=" capitalize">
-                  about
-                </Link>
-                <button className="text-primary capitalize">Blog</button>
+            <div className="items-center flex justify-between w-full  relative z-30  h-full ">
+              <Link
+                className=" md:left-[18px] h-fit relative md:absolute z-30 md:bottom-2 md:translate-y-1/2"
+                href="/"
+              >
+                <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
+              </Link>
+              <div className=" flex justify-between items-center  w-fit md:right-0  relative md:absolute z-20 md:bottom-2 md:translate-y-1/2 ">
+                <div className="flex gap-4 md:gap-8 ml-auto items-center ">
+                  <Link href="/#stats" className=" capitalize font1">
+                    about
+                  </Link>
+                  <button className="text-primary capitalize font1">
+                    Blog
+                  </button>
 
-                <Link
-                  href="/contact"
-                  className={cn(
-                    buttonVariants({variant: "outline"}),
-                    " capitalize rounded-2xl bg-primary text-background hover:bg-primary hover:text-background transition-colors duration-500"
-                  )}
-                >
-                  Contact
-                </Link>
+                  <Link
+                    href="/work-with-us"
+                    className={cn(
+                      buttonVariants({variant: "outline"}),
+                      " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
+                    )}
+                  >
+                    Contact
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>

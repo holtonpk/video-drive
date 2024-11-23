@@ -23,23 +23,25 @@ const HomePage = () => {
   return (
     <>
       {/* <LoadingScreen /> */}
-      <div className="dark">
+      <div className="dark ">
         <Background />
-        <div className="md:h-screen   min-w-screen   flex flex-col ">
-          <Navbar />
+        <div className="md:h-screen   min-w-screen   flex flex-col  overflow-hidden">
+          <Navbar show={false} />
 
-          <div className=" h-screen w-full  flex pt-[140px]  relative">
+          <div className=" h-screen w-full pt-[200px]  flex md:pt-[140px]  relative">
             <Hero />
             <DownArrow />
           </div>
           {/* <Banner /> */}
         </div>
-        <IntroText />
-        <Stats />
+        <div className="container">
+          <IntroText />
+          <Stats />
 
-        <Process />
-        <Showcase />
-        <CTA />
+          <Process />
+          <Showcase />
+          <CTA />
+        </div>
         {/* 
 
         <Testimonials />

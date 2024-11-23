@@ -26,14 +26,14 @@ type Post = {
 };
 
 interface EditorProps {
-  post: Pick<Post, "id" | "content">;
+  post: any;
   setScript: (script: any) => void;
 }
 
 type FormData = z.infer<typeof postPatchSchema>;
 
 export function Editor({post, setScript}: EditorProps) {
-  console.log("post", post);
+  // console.log("post", post);
 
   const {register, handleSubmit} = useForm<FormData>({
     resolver: zodResolver(postPatchSchema),
@@ -44,44 +44,56 @@ export function Editor({post, setScript}: EditorProps) {
 
   const editorRef = React.useRef<any>(null);
 
-  React.useEffect(() => {
-    // if (!editorRef.current) {
-    const body = postPatchSchema.parse(post);
-    console.log("body", body);
+  const editorReady = React.useRef(false);
 
-    editorRef.current = new EditorJS({
-      holder: "script-editor",
-      onReady() {
-        ref.current = editorRef.current;
-      },
-      onChange: () => {
-        SaveData();
-      },
-      data: body.content,
-      inlineToolbar: true,
-      placeholder: "Type the script here...",
-      tools: {
-        header: Header,
-        list: {
-          class: List,
-          inlineToolbar: true,
+  React.useEffect(() => {
+    if (!editorRef.current) {
+      editorRef.current = new EditorJS({
+        holder: "script-editor-review",
+        onReady() {
+          ref.current = editorRef.current;
+          editorReady.current = true;
         },
-        linkTool: LinkTool,
-      },
-    });
-    const SaveData = () => {
-      editorRef.current
-        .save()
-        .then((savedData: any) => {
-          console.log("savedData", savedData);
-          setScript(savedData);
-        })
-        .catch((error: any) => {
-          console.log("error", error);
-        });
-    };
-    // }
+        onChange: () => {
+          SaveData();
+        },
+        data: post as any,
+        inlineToolbar: true,
+        placeholder: "Type the script here...",
+        tools: {
+          header: Header,
+          list: {
+            class: List,
+            inlineToolbar: true,
+          },
+          linkTool: LinkTool,
+        },
+      });
+      const SaveData = () => {
+        editorRef.current
+          .save()
+          .then((savedData: any) => {
+            console.log("savedData", savedData);
+            setScript(savedData);
+          })
+          .catch((error: any) => {
+            console.log("error", error);
+          });
+      };
+    }
   }, [post, setScript]);
+
+  console.log("ref", editorRef.current);
+
+  React.useEffect(() => {
+    if (post && editorReady.current) {
+      console.log("post", post);
+
+      editorRef.current.render(post);
+    } else if (editorReady.current) {
+      editorRef.current.render({blocks: []});
+    }
+  }, [post]);
 
   const SaveBlogPost = async (id: string, data: any) => {
     return null;
@@ -119,10 +131,10 @@ export function Editor({post, setScript}: EditorProps) {
 
   return (
     <div>
-      <div className="grid w-full gap-4">
+      <div className="grid w-full gap-4 h-[400px] overflow-scroll  border rounded-md shadow-lg bg-foreground/40">
         <div
-          id="script-editor"
-          className="min-h-[200px] relative w-full shadow-lg p-4 mx-auto text-primary border rounded-md editor-js-view"
+          id="script-editor-review"
+          className="h-fit relative w-full  p-4  mx-auto text-primary  editor-js-view"
         >
           {/* s */}
         </div>

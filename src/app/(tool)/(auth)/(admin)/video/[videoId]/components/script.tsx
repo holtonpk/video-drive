@@ -212,10 +212,12 @@ export const VideoScript = () => {
     }
   };
 
+  console.log("video-script ============", video.script);
+
   return (
     <Card className="relative shadow-sm h-fit w-fit ">
       <CardHeader>
-        <CardTitle className="flex justify-between items-center">
+        <CardTitle className="flex justify-between items-center ">
           Video Script
           <Popover>
             <PopoverTrigger asChild>

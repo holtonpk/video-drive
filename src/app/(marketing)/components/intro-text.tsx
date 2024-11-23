@@ -9,8 +9,8 @@ export const IntroText = () => {
       " "
     );
   return (
-    <div className="flex flex-col gap-8 w-[600px] items-start mx-auto py-20 ">
-      <div className="flex gap-2 w-full flex-wrap">
+    <div className="flex flex-col gap-4 md:gap-8 w-[90%] md:w-[600px] items-start mx-auto py-20 ">
+      <div className="flex gap-1 md:gap-2 w-full flex-wrap">
         {text.map((el, i) => (
           <motion.span
             variants={{
@@ -26,7 +26,7 @@ export const IntroText = () => {
             initial="hidden" // Start in the hidden state
             whileInView="visible" // Animate to the visible state when in view
             viewport={{once: true}} // Ensures animation only plays once
-            className="font1-light text-3xl text-white  "
+            className="font1-light text-xl md:text-3xl text-white  "
             key={i}
           >
             {el}{" "}
@@ -48,7 +48,7 @@ export const IntroText = () => {
         initial="hidden" // Start in the hidden state
         whileInView="visible" // Animate to the visible state when in view
         viewport={{once: true}} // Ensures animation only plays once
-        className="font1-light text-3xl text-white  w-full h-fit max-w-[500px]  "
+        className="font1-light text-xl md:text-3xl text-white  w-full h-fit max-w-[500px]  "
       >
         From concept to execution, we deliver content that amplifies brand
         presence and drives real users.

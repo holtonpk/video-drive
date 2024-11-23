@@ -54,26 +54,26 @@ export const Process = () => {
   return (
     <div
       id="process-container"
-      className="   relative h-[300vh] mb-40 md:w-[80%] mx-auto rounded-l-xl mt-20 py-10  "
+      className="   relative h-[300vh] mb-20 md:mb-40 md:w-[80%] mx-auto rounded-l-xl mt-20 py-10  "
     >
       <div className="flex flex-col sticky top-20 w-full    items-center    gap-8">
-        <div className="flex gap-1 flex-col w-[800px]">
-          <h1 className="font1-bold text-6xl text-center">
+        <div className="flex gap-1 flex-col md:w-[800px]">
+          <h1 className="font1-bold text-4xl md:text-6xl text-center">
             How To Get Started
           </h1>
-          <p className="font1 text-center text-xl">
+          <p className="font1 text-center text-base md:text-xl">
             It’s plug-and-play: 3 easy steps, and your first piece of content is
             live in days.
           </p>
         </div>
-        <div className="flex flex-col gap-4 w-[400px] mt-10">
+        <div className="flex flex-col gap-4 w-[80%] md:w-[400px] mt-10 ">
           <AnimatePresence>
             {step === 1 ? (
               <motion.div
                 animate={{opacity: 1, y: 0}}
                 initial={{opacity: 0, y: 50}}
                 exit={{opacity: 0, y: 50}}
-                className="flex gap-4 h-fit relative"
+                className="flex gap-4 h-fit relative my-10"
               >
                 <div className="h-full w-[4px] rounded-full bg-[#f50e85]/20 absolute -left-8">
                   <div
@@ -81,17 +81,17 @@ export const Process = () => {
                     className="top-0 absolute bg-[#f50f86] w-full rounded-full"
                   ></div>
                 </div>
-                <div className="flex flex-col gap-4 s">
-                  <div className="flex gap-2">
-                    <div className="h-10 w-10 rounded-full border-4 border-[#f50f86] text-[#f50f86] font1-bold flex items-center justify-center">
+                <div className="flex flex-col gap-2 md:gap-4  md:w-full ">
+                  <div className="flex md:flex-row flex-col items-center gap-2">
+                    <div className="h-10 w-10 min-w-10 rounded-full border-4 border-[#f50f86] text-[#f50f86] font1-bold flex items-center justify-center">
                       1
                     </div>
-                    <h1 className="text-3xl font-bold text-primary">
+                    <h1 className="md:text-3xl font-bold text-primary text-center text-2xl font1-bold">
                       Come on board
                     </h1>
                   </div>
 
-                  <p>
+                  <p className="text-sm md:text-base text-center md:text-left font1">
                     After a short call, we do a deep dive into your brand, come
                     up with multiple tailored series ideas and build a
                     full-months content calendar. We review the strategy on
@@ -101,7 +101,7 @@ export const Process = () => {
                 </div>
               </motion.div>
             ) : (
-              <h1 className="text-3xl font-bold text-muted-foreground/60">
+              <h1 className="text-2xl md:text-3xl font-bold text-muted-foreground/60 text-center md:text-left font1-bold">
                 Come on board
               </h1>
             )}
@@ -112,7 +112,7 @@ export const Process = () => {
                 animate={{opacity: 1, y: 0}}
                 initial={{opacity: 0, y: 50}}
                 exit={{opacity: 0, y: 50}}
-                className="flex gap-4 h-fit relative"
+                className="flex gap-4 h-fit relative my-10"
               >
                 <div className="h-full w-[4px] rounded-full bg-[#971df7]/20 absolute -left-8">
                   <div
@@ -120,16 +120,16 @@ export const Process = () => {
                     className="top-0 absolute bg-[#971df7] w-full rounded-full"
                   ></div>
                 </div>
-                <div className="flex flex-col gap-4 s">
-                  <div className="flex gap-2">
-                    <div className="h-10 w-10 rounded-full border-4 border-[#971df7] text-[#971df7]  font1-bold flex items-center justify-center">
+                <div className="flex flex-col gap-2 md:gap-4  md:w-full ">
+                  <div className="flex md:flex-row flex-col items-center gap-2">
+                    <div className="h-10 w-10  min-w-10 rounded-full border-4 border-[#971df7] text-[#971df7]  font1-bold flex items-center justify-center">
                       2
                     </div>
-                    <h1 className="text-3xl font-bold text-primary">
+                    <h1 className="md:text-3xl font-bold text-primary text-center text-2xl font1-bold">
                       We get to work
                     </h1>
                   </div>
-                  <p>
+                  <p className="text-sm md:text-base text-center md:text-left font1">
                     After that second call, you can sit back and leave the
                     social media to us. We handle everything—from video
                     production and posting to full community engagement; taking
@@ -138,7 +138,7 @@ export const Process = () => {
                 </div>
               </motion.div>
             ) : (
-              <h1 className="text-3xl font-bold text-muted-foreground/60">
+              <h1 className="text-2xl md:text-3xl font-bold text-muted-foreground/60 text-center md:text-left font1-bold">
                 We get to work
               </h1>
             )}
@@ -149,7 +149,7 @@ export const Process = () => {
                 animate={{opacity: 1, y: 0}}
                 initial={{opacity: 0, y: 50}}
                 exit={{opacity: 0, y: 50}}
-                className="flex gap-4 h-fit relative"
+                className="flex gap-4 h-fit relative my-10"
               >
                 <div className="h-full w-[4px] rounded-full bg-[#1863f0]/20 absolute -left-8">
                   <div
@@ -157,17 +157,17 @@ export const Process = () => {
                     className="top-0 absolute bg-[#1863f0] w-full rounded-full"
                   ></div>
                 </div>
-                <div className="flex flex-col gap-4 s">
-                  <div className="flex gap-2">
-                    <div className="h-10 w-10 rounded-full border-4 border-[#1863f0] text-[#1863f0]  font1-bold flex items-center justify-center">
+                <div className="flex flex-col gap-2 md:gap-4  md:w-full ">
+                  <div className="flex md:flex-row flex-col items-center gap-2">
+                    <div className="h-10 w-10  min-w-10 rounded-full border-4 border-[#1863f0] text-[#1863f0]  font1-bold flex items-center justify-center">
                       3
                     </div>
-                    <h1 className="text-3xl font-bold text-primary">
+                    <h1 className="md:text-3xl font1-bold text-primary text-center text-2xl">
                       You get the reports.
                     </h1>
                   </div>
 
-                  <p>
+                  <p className="text-sm md:text-base text-center md:text-left font1">
                     Every week, you get a performance report covering all the
                     content that went out last week, how each performed and
                     valuable insights we’ve extracted. And we’ll do a monthly
@@ -176,7 +176,7 @@ export const Process = () => {
                 </div>
               </motion.div>
             ) : (
-              <h1 className="text-3xl font-bold text-muted-foreground/60">
+              <h1 className="text-2xl md:text-3xl font-bold text-muted-foreground/60 text-center md:text-left font1-bold">
                 You get the reports.
               </h1>
             )}

@@ -106,7 +106,9 @@ const VideoReview = () => {
                 ))}
             </div>
           </div>
-          {selectedVideo && <SelectedVideo video={selectedVideo} />}
+          {selectedVideo && (
+            <SelectedVideo key={selectedVideo.id} video={selectedVideo} />
+          )}
         </div>
       )}
     </div>
@@ -228,14 +230,19 @@ const VideoRow = ({
 };
 
 const SelectedVideo = ({video}: {video: VideoDataWithPosts}) => {
+  // console.log("video", JSON.stringify(video.script));
+
+  const client = clients.find((c: any) => c.value === video.clientId)!;
+
   return (
     <div
       id={video.videoNumber}
-      className="w-full h-full rounded-md flex flex-col border p-8 text-primary"
+      className="w-full h-full rounded-md flex flex-col border p-8 text-primary gap-4"
     >
       <h1 className="font-bold text-2xl">{video.title}</h1>
+      <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
 
-      {/* <Editor post={video.script} setScript={() => {}} /> */}
+      <Editor post={video.script} setScript={() => {}} />
     </div>
   );
 };

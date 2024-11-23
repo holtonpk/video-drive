@@ -3,6 +3,8 @@ import {motion} from "framer-motion";
 import {useRouter} from "next/navigation";
 import {Icons, Logo} from "@/components/icons";
 import {Button} from "@/components/ui/button";
+import {LinkButton} from "@/components/ui/link";
+
 export const Banner = () => {
   return (
     <div className="w-[100vw] relative overflow-hidden   h-[140px] -rotate-[0deg]">
@@ -30,21 +32,21 @@ export const Hero = () => {
     router.push("/contact");
   };
   return (
-    <div className="container z-30 relative  flex flex-col items-center gap-10 h-fit md:w-[700px] ">
-      <div className="flex items-start gap-10">
+    <div className="container z-30 relative  flex flex-col  items-center gap-10 h-fit md:w-[700px] ">
+      <div className="flex flex-col md:flex-row items-center md:items-start md:gap-10">
         <motion.div
           initial={{opacity: 0}}
           animate={{opacity: 1}}
           transition={{duration: 0.5}}
-          className="w-[350px]"
+          className="w-[100px] md:w-[350px]"
         >
           <Logo className="w-full z-20 relative " />
         </motion.div>
-        <div className="absolute z-10 left-1/2 -translate-x-1/2  top-[50px]">
+        <div className="absolute z-10 left-1/2 -translate-x-1/2 top-[50px]  md:top-[50px] w-[90%] md:w-[922px]">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="922"
-            height="380"
+            width="100%"
+            height="100%"
             fill="none"
             viewBox="0 0 922 380"
           >
@@ -74,12 +76,12 @@ export const Hero = () => {
             ></path>
           </svg>
         </div>
-        <div className="flex flex-col  relative z-20">
+        <div className="flex flex-col items-center md:items-start relative z-20">
           <motion.h1
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             transition={{delay: 0.2, duration: 0.5}}
-            className="text-2xl  md:text-[4rem] md:leading-[4rem] bg-clip-text text-left  bg-gradient-to-l bg-black   py-2 text-[#34F4AF] font-[500] font1-extra-bold"
+            className="text-2xl  md:text-[4rem] md:leading-[4rem] bg-clip-text text-center md:text-left  bg-gradient-to-l bg-black   py-2 text-[#34F4AF] font-[500] font1-extra-bold"
           >
             Experts in Short Form Content.
           </motion.h1>
@@ -87,7 +89,7 @@ export const Hero = () => {
             initial={{opacity: 0}}
             animate={{opacity: 1}}
             transition={{delay: 0.5, duration: 0.5}}
-            className="max-w-[100%] md:text-xl text-left w-full relative z-20 font1"
+            className="max-w-[100%] md:text-xl text-center md:text-left w-full relative z-20 font1"
           >
             We specialize in creating viral, short-form content for fast growing
             tech startups, helping them connect with audiences quickly and
@@ -99,12 +101,15 @@ export const Hero = () => {
             animate={{opacity: 1}}
             transition={{delay: 0.8, duration: 0.5}}
           >
-            <Button className="w-fit mt-4 group relative z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-[4px] items-center">
+            <LinkButton
+              href="/work-with-us"
+              className="w-fit mt-4 group relative z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-[4px] items-center"
+            >
               <span className="text-white font1 text-lg">
                 Book a call today
               </span>
               <Icons.chevronRight className="group-hover:ml-4 ml-2 transition-all duration-300 text-white h-5 w-5" />
-            </Button>
+            </LinkButton>
           </motion.div>
           {/* <div className=" relative group  mt-4">
           <svg

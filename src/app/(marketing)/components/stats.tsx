@@ -78,12 +78,12 @@ export const Stats = () => {
                 }}
                 className="h-full w-full absolute top-0 left-0 z-10"
               ></div>
-              <div className="flex flex-col gap-2 relative z-20">
+              <div className="flex flex-col gap-2 relative z-20 mr-auto">
                 <StatNumber value={stat.value} index={index} />
                 <h1 className="text-3xl font-bold capitalize font1">
                   {stat.title}
                 </h1>
-                <h2 className="text-sm font-bold text-center md:text-left">
+                <h2 className="text-sm font-bold text-left">
                   {stat.description}
                 </h2>
               </div>
