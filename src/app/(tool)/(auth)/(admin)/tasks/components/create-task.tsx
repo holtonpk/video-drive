@@ -97,6 +97,7 @@ export const CreateTask = ({
   const [taskRepeat, setTaskRepeat] = React.useState<number | undefined>(
     task && task?.dueDatesWeekly
       ? calculateTotalWeeksRemaining(
+          convertTimestampToDate(task.dueDate),
           task.dueDatesWeekly.map((dueDateWeekly) => dueDateWeekly.dueDate)
         )
       : 3
@@ -435,26 +436,6 @@ const WeeklyTask = ({
         <p className={`${isWeekly ? "text-primary" : "text-muted-foreground"}`}>
           This is a weekly task
         </p>
-        {task?.dueDatesWeekly && (
-          <div className="flex gap-1">
-            <h1>scheduled for </h1>
-            <h1 className="text-primary font-bold">
-              {calculateTotalWeeksRemaining(
-                task.dueDatesWeekly.map(
-                  (dueDateWeekly) => dueDateWeekly.dueDate
-                )
-              )}{" "}
-              more
-              {calculateTotalWeeksRemaining(
-                task.dueDatesWeekly.map(
-                  (dueDateWeekly) => dueDateWeekly.dueDate
-                )
-              ) > 1
-                ? " weeks"
-                : " week"}
-            </h1>
-          </div>
-        )}
       </div>
       {isWeekly && (
         <div className="grid gap-1">

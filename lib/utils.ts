@@ -129,8 +129,10 @@ export function constructMetadata({
   };
 }
 
-export function calculateTotalWeeksRemaining(timestamps: Timestamp[]): number {
-  const currentDate = new Date(); // Get the current date
+export function calculateTotalWeeksRemaining(
+  currentDate: Date,
+  timestamps: Timestamp[]
+): number {
   let totalWeeksRemaining = 0;
 
   timestamps.forEach((timestamp: Timestamp) => {

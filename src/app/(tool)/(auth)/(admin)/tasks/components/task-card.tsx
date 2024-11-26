@@ -170,30 +170,28 @@ export const TaskCard = ({
           {task.dueDatesWeekly && (
             <div className="grid gap-1">
               <div className="flex gap-1">
-                <h1>Weekly task scheduled for </h1>
                 <h1 className="text-primary font-bold">
-                  {calculateTotalWeeksRemaining(
-                    task.dueDatesWeekly.map(
-                      (dueDateWeekly) => dueDateWeekly.dueDate
-                    )
-                  )}{" "}
-                  more
-                  {calculateTotalWeeksRemaining(
-                    task.dueDatesWeekly.map(
-                      (dueDateWeekly) => dueDateWeekly.dueDate
-                    )
-                  ) > 1
-                    ? " weeks"
-                    : " week"}
+                  {(() => {
+                    const totalWeeksRemaining = calculateTotalWeeksRemaining(
+                      convertTimestampToDate(task.dueDate),
+                      task.dueDatesWeekly.map(
+                        (dueDateWeekly) => dueDateWeekly.dueDate
+                      )
+                    );
+
+                    if (totalWeeksRemaining === 0) {
+                      return "This is the last week this task is scheduled ";
+                    } else if (totalWeeksRemaining === 1) {
+                      return "This task is scheduled for 1 more week";
+                    } else {
+                      return `This task is scheduled for ${totalWeeksRemaining} more weeks`;
+                    }
+                  })()}
                 </h1>
               </div>
-              {/* <div className="flex flex-col border">
-                {task.dueDatesWeekly.map((date, index) => (
-                  <p> {formatDaynameMonthDay(date)}</p>
-                ))}
-              </div> */}
             </div>
           )}
+
           {userData && (
             <div className="flex h-6  justify-end min-w-6">
               {task.assignee.map((assignee, index) => {
