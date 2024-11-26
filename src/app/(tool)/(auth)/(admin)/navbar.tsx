@@ -84,7 +84,7 @@ const Navbar = () => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <Link href="/video-review" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`font-bold
@@ -98,7 +98,7 @@ const Navbar = () => {
                 Video Review
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
             <NavigationMenuTrigger
               className={`p-0 text-base bg-transparent font-bold
