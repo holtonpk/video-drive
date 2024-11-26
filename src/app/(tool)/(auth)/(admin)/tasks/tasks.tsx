@@ -139,7 +139,7 @@ const Tasks = () => {
   }, [tasks, selectedStatus, selectedUsers, selectedDate]);
 
   const filteredWeeklyTasks = React.useMemo(() => {
-    return tasks.filter((task) => {
+    return tasks.flatMap((task) => {
       const matchesStatus =
         !selectedStatus.length || selectedStatus.includes(task.status);
 
@@ -148,14 +148,31 @@ const Tasks = () => {
         selectedUsers.includes("all") ||
         task.assignee.some((u) => selectedUsers.includes(u));
 
-      const matchesWeekDate =
+      const matchesWeekDate = (dueDate: Timestamp) =>
         weekRange &&
-        convertTimestampToDate(task.dueDate).getTime() >=
+        convertTimestampToDate(dueDate).getTime() >=
           weekRange.start.getTime() &&
-        convertTimestampToDate(task.dueDate).getTime() <=
-          weekRange.end.getTime();
+        convertTimestampToDate(dueDate).getTime() <= weekRange.end.getTime();
 
-      return matchesStatus && matchesUsers && matchesWeekDate && task.isWeekly;
+      // If the task is weekly, generate tasks for each due date in `dueDatesWeekly`
+      if (task.isWeekly && task.dueDatesWeekly?.length) {
+        return task.dueDatesWeekly
+          .filter(({dueDate}) => matchesWeekDate(dueDate)) // Filter based on the `dueDate`
+          .map(({dueDate, isComplete}) => ({
+            ...task,
+            dueDate, // Override the `dueDate` with the specific weekly due date
+            isComplete, // Include `isComplete` in the task
+          }));
+      }
+
+      // Otherwise, only include the task if it matches the conditions
+      const isMatch =
+        matchesStatus &&
+        matchesUsers &&
+        matchesWeekDate(task.dueDate) &&
+        task.isWeekly;
+
+      return isMatch ? [task] : [];
     });
   }, [tasks, selectedStatus, selectedUsers, weekRange]);
 
@@ -181,6 +198,8 @@ const Tasks = () => {
     const weekRange = getWeekRange(new Date());
     return date < weekRange.start;
   };
+
+  console.log("filteredTasks =============", filteredWeeklyTasks);
 
   return (
     <div>
@@ -236,8 +255,8 @@ const Tasks = () => {
                   <div className="p-4 bg-foreground/40 dark:bg-muted/40 flex items-center justify-between">
                     <h1 className="text-primary font-bold flex gap-1 items-center">
                       Weekly tasks
-                      {selectedDate &&
-                        filteredWeeklyTasks.some(
+                      {/* {selectedDate &&
+                        filteredWeeklyTasks.some(   
                           (task) => task.status == "todo"
                         ) && (
                           <div
@@ -245,7 +264,7 @@ const Tasks = () => {
                 ${dateIsOverdue(selectedDate) ? "bg-red-600 " : "bg-blue-600"}
                   `}
                           ></div>
-                        )}
+                        )} */}
                     </h1>
                     {weekRange && (
                       <h1 className="text-primary font-bold text-sm ">

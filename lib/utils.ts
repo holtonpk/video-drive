@@ -2,6 +2,7 @@ import {ClassValue, clsx} from "clsx";
 import {twMerge} from "tailwind-merge";
 import {Metadata} from "next";
 import {format} from "date-fns";
+import {differenceInWeeks} from "date-fns";
 
 // import { env } from "@/env.mjs"
 
@@ -126,6 +127,23 @@ export function constructMetadata({
     metadataBase: new URL("http://whitespace-media.com"),
     themeColor: "#FFF",
   };
+}
+
+export function calculateTotalWeeksRemaining(timestamps: Timestamp[]): number {
+  const currentDate = new Date(); // Get the current date
+  let totalWeeksRemaining = 0;
+
+  timestamps.forEach((timestamp: Timestamp) => {
+    const taskDate = convertTimestampToDate(timestamp);
+    const weeksRemaining = differenceInWeeks(taskDate, currentDate);
+
+    // Only count weeks that are in the future
+    if (weeksRemaining > 0) {
+      totalWeeksRemaining += weeksRemaining;
+    }
+  });
+
+  return totalWeeksRemaining;
 }
 
 const timezoneMap: {[key: string]: string} = {

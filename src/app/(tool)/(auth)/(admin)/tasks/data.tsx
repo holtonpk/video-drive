@@ -18,6 +18,12 @@ export type Task = {
   notes?: OutputData | string;
   category?: string;
   isWeekly?: boolean;
+  dueDatesWeekly?: dueDatesWeekly[];
+};
+
+type dueDatesWeekly = {
+  dueDate: Timestamp;
+  isComplete: boolean;
 };
 
 export type Status = {

@@ -5,10 +5,10 @@ import {Icons} from "@/components/icons";
 import {useAuth, UserData} from "@/context/user-auth";
 import {Button} from "@/components/ui/button";
 import {db} from "@/config/firebase";
-import {formatDaynameMonthDay} from "@/lib/utils";
+import {formatDaynameMonthDay, calculateTotalWeeksRemaining} from "@/lib/utils";
 import {OutputData} from "@editorjs/editorjs";
 import {sendNotification} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
-import {deleteDoc, setDoc, doc, getDoc} from "firebase/firestore";
+import {deleteDoc, setDoc, doc, getDoc, Timestamp} from "firebase/firestore";
 import {cn, convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
 import {
   AlertDialog,
@@ -39,6 +39,7 @@ export const TaskCard = ({
   userData: UserData[];
   setShowViewDialog?: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  console.log("task===========", task);
   const [isCompleted, setIsCompleted] = React.useState(task.status == "done");
 
   const {currentUser, logInWithGoogleCalender} = useAuth()!;
@@ -163,7 +164,36 @@ export const TaskCard = ({
       <div className="flex flex-col gap-2 justify-between items-center">
         <h1 className="text-2xl font-bold text-center">{task.name}</h1>
         <div className="flex items-center gap-4">
-          <p>Due date: {formatDaynameMonthDay(task.dueDate)}</p>
+          {!task.isWeekly && (
+            <p>Due date: {formatDaynameMonthDay(task.dueDate)}</p>
+          )}
+          {task.dueDatesWeekly && (
+            <div className="grid gap-1">
+              <div className="flex gap-1">
+                <h1>Weekly task scheduled for </h1>
+                <h1 className="text-primary font-bold">
+                  {calculateTotalWeeksRemaining(
+                    task.dueDatesWeekly.map(
+                      (dueDateWeekly) => dueDateWeekly.dueDate
+                    )
+                  )}{" "}
+                  more
+                  {calculateTotalWeeksRemaining(
+                    task.dueDatesWeekly.map(
+                      (dueDateWeekly) => dueDateWeekly.dueDate
+                    )
+                  ) > 1
+                    ? " weeks"
+                    : " week"}
+                </h1>
+              </div>
+              {/* <div className="flex flex-col border">
+                {task.dueDatesWeekly.map((date, index) => (
+                  <p> {formatDaynameMonthDay(date)}</p>
+                ))}
+              </div> */}
+            </div>
+          )}
           {userData && (
             <div className="flex h-6  justify-end min-w-6">
               {task.assignee.map((assignee, index) => {

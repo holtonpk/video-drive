@@ -44,6 +44,7 @@ import {EditorJsRender} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/n
 import {checkUserAccessScopes} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/create-task";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {TaskCard} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/task-card";
+import {set} from "date-fns";
 export const WeeklyTaskRow = ({
   taskData,
   userData,
@@ -56,20 +57,24 @@ export const WeeklyTaskRow = ({
 
   const {currentUser} = useAuth()!;
 
-  const updateField = async (field: string, value: any) => {
-    await setDoc(
-      doc(db, "tasks", task.id),
-      {
-        [field]: value,
-      },
-      {merge: true}
+  const updateStatus = async () => {
+    // update isCompleted for the given task in dueDatesWeekly
+    const taskRef = doc(db, "tasks", task.id);
+    const taskSnap = await getDoc(taskRef);
+    const taskData = taskSnap.data();
+    const dueDatesWeekly = taskData?.dueDatesWeekly;
+    const index = dueDatesWeekly.findIndex(
+      (d: any) => d.dueDate.seconds == task.dueDate.seconds
     );
+    dueDatesWeekly[index].isComplete = !dueDatesWeekly[index].isComplete;
+    await setDoc(taskRef, {dueDatesWeekly: dueDatesWeekly}, {merge: true});
   };
 
   const toggleCompleted = async () => {
     setIsCompleted(!isCompleted);
+    await updateStatus();
     setTimeout(() => {
-      updateField("status", isCompleted ? "todo" : "done");
+      // updateField("status", isCompleted ? "todo" : "done");
       if (!isCompleted && currentUser)
         sendNotification(
           "completed",
@@ -91,7 +96,15 @@ export const WeeklyTaskRow = ({
   useEffect(() => {
     console.log("useeeee");
     setTask(taskData);
-    setIsCompleted(taskData.status == "done");
+    // setIsCompleted(taskData.status == "done");
+    // setIsCompleted based on the dueDatesWeekly
+    taskData.dueDatesWeekly &&
+      taskData.dueDatesWeekly.forEach((dueDate) => {
+        if (dueDate.dueDate.seconds == taskData.dueDate.seconds) {
+          return setIsCompleted(dueDate.isComplete);
+        }
+      });
+
     console.log("task.status", task.status);
   }, [taskData]);
 

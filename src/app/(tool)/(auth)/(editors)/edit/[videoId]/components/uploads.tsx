@@ -171,34 +171,50 @@ const Uploads = () => {
 
         {video.uploadedVideos && video.uploadedVideos?.length !== 0 && (
           <>
-            {video.uploadedVideos.map((uploadedVideo) => {
+            {[...video.uploadedVideos].reverse().map((uploadedVideo) => {
               return (
                 <div
                   key={uploadedVideo.id}
-                  className="w-full justify-between text-foreground border rounded-md p-4 flex  items-center gap-4"
+                  className={`w-full  text-foreground border rounded-md  flex-col   gap-4
+                    ${
+                      uploadedVideo.needsRevision
+                        ? "border-destructive"
+                        : "border-border"
+                    }
+                    `}
                 >
-                  <h1 className="text-primary font-bold">
-                    {uploadedVideo.title}
-                  </h1>
-                  <div className="flex gap-4 w-fit items-center">
-                    <Link
-                      href={uploadedVideo.videoURL}
-                      target="_blank"
-                      className={cn(
-                        buttonVariants({variant: "outline"}),
-                        "text-primary"
-                      )}
-                    >
-                      Open
-                    </Link>
-                    <Button
-                      className="w-fit"
-                      variant={"ghost"}
-                      onClick={() => deleteUploadedVideo(uploadedVideo.id)}
-                    >
-                      <Icons.trash className=" h-5 w-5 text-muted-foreground" />
-                    </Button>
+                  <div className="flex w-full justify-between items-center p-4">
+                    <h1 className="text-primary font-bold">
+                      {uploadedVideo.title}
+                    </h1>
+                    <div className="flex gap-4 w-fit items-center">
+                      <Link
+                        href={uploadedVideo.videoURL}
+                        target="_blank"
+                        className={cn(
+                          buttonVariants({variant: "outline"}),
+                          "text-primary"
+                        )}
+                      >
+                        Open
+                      </Link>
+                      <Button
+                        className="w-fit"
+                        variant={"ghost"}
+                        onClick={() => deleteUploadedVideo(uploadedVideo.id)}
+                      >
+                        <Icons.trash className=" h-5 w-5 text-muted-foreground" />
+                      </Button>
+                    </div>
                   </div>
+                  {uploadedVideo.needsRevision && (
+                    <div className="grid gap-1 bg-muted/40 p-4">
+                      <h1 className="text-primary">Revision Notes</h1>
+                      <span className="text-muted-foreground">
+                        {uploadedVideo.revisionNotes}
+                      </span>
+                    </div>
+                  )}
                 </div>
               );
             })}

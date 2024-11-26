@@ -295,8 +295,6 @@ export function PostInfo({post}: {post: Post}) {
     );
   }
 
-  const [caption, setCaption] = React.useState(post.caption || "");
-
   const [selectedPlatforms, setSelectedPlatforms] = React.useState<string[]>(
     post && post.platforms ? post.platforms : []
   );
@@ -309,6 +307,7 @@ export function PostInfo({post}: {post: Post}) {
 
   const [notes, setNotes] = React.useState(post?.notes || "");
 
+  const [caption, setCaption] = React.useState(post.caption || "");
   const [copied, setCopied] = React.useState(false);
 
   const copyCaption = () => {
@@ -766,7 +765,7 @@ function VideoDisplay({
   );
 }
 
-const AiCaption = ({
+export const AiCaption = ({
   updateField,
   setCaption,
 }: {

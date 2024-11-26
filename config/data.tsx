@@ -239,12 +239,17 @@ export type VideoData = {
   priceUSD: number;
   paid: boolean;
   posted?: boolean;
+  scriptReviewed?: string[];
+  videoReviewed?: string[];
 };
 
 type UploadedVideo = {
   id: string;
   title: string;
   videoURL: string;
+  revisionNotes?: string;
+  needsRevision?: boolean;
+  isReadyToPost?: boolean;
 };
 
 export type VideoDataWithPosts = {

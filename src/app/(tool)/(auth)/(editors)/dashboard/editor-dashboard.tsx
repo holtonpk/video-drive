@@ -718,7 +718,7 @@ const PayoutRequest = ({
                   )}
                 </div>
 
-                <div className="max-h-60 min-h-fit overflow-scroll border p-1 rounded-md flex flex-col gap-1">
+                <div className="max-h-[200px]  h-fit   overflow-scroll border p-1 rounded-md flex flex-col gap-1">
                   {videos.map((video) => (
                     <VideoSelector
                       video={video}

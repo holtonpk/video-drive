@@ -83,12 +83,8 @@ export function Editor({post, setScript}: EditorProps) {
     }
   }, [post, setScript]);
 
-  console.log("ref", editorRef.current);
-
   React.useEffect(() => {
     if (post && editorReady.current) {
-      console.log("post", post);
-
       editorRef.current.render(post);
     } else if (editorReady.current) {
       editorRef.current.render({blocks: []});
@@ -103,8 +99,6 @@ export function Editor({post, setScript}: EditorProps) {
     setIsSaving(true);
 
     const blocks = await ref.current?.save();
-
-    console.log("blocks:", blocks);
 
     setScript(blocks);
 

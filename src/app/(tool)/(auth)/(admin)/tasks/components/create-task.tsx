@@ -7,7 +7,12 @@ import {Button} from "@/components/ui/button";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {db} from "@/config/firebase";
 import {Checkbox} from "@/components/ui/checkbox";
-import {cn, convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
+import {
+  cn,
+  convertTimestampToDate,
+  convertDateToTimestamp,
+  calculateTotalWeeksRemaining,
+} from "@/lib/utils";
 import {Editor} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notes/notes";
 import {OutputData} from "@editorjs/editorjs";
 import {sendNotification} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
@@ -15,7 +20,7 @@ import {setDoc, doc, Timestamp, getDoc} from "firebase/firestore";
 import {Input} from "@/components/ui/input";
 import {Calendar} from "@/components/ui/calendar";
 import {CalendarIcon} from "lucide-react";
-import {format, set} from "date-fns";
+import {format, add} from "date-fns";
 import edjsHTML from "editorjs-html";
 import {EditorJsToHtml} from "./notes/editor-js-render";
 import {
@@ -89,6 +94,14 @@ export const CreateTask = ({
     task ? (task.isWeekly ? task.isWeekly : false) : false
   );
 
+  const [taskRepeat, setTaskRepeat] = React.useState<number | undefined>(
+    task && task?.dueDatesWeekly
+      ? calculateTotalWeeksRemaining(
+          task.dueDatesWeekly.map((dueDateWeekly) => dueDateWeekly.dueDate)
+        )
+      : 3
+  );
+
   const [taskLocal, setTaskLocal] = React.useState<Task | undefined>(task);
 
   useEffect(() => {
@@ -107,6 +120,18 @@ export const CreateTask = ({
       status: "todo",
       category: selectedCategory,
       isWeekly: isWeekly,
+      dueDatesWeekly:
+        isWeekly && dueDate
+          ? Array.from({length: taskRepeat!}, (_, i) => {
+              // Convert the timestamp to a date, add i weeks, then convert back to a timestamp
+              const baseDate = new Date(convertTimestampToDate(dueDate)); // Ensure dueDate is valid
+              const updatedDate = add(baseDate, {weeks: i});
+              return {
+                dueDate: convertDateToTimestamp(updatedDate) as Timestamp,
+                isComplete: false,
+              };
+            })
+          : undefined,
       notes,
     };
     setTaskLocal(taskData);
@@ -349,7 +374,13 @@ export const CreateTask = ({
           setAddToCalendar={setAddToCalendar}
         /> */}
 
-          <WeeklyTask isWeekly={isWeekly} setIsWeekly={setIsWeekly} />
+          <WeeklyTask
+            task={taskLocal!}
+            isWeekly={isWeekly}
+            setIsWeekly={setIsWeekly}
+            taskRepeat={taskRepeat}
+            setTaskRepeat={setTaskRepeat}
+          />
 
           <div className="flex w-full justify-between mt-4">
             <Button onClick={() => setOpen(false)} variant={"outline"}>
@@ -381,14 +412,20 @@ export const CreateTask = ({
 };
 
 const WeeklyTask = ({
+  task,
   isWeekly,
   setIsWeekly,
+  taskRepeat,
+  setTaskRepeat,
 }: {
+  task: Task;
   isWeekly: boolean;
   setIsWeekly: React.Dispatch<React.SetStateAction<boolean>>;
+  taskRepeat: number | undefined;
+  setTaskRepeat: React.Dispatch<React.SetStateAction<number | undefined>>;
 }) => {
   return (
-    <>
+    <div className="flex flex-col">
       <div className="flex gap-2 items-center">
         <Checkbox
           checked={isWeekly}
@@ -398,8 +435,42 @@ const WeeklyTask = ({
         <p className={`${isWeekly ? "text-primary" : "text-muted-foreground"}`}>
           This is a weekly task
         </p>
+        {task?.dueDatesWeekly && (
+          <div className="flex gap-1">
+            <h1>scheduled for </h1>
+            <h1 className="text-primary font-bold">
+              {calculateTotalWeeksRemaining(
+                task.dueDatesWeekly.map(
+                  (dueDateWeekly) => dueDateWeekly.dueDate
+                )
+              )}{" "}
+              more
+              {calculateTotalWeeksRemaining(
+                task.dueDatesWeekly.map(
+                  (dueDateWeekly) => dueDateWeekly.dueDate
+                )
+              ) > 1
+                ? " weeks"
+                : " week"}
+            </h1>
+          </div>
+        )}
       </div>
-    </>
+      {isWeekly && (
+        <div className="grid gap-1">
+          <div className="flex gap-2 items-center">
+            Create task for the next
+            <Input
+              onChange={(e) => setTaskRepeat(parseInt(e.target.value))}
+              type="number"
+              value={taskRepeat}
+              className="w-[50px]"
+            />
+            weeks
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

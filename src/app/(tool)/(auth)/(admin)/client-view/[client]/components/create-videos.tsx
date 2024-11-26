@@ -65,6 +65,7 @@ type NewVideo = {
   scriptDueDate: Date;
   notes: string;
   script: string;
+  posted: boolean;
 };
 
 export const CreateVideo = ({
@@ -95,6 +96,7 @@ export const CreateVideo = ({
         scriptDueDate: new Date(),
         notes: "",
         script: "",
+        posted: false,
       },
     ]);
   };
@@ -116,6 +118,7 @@ export const CreateVideo = ({
         scriptDueDate: new Date(),
         notes: "",
         script: "",
+        posted: false,
       },
     ]);
     // if()
