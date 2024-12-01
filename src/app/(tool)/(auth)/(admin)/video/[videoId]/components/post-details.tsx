@@ -134,7 +134,7 @@ export const PostDetails = () => {
       {loadingPost ? (
         <>Loading...</>
       ) : (
-        <div className="grid grid-cols-2 w-full bg-card">
+        <div className="grid grid-cols-[45%_1fr] w-full bg-card">
           {posts && selectedPost && (
             <PostSelector
               posts={posts}
@@ -690,76 +690,154 @@ function VideoDisplay({
     } as Post);
   };
 
+  const deleteUploadedVideo = async (uploadedVideoId: string) => {
+    const updatedUploadedVideos = video.uploadedVideos?.filter(
+      (video) => video.id !== uploadedVideoId
+    );
+    await setDoc(
+      doc(db, "videos", video.videoNumber.toString()),
+      {
+        uploadedVideos: updatedUploadedVideos,
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
+        status:
+          updatedUploadedVideos?.length === 0 && video.status === "done"
+            ? "todo"
+            : video.status === "needs revision"
+            ? "needs revision"
+            : "done",
+      },
+      {
+        merge: true,
+      }
+    );
+    // setVideo(
+    //   (prev) =>
+    //     ({
+    //       ...prev,
+    //       uploadedVideos: video.uploadedVideos?.filter(
+    //         (video) => video.id !== uploadedVideoId
+    //       ),
+    //     } as VideoData)
+    // );
+  };
+
   return (
-    <div className="group h-[550px] w-full rounded-r-lg overflow-hidden relative flex bg-muted items-center justify-center ">
-      {isUploading ? (
-        <div className="flex w-[400px] flex-col gap-3 items-center justify-center h-full px-6">
-          <h1 className="text-primary font-bold">Uploading Video</h1>
-          <Progress value={uploadProgress} className="bg-muted-foreground" />
-        </div>
-      ) : (
-        <>
-          {post && post?.videoURL ? (
-            <>
-              <div className=" z-10  w-[309px]  aspect-[9/16] overflow-hidden relative">
-                <video
-                  controls
-                  className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20"
-                  src={post?.videoURL}
-                />
-              </div>
-              <Button
-                onClick={removeVideo}
-                variant={"destructive"}
-                className="z-40 absolute top-4 right-4"
-              >
-                <Icons.trash className="h-5 w-5 " />
-              </Button>
-            </>
-          ) : (
-            <div className="flex flex-col gap-4 items-center h-full justify-center bg-muted">
-              <h1 className="text-primary">Completed video goes here</h1>
-              <Button
-                onClick={() => document.getElementById("selectedFile")?.click()}
-              >
-                Click to upload{" "}
-              </Button>
-              <input
-                multiple
-                id="selectedFile"
-                type="file"
-                accept=".mp4 , .mov"
-                onChange={onFileChange}
-                style={{display: "none"}}
+    <div className="group h-[550px] w-full rounded-r-lg overflow-hidden relative flex  items-center justify-center ">
+      {(!video.uploadedVideos || video.uploadedVideos.length == 0) &&
+        !isUploading && (
+          <div className="w-full  bg-foreground rounded-md  flex flex-col gap-2 flex-grow h-full items-center justify-center">
+            <span className="text-muted-foreground text-center  justify-center items-center flex">
+              No videos uploaded
+            </span>
+            <button
+              onClick={() => document.getElementById("selectedFile2")?.click()}
+              className="h-fit justify-center  p-2  text-center rounded-md w-fit px-6 bg-blue-500/20 hover:bg-blue-500/50 text-blue-500 flex items-center"
+            >
+              <Icons.add className="h-6 w-6 mr-1" />
+              Click to Upload
+            </button>
+          </div>
+        )}
+
+      {video.uploadedVideos && video.uploadedVideos?.length !== 0 && (
+        <div className="w-full  bg-foreground rounded-md  grid grid-cols-[309px_1fr] gap-2 flex-grow h-full">
+          <div className=" z-10  h-[550px] w-[309px]  aspect-[9/16] overflow-hidden relative">
+            {post && post?.videoURL ? (
+              <video
+                controls
+                className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20"
+                src={post?.videoURL}
               />
-              {video.uploadedVideos &&
-                video.uploadedVideos.map((uploadedVideo) => (
-                  <div
-                    key={uploadedVideo.id}
-                    className="w-full justify-between text-foreground border rounded-md p-4 flex  items-center gap-4"
-                  >
-                    <Button
-                      onClick={() => {
-                        selectVideo(uploadedVideo.videoURL);
-                      }}
-                    >
-                      Select
-                    </Button>
-                    <Link
-                      href={uploadedVideo.videoURL}
-                      target="_blank"
-                      className={cn(buttonVariants({variant: "outline"}))}
-                    >
-                      View
-                    </Link>
-                    <h1 className="text-primary font-bold">
+            ) : (
+              <div className="h-full w-full flex flex-col items-center justify-center bg-muted">
+                <Icons.video className="h-12 w-12 text-primary" />
+                <h1 className="text-primary text-sm">
+                  No video selected for this post
+                </h1>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col justify-center w-full h-full gap-2 p-2">
+            {[...video.uploadedVideos].reverse().map((uploadedVideo) => {
+              return (
+                <div
+                  key={uploadedVideo.id}
+                  className={`w-full  text-foreground border rounded-md  flex-col   gap-4 relative 
+                    ${
+                      uploadedVideo.needsRevision
+                        ? "border-destructive hover:border-primary/70"
+                        : uploadedVideo.videoURL === post?.videoURL
+                        ? "border-primary"
+                        : "border-border hover:border-primary/70"
+                    }
+                    `}
+                >
+                  <div className="absolute w-full h-full  z-10">
+                    <button
+                      onClick={() => selectVideo(uploadedVideo.videoURL)}
+                      className="w-full h-full"
+                    ></button>
+                  </div>
+                  <div className="flex w-full justify-between items-center p-2 ">
+                    <h1 className="text-primary font-bold text-sm">
                       {uploadedVideo.title}
                     </h1>
+                    {uploadedVideo.needsRevision && (
+                      <span className="text-red-600 ml-auto">
+                        Needs revision
+                      </span>
+                    )}
+                    {uploadedVideo.isReadyToPost && (
+                      <span className="text-green-600 ml-auto">
+                        Ready to post
+                      </span>
+                    )}
+                    <div className="flex gap-4 w-fit items-center relative z-20">
+                      {/* <Link
+                        href={uploadedVideo.videoURL}
+                        target="_blank"
+                        className={cn(
+                          buttonVariants({variant: "outline"}),
+                          "text-primary"
+                        )}
+                      >
+                        Open
+                      </Link> */}
+                      <Button
+                        className="w-fit"
+                        variant={"ghost"}
+                        onClick={() => deleteUploadedVideo(uploadedVideo.id)}
+                      >
+                        <Icons.trash className=" h-5 w-5 text-muted-foreground" />
+                      </Button>
+                    </div>
                   </div>
-                ))}
-            </div>
-          )}
-        </>
+                  {uploadedVideo.needsRevision && (
+                    <div className="grid gap-1 bg-muted/40 p-4">
+                      <h1 className="text-primary text-lg">Revision Notes</h1>
+                      <span className="text-muted-foreground">
+                        {uploadedVideo.revisionNotes}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {isUploading && (
+        <div className="w-full text-foreground border rounded-md p-4 flex  items-center justify-between gap-4">
+          <h1 className="text-primary font-bold whitespace-nowrap">
+            Uploading Video
+          </h1>
+          <Progress value={uploadProgress} className="bg-muted-foreground" />
+          <span className="text-primary w-[80px] ">
+            {Math.round(uploadProgress)}%
+          </span>
+        </div>
       )}
     </div>
   );

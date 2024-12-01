@@ -132,7 +132,7 @@ export const CreateTask = ({
                 isComplete: false,
               };
             })
-          : undefined,
+          : [],
       notes,
     };
     setTaskLocal(taskData);

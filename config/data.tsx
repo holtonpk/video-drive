@@ -243,7 +243,7 @@ export type VideoData = {
   videoReviewed?: string[];
 };
 
-type UploadedVideo = {
+export type UploadedVideo = {
   id: string;
   title: string;
   videoURL: string;
