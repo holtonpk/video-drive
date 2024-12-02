@@ -50,10 +50,7 @@ const Uploads = () => {
   async function saveFileToFirebase(file: File) {
     console.log("saving file to firebase");
     const storage = getStorage(app);
-    const storageRef = ref(
-      storage,
-      `video/${file.name}  + "." + ${getFileExtension(file.name)}`
-    );
+    const storageRef = ref(storage, `video/${file.name}`);
     // Start the file upload
     const uploadTask = uploadBytesResumable(storageRef, file);
     // Return a promise that resolves with the download URL

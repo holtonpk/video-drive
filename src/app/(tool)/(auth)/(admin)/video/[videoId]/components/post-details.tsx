@@ -517,7 +517,11 @@ export function PostInfo({post}: {post: Post}) {
 
       <div className="grid gap-2 relative">
         <div className="flex gap-2 absolute bottom-2 left-2">
-          <AiCaption updateField={updateField} setCaption={setCaption} />
+          <AiCaption
+            updateField={updateField}
+            setCaption={setCaption}
+            videoURL={post?.videoURL || undefined}
+          />
 
           <Button
             onClick={copyCaption}
@@ -846,17 +850,42 @@ function VideoDisplay({
 export const AiCaption = ({
   updateField,
   setCaption,
+  videoURL,
 }: {
   updateField: (field: string, value: any) => void;
   setCaption: React.Dispatch<React.SetStateAction<string>>;
+  videoURL: string | undefined;
 }) => {
   const [prompt, setPrompt] = React.useState(
-    "Create short video description (instagram, tiktok, youtube style) for the following video script. The description should  use relevant keywords, phrases and hashtags. hashtags should be lowercase. don't use emojis or unicode characters."
+    "Create short video description (instagram, tiktok, youtube style) for the following video script. The video description should start with a clickbait style sentence about the video followed by a description. The description should  use relevant keywords, phrases and hashtags. hashtags should be lowercase. don't use emojis or unicode characters."
   );
+
+  const clientDetails = "";
 
   const {video} = useVideo()!;
 
+  useEffect(() => {
+    setVideoScript(
+      typeof video.script !== "string"
+        ? video.script.blocks.map((block) => block.data.text).join(" ") ||
+            video.script.blocks.map((block) => block.data.items).join(" ")
+        : video.script
+    );
+    setScrapedVideoText(undefined);
+  }, [video]);
+
   const [loadingResponse, setLoadingResponse] = React.useState(false);
+
+  const [videoScript, setVideoScript] = React.useState(
+    typeof video.script !== "string"
+      ? video.script.blocks.map((block) => block.data.text).join(" ") ||
+          video.script.blocks.map((block) => block.data.items).join(" ")
+      : video.script
+  );
+
+  const [scrapedVideoText, setScrapedVideoText] = React.useState<
+    string | undefined
+  >(undefined);
 
   const [response, setResponse] = React.useState("");
 
@@ -867,11 +896,7 @@ export const AiCaption = ({
       method: "POST",
       body: JSON.stringify({
         directions: prompt,
-        videoScript:
-          typeof video.script !== "string"
-            ? video.script.blocks.map((block) => block.data.text).join(" ") ||
-              video.script.blocks.map((block) => block.data.items).join(" ")
-            : video.script,
+        videoScript: scrapedVideoText ? scrapedVideoText : videoScript,
       }),
     });
     const data = await response.json();
@@ -880,6 +905,47 @@ export const AiCaption = ({
   };
 
   const [open, setOpen] = React.useState(false);
+
+  const [isScraping, setIsScraping] = React.useState(false);
+
+  const scrapeVideoText = async () => {
+    if (!videoURL) return;
+    setIsScraping(true);
+    try {
+      console.log("Scraping video text", videoURL);
+
+      // Extract and decode the fileName from videoURL
+      const url = new URL(videoURL); // Parse the URL
+      const encodedFileName = url.pathname.split("/").pop(); // Get the last part of the path
+
+      if (!encodedFileName) {
+        throw new Error("Invalid video URL or missing file name.");
+      }
+
+      const fileName = decodeURIComponent(encodedFileName); // Decode the file name
+      console.log("Extracted and decoded file name:", fileName);
+
+      // Make the API call with the fileName
+      const response = await fetch("/api/convert-video-to-text", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({fileName}),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to convert video to text.");
+      }
+
+      const data = await response.json();
+      console.log("Data received:", data);
+
+      setScrapedVideoText(data.text); // Update the prompt with the received text
+    } catch (error) {
+      console.error("Error during video text scraping:", error);
+    } finally {
+      setIsScraping(false);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -902,6 +968,19 @@ export const AiCaption = ({
             setPrompt(e.target.value);
           }}
         />
+        {scrapedVideoText && (
+          <>
+            <Label htmlFor="prompt">Scraped Video Text</Label>
+            <Textarea
+              placeholder="scraped text"
+              className="h-[100px]"
+              value={scrapedVideoText}
+              onChange={(e) => {
+                setScrapedVideoText(e.target.value);
+              }}
+            />
+          </>
+        )}
         {response && (
           <div className="grid gap-2">
             <Label>Response</Label>
@@ -915,6 +994,12 @@ export const AiCaption = ({
           </div>
         )}
         <DialogFooter>
+          <Button onClick={scrapeVideoText}>
+            {isScraping && (
+              <Icons.spinner className="animate-spin h-5 w-5 mr-2" />
+            )}
+            {scrapedVideoText ? "Re-scrape Video" : "Scrape Video"}
+          </Button>
           <Button onClick={getAiCaption}>
             {loadingResponse && (
               <Icons.spinner className="animate-spin h-5 w-5 mr-2" />

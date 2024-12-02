@@ -594,9 +594,9 @@ const UploadedVideoReview = ({
       const videoSnap = await getDoc(videoRef);
       if (videoSnap.exists()) {
         const videoData = videoSnap.data();
+        console.log("videoData", videoData);
         setVideoData(videoData as VideoData);
         setUploadedVideos(videoData.uploadedVideos);
-        // set selected video to the last uploaded video in the array
         setSelectedVideo(
           videoData.uploadedVideos[videoData.uploadedVideos.length - 1]
         );
@@ -611,19 +611,21 @@ const UploadedVideoReview = ({
 
   const [isReviewed, setIsReviewed] = React.useState(
     (currentUser?.uid &&
-      video.videoData.videoReviewed?.includes(currentUser?.uid)) ||
+      videoData &&
+      videoData.videoReviewed?.includes(currentUser?.uid)) ||
       false
   );
 
   useEffect(() => {
+    if (!videoData) return;
     setIsReviewed(
       (currentUser?.uid &&
-        video.videoData.videoReviewed?.includes(currentUser?.uid)) ||
+        videoData.videoReviewed?.includes(currentUser?.uid)) ||
         false
     );
-    setNotes(video.videoData.notes);
-    setNeedsRevision(video.videoData.status == "needs revision");
-  }, [video]);
+    setNotes(videoData.notes);
+    setNeedsRevision(videoData.status == "needs revision");
+  }, [videoData]);
 
   const markAsReviewed = async () => {
     if (!currentUser) return;
@@ -748,25 +750,36 @@ const UploadedVideoReview = ({
 
   const markAsReadyToPost = async () => {
     if (!currentUser || !uploadedVideos || !selectedVideo) return;
+    console.log("Marking as ready to post...", [
+      ...(video.videoData.scriptReviewed || []),
+      currentUser?.uid,
+    ]);
     try {
       // Prepare updatedVideos array
-      const updatedVideos = uploadedVideos.map((video) => {
-        if (video.videoURL === selectedVideo.videoURL) {
+      const updatedVideos = uploadedVideos.map((videoData) => {
+        if (videoData.videoURL === selectedVideo.videoURL) {
           return {
-            ...video,
+            ...videoData,
             needsRevision: false,
             isReadyToPost: true,
+            // videoReviewed: [
+            //   ...(video.videoData.scriptReviewed || []),
+            //   currentUser?.uid,
+            // ],
           };
         }
         return video;
       });
 
+      console.log("Updated Videos:", updatedVideos);
+
       // Call updateVideoField with the modified videos
       await updateVideoField(updatedVideos);
       await markAsReviewed();
+      // setNeedsRevision(false);
 
       // Optionally change video status revision
-      await changeVideoStatusRevision("done");
+      // await changeVideoStatusRevision("done");
     } catch (error) {
       console.error("Error marking video as ready to post:", error);
     }
@@ -777,10 +790,10 @@ const UploadedVideoReview = ({
 
     try {
       // Prepare updatedVideos array
-      const updatedVideos = uploadedVideos.map((video) => {
-        if (video.videoURL === selectedVideo.videoURL) {
+      const updatedVideos = uploadedVideos.map((videoData) => {
+        if (videoData.videoURL === selectedVideo.videoURL) {
           return {
-            ...video,
+            ...videoData,
             needsRevision: true,
             isReadyToPost: false,
           };
@@ -898,60 +911,69 @@ const UploadedVideoReview = ({
               </div>
               <div className="flex flex-col w-full gap-4  items-center">
                 <div className=" flex flex-col p-4 gap-4  flex-grow border  rounded-md w-[90%] ">
-                  {selectedVideo?.needsRevision && (
-                    <div className="w-full  relative h-full  rounded-md  flex flex-col gap-2">
-                      <div className="flex items-center w-full justify-between">
-                        <Label className="text-xl font-bold" htmlFor="notes">
-                          Revision Notes
-                        </Label>
+                  {currentUser &&
+                    videoData &&
+                    videoData.videoReviewed?.includes(currentUser.uid) &&
+                    selectedVideo?.needsRevision && (
+                      <div className="w-full  relative h-full  rounded-md  flex flex-col gap-2">
+                        <div className="flex items-center w-full justify-between">
+                          <Label className="text-xl font-bold" htmlFor="notes">
+                            Revision Notes
+                          </Label>
+                          <Button
+                            onClick={markAsReadyToPost}
+                            size={"sm"}
+                            className="w-fit "
+                          >
+                            Mark as ready to post
+                          </Button>
+                        </div>
+                        <Textarea
+                          id="notes"
+                          placeholder="Add video notes here..."
+                          value={selectedVideo?.revisionNotes}
+                          onChange={(e) => {
+                            setNotes(e.target.value);
+                            if (!uploadedVideos) return;
+                            const updatedVideos = uploadedVideos.map(
+                              (video) => {
+                                if (video.videoURL === selectedVideo.videoURL) {
+                                  return {
+                                    ...video,
+                                    revisionNotes: e.target.value,
+                                  };
+                                }
+                                return video;
+                              }
+                            );
+                            updateVideoField(updatedVideos);
+                          }}
+                          className="w-full border p-2 flex items-center rounded-md text-sm bg-foreground/40 flex-grow"
+                        />
+                      </div>
+                    )}
+                  {currentUser &&
+                    videoData &&
+                    videoData.videoReviewed?.includes(currentUser.uid) &&
+                    selectedVideo?.isReadyToPost && (
+                      <div className="w-full flex flex-col flex-grow items-center justify-center gap-1 relative">
+                        <div className="rounded-full h-fit w-fit border border-green-600 p-2">
+                          <Icons.check className="h-8 w-8 text-green-600" />
+                        </div>
+                        You marked this video as ready to post
                         <Button
-                          onClick={markAsReadyToPost}
-                          size={"sm"}
-                          className="w-fit "
+                          size="sm"
+                          variant={"destructive"}
+                          className="absolute top-0 right-0 w-fit"
+                          onClick={markAsNeedsRevision}
                         >
-                          Mark as ready to post
+                          Mark as needs revision
                         </Button>
                       </div>
-                      <Textarea
-                        id="notes"
-                        placeholder="Add video notes here..."
-                        value={selectedVideo?.revisionNotes}
-                        onChange={(e) => {
-                          setNotes(e.target.value);
-                          if (!uploadedVideos) return;
-                          const updatedVideos = uploadedVideos.map((video) => {
-                            if (video.videoURL === selectedVideo.videoURL) {
-                              return {
-                                ...video,
-                                revisionNotes: e.target.value,
-                              };
-                            }
-                            return video;
-                          });
-                          updateVideoField(updatedVideos);
-                        }}
-                        className="w-full border p-2 flex items-center rounded-md text-sm bg-foreground/40 flex-grow"
-                      />
-                    </div>
-                  )}
-                  {selectedVideo?.isReadyToPost && (
-                    <div className="w-full flex flex-col flex-grow items-center justify-center gap-1 relative">
-                      <div className="rounded-full h-fit w-fit border border-green-600 p-2">
-                        <Icons.check className="h-8 w-8 text-green-600" />
-                      </div>
-                      You marked this video as ready to post
-                      <Button
-                        size="sm"
-                        variant={"destructive"}
-                        className="absolute top-0 right-0 w-fit"
-                        onClick={markAsNeedsRevision}
-                      >
-                        Mark as needs revision
-                      </Button>
-                    </div>
-                  )}
-                  {!selectedVideo?.needsRevision &&
-                    !selectedVideo?.isReadyToPost && (
+                    )}
+                  {currentUser &&
+                    videoData &&
+                    !videoData.videoReviewed?.includes(currentUser.uid) && (
                       <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow">
                         <Button
                           onClick={markAsReadyToPost}
