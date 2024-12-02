@@ -88,6 +88,7 @@ const Uploads = () => {
                   : [newUploadedVideo],
                 updatedAt: {date: new Date(), user: currentUser?.firstName},
                 status: "done",
+                videoReviewed: [],
               },
               {
                 merge: true,

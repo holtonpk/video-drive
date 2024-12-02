@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
 import {buttonVariants} from "@/components/ui/button";
@@ -15,7 +15,6 @@ import {
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {clients} from "@/config/data";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,11 +23,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {useAuth} from "@/context/user-auth";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import {Button} from "@/components/ui/button";
 import {useTheme} from "next-themes";
 import {MoonIcon, SunIcon} from "@radix-ui/react-icons";
+import {db} from "@/config/firebase";
+import {Button} from "@/components/ui/button";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+import {clients, Post, VideoDataWithPosts} from "@/config/data";
+import {useAuth} from "@/context/user-auth";
+import {onSnapshot} from "firebase/firestore";
 
 const Navbar = () => {
   const segment = useSelectedLayoutSegment();
@@ -84,21 +95,7 @@ const Navbar = () => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/video-review" legacyBehavior passHref>
-              <NavigationMenuLink
-                className={`font-bold
-        ${
-          segment === "video-review"
-            ? "text-primary"
-            : "text-muted-foreground hover:text-primary"
-        }
-        `}
-              >
-                Video Review
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
+          <VideoReview />
           <NavigationMenuItem>
             <NavigationMenuTrigger
               className={`p-0 text-base bg-transparent font-bold
@@ -193,3 +190,84 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+const VideoReview = () => {
+  const [displayVideos, setDisplayVideos] = useState<VideoDataWithPosts[]>();
+
+  const {currentUser} = useAuth()!;
+  const segment = useSelectedLayoutSegment();
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, "videos"), where("posted", "==", false)),
+      async (querySnapshot) => {
+        try {
+          const filteredVideos = await Promise.all(
+            querySnapshot.docs.map(async (docRef) => {
+              const docData = docRef.data();
+              console.log("docData", docData.videoNumber);
+
+              const postData =
+                docData.postIds &&
+                Array.isArray(docData.postIds) &&
+                (await Promise.all(
+                  docData.postIds.map(async (postId: string) => {
+                    const postDoc = doc(db, "posts", postId);
+                    const postSnap = await getDoc(postDoc);
+                    return postSnap.exists() ? postSnap.data() : null;
+                  })
+                ));
+
+              return {
+                ...docData,
+                posts: postData?.filter(Boolean) as Post[],
+              } as VideoDataWithPosts;
+            })
+          );
+          setDisplayVideos(filteredVideos);
+        } catch (error) {
+          console.error("Error processing snapshot data:", error);
+        }
+      }
+    );
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  [];
+
+  const scriptsToReview = displayVideos?.filter((video: any) => {
+    return (
+      !video.scriptReviewed || !video.scriptReviewed.includes(currentUser?.uid)
+    );
+  });
+
+  const videosToReview = displayVideos?.filter((video: any) => {
+    return (
+      (!video.videoReviewed ||
+        !video.videoReviewed.includes(currentUser?.uid)) &&
+      video.uploadedVideos &&
+      video.uploadedVideos.length > 0
+    );
+  });
+
+  const itemsToReview = [...(scriptsToReview || []), ...(videosToReview || [])];
+
+  return (
+    <NavigationMenuItem>
+      <Link href="/video-review" legacyBehavior passHref>
+        <NavigationMenuLink
+          className={`font-bold
+        ${
+          segment === "video-review"
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+        >
+          Video Review {itemsToReview.length > 0 && `(${itemsToReview.length})`}
+        </NavigationMenuLink>
+      </Link>
+    </NavigationMenuItem>
+  );
+};

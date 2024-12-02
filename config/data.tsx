@@ -29,6 +29,17 @@ export const EDITORS = [
   "Mi4yipMXrlckU117edbYNiwrmI92",
 ];
 
+export const REVIEW_USERS_DATA = [
+  {
+    id: "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+    name: "Mohammed",
+  },
+  {
+    id: "Mi4yipMXrlckU117edbYNiwrmI92",
+    name: "Patrick",
+  },
+];
+
 export type Notifications = {
   email: string;
   new_video: boolean;

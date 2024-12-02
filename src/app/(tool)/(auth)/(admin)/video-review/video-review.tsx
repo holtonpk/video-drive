@@ -5,6 +5,8 @@ import {db} from "@/config/firebase";
 import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {AnimatePresence, motion} from "framer-motion";
+
 import {
   collection,
   getDocs,
@@ -20,6 +22,7 @@ import {
   Post,
   VideoDataWithPosts,
   UploadedVideo,
+  REVIEW_USERS_DATA,
 } from "@/config/data";
 import {formatDaynameMonthDay, convertTimestampToDate} from "@/lib/utils";
 import {Icons} from "@/components/icons";
@@ -31,6 +34,7 @@ import {Textarea} from "@/components/ui/textarea";
 // import {AiCaption} from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/components/post-details";
 import {useAuth} from "@/context/user-auth";
 import {Label} from "@/components/ui/label";
+import {onSnapshot} from "firebase/firestore";
 
 import {
   VideoProvider,
@@ -45,24 +49,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {Span, SpanStatus} from "next/dist/trace";
-import {Switch} from "@/components/ui/switch";
 import {statuses as videoStatuses} from "@/config/data";
 
-import {set} from "date-fns";
-
 const statuses = ["script done", "video uploaded", "video needs revision"];
-
-const USERS_DATA = [
-  {
-    id: "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
-    name: "Mohammed",
-  },
-  {
-    id: "Mi4yipMXrlckU117edbYNiwrmI92",
-    name: "Patrick",
-  },
-];
 
 type ReviewData = {
   reviewType: "script" | "video";
@@ -78,57 +67,58 @@ const VideoReview = () => {
     VideoDataWithPosts[] | undefined
   >();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      // Set the time to the start of the day (00:00:00)
-
-      const docsQuery = query(
-        collection(db, "videos"),
-        // posted is false
-        where("posted", "==", false)
-      );
-      const querySnapshot = await getDocs(docsQuery);
-
-      const filteredVideos = await Promise.all(
-        querySnapshot.docs.map(async (docRef) => {
-          const docData = docRef.data();
-          console.log("docData", docData.videoNumber);
-
-          const postData =
-            docData.postIds &&
-            (await Promise.all(
-              docData.postIds.map(async (postId: string) => {
-                const postDoc = doc(db, "posts", postId);
-                const postRef = getDoc(postDoc);
-                const postSnap = await postRef;
-                if (postSnap.exists()) {
-                  return postSnap.data();
-                }
-              })
-            ));
-
-          const data = {
-            ...docData,
-            posts:
-              postData &&
-              (postData.filter((post: any) => post !== undefined) as Post[]),
-          };
-          return data as VideoDataWithPosts;
-        })
-      );
-      setDisplayVideos(filteredVideos);
-    };
-    setLoading(false);
-    fetchPosts();
-  }, []);
-
   const [selectedVideo, setSelectedVideo] = React.useState<
     ReviewData | undefined
   >();
 
-  const orderedVideos = displayVideos?.sort((a: any, b: any) => {
-    return a.postDate - b.postDate;
-  });
+  const [originalItemsToReview, setOriginalItemsToReview] = React.useState<
+    ReviewData[]
+  >([]);
+
+  const [isOriginalSet, setIsOriginalSet] = React.useState<boolean>(false); // Flag for first fetch
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, "videos"), where("posted", "==", false)),
+      async (querySnapshot) => {
+        try {
+          const filteredVideos = await Promise.all(
+            querySnapshot.docs.map(async (docRef) => {
+              const docData = docRef.data();
+              console.log("docData", docData.videoNumber);
+
+              const postData =
+                docData.postIds &&
+                Array.isArray(docData.postIds) &&
+                (await Promise.all(
+                  docData.postIds.map(async (postId: string) => {
+                    const postDoc = doc(db, "posts", postId);
+                    const postSnap = await getDoc(postDoc);
+                    return postSnap.exists() ? postSnap.data() : null;
+                  })
+                ));
+
+              return {
+                ...docData,
+                posts: postData?.filter(Boolean) as Post[],
+              } as VideoDataWithPosts;
+            })
+          );
+
+          setDisplayVideos(filteredVideos);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error processing snapshot data:", error);
+        }
+      }
+    );
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
+  const orderedVideos = displayVideos?.length
+    ? [...displayVideos].sort((a: any, b: any) => a.postDate - b.postDate)
+    : [];
 
   const scriptsToReview = orderedVideos
     ?.filter((video: any) => {
@@ -137,13 +127,11 @@ const VideoReview = () => {
         !video.scriptReviewed.includes(currentUser?.uid)
       );
     })
-    .map((video) => {
-      return {
-        reviewType: "script",
-        videoData: video,
-        id: "script-" + video.videoNumber,
-      };
-    });
+    .map((video) => ({
+      reviewType: "script",
+      videoData: video,
+      id: "script-" + video.videoNumber,
+    }));
 
   const videosToReview = orderedVideos
     ?.filter((video: any) => {
@@ -154,101 +142,78 @@ const VideoReview = () => {
         video.uploadedVideos.length > 0
       );
     })
-    .map((video) => {
-      return {
-        reviewType: "video",
-        videoData: video,
-        id: "video-" + video.videoNumber,
-      };
-    });
+    .map((video) => ({
+      reviewType: "video",
+      videoData: video,
+      id: "video-" + video.videoNumber,
+    }));
 
-  const itemsToReview = [
+  const itemsToReview: any[] = [
     ...(scriptsToReview || []),
     ...(videosToReview || []),
-  ] as unknown as ReviewData[];
+  ].sort((a: any, b: any) => a.videoData.postDate - b.videoData.postDate);
 
-  itemsToReview.sort((a: any, b: any) => {
-    return a.videoData.postDate - b.videoData.postDate;
-  }) as ReviewData[];
-
-  console.log("itemsToReview", itemsToReview);
+  // Set originalItemsToReview on the first fetch
+  useEffect(() => {
+    if (itemsToReview && !isOriginalSet && itemsToReview.length > 0) {
+      setOriginalItemsToReview(itemsToReview);
+      setIsOriginalSet(true); // Prevent future updates
+    }
+  }, [itemsToReview, isOriginalSet]);
 
   return (
     <div>
-      {/* <div className="h-[500px] flex flex-col gap-4 p-4">
-        <h1 className="text-xl text-primary">
-          These videos need your approval
-        </h1>
-        <div className="h-[300px] border bg-foreground/20 flex flex-col gap-2 p-4 rounded-md">
-          <div className="border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 ">
-            <h1 className="text-primary">Review the script for video #1234</h1>
-          </div>
-          <div className="border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 ">
-            <h1 className="text-primary">
-              Review the uplaoded video for video #1234
-            </h1>
-          </div>
-          <div className="border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 ">
-            <h1 className="text-primary">Review the script for video #1234</h1>
-          </div>
-        </div>
-      </div> */}
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <div
-          className={`grid  h-[calc(100vh-64px)] pb-4 container gap-8  
+        <>
+          {originalItemsToReview.length > 0 ? (
+            <div
+              className={`grid  h-[calc(100vh-64px)] pb-4 container gap-8  
         ${selectedVideo ? "grid-cols-[40%_1fr]" : "grid-cols-1"}
         
         `}
-        >
-          <div className="flex flex-col w-full h-[calc(100vh-64px)] pb-4 gap-4">
-            <h1 className="text-xl text-primary">
-              These ({itemsToReview.length}) items need your approval
-            </h1>
-            {/* <div className="h-fit">
-              <FilterStatus
-                selectedStatus={["video uploaded", "script done"]}
-                setSelectedStatus={() => {}}
-              />
-            </div> */}
-            <div className="flex flex-col gap-4 bg-foreground/20 border rounded-md h-full overflow-scroll">
-              {/* <div className="p-4 px-6 w-full bg-foreground/40 text-primary flex justify-between ">
-                <h1 className="w-[200px] ">Title</h1>
-                <h1 className="w-[100px] ">video #</h1>
-                <h1 className="w-[100px] text-center">Post date</h1>
+            >
+              <div className="flex flex-col w-full h-[calc(100vh-64px)] pb-4 gap-4">
+                <h1 className="text-xl text-primary">
+                  These ({itemsToReview.length}) items need your approval
+                </h1>
 
-                <h1 className="w-[100px] text-center">Script a</h1>
-                <h1 className="w-[100px] text-center">Video a</h1>
-              </div> */}
-              <div className="flex flex-col gap-2 p-2 max-h-full overflow-scroll">
-                {itemsToReview &&
-                  itemsToReview.map((video) => (
-                    <VideoRow
-                      video={video}
-                      key={video.videoData.id}
-                      setSelectedVideo={setSelectedVideo}
-                      selectedVideo={selectedVideo}
-                    />
-                  ))}
+                <div className="flex flex-col gap-4  h-full overflow-scroll">
+                  <div className="flex flex-col gap-2  max-h-full overflow-scroll">
+                    {originalItemsToReview &&
+                      originalItemsToReview.map((video) => (
+                        <VideoRow
+                          video={video}
+                          key={video.videoData.id}
+                          setSelectedVideo={setSelectedVideo}
+                          selectedVideo={selectedVideo}
+                        />
+                      ))}
+                  </div>
+                </div>
               </div>
+              {selectedVideo && selectedVideo.reviewType == "script" && (
+                <ScriptReview
+                  key={selectedVideo.videoData.id}
+                  video={selectedVideo}
+                  setVideo={setSelectedVideo}
+                />
+              )}
+              {selectedVideo && selectedVideo.reviewType == "video" && (
+                <UploadedVideoReview
+                  video={selectedVideo}
+                  setVideo={setSelectedVideo}
+                  key={selectedVideo.videoData.id}
+                />
+              )}
             </div>
-          </div>
-          {selectedVideo && selectedVideo.reviewType == "script" && (
-            <ScriptReview
-              key={selectedVideo.videoData.id}
-              video={selectedVideo}
-              setVideo={setSelectedVideo}
-            />
+          ) : (
+            <h1 className="text-xl text-primary text-center mt-20">
+              You are all caught up. no items to review 🎉
+            </h1>
           )}
-          {selectedVideo && selectedVideo.reviewType == "video" && (
-            <UploadedVideoReview
-              video={selectedVideo}
-              setVideo={setSelectedVideo}
-              key={selectedVideo.videoData.id}
-            />
-          )}
-        </div>
+        </>
       )}
     </div>
   );
@@ -346,11 +311,40 @@ const VideoRow = ({
   >;
   selectedVideo: ReviewData | undefined;
 }) => {
+  const {currentUser} = useAuth()!;
+
+  const [videoData, setVideoData] = React.useState<VideoData | undefined>(
+    video.videoData
+  );
+
+  useEffect(() => {
+    // create snapshot listener for the video data
+    const unsubscribe = onSnapshot(
+      doc(db, "videos", video.videoData.videoNumber),
+      async (doc) => {
+        const videoData = doc.data();
+        setVideoData(videoData as VideoData);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const isReviewed =
+    (videoData &&
+      currentUser?.uid &&
+      (video.reviewType == "script"
+        ? videoData.scriptReviewed?.includes(currentUser?.uid)
+        : videoData.videoReviewed?.includes(currentUser?.uid))) ||
+    false;
+
+  console.log("isReviewed", isReviewed);
+
   return (
     <button
       onClick={() => setSelectedVideo(video)}
       key={video.videoData.id}
-      className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 
+      className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 relative
         ${
           selectedVideo && selectedVideo.id === video.id
             ? "border-primary"
@@ -358,7 +352,21 @@ const VideoRow = ({
         }
         `}
     >
-      <h1 className="w-full overflow-hidden text-ellipsis text-left text-lg">
+      <AnimatePresence>
+        {isReviewed && (
+          <motion.div
+            animate={{width: "calc(100% - 12px)"}}
+            initial={{width: "0%"}}
+            exit={{width: "0%"}}
+            className="absolute top-1/2 -translate-y-1/2 left-[6px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
+          ></motion.div>
+        )}
+      </AnimatePresence>
+      <h1
+        className={`w-full overflow-hidden text-ellipsis text-left text-lg
+        ${isReviewed ? "opacity-50" : "opacity-100"}
+        `}
+      >
         Review the{" "}
         <span className="font-bold text-blue-800 dark:text-blue-200">
           {video.reviewType == "video" ? "uploaded video" : "script"}{" "}
@@ -377,7 +385,25 @@ const ScriptReview = ({
   setVideo: React.Dispatch<React.SetStateAction<ReviewData | undefined>>;
 }) => {
   // console.log("video", JSON.stringify(video.script));
-  console.log("video", video);
+
+  const [videoData, setVideoData] = React.useState<VideoData | undefined>(
+    video.videoData
+  );
+
+  useEffect(() => {
+    const fetchVideoData = async () => {
+      console.log("fetching video data=========", video);
+      const videoRef = doc(db, "videos", video.videoData.videoNumber);
+      const videoSnap = await getDoc(videoRef);
+      if (videoSnap.exists()) {
+        const videoData = videoSnap.data();
+        console.log("videoData", videoData);
+        setVideoData(videoData as VideoData);
+      }
+    };
+    fetchVideoData();
+  }, [video]);
+
   const {currentUser} = useAuth()!;
 
   const client = clients.find(
@@ -392,11 +418,12 @@ const ScriptReview = ({
 
   useEffect(() => {
     setIsReviewed(
-      (currentUser?.uid &&
-        video.videoData.scriptReviewed?.includes(currentUser?.uid)) ||
+      (videoData &&
+        currentUser?.uid &&
+        videoData.scriptReviewed?.includes(currentUser?.uid)) ||
         false
     );
-  }, [video]);
+  }, [videoData]);
 
   const markAsReviewed = async () => {
     if (!currentUser) return;
@@ -471,7 +498,7 @@ const ScriptReview = ({
             <div className="grid gap-1">
               <h1 className="font-bold text-lg">Reviewed by</h1>
               <div className="gap-4 flex ">
-                {USERS_DATA.map((user) => (
+                {REVIEW_USERS_DATA.map((user) => (
                   <div key={user.id} className="">
                     {currentUser?.uid == user.id ? (
                       <div className="w-full justify-between items-center flex">
@@ -551,7 +578,7 @@ const ScriptTab = ({video}: {video: VideoData}) => {
       <Editor post={video.script} setScript={() => {}} />
 
       <h1>Reviewed by</h1>
-      {USERS_DATA.map((user) => (
+      {REVIEW_USERS_DATA.map((user) => (
         <div key={user.id}>
           {video.scriptReviewed?.includes(user.id) ? "✅" : "❌"}{" "}
           {currentUser?.uid == user.id ? "You" : user.name}
@@ -590,6 +617,7 @@ const UploadedVideoReview = ({
 
   useEffect(() => {
     const fetchVideoData = async () => {
+      console.log("fetching video data=========", video);
       const videoRef = doc(db, "videos", video.videoData.videoNumber);
       const videoSnap = await getDoc(videoRef);
       if (videoSnap.exists()) {
@@ -618,6 +646,7 @@ const UploadedVideoReview = ({
 
   useEffect(() => {
     if (!videoData) return;
+    console.log("setttting 111s", videoData.status);
     setIsReviewed(
       (currentUser?.uid &&
         videoData.videoReviewed?.includes(currentUser?.uid)) ||
@@ -625,6 +654,7 @@ const UploadedVideoReview = ({
     );
     setNotes(videoData.notes);
     setNeedsRevision(videoData.status == "needs revision");
+    setVideoStatus(videoData.status);
   }, [videoData]);
 
   const markAsReviewed = async () => {
@@ -660,25 +690,9 @@ const UploadedVideoReview = ({
 
   const [notes, setNotes] = React.useState(video.videoData.notes);
 
-  // async function updateField(field: string, value: any) {
-
-  //   const updatedVideoData = {
-  //     ...videoData,
-  //     [field]: value,
-  //     updatedAt: {date: new Date(), user: currentUser?.firstName},
-  //   };
-  //   await setDoc(
-  //     doc(db, "videos", video.videoData.videoNumber),
-  //     {
-  //       [field]: value,
-  //       updatedAt: {date: new Date(), user: currentUser?.firstName},
-  //     },
-  //     {
-  //       merge: true,
-  //     }
-  //   );
-
-  // }
+  const [videoStatus, setVideoStatus] = React.useState(
+    videoData && videoData.status
+  );
 
   const [needsRevision, setNeedsRevision] = React.useState(
     video.videoData.status == "needs revision"
@@ -694,11 +708,13 @@ const UploadedVideoReview = ({
       {merge: true}
     );
     setNeedsRevision(!needsRevision);
-    videoData &&
-      setVideoData({
-        ...videoData,
-        status: value,
-      });
+    setVideoStatus(value);
+
+    // videoData &&
+    //   setVideoData({
+    //     ...videoData,
+    //     status: value,
+    //   });
   };
 
   const [selectedVideo, setSelectedVideo] = React.useState<
@@ -750,10 +766,7 @@ const UploadedVideoReview = ({
 
   const markAsReadyToPost = async () => {
     if (!currentUser || !uploadedVideos || !selectedVideo) return;
-    console.log("Marking as ready to post...", [
-      ...(video.videoData.scriptReviewed || []),
-      currentUser?.uid,
-    ]);
+
     try {
       // Prepare updatedVideos array
       const updatedVideos = uploadedVideos.map((videoData) => {
@@ -768,18 +781,18 @@ const UploadedVideoReview = ({
             // ],
           };
         }
-        return video;
+        return videoData;
       });
-
-      console.log("Updated Videos:", updatedVideos);
 
       // Call updateVideoField with the modified videos
       await updateVideoField(updatedVideos);
       await markAsReviewed();
+      await changeVideoStatusRevision("done");
+
       // setNeedsRevision(false);
 
       // Optionally change video status revision
-      // await changeVideoStatusRevision("done");
+      await changeVideoStatusRevision("done");
     } catch (error) {
       console.error("Error marking video as ready to post:", error);
     }
@@ -790,20 +803,24 @@ const UploadedVideoReview = ({
 
     try {
       // Prepare updatedVideos array
+
       const updatedVideos = uploadedVideos.map((videoData) => {
+        console.log("videoData", videoData);
+
         if (videoData.videoURL === selectedVideo.videoURL) {
           return {
             ...videoData,
             needsRevision: true,
             isReadyToPost: false,
           };
+        } else {
+          return videoData;
         }
-        return video;
       });
 
       // Pass the updated videos to updateVideoField
       await updateVideoField(updatedVideos);
-      await markAsNotReviewed();
+      await markAsReviewed();
 
       // Change video status revision
       await changeVideoStatusRevision("needs revision");
@@ -859,17 +876,14 @@ const UploadedVideoReview = ({
             <div className="flex flex-col items-center text-sm">
               <h1 className="font-bold text-lg">Status</h1>
               <span className="text-base">
-                {videoData && videoData.status && (
+                {videoStatus && (
                   <div className="flex items-center gap-1">
-                    {videoData.status == "needs revision" ? (
+                    {videoStatus == "needs revision" ? (
                       <Icons.warning className="h-6 w-6 text-red-600" />
                     ) : (
                       <Icons.check className="h-6 w-6 text-green-600" />
                     )}
-                    {
-                      videoStatuses.find((s) => s.value == videoData.status)
-                        ?.label
-                    }
+                    {videoStatuses.find((s) => s.value == videoStatus)?.label}
                   </div>
                 )}
               </span>
@@ -877,7 +891,7 @@ const UploadedVideoReview = ({
             <div className="flex flex-col ">
               <h1 className="font-bold text-lg">Reviewed by</h1>
               <div className="gap-4 flex text-base">
-                {USERS_DATA.map((user) => (
+                {REVIEW_USERS_DATA.map((user) => (
                   <div key={user.id} className="">
                     {currentUser?.uid == user.id ? (
                       <div className="w-full justify-between items-center flex">
@@ -911,85 +925,75 @@ const UploadedVideoReview = ({
               </div>
               <div className="flex flex-col w-full gap-4  items-center">
                 <div className=" flex flex-col p-4 gap-4  flex-grow border  rounded-md w-[90%] ">
-                  {currentUser &&
-                    videoData &&
-                    videoData.videoReviewed?.includes(currentUser.uid) &&
-                    selectedVideo?.needsRevision && (
-                      <div className="w-full  relative h-full  rounded-md  flex flex-col gap-2">
-                        <div className="flex items-center w-full justify-between">
-                          <Label className="text-xl font-bold" htmlFor="notes">
-                            Revision Notes
-                          </Label>
-                          <Button
-                            onClick={markAsReadyToPost}
-                            size={"sm"}
-                            className="w-fit "
-                          >
-                            Mark as ready to post
-                          </Button>
-                        </div>
-                        <Textarea
-                          id="notes"
-                          placeholder="Add video notes here..."
-                          value={selectedVideo?.revisionNotes}
-                          onChange={(e) => {
-                            setNotes(e.target.value);
-                            if (!uploadedVideos) return;
-                            const updatedVideos = uploadedVideos.map(
-                              (video) => {
-                                if (video.videoURL === selectedVideo.videoURL) {
-                                  return {
-                                    ...video,
-                                    revisionNotes: e.target.value,
-                                  };
-                                }
-                                return video;
-                              }
-                            );
-                            updateVideoField(updatedVideos);
-                          }}
-                          className="w-full border p-2 flex items-center rounded-md text-sm bg-foreground/40 flex-grow"
-                        />
-                      </div>
-                    )}
-                  {currentUser &&
-                    videoData &&
-                    videoData.videoReviewed?.includes(currentUser.uid) &&
-                    selectedVideo?.isReadyToPost && (
-                      <div className="w-full flex flex-col flex-grow items-center justify-center gap-1 relative">
-                        <div className="rounded-full h-fit w-fit border border-green-600 p-2">
-                          <Icons.check className="h-8 w-8 text-green-600" />
-                        </div>
-                        You marked this video as ready to post
-                        <Button
-                          size="sm"
-                          variant={"destructive"}
-                          className="absolute top-0 right-0 w-fit"
-                          onClick={markAsNeedsRevision}
-                        >
-                          Mark as needs revision
-                        </Button>
-                      </div>
-                    )}
-                  {currentUser &&
-                    videoData &&
-                    !videoData.videoReviewed?.includes(currentUser.uid) && (
-                      <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow">
+                  {isReviewed && selectedVideo?.needsRevision && (
+                    <div className="w-full  relative h-full  rounded-md  flex flex-col gap-2">
+                      <div className="flex items-center w-full justify-between">
+                        <Label className="text-xl font-bold" htmlFor="notes">
+                          Revision Notes
+                        </Label>
                         <Button
                           onClick={markAsReadyToPost}
-                          className="bg-green-500 hover:bg-green-600 text-white w-full"
+                          size={"sm"}
+                          className="w-fit "
                         >
                           Mark as ready to post
                         </Button>
-                        <Button
-                          className="w-full"
-                          variant={"destructive"}
-                          onClick={markAsNeedsRevision}
-                        >
-                          Video needs revision
-                        </Button>
                       </div>
-                    )}
+                      <Textarea
+                        id="notes"
+                        placeholder="Add video notes here..."
+                        value={selectedVideo?.revisionNotes}
+                        onChange={(e) => {
+                          setNotes(e.target.value);
+                          if (!uploadedVideos) return;
+                          const updatedVideos = uploadedVideos.map((video) => {
+                            if (video.videoURL === selectedVideo.videoURL) {
+                              return {
+                                ...video,
+                                revisionNotes: e.target.value,
+                              };
+                            }
+                            return video;
+                          });
+                          updateVideoField(updatedVideos);
+                        }}
+                        className="w-full border p-2 flex items-center rounded-md text-sm bg-foreground/40 flex-grow"
+                      />
+                    </div>
+                  )}
+                  {isReviewed && selectedVideo?.isReadyToPost && (
+                    <div className="w-full flex flex-col flex-grow items-center justify-center gap-1 relative">
+                      <div className="rounded-full h-fit w-fit border border-green-600 p-2">
+                        <Icons.check className="h-8 w-8 text-green-600" />
+                      </div>
+                      You marked this video as ready to post
+                      <Button
+                        size="sm"
+                        variant={"destructive"}
+                        className="absolute top-0 right-0 w-fit"
+                        onClick={markAsNeedsRevision}
+                      >
+                        Mark as needs revision
+                      </Button>
+                    </div>
+                  )}
+                  {!isReviewed && (
+                    <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow">
+                      <Button
+                        onClick={markAsReadyToPost}
+                        className="bg-green-500 hover:bg-green-600 text-white w-full"
+                      >
+                        Mark as ready to post
+                      </Button>
+                      <Button
+                        className="w-full"
+                        variant={"destructive"}
+                        onClick={markAsNeedsRevision}
+                      >
+                        Video needs revision
+                      </Button>
+                    </div>
+                  )}
                 </div>
                 {/* <div className="flex flex-col gap-2 w-full">
               {needsRevision && (
@@ -1041,6 +1045,11 @@ const UploadedVideoReview = ({
                           `}
                         >
                           {video.title}
+                          {!video.isReadyToPost && !video.needsRevision && (
+                            <span className="text-yellow-600 ml-auto">
+                              Needs review
+                            </span>
+                          )}
                           {video.needsRevision && (
                             <span className="text-red-600 ml-auto">
                               Needs revision

@@ -66,7 +66,7 @@ import {motion, useMotionValue, useTransform, animate} from "framer-motion";
 import {db} from "@/config/firebase";
 import {ADMIN_USERS, EDITORS, Post, VideoData} from "@/config/data";
 import {formatDaynameMonthDay} from "@/lib/utils";
-import {clients} from "@/config/data";
+import {clients, REVIEW_USERS_DATA} from "@/config/data";
 import Link from "next/link";
 import {useAuth} from "@/context/user-auth";
 import {EditorSelector} from "./components/editor-selector";
@@ -130,7 +130,18 @@ const VideoSheet = ({
   const needsRevision = videoData.filter(
     (video) => video.status === "needs revision"
   );
-  const todo = videoData.filter((video) => video.status === "todo");
+
+  const reviewerIds = REVIEW_USERS_DATA.map((user) => user.id);
+
+  const todo = videoData.filter(
+    (video) =>
+      video.status === "todo" &&
+      video.scriptReviewed && // Ensure scriptReviewed is not undefined
+      Array.isArray(video.scriptReviewed) &&
+      reviewerIds.every(
+        (id) => video.scriptReviewed && video.scriptReviewed.includes(id)
+      )
+  );
 
   const [showPaid, setShowPaid] = React.useState(true);
   const [showUnpaid, setShowUnpaid] = React.useState(true);

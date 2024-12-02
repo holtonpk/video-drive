@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {OutputData} from "@editorjs/editorjs";
+import {useAuth, UserData} from "@/context/user-auth";
 
 import {
   formatDateFromTimestamp,
@@ -24,6 +25,7 @@ import {VideoData} from "@/config/data";
 import {Input} from "@/components/ui/input";
 import {Video} from "lucide-react";
 import {set} from "date-fns";
+import {REVIEW_USERS_DATA} from "@/config/data";
 type ClientDataByWeek = {
   weekRange: string;
   weekNumber: number;
@@ -33,9 +35,11 @@ type ClientDataByWeek = {
 export const WeeksDisplay = ({
   clientInfo,
   setTotalVideos,
+  setCurrentVideoNumber,
 }: {
   clientInfo: any;
   setTotalVideos: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentVideoNumber: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const [ClientData, setClientData] = React.useState<ClientDataByWeek[] | null>(
     null
@@ -52,7 +56,13 @@ export const WeeksDisplay = ({
         clientDataLocal.push(doc.data() as VideoData);
       });
 
+      const largestVideoNumber = Math.max(
+        ...clientDataLocal.map((post: any) => post.videoNumber)
+      );
       setTotalVideos(clientDataLocal.length);
+      setCurrentVideoNumber(largestVideoNumber);
+
+      console.log("Largest video number:", largestVideoNumber);
 
       // Get the earliest and latest post date in UTC
       const earliestPostDate = new Date(
@@ -86,6 +96,26 @@ export const WeeksDisplay = ({
     });
     return () => unsubscribe();
   }, [clientInfo, setTotalVideos]);
+
+  const [userData, setUsersData] = React.useState<UserData[]>();
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const usersData = await Promise.all(
+          REVIEW_USERS_DATA.map(async (user) => {
+            const userSnap = await getDoc(doc(db, "users", user.id));
+            return userSnap.data() as UserData; // Ensure type casting if needed
+          })
+        );
+        setUsersData(usersData);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   // Helper function to get the week number starting from a specific date (Monday to Sunday)
   const getWeekNumber = (date: Date, startDate: Date) => {
@@ -122,8 +152,8 @@ export const WeeksDisplay = ({
       {ClientData ? (
         <div className="flex flex-col gap-6 ">
           {[...ClientData].reverse().map((week: ClientDataByWeek, i) => (
-            <div key={i} className="border  rounded-md pt-3">
-              <span className="p-3 text-primary">
+            <div key={i} className="border  shadow-lg rounded-md pt-3">
+              <span className="p-3 text-primary ">
                 <span className="font-bold text-lg ">
                   Week {week.weekNumber}
                 </span>
@@ -131,22 +161,30 @@ export const WeeksDisplay = ({
                 {week.weekRange}
                 {")"}
               </span>
-              <div className="w-full p-2 bg-card/70 gap-4 justify-between flex border-y font-bold mt-3 text-primary">
+              <div className="w-full p-2 bg-card dark:bg-muted/40 gap-4 justify-between flex border-y font-bold mt-3 text-primary text-sm">
                 <span className="w-[80px]">Video #</span>
                 <span className=" w-[250px]">Title</span>
                 <span className="w-[60px]">Script</span>
                 <span className="w-[60px]">Editing</span>
                 <span className="w-[60px]">Post</span>
-                <span className="w-[50px]">Script</span>
+                <span className="w-[100px] text-center">Script Done</span>
+                <span className="w-[120px] text-center ">Script reviewed</span>
+                <span className="w-[100px] ">Editing Status</span>
+                <span className="w-[120px] text-center">Video Reviewed</span>
                 <span className="w-[50px]">Caption</span>
-                <span className="w-[120px] ">Status</span>
+
                 <span className="w-[80px] ">Posted</span>
               </div>
               <div className="flex flex-col  ">
                 {week.posts
                   .sort((a: any, b: any) => a.postDate - b.postDate)
                   .map((post: VideoData, index) => (
-                    <VideoColumn key={index} post={post} index={index} />
+                    <VideoColumn
+                      key={index}
+                      post={post}
+                      index={index}
+                      userData={userData}
+                    />
                   ))}
               </div>
             </div>
@@ -161,7 +199,15 @@ export const WeeksDisplay = ({
   );
 };
 
-const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
+const VideoColumn = ({
+  post,
+  index,
+  userData,
+}: {
+  post: VideoData;
+  index: number;
+  userData: UserData[] | undefined;
+}) => {
   const status = statuses.find((status) => status.value === post.status);
 
   const [loadingCaption, setLoadingCaption] = React.useState<boolean>(false);
@@ -199,7 +245,23 @@ const VideoColumn = ({post, index}: {post: VideoData; index: number}) => {
   const hasScript =
     typeof post.script === "string"
       ? post.script.length > 1
-      : isOutputData(post.script) && post.script.blocks.length > 1;
+      : isOutputData(post.script) && post.script.blocks.length > 0;
+
+  const reviewerIds = REVIEW_USERS_DATA.map((user) => user.id);
+
+  const scriptIsReviewed =
+    post.scriptReviewed && // Ensure scriptReviewed is not undefined
+    Array.isArray(post.scriptReviewed) &&
+    reviewerIds.every(
+      (id) => post.scriptReviewed && post.scriptReviewed.includes(id)
+    );
+
+  const videoIsReviewed =
+    post.videoReviewed && // Ensure scriptReviewed is not undefined
+    Array.isArray(post.videoReviewed) &&
+    reviewerIds.every(
+      (id) => post.videoReviewed && post.videoReviewed.includes(id)
+    );
 
   return (
     <div
@@ -211,7 +273,7 @@ ${index % 2 === 0 ? "bg-background/40" : "bg-foreground/40"}
       <Link
         target="_blank"
         href={`/video/${post.videoNumber}`}
-        className="absolute w-full h-full top-0 left-0 z-10 cursor-pointer hover:bg-border "
+        className="absolute w-full h-full top-0 left-0 z-10 cursor-pointer hover:bg-card hover:dark:bg-border transition-colors duration-200 "
       />
       <span className="whitespace-nowrap overflow-hidden text-ellipsis  relative z-20 pointer-events-none w-[80px]">
         #{post.videoNumber}
@@ -229,28 +291,43 @@ ${index % 2 === 0 ? "bg-background/40" : "bg-foreground/40"}
       <span className="relative z-20 pointer-events-none w-[60px]">
         {formatDayMonthDay(post.postDate)}
       </span>
-      <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
+      <span className="relative z-20 pointer-events-none w-[100px] flex justify-center">
         {videoAlreadyPosted ? (
-          "✅"
+          <Icons.check className="h-4 w-4 text-green-500" />
         ) : (
-          <span className="font-bold">{hasScript ? "✅" : "❌"}</span>
-        )}
-      </span>
-      <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
-        {videoAlreadyPosted ? (
-          "✅"
-        ) : (
-          <>
-            {" "}
-            {loadingCaption ? (
-              <Icons.spinner className="h-4 w-4 animate-spin" />
+          <span className="font-bold">
+            {hasScript ? (
+              <Icons.check className="h-4 w-4 text-green-500" />
             ) : (
-              <span className="font-bold">{hasCaption ? "✅" : "❌"}</span>
+              <Icons.close className=" h-4 w-4 text-red-500" />
             )}
-          </>
+          </span>
         )}
       </span>
-      <span className="flex items-center relative z-20 pointer-events-none w-[120px]  ">
+      <span className="relative z-20 pointer-events-none w-[120px] flex justify-center items-center">
+        {post.scriptReviewed &&
+          post.scriptReviewed.map((reviewer, i) => {
+            const user = userData && userData.find((u) => u.uid == reviewer);
+            console.log("user", user?.photoURL);
+            return (
+              <img
+                key={i}
+                src={user?.photoURL}
+                alt={user?.firstName}
+                // style={{zIndex: task.assignee.length - index}}
+                className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
+              />
+            );
+          })}
+
+        {/* {scriptIsReviewed ? (
+          <Icons.check className="ml-1 h-3 w-3 text-green-500" />
+        ) : (
+          <Icons.close className="ml-1 h-3 w-3 text-red-500" />
+        )} */}
+      </span>
+
+      <span className="flex items-center relative z-20 pointer-events-none w-[100px]">
         {status?.icon && (
           <status.icon
             className={`h-4 w-4 mr-2
@@ -267,10 +344,54 @@ ${index % 2 === 0 ? "bg-background/40" : "bg-foreground/40"}
           />
         )}
 
-        {status?.label}
+        {status?.value === "needs revision" ? "Revision" : status?.label}
+      </span>
+      <span className="relative z-20 pointer-events-none w-[120px]  flex justify-center items-center">
+        {post.videoReviewed &&
+          post.videoReviewed.map((reviewer, i) => {
+            const user = userData && userData.find((u) => u.uid == reviewer);
+            return (
+              <img
+                key={i}
+                src={user?.photoURL}
+                alt={user?.firstName}
+                // style={{zIndex: task.assignee.length - index}}
+                className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
+              />
+            );
+          })}
+        {/* {videoIsReviewed ? (
+          <Icons.check className="ml-1 h-3 w-3 text-green-500" />
+        ) : (
+          <Icons.close className="ml-1 h-3 w-3 text-red-500" />
+        )} */}
+      </span>
+      <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
+        {videoAlreadyPosted ? (
+          <Icons.check className="h-4 w-4 text-green-500" />
+        ) : (
+          <>
+            {" "}
+            {loadingCaption ? (
+              <Icons.spinner className="h-4 w-4 animate-spin" />
+            ) : (
+              <span className="font-bold">
+                {hasCaption ? (
+                  <Icons.check className="h-4 w-4 text-green-500" />
+                ) : (
+                  <Icons.close className=" h-4 w-4 text-red-500" />
+                )}
+              </span>
+            )}
+          </>
+        )}
       </span>
       <span className="w-[80px] z-20  flex pl-4">
-        {post.posted ? "✅" : "❌"}
+        {post.posted ? (
+          <Icons.check className="h-4 w-4 text-green-500" />
+        ) : (
+          <Icons.close className=" h-4 w-4 text-red-500" />
+        )}
       </span>
     </div>
   );

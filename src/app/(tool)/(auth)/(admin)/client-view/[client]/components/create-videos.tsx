@@ -88,7 +88,7 @@ export const CreateVideo = ({
     setNewVideos([
       {
         title: "",
-        videoNumber: Number(generateVideoNumber(totalVideos + 1)).toString(),
+        videoNumber: Number(totalVideos + 1).toString(),
         clientId: clientInfo.value,
         status: "draft",
         dueDate: new Date(),
@@ -107,9 +107,7 @@ export const CreateVideo = ({
       {
         title: "",
         videoNumber: newVideos
-          ? Number(
-              generateVideoNumber(totalVideos + newVideos.length + 1)
-            ).toString()
+          ? Number(totalVideos + newVideos.length + 1).toString()
           : "0",
         clientId: clientInfo.value,
         status: "draft",
@@ -263,9 +261,8 @@ const BulkSchedule = ({
       let newVideos = videoSchedule.flatMap((day) => {
         return Array.from({length: day.videosForThisDay}).map(() => {
           videoCount++;
-          const videoNumber = generateVideoNumber(
-            clientTotalVideos + videoCount
-          );
+          const videoNumber = Number(clientTotalVideos + videoCount).toString();
+
           return {
             title: "video - #" + videoNumber.toString(),
             videoNumber: videoNumber,
