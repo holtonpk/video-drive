@@ -1,7 +1,5 @@
 import {NextResponse} from "next/server";
 
-export const maxDuration = 300;
-
 // import credintials from "./moltar-bc665-0fdafd009593.json";
 export async function POST(req: Request) {
   try {

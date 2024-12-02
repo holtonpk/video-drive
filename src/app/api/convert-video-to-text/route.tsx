@@ -4,8 +4,6 @@ import {PassThrough} from "stream";
 import ffmpeg from "fluent-ffmpeg";
 import path from "path";
 
-export const maxDuration = 300;
-
 const ffmpegPath = path.resolve(
   process.cwd(),
   "node_modules",
