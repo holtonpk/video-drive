@@ -63,13 +63,13 @@ const convertVideoToAudio = async (fileName: string) => {
       .outputOptions("-ab", "192k")
       .toFormat("mp3")
       .pipe(passThrough)
-      .on("progress", (progress) => {
+      .on("progress", (progress: any) => {
         console.log(`Processing: ${progress.percent?.toFixed(2) || 0}% done`);
       })
       .on("end", () => {
         console.log("FFmpeg conversion finished.");
       })
-      .on("error", (error) => {
+      .on("error", (error: any) => {
         console.error("FFmpeg error:", error);
         uploadStream.end(); // Ensure the stream is closed
       });
