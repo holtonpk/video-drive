@@ -241,7 +241,7 @@ const Tasks = () => {
                 <Icons.spinner className="animate-spin h-8 w-8 text-primary" />
               </div>
             ) : (
-              <div className="grid-cols-[70%_28%] grid  w-full justify-between">
+              <div className=" md:grid-cols-[70%_28%] grid  w-full justify-between">
                 <div className="flex flex-col border rounded-md overflow-hidden  blurBack w-full shadow-lg">
                   <DateFilter
                     tasks={taskForDate}

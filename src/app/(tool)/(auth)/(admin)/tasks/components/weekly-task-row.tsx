@@ -108,11 +108,8 @@ export const WeeklyTaskRow = ({
     console.log("task.status", task.status);
   }, [taskData]);
 
-  console.log("isCompleted", isCompleted);
-  console.log("task.status", taskData.status);
-
   return (
-    <div className="flex  justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg  border relative gap-4 max-w-full w-full hover:bg-foreground/60">
+    <div className="flex justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg  border relative gap-4 max-w-full w-full hover:bg-foreground/60">
       <Dialog open={showViewDialog} onOpenChange={setShowViewDialog}>
         <DialogTrigger asChild>
           <button className="absolute w-full h-full  z-10 left-0 top-0"></button>

@@ -273,6 +273,7 @@ const BulkSchedule = ({
             scriptDueDate: subDays(day.date, SUBDAYS_SCRIPT_DUE),
             notes: "",
             script: "",
+            posted: false,
           };
         });
       });

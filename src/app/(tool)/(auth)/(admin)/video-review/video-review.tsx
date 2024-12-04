@@ -415,9 +415,16 @@ const ReviewRow = ({
   }, []);
 
   const isReviewed =
-    videoData &&
-    videoData.payoutChangeRequest &&
-    videoData.payoutChangeRequest.status != "pending";
+    videoData && video.reviewType == "payout"
+      ? videoData.payoutChangeRequest &&
+        videoData.payoutChangeRequest.status != "pending"
+      : videoData && currentUser && video.reviewType == "script"
+      ? videoData.scriptReviewed &&
+        videoData.scriptReviewed.includes(currentUser?.uid)
+      : videoData && currentUser && video.reviewType == "video"
+      ? videoData.videoReviewed &&
+        videoData.videoReviewed.includes(currentUser?.uid)
+      : false;
 
   console.log("isReviewed", isReviewed);
 
