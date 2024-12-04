@@ -253,7 +253,7 @@ const Tasks = () => {
                 </div>
                 <div className="w-full  max-w-full border h-full flex flex-col blurBack rounded-md shadow-lg">
                   <div className="p-4 bg-foreground/40 dark:bg-muted/40 flex items-center justify-between">
-                    <h1 className="text-primary font-bold flex gap-1 items-center">
+                    <h1 className="text-primary font-bold flex gap-1 items-center text-base">
                       Weekly tasks
                       {/* {selectedDate &&
                         filteredWeeklyTasks.some(   

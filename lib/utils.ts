@@ -129,6 +129,13 @@ export function constructMetadata({
   };
 }
 
+export function formatAsUSD(amount: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+}
+
 export function calculateTotalWeeksRemaining(
   currentDate: Date,
   timestamps: Timestamp[]

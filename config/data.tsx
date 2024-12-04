@@ -252,6 +252,14 @@ export type VideoData = {
   posted?: boolean;
   scriptReviewed?: string[];
   videoReviewed?: string[];
+  payoutChangeRequest?: PayoutChangeRequest;
+};
+
+type PayoutChangeRequest = {
+  value: number;
+  reason: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: {date: Timestamp; user: string};
 };
 
 export type UploadedVideo = {

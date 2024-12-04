@@ -154,7 +154,7 @@ export const WeeklyTaskRow = ({
         )}
       </button>
       <h1
-        className={`flex-grow overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300 max-w-[80%]
+        className={`flex-grow overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300 max-w-[80%] text-base
         ${isCompleted ? "opacity-30" : "opacity-100"}
         `}
       >

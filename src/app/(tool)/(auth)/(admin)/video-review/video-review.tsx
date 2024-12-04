@@ -24,7 +24,7 @@ import {
   UploadedVideo,
   REVIEW_USERS_DATA,
 } from "@/config/data";
-import {formatDaynameMonthDay, convertTimestampToDate} from "@/lib/utils";
+import {formatDaynameMonthDay, formatAsUSD} from "@/lib/utils";
 import {Icons} from "@/components/icons";
 import {PlusCircle} from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
@@ -54,7 +54,7 @@ import {statuses as videoStatuses} from "@/config/data";
 const statuses = ["script done", "video uploaded", "video needs revision"];
 
 type ReviewData = {
-  reviewType: "script" | "video";
+  reviewType: "script" | "video" | "payout";
   videoData: VideoData;
   id: string;
 };
@@ -80,6 +80,7 @@ const VideoReview = () => {
   useEffect(() => {
     const unsubscribe = onSnapshot(
       query(collection(db, "videos"), where("posted", "==", false)),
+
       async (querySnapshot) => {
         try {
           const filteredVideos = await Promise.all(
@@ -116,9 +117,72 @@ const VideoReview = () => {
     return () => unsubscribe(); // Cleanup listener
   }, []);
 
+  const [displayVideos2, setDisplayVideos2] = React.useState<
+    VideoDataWithPosts[] | undefined
+  >();
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(collection(db, "videos"), where("payoutChangeRequest", "!=", "")),
+      async (querySnapshot) => {
+        try {
+          const filteredVideos = (
+            await Promise.all(
+              querySnapshot.docs.map(async (docRef) => {
+                const docData = docRef.data();
+                console.log("docData", docData.payoutChangeRequest);
+
+                // Check if the payoutChangeRequest status is "pending"
+                if (
+                  docData.payoutChangeRequest &&
+                  docData.payoutChangeRequest.status === "pending"
+                ) {
+                  // Fetch post data if postIds exist and is an array
+                  const postData =
+                    docData.postIds &&
+                    Array.isArray(docData.postIds) &&
+                    (await Promise.all(
+                      docData.postIds.map(async (postId: string) => {
+                        const postDoc = doc(db, "posts", postId);
+                        const postSnap = await getDoc(postDoc);
+                        return postSnap.exists() ? postSnap.data() : null;
+                      })
+                    ));
+
+                  return {
+                    ...docData,
+                    posts: postData?.filter(Boolean) as Post[], // Filter out null posts
+                  } as VideoDataWithPosts;
+                }
+
+                return null; // Skip video if status is not "pending"
+              })
+            )
+          ).filter(Boolean) as VideoDataWithPosts[]; // Explicitly cast to VideoDataWithPosts[]
+
+          // Set the filtered videos to state
+          setDisplayVideos2(filteredVideos);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error processing snapshot data:", error);
+        }
+      }
+    );
+
+    return () => unsubscribe(); // Cleanup listener
+  }, []);
+
   const orderedVideos = displayVideos?.length
     ? [...displayVideos].sort((a: any, b: any) => a.postDate - b.postDate)
     : [];
+
+  const payoutsToReview =
+    displayVideos2 &&
+    displayVideos2?.map((video) => ({
+      reviewType: "payout",
+      videoData: video,
+      id: "payout-" + video.videoNumber,
+    }));
 
   const scriptsToReview = orderedVideos
     ?.filter((video: any) => {
@@ -149,6 +213,7 @@ const VideoReview = () => {
     }));
 
   const itemsToReview: any[] = [
+    ...(payoutsToReview || []),
     ...(scriptsToReview || []),
     ...(videosToReview || []),
   ].sort((a: any, b: any) => a.videoData.postDate - b.videoData.postDate);
@@ -193,6 +258,13 @@ const VideoReview = () => {
                   </div>
                 </div>
               </div>
+              {selectedVideo && selectedVideo.reviewType == "payout" && (
+                <PayoutReview
+                  key={selectedVideo.videoData.id}
+                  video={selectedVideo}
+                  setVideo={setSelectedVideo}
+                />
+              )}
               {selectedVideo && selectedVideo.reviewType == "script" && (
                 <ScriptReview
                   key={selectedVideo.videoData.id}
@@ -331,49 +403,254 @@ const VideoRow = ({
   }, []);
 
   const isReviewed =
-    (videoData &&
-      currentUser?.uid &&
-      (video.reviewType == "script"
-        ? videoData.scriptReviewed?.includes(currentUser?.uid)
-        : videoData.videoReviewed?.includes(currentUser?.uid))) ||
-    false;
+    videoData &&
+    videoData.payoutChangeRequest &&
+    videoData.payoutChangeRequest.status != "pending";
 
   console.log("isReviewed", isReviewed);
 
   return (
-    <button
-      onClick={() => setSelectedVideo(video)}
-      key={video.videoData.id}
-      className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 relative
+    <>
+      {video.videoData.payoutChangeRequest && (
+        <button
+          onClick={() => setSelectedVideo(video)}
+          key={video.videoData.id}
+          className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 relative
         ${
           selectedVideo && selectedVideo.id === video.id
             ? "border-primary"
             : "border-border"
         }
         `}
-    >
-      <AnimatePresence>
-        {isReviewed && (
-          <motion.div
-            animate={{width: "calc(100% - 12px)"}}
-            initial={{width: "0%"}}
-            exit={{width: "0%"}}
-            className="absolute top-1/2 -translate-y-1/2 left-[6px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
-          ></motion.div>
-        )}
-      </AnimatePresence>
-      <h1
-        className={`w-full overflow-hidden text-ellipsis text-left text-lg
+        >
+          <AnimatePresence>
+            {isReviewed && (
+              <motion.div
+                animate={{width: "calc(100% - 12px)"}}
+                initial={{width: "0%"}}
+                exit={{width: "0%"}}
+                className="absolute top-1/2 -translate-y-1/2 left-[6px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
+              ></motion.div>
+            )}
+          </AnimatePresence>
+          <h1
+            className={`w-full overflow-hidden text-ellipsis text-left text-lg
         ${isReviewed ? "opacity-50" : "opacity-100"}
         `}
-      >
-        Review the{" "}
-        <span className="font-bold text-blue-800 dark:text-blue-200">
-          {video.reviewType == "video" ? "uploaded video" : "script"}{" "}
-        </span>
-        for video #{video.videoData.videoNumber}
-      </h1>
-    </button>
+          >
+            {video.reviewType == "payout" ? (
+              <>
+                {video.videoData.payoutChangeRequest?.createdAt.user} requested
+                to be paid{" "}
+                <span className="font-bold text-blue-800 dark:text-blue-200">
+                  {formatAsUSD(video.videoData.payoutChangeRequest?.value)}
+                </span>{" "}
+              </>
+            ) : (
+              <>
+                Review the{" "}
+                <span className="font-bold text-blue-800 dark:text-blue-200">
+                  {video.reviewType == "video" ? "uploaded video" : "script"}{" "}
+                </span>
+              </>
+            )}
+            for video #{video.videoData.videoNumber}
+          </h1>
+        </button>
+      )}
+    </>
+  );
+};
+
+const PayoutReview = ({
+  video,
+  setVideo,
+}: {
+  video: ReviewData;
+  setVideo: React.Dispatch<React.SetStateAction<ReviewData | undefined>>;
+}) => {
+  // console.log("video", JSON.stringify(video.script));
+
+  const [videoData, setVideoData] = React.useState<VideoData | undefined>(
+    video.videoData
+  );
+
+  useEffect(() => {
+    const fetchVideoData = async () => {
+      console.log("fetching video data=========", video);
+      const videoRef = doc(db, "videos", video.videoData.videoNumber);
+      const videoSnap = await getDoc(videoRef);
+      if (videoSnap.exists()) {
+        const videoData = videoSnap.data();
+        console.log("videoData", videoData);
+        setVideoData(videoData as VideoData);
+      }
+    };
+    fetchVideoData();
+  }, [video]);
+
+  const {currentUser} = useAuth()!;
+
+  const client = clients.find(
+    (c: any) => c.value === video.videoData.clientId
+  )!;
+
+  const [status, setStatus] = React.useState(
+    videoData?.payoutChangeRequest?.status || "pending"
+  );
+
+  useEffect(() => {
+    if (!videoData) return;
+    setStatus(videoData?.payoutChangeRequest?.status || "pending");
+  }, [videoData]);
+
+  const updateStatus = async (status: "approved" | "rejected") => {
+    if (!currentUser) return;
+    await setDoc(
+      doc(db, "videos", video.videoData.videoNumber),
+      {
+        payoutChangeRequest: {
+          ...videoData?.payoutChangeRequest,
+          status: status,
+        },
+        priceUSD:
+          status == "approved"
+            ? videoData?.payoutChangeRequest?.value
+            : videoData?.priceUSD,
+      },
+      {merge: true}
+    );
+    setStatus(status);
+  };
+
+  return (
+    <VideoProvider videoData={video.videoData}>
+      {videoData?.payoutChangeRequest && (
+        <div
+          id={video.videoData.videoNumber}
+          className="min-w-full w-[200px] h-full rounded-md flex flex-col border p-4 text-primary gap-4 bg-foreground/20 relative"
+        >
+          <Button
+            onClick={() => setVideo(undefined)}
+            className="absolute top-2 left-2"
+            variant={"ghost"}
+          >
+            <Icons.close className="h-6 w-6" />
+          </Button>
+
+          <div className="h-full flex flex-col max-w-full overflow-hidden gap-4">
+            <div className="grid gap-1">
+              <h2 className=" text-2xl px-10 text-center">
+                {videoData?.payoutChangeRequest?.createdAt.user} requested to be
+                paid {formatAsUSD(videoData?.payoutChangeRequest?.value)}{" "}
+                instead of {formatAsUSD(videoData?.priceUSD)} for{" "}
+                <Link
+                  target="_blank"
+                  href={`/video/${video.videoData.videoNumber}`}
+                  className="font-bold  hover:opacity-80 hover:underline"
+                >
+                  #{video.videoData.videoNumber} - {video.videoData.title}
+                </Link>{" "}
+              </h2>
+              {/* <div className="flex flex-col items-center">
+                <h1 className="font-bold text-lg">Reviewed by</h1>
+               
+              </div> */}
+              <span className="font-bold ">Reason for change:</span>
+              <div className=" rounded-md ">
+                {videoData?.payoutChangeRequest?.reason}
+              </div>
+            </div>
+
+            {status !== "pending" ? (
+              <div className="w-full flex flex-col mt-10 items-center justify-center gap-1 relative">
+                {status == "approved" ? (
+                  <div className="rounded-full h-fit w-fit border border-green-600 p-2">
+                    <Icons.check className="h-8 w-8 text-green-600" />
+                  </div>
+                ) : (
+                  <div className="rounded-full h-fit w-fit border border-red-600 p-2">
+                    <Icons.close className="h-8 w-8 text-red-600" />
+                  </div>
+                )}
+                <span className="text-xl mt-2 font-bold">
+                  The request has been {status}
+                </span>
+                {status == "approved" ? (
+                  <button
+                    onClick={() => updateStatus("rejected")}
+                    className="underline"
+                  >
+                    reject this request
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => updateStatus("approved")}
+                    className="underline"
+                  >
+                    Approve this request
+                  </button>
+                )}
+              </div>
+            ) : (
+              <>
+                <Button
+                  className="bg-green-500 hover:bg-green-800 text-white"
+                  onClick={() => updateStatus("approved")}
+                >
+                  Accept Request
+                </Button>
+                <Button
+                  variant={"destructive"}
+                  onClick={() => updateStatus("rejected")}
+                >
+                  Decline Request
+                </Button>
+              </>
+            )}
+            {/* <div className="gap-4 flex w-full justify-between">
+              {REVIEW_USERS_DATA.map((user) => (
+                <div key={user.id} className="">
+                  {currentUser?.uid == user.id ? (
+                    <div className="w-fit justify-between items-center flex">
+                      You{" "}
+                      {!!(
+                        currentUser &&
+                        video.videoData.payoutChangeRequest?.reviewedBy.some(
+                          (review) => review.id === user.id
+                        )
+                      )
+                        ? `${
+                            video.videoData.payoutChangeRequest?.reviewedBy.find(
+                              (review) => review.id === user.id
+                            )?.status
+                          } this request`
+                        : "has not reviewed"}
+                    </div>
+                  ) : (
+                    <div className="w-fit justify-between items-center flex">
+                      {user.name}{" "}
+                      {!!(
+                        currentUser &&
+                        video.videoData.payoutChangeRequest?.reviewedBy.some(
+                          (review) => review.id === user.id
+                        )
+                      )
+                        ? `${
+                            video.videoData.payoutChangeRequest?.reviewedBy.find(
+                              (review) => review.id === user.id
+                            )?.status
+                          } this request`
+                        : "has not reviewed"}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div> */}
+          </div>
+        </div>
+      )}
+    </VideoProvider>
   );
 };
 
@@ -472,6 +749,7 @@ const ScriptReview = ({
         <div className="flex gap-2 items-center mx-auto">
           <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
           <Link
+            target="_blank"
             href={`/video/${video.videoData.videoNumber}`}
             className="font-bold text-2xl hover:opacity-80 hover:underline"
           >
@@ -663,7 +941,7 @@ const UploadedVideoReview = ({
       doc(db, "videos", video.videoData.videoNumber),
       {
         videoReviewed: [
-          ...(video.videoData.scriptReviewed || []),
+          ...(video.videoData.videoReviewed || []),
           currentUser?.uid,
         ],
       },
@@ -677,8 +955,8 @@ const UploadedVideoReview = ({
     await setDoc(
       doc(db, "videos", video.videoData.videoNumber),
       {
-        videoReviewed: video.videoData.scriptReviewed
-          ? video.videoData.scriptReviewed?.filter(
+        videoReviewed: video.videoData.videoReviewed
+          ? video.videoData.videoReviewed?.filter(
               (uid) => uid !== currentUser?.uid
             )
           : [],
@@ -805,8 +1083,6 @@ const UploadedVideoReview = ({
       // Prepare updatedVideos array
 
       const updatedVideos = uploadedVideos.map((videoData) => {
-        console.log("videoData", videoData);
-
         if (videoData.videoURL === selectedVideo.videoURL) {
           return {
             ...videoData,
@@ -850,6 +1126,7 @@ const UploadedVideoReview = ({
         <div className="flex gap-2 items-center mx-auto">
           <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm relative z-20 pointer-events-none" />
           <Link
+            target="_blank"
             href={`/video/${video.videoData.videoNumber}`}
             className="font-bold text-2xl hover:opacity-80 hover:underline"
           >
@@ -900,7 +1177,7 @@ const UploadedVideoReview = ({
                       </div>
                     ) : (
                       <div className="w-full justify-between items-center flex">
-                        {video.videoData.scriptReviewed?.includes(user.id)
+                        {video.videoData.videoReviewed?.includes(user.id)
                           ? " ✅ "
                           : "❌ "}
                         {user.name}

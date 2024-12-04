@@ -221,7 +221,7 @@ export const TaskRow = ({
         )}
       </button>
       <h1
-        className={`flex-grow overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300 
+        className={`flex-grow overflow-hidden text-ellipsis whitespace-nowrap transition-opacity duration-300 text-base
         ${isCompleted ? "opacity-30" : "opacity-100"}
         `}
       >
@@ -235,7 +235,7 @@ export const TaskRow = ({
          ${isCompleted ? "opacity-30" : "opacity-100"}
         `}
       >
-        <div className="bg-foreground dark:bg-muted border p-1 rounded-[12px] px-4 justify-center items-center text-center w-fit ">
+        <div className="bg-foreground dark:bg-muted border p-1 rounded-[12px] px-4 justify-center items-center text-center w-fit text-base">
           {categories.find((c) => c.value == task.category)?.label}
         </div>
         <div className="flex  justify-end min-w-8">

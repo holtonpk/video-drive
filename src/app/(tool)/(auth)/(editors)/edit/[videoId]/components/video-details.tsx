@@ -4,7 +4,7 @@ import {Button, buttonVariants} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import {Icons} from "@/components/icons";
-import {Timestamp} from "@/lib/utils";
+
 import {
   Select,
   SelectContent,
@@ -35,6 +35,14 @@ import {useAuth} from "@/context/user-auth";
 import {setDoc, deleteDoc, doc, getDoc, collection} from "firebase/firestore";
 import {convertTimestampToDate} from "@/lib/utils";
 import Requirements from "./requirements";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+} from "@/components/ui/dialog";
+import {DialogTitle, DialogTrigger} from "@radix-ui/react-dialog";
 
 export const VideoDetails = () => {
   const {video, setVideo} = useVideo()!;
@@ -254,6 +262,42 @@ export const VideoDetails = () => {
     }).format(amount);
   }
 
+  const [openPayoutChangeDialog, setOpenPayoutChangeDialog] =
+    React.useState(false);
+
+  const [payoutChangeValue, setPayoutChangeValue] = React.useState<
+    number | undefined
+  >(
+    video.payoutChangeRequest ? video.payoutChangeRequest.value : video.priceUSD
+  );
+  const [payoutChangeReason, setPayoutChangeReason] = React.useState(
+    video.payoutChangeRequest ? video.payoutChangeRequest.reason : ""
+  );
+  const [payoutChangeRequest, setPayoutChangeRequest] = React.useState(
+    video.payoutChangeRequest
+  );
+
+  const [savingPayoutChange, setSavingPayoutChange] = React.useState(false);
+
+  const createPayoutChangeRequest = async () => {
+    setSavingPayoutChange(true);
+    // create a new payout change request
+    const newPayoutChangeRequest = {
+      value: payoutChangeValue,
+      reason: payoutChangeReason,
+      status: "pending",
+      createdAt: {date: new Date(), user: currentUser?.firstName},
+    };
+    await setDoc(doc(db, "videos", video.videoNumber), {
+      ...video,
+      payoutChangeRequest: newPayoutChangeRequest,
+    });
+    setSavingPayoutChange(false);
+    setOpenPayoutChangeDialog(false);
+    setPayoutChangeRequest(newPayoutChangeRequest as any);
+  };
+  const [price, setPrice] = React.useState<number | undefined>(video.priceUSD);
+
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-primary text-2xl font-bold ">
@@ -309,11 +353,85 @@ export const VideoDetails = () => {
                 <Icons.money className="mr-2 h-4 w-4" />
                 <Label htmlFor="due-date">Payout</Label>
               </div>
-              <div className="w-full justify-start text-left  flex mx-auto items-center font-bold ">
-                {video.priceUSD > 0
-                  ? formatAsUSD(video.priceUSD) + " usd"
-                  : "Unpaid"}
-              </div>
+
+              <Dialog
+                open={openPayoutChangeDialog}
+                onOpenChange={setOpenPayoutChangeDialog}
+              >
+                <DialogTrigger>
+                  <button className="w-full justify-start text-left  flex mx-auto items-center font-bold underline hover:opacity-75">
+                    {payoutChangeRequest
+                      ? payoutChangeRequest.value == video.priceUSD
+                        ? formatAsUSD(video.priceUSD) + " usd"
+                        : payoutChangeRequest.status === "pending"
+                        ? `${formatAsUSD(
+                            video.priceUSD
+                          )}(requested  ${formatAsUSD(
+                            payoutChangeRequest.value
+                          )})`
+                        : `${formatAsUSD(
+                            video.priceUSD
+                          )}(rejected  ${formatAsUSD(
+                            payoutChangeRequest.value
+                          )})`
+                      : video.priceUSD > 0
+                      ? formatAsUSD(video.priceUSD) + " usd"
+                      : "Unpaid"}
+                  </button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="text-primary text-xl font-bold">
+                      Request Payout Change
+                    </DialogTitle>
+                    <DialogDescription className="text-primary">
+                      Request a change to the payout amount for this video.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="grid gap-2">
+                    <div className="flex items-center text-primary">
+                      <Label htmlFor="due-date">Change payout to</Label>
+                    </div>
+                    <div className="w-full relative h-fit">
+                      <Icons.money className="h-3 w-3 absolute text-primary left-2 top-1/2 -translate-y-1/2" />
+
+                      <Input
+                        placeholder="new payout"
+                        type="number"
+                        className="text-primary pl-[20px]"
+                        value={payoutChangeValue}
+                        onChange={(e) => {
+                          setPayoutChangeValue(e.target.valueAsNumber);
+                        }}
+                      />
+                      {/* <Input
+                        placeholder="$"
+                        type="number"
+                        className="text-primary"
+                        value={price}
+                        onChange={(e) => {
+                          setPrice(e.target.valueAsNumber);
+                        }}
+                      /> */}
+                    </div>
+                  </div>
+                  <Textarea
+                    className="text-primary"
+                    placeholder="Reason for payout change..."
+                    value={payoutChangeReason}
+                    onChange={(e) => setPayoutChangeReason(e.target.value)}
+                  />
+                  <DialogFooter>
+                    <Button
+                      onClick={() => {
+                        createPayoutChangeRequest();
+                      }}
+                    >
+                      {savingPayoutChange ? "Saving..." : "Submit"}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
             <div className="grid gap-2">
               <div className="flex items-end">
