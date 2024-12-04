@@ -61,7 +61,9 @@ type ReviewData = {
 
 const VideoReview = () => {
   const {currentUser} = useAuth()!;
-  const [loading, setLoading] = React.useState<boolean>(true);
+
+  const [loading1, setLoading1] = React.useState<boolean>(true);
+  const [loading2, setLoading2] = React.useState<boolean>(true);
 
   const [displayVideos, setDisplayVideos] = React.useState<
     VideoDataWithPosts[] | undefined
@@ -107,7 +109,7 @@ const VideoReview = () => {
           );
 
           setDisplayVideos(filteredVideos);
-          setLoading(false);
+          setLoading1(false);
         } catch (error) {
           console.error("Error processing snapshot data:", error);
         }
@@ -162,7 +164,7 @@ const VideoReview = () => {
 
           // Set the filtered videos to state
           setDisplayVideos2(filteredVideos);
-          setLoading(false);
+          setLoading2(false);
         } catch (error) {
           console.error("Error processing snapshot data:", error);
         }
@@ -213,25 +215,32 @@ const VideoReview = () => {
     }));
 
   const itemsToReview: any[] = [
-    // ...(payoutsToReview || []),
-    ...(scriptsToReview || []),
-    ...(videosToReview || []),
-  ].sort((a: any, b: any) => a.videoData.postDate - b.videoData.postDate);
+    ...(payoutsToReview || []),
+    ...(scriptsToReview || [])
+      .concat(videosToReview || [])
+      .sort((a: any, b: any) => a.videoData.postDate - b.videoData.postDate),
+  ];
 
   // Set originalItemsToReview on the first fetch
   useEffect(() => {
-    if (itemsToReview && !isOriginalSet && itemsToReview.length > 0) {
+    if (
+      itemsToReview &&
+      !isOriginalSet &&
+      itemsToReview.length > 0 &&
+      !loading1 &&
+      !loading2
+    ) {
       setOriginalItemsToReview(itemsToReview);
       setIsOriginalSet(true); // Prevent future updates
     }
-  }, [itemsToReview, isOriginalSet]);
+  }, [itemsToReview, isOriginalSet, loading1, loading2]);
 
   console.log("itemsToReview", itemsToReview);
   console.log("ogggitemsToReview", originalItemsToReview);
 
   return (
     <div>
-      {loading ? (
+      {loading1 || loading2 ? (
         <div>Loading...</div>
       ) : (
         <>

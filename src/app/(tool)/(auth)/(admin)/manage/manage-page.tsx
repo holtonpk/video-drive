@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {use} from "react";
 import {useEffect} from "react";
 import {VideoData, Post, EDITORS, clients} from "@/config/data";
 import {Button} from "@/components/ui/button";
@@ -87,6 +87,8 @@ const ManagePage = () => {
     return true;
   });
 
+  const [amountVisible, setAmountVisible] = React.useState<number>(12);
+
   return (
     <div className="container mt-6 flex flex-col gap-6">
       <div className="flex items-center justify-center gap-6">
@@ -156,12 +158,20 @@ const ManagePage = () => {
       </div>
 
       {videos && filteredVideos && editors && (
-        <div className="grid grid-cols-5 gap-10">
-          {filteredVideos.map((video) => (
+        <div className="grid grid-cols-6 gap-10">
+          {filteredVideos.slice(0, amountVisible).map((video) => (
             <Video video={video} key={video.videoNumber} editors={editors} />
           ))}
         </div>
       )}
+      <Button
+        onClick={() => {
+          setAmountVisible((prev) => prev + 6);
+        }}
+      >
+        Load More
+        <Icons.chevronDown className="h-4 w-4" />
+      </Button>
     </div>
   );
 };
@@ -176,7 +186,7 @@ const Video = ({video, editors}: {video: VideoData; editors: UserData[]}) => {
   const client = clients.find((client) => client.value === video.clientId);
 
   const shouldShowUpdateButton =
-    video.paid !== paid || video.priceUSD !== price;
+    (video.paid ?? false) !== paid || video.priceUSD !== price;
 
   const [isLoading, setIsLoading] = React.useState(false);
 

@@ -18,6 +18,7 @@ import {
   formatDateFromTimestamp,
   formatDateFromTimestampToTime,
   formatDayMonthDay,
+  formatAsUSD,
 } from "@/lib/utils";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
@@ -167,6 +168,7 @@ export const WeeksDisplay = ({
                 <span className="w-[60px]">Script</span>
                 <span className="w-[60px]">Editing</span>
                 <span className="w-[60px]">Post</span>
+                <span className="w-[60px]">Price</span>
                 <span className="w-[100px] text-center">Script Done</span>
                 <span className="w-[120px] text-center ">Script reviewed</span>
                 <span className="w-[100px] ">Editing Status</span>
@@ -290,6 +292,9 @@ ${index % 2 === 0 ? "bg-background/40" : "bg-foreground/40"}
       </span>
       <span className="relative z-20 pointer-events-none w-[60px]">
         {formatDayMonthDay(post.postDate)}
+      </span>
+      <span className="relative z-20 pointer-events-none w-[60px]">
+        {formatAsUSD(post.priceUSD)}
       </span>
       <span className="relative z-20 pointer-events-none w-[100px] flex justify-center">
         {videoAlreadyPosted ? (
