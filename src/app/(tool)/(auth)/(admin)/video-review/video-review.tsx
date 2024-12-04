@@ -213,7 +213,7 @@ const VideoReview = () => {
     }));
 
   const itemsToReview: any[] = [
-    ...(payoutsToReview || []),
+    // ...(payoutsToReview || []),
     ...(scriptsToReview || []),
     ...(videosToReview || []),
   ].sort((a: any, b: any) => a.videoData.postDate - b.videoData.postDate);
@@ -225,6 +225,9 @@ const VideoReview = () => {
       setIsOriginalSet(true); // Prevent future updates
     }
   }, [itemsToReview, isOriginalSet]);
+
+  console.log("itemsToReview", itemsToReview);
+  console.log("ogggitemsToReview", originalItemsToReview);
 
   return (
     <div>
@@ -248,7 +251,7 @@ const VideoReview = () => {
                   <div className="flex flex-col gap-2  max-h-full overflow-scroll">
                     {originalItemsToReview &&
                       originalItemsToReview.map((video) => (
-                        <VideoRow
+                        <ReviewRow
                           video={video}
                           key={video.videoData.id}
                           setSelectedVideo={setSelectedVideo}
@@ -372,7 +375,7 @@ export function FilterStatus({
   );
 }
 
-const VideoRow = ({
+const ReviewRow = ({
   video,
   setSelectedVideo,
   selectedVideo,
@@ -411,53 +414,52 @@ const VideoRow = ({
 
   return (
     <>
-      {video.videoData.payoutChangeRequest && (
-        <button
-          onClick={() => setSelectedVideo(video)}
-          key={video.videoData.id}
-          className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 relative
+      <button
+        onClick={() => setSelectedVideo(video)}
+        key={video.videoData.id}
+        className={`border p-4 w-full bg-foreground/40 text-primary rounded-md hover:bg-foreground/50 relative
         ${
           selectedVideo && selectedVideo.id === video.id
             ? "border-primary"
             : "border-border"
         }
         `}
-        >
-          <AnimatePresence>
-            {isReviewed && (
-              <motion.div
-                animate={{width: "calc(100% - 12px)"}}
-                initial={{width: "0%"}}
-                exit={{width: "0%"}}
-                className="absolute top-1/2 -translate-y-1/2 left-[6px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
-              ></motion.div>
-            )}
-          </AnimatePresence>
-          <h1
-            className={`w-full overflow-hidden text-ellipsis text-left text-lg
+      >
+        <AnimatePresence>
+          {isReviewed && (
+            <motion.div
+              animate={{width: "calc(100% - 12px)"}}
+              initial={{width: "0%"}}
+              exit={{width: "0%"}}
+              className="absolute top-1/2 -translate-y-1/2 left-[6px] pointer-events-none  h-[2px] bg-primary z-30 origin-left rounded-sm "
+            ></motion.div>
+          )}
+        </AnimatePresence>
+        <h1
+          className={`w-full overflow-hidden text-ellipsis text-left text-lg
         ${isReviewed ? "opacity-50" : "opacity-100"}
         `}
-          >
-            {video.reviewType == "payout" ? (
-              <>
-                {video.videoData.payoutChangeRequest?.createdAt.user} requested
-                to be paid{" "}
-                <span className="font-bold text-blue-800 dark:text-blue-200">
-                  {formatAsUSD(video.videoData.payoutChangeRequest?.value)}
-                </span>{" "}
-              </>
-            ) : (
-              <>
-                Review the{" "}
-                <span className="font-bold text-blue-800 dark:text-blue-200">
-                  {video.reviewType == "video" ? "uploaded video" : "script"}{" "}
-                </span>
-              </>
-            )}
-            for video #{video.videoData.videoNumber}
-          </h1>
-        </button>
-      )}
+        >
+          {video.reviewType == "payout" &&
+          video.videoData.payoutChangeRequest ? (
+            <>
+              {video.videoData.payoutChangeRequest?.createdAt.user} requested to
+              be paid{" "}
+              <span className="font-bold text-blue-800 dark:text-blue-200">
+                {formatAsUSD(video.videoData.payoutChangeRequest?.value)}
+              </span>{" "}
+            </>
+          ) : (
+            <>
+              Review the{" "}
+              <span className="font-bold text-blue-800 dark:text-blue-200">
+                {video.reviewType == "video" ? "uploaded video" : "script"}{" "}
+              </span>
+            </>
+          )}
+          for video #{video.videoData.videoNumber}
+        </h1>
+      </button>
     </>
   );
 };
