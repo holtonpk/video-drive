@@ -35,7 +35,8 @@ import {Textarea} from "@/components/ui/textarea";
 import {useAuth} from "@/context/user-auth";
 import {Label} from "@/components/ui/label";
 import {onSnapshot} from "firebase/firestore";
-
+import edjsHTML from "editorjs-html";
+import {OutputData} from "@editorjs/editorjs";
 import {
   VideoProvider,
   useVideo,
@@ -50,6 +51,8 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import {statuses as videoStatuses} from "@/config/data";
+import {set} from "date-fns";
+import {ScrollArea} from "@/components/ui/scroll-area";
 
 const statuses = ["script done", "video uploaded", "video needs revision"];
 
@@ -426,8 +429,6 @@ const ReviewRow = ({
         videoData.videoReviewed.includes(currentUser?.uid)
       : false;
 
-  console.log("isReviewed", isReviewed);
-
   return (
     <>
       <button
@@ -751,6 +752,8 @@ const ScriptReview = ({
     setIsReviewed(false);
   };
 
+  const [edit, setEdit] = React.useState(false);
+
   return (
     <VideoProvider videoData={video.videoData}>
       <div
@@ -814,7 +817,19 @@ const ScriptReview = ({
               </div>
             </div>
           </div>
-          <Editor post={video.videoData.script} setScript={() => {}} />
+          {edit ? (
+            <Editor post={video.videoData.script} setScript={() => {}} />
+          ) : (
+            <>
+              {typeof video.videoData.script === "string" ? (
+                <div className="h-fit  overflow-scroll w-full  text-primary  editor-js-view flex flex-col gap-4 ">
+                  {video.videoData.script}
+                </div>
+              ) : (
+                <EditorJsRender script={video.videoData.script} />
+              )}
+            </>
+          )}
           {isReviewed ? (
             <Button variant={"destructive"} onClick={markAsNotReviewed}>
               Mark as not reviewed
@@ -825,6 +840,19 @@ const ScriptReview = ({
         </div>
       </div>
     </VideoProvider>
+  );
+};
+
+const EditorJsRender = ({script}: {script: OutputData}) => {
+  const edjsParser = edjsHTML();
+  const htmlList = edjsParser.parse(script);
+
+  const html = htmlList.join("");
+  return (
+    <div
+      dangerouslySetInnerHTML={{__html: html}}
+      className="h-fit overflow-scroll w-full  text-primary  editor-js-view flex flex-col gap-4 p-2 "
+    />
   );
 };
 
@@ -983,8 +1011,17 @@ const UploadedVideoReview = ({
     );
     setIsReviewed(false);
   };
+  const [selectedVideo, setSelectedVideo] = React.useState<
+    UploadedVideo | undefined
+  >(
+    video.videoData.uploadedVideos
+      ? video.videoData.uploadedVideos[0]
+      : undefined
+  );
 
-  const [notes, setNotes] = React.useState(video.videoData.notes);
+  const [notes, setNotes] = React.useState(
+    (selectedVideo && selectedVideo.revisionNotes) || ""
+  );
 
   const [videoStatus, setVideoStatus] = React.useState(
     videoData && videoData.status
@@ -1012,14 +1049,6 @@ const UploadedVideoReview = ({
     //     status: value,
     //   });
   };
-
-  const [selectedVideo, setSelectedVideo] = React.useState<
-    UploadedVideo | undefined
-  >(
-    video.videoData.uploadedVideos
-      ? video.videoData.uploadedVideos[0]
-      : undefined
-  );
 
   const updateVideoField = async (updatedVideos: any[]) => {
     if (!selectedVideo || !uploadedVideos || !videoData) return;
@@ -1124,9 +1153,42 @@ const UploadedVideoReview = ({
   };
 
   useEffect(() => {
-    if (selectedVideo && selectedVideo?.revisionNotes)
-      setNotes(selectedVideo.revisionNotes);
+    if (selectedVideo)
+      setNotes(selectedVideo.revisionNotes ? selectedVideo.revisionNotes : "");
   }, [selectedVideo]);
+
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [needsSave, setNeedsSave] = React.useState(false);
+  const [saved, setSaved] = React.useState(false);
+
+  useEffect(() => {
+    console.log("notes============", notes);
+  }, [notes]);
+
+  const saveRevisionNotes = async () => {
+    if (!uploadedVideos || !selectedVideo) return;
+    setIsSaving(true);
+    const updatedVideos = uploadedVideos.map((video) => {
+      if (video.videoURL === selectedVideo.videoURL) {
+        return {
+          ...video,
+          revisionNotes: notes,
+        };
+      }
+      return video;
+    });
+    updateVideoField(updatedVideos);
+    setIsSaving(false);
+    setSaved(true);
+    setTimeout(() => {
+      setSaved(false);
+      setNeedsSave(true);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    setNeedsSave(notes === selectedVideo?.revisionNotes);
+  }, [notes, selectedVideo]);
 
   return (
     <VideoProvider videoData={video.videoData}>
@@ -1150,15 +1212,6 @@ const UploadedVideoReview = ({
           >
             {video.videoData.title} - #{video.videoData.videoNumber}
           </Link>
-          {/* <div className="ml-auto">
-            {isReviewed ? (
-              <Button variant={"destructive"} onClick={markAsNotReviewed}>
-                Mark as not reviewed
-              </Button>
-            ) : (
-              <Button onClick={markAsReviewed}>Mark as reviewed </Button>
-            )}
-          </div> */}
         </div>
         <div className="h-full flex flex-col max-w-full overflow-hidden gap-4 ">
           <div className="flex gap-4 justify-between">
@@ -1237,23 +1290,18 @@ const UploadedVideoReview = ({
                       <Textarea
                         id="notes"
                         placeholder="Add video notes here..."
-                        value={selectedVideo?.revisionNotes}
+                        value={notes}
                         onChange={(e) => {
                           setNotes(e.target.value);
                           if (!uploadedVideos) return;
-                          const updatedVideos = uploadedVideos.map((video) => {
-                            if (video.videoURL === selectedVideo.videoURL) {
-                              return {
-                                ...video,
-                                revisionNotes: e.target.value,
-                              };
-                            }
-                            return video;
-                          });
-                          updateVideoField(updatedVideos);
                         }}
                         className="w-full border p-2 flex items-center rounded-md text-sm bg-foreground/40 flex-grow"
                       />
+                      {!needsSave && (
+                        <Button onClick={saveRevisionNotes} className="mt-2">
+                          {isSaving ? "Saving..." : saved ? "Saved !" : "Save"}
+                        </Button>
+                      )}
                     </div>
                   )}
                   {isReviewed && selectedVideo?.isReadyToPost && (
@@ -1290,42 +1338,13 @@ const UploadedVideoReview = ({
                     </div>
                   )}
                 </div>
-                {/* <div className="flex flex-col gap-2 w-full">
-              {needsRevision && (
-                <>
-                  <Label className="text-lg" htmlFor="notes">
-                    Revision Notes
-                  </Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Add video notes here..."
-                    value={notes}
-                    onChange={(e) => {
-                      setNotes(e.target.value);
-                      updateField("notes", e.target.value);
-                    }}
-                    className="w-full border p-2 flex items-center rounded-md text-sm h-full"
-                  />
-                </>
-              )}
-              <div className="flex items-center gap-2">
-                {needsRevision ? (
-                  <Button onClick={toggleNeedsRevision}>
-                    Video doesn&apos;t need revision
-                  </Button>
-                ) : (
-                  <Button onClick={toggleNeedsRevision}>
-                    Video needs revision
-                  </Button>
-                )}
-              </div>
-            </div> */}
+
                 {uploadedVideos && uploadedVideos.length > 0 ? (
-                  <div className="flex gap-1 flex-col w-full h-[200px] mt-auto p-2 bg-foreground/40 rounded-r-md">
-                    <h1 className="text-lg">
+                  <ScrollArea className="flex gap-1 flex-col w-full h-[200px] overflow-scroll mt-auto p-2 bg-foreground/40 rounded-r-md">
+                    <h1 className="text-lg h-6 ">
                       Uploaded videos ({uploadedVideos.length})
                     </h1>
-                    <div className="flex flex-col gap-2 flex-grow   rounded-md">
+                    <div className="flex flex-col gap-2 flex-grow      rounded-md mt-2">
                       {[...uploadedVideos].reverse().map((video) => (
                         <button
                           key={video.videoURL}
@@ -1358,7 +1377,7 @@ const UploadedVideoReview = ({
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </ScrollArea>
                 ) : (
                   <div className="h-[350px] aspect-[9/16] relative mx-auto rounded-md overflow-hidden flex justify-center items-center bg-muted text-center">
                     Video not done

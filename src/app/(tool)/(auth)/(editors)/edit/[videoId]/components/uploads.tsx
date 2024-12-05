@@ -34,6 +34,17 @@ import {useAuth} from "@/context/user-auth";
 import {setDoc, deleteDoc, doc, getDoc, collection} from "firebase/firestore";
 import {convertTimestampToDate} from "@/lib/utils";
 import Requirements from "./requirements";
+import {
+  AlertDialog,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogCancel,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
+import {AlertDialogAction} from "@radix-ui/react-alert-dialog";
 
 const Uploads = () => {
   const {video, setVideo} = useVideo()!;
@@ -149,7 +160,7 @@ const Uploads = () => {
     );
   };
   return (
-    <div className="w-full  min-h-fit h-[400px]   flex flex-col gap-2  md:pl-3">
+    <div className="w-full  min-h-fit h-fit flex flex-col gap-2  md:pl-3">
       <h1 className="text-primary text-2xl font-bold ">Completed Videos</h1>
       <div className="w-full border bg-foreground rounded-md p-2 flex flex-col gap-2 flex-grow">
         {(!video.uploadedVideos || video.uploadedVideos.length == 0) &&
@@ -196,13 +207,47 @@ const Uploads = () => {
                       >
                         Open
                       </Link>
-                      <Button
-                        className="w-fit"
-                        variant={"ghost"}
-                        onClick={() => deleteUploadedVideo(uploadedVideo.id)}
-                      >
-                        <Icons.trash className=" h-5 w-5 text-muted-foreground" />
-                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <Button
+                            className="w-fit"
+                            variant={"ghost"}
+                            // onClick={() => deleteUploadedVideo(uploadedVideo.id)}
+                          >
+                            <Icons.trash className=" h-5 w-5 text-muted-foreground" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle className="text-primary">
+                              Delete {uploadedVideo.title}?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete this video?
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel asChild>
+                              <Button
+                                className="text-primary"
+                                variant={"ghost"}
+                              >
+                                Cancel
+                              </Button>
+                            </AlertDialogCancel>
+                            <AlertDialogAction asChild>
+                              <Button
+                                variant={"destructive"}
+                                onClick={() =>
+                                  deleteUploadedVideo(uploadedVideo.id)
+                                }
+                              >
+                                Delete
+                              </Button>
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                   </div>
                   {uploadedVideo.needsRevision && (
