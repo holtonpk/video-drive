@@ -12,12 +12,12 @@ export const generateMetadata = ({
   const clientInfo = clients.find((c: any) => c.value === params.client);
 
   return {
-    title: `Client - ${clientInfo?.label}`,
+    title: `${clientInfo?.label} | Video Planning`,
     description: "Agency Video Sheet",
     icons: {
-      icon: "image/favicon.ico",
-      shortcut: "image/favicon-16x16.png",
-      apple: "image/apple-touch-icon.png",
+      icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+      shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+      apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
     },
   };
 };

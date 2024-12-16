@@ -61,7 +61,13 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {cn} from "@/lib/utils";
 import {CalendarIcon} from "@radix-ui/react-icons";
 import {format} from "date-fns";
-import {motion, useMotionValue, useTransform, animate} from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useTransform,
+  animate,
+} from "framer-motion";
 
 import {db} from "@/config/firebase";
 import {ADMIN_USERS, EDITORS, Post, VideoData} from "@/config/data";
@@ -108,7 +114,7 @@ const EditDashboard = () => {
   }, [dummyUid, currentUser]);
 
   return (
-    <div className="container h-fit md:h-screen overflow-hidden  flex flex-col pb-10">
+    <div className="container h-fit md:h-[calc(100vh-104px)]  overflow-hidden  flex flex-col ">
       {/* <Cards /> */}
       {currentUser && ADMIN_USERS.includes(currentUser.uid) && (
         <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
@@ -119,6 +125,32 @@ const EditDashboard = () => {
 };
 
 export default EditDashboard;
+
+interface CounterProps {
+  from: number;
+  to: number;
+}
+
+const Counter: React.FC<CounterProps> = ({from, to}) => {
+  const nodeRef = React.useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (node) {
+      // Add a null check
+      const controls = animate(from, to, {
+        duration: 0.5,
+        onUpdate(value) {
+          node.textContent = value.toFixed(2);
+        },
+      });
+
+      return () => controls.stop();
+    }
+  }, [from, to]);
+
+  return <p ref={nodeRef} />;
+};
 
 const VideoSheet = ({
   videoData,
@@ -173,202 +205,217 @@ const VideoSheet = ({
     0
   );
 
-  interface CounterProps {
-    from: number;
-    to: number;
-  }
-  const Counter: React.FC<CounterProps> = ({from, to}) => {
-    const nodeRef = React.useRef<HTMLParagraphElement>(null);
-
-    useEffect(() => {
-      const node = nodeRef.current;
-      if (node) {
-        // Add a null check
-        const controls = animate(from, to, {
-          duration: 0.5,
-          onUpdate(value) {
-            node.textContent = value.toFixed(2);
-          },
-        });
-
-        return () => controls.stop();
-      }
-    }, [from, to]);
-
-    return <p ref={nodeRef} />;
-  };
+  const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
 
   return (
-    <div className="w-full  overflow-hidden  h-screen  grid md:grid-cols-4  items-start gap-8   relative z-20 ">
-      <div className="col-span-2 grid-cols-2  flex-grow pb-10  max-h-full ">
+    <div className="w-full  overflow-hiddens  h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
+      <div className=" flex flex-col  h-[calc(100vh-104px)]  gap-8">
         {/* -------------------------------------------------*/}
+        <div className="flex flex-col  h-[150px] ">
+          <div className="flex items-center gap-2 mb-2 ">
+            <div className="h-fit w-fit p-1 bg-green-500/20 rounded-md">
+              <Icons.money className="h-4 w-4 text-green-500" />
+            </div>
+            <h1 className="text-primary font-bold  mt-1  font1 text-2xl">
+              Payouts
+            </h1>
 
-        <div className="flex items-center gap-2 mb-2">
-          <div className="h-fit w-fit p-1 bg-green-500/20 rounded-md">
-            <Icons.money className="h-4 w-4 text-green-500" />
+            <PayoutRequest videos={payableVideos} editor={dummyUid} />
           </div>
-          <h1 className="text-primary font-bold col-span-2 mt-1  font1 text-2xl">
-            Payouts
-          </h1>
 
-          <PayoutRequest videos={payableVideos} editor={dummyUid} />
-        </div>
-        <div className="grid md:grid-cols-2 gap-4 mt-2">
-          <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
-            <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
-              Total earnings (usd)
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="w-[100px]">
-                      The total amount earned. This includes the available
-                      payout balance
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </h1>
-            <h1 className="text-primary text-2xl font-bold font1 flex">
-              {/* {totalEarnings > 0 ? formatAsUSD(totalEarnings) + " usd" : "--"} */}{" "}
-              $
-              <Counter from={0} to={totalEarnings} />
-            </h1>
-          </div>
-          <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
-            <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
-              Available payouts (usd)
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="w-[100px]">
-                      Your unpaid earnings. This can be scheduled or requested
-                      by clicking &quot;Request a Payout&quot;
-                    </p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </h1>
-            <h1 className="text-primary font-bold text-2xl font1 flex">
-              {/* {nextPayout > 0 ? formatAsUSD(nextPayout) + " usd" : "--"} */}
-              $
-              <Counter from={0} to={nextPayout} />
-            </h1>
+          <div className="grid md:grid-cols-2 gap-4 mt-2 ">
+            <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
+              <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
+                Total earnings (usd)
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[100px]">
+                        The total amount earned. This includes the available
+                        payout balance
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </h1>
+              <h1 className="text-primary text-2xl font-bold font1 flex">
+                {/* {totalEarnings > 0 ? formatAsUSD(totalEarnings) + " usd" : "--"} */}{" "}
+                $
+                <Counter from={0} to={totalEarnings} />
+              </h1>
+            </div>
+            <div className="border shadow-lg dark:shadow-none bg-foreground/50 blurBack rounded-md w-full h-[100px] flex flex-col p-4 ">
+              <h1 className="font1 text-xl text-muted-foreground flex gap-1 items-center">
+                Available payouts (usd)
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Icons.info className="h-4 w-4 text-muted-foreground mb-[2px] hover:text-primary" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="w-[100px]">
+                        Your unpaid earnings. This can be scheduled or requested
+                        by clicking &quot;Request a Payout&quot;
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </h1>
+              <h1 className="text-primary font-bold text-2xl font1 flex">
+                {/* {nextPayout > 0 ? formatAsUSD(nextPayout) + " usd" : "--"} */}
+                $
+                <Counter from={0} to={nextPayout} />
+              </h1>
+            </div>
           </div>
         </div>
         {/* -------------------------------------------------*/}
-        <div className="col-span-2 mt-8 flex flex-col gap-8  max-h-full h-[430px]   overflow-scroll">
-          {needsRevision && needsRevision.length > 0 && (
-            <div className="flex flex-col col-span-2 h-fit   ">
+        <div className=" relative   h-[calc(100vh-286px)] ">
+          <AnimatePresence>
+            {isScrolled && (
+              <motion.div
+                animate={{opacity: 1}}
+                initial={{opacity: 0}}
+                exit={{opacity: 0}}
+                transition={{duration: 0.2}}
+                className="absolute top-0 left-0 w-full  z-30 pointer-events-none "
+              >
+                <div className="task-table-grad-top w-full h-20 z-30 pointer-events-none"></div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {needsRevision.length + todo.length > 4 && (
+            <>
+              <div className=" absolute bottom-0 left-0 w-full pointer-events-none z-30 animate-in fade-in-0 duration-500">
+                <div className="task-table-grad-bottom w-full h-20 z-30 pointer-events-none"></div>
+              </div>
+            </>
+          )}
+          <div
+            onScroll={(e: any) => {
+              if (e.target.scrollTop !== 0) {
+                setIsScrolled(true);
+              } else {
+                setIsScrolled(false);
+              }
+            }}
+            className="h-full  flex flex-col gap-8   border p-2 rounded-md dark:bg-foreground/50  overflow-scroll pb-10 relatives"
+          >
+            {needsRevision && needsRevision.length > 0 && (
+              <div className="flex flex-col col-span-2 h-fit  max-h-[50%]   ">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-fit w-fit p-1 bg-red-500/20 rounded-md">
+                    <Icons.xCircle className="h-4 w-4 text-red-500" />
+                  </div>
+                  <h1 className="text-primary mt-1  font1 text-2xl">
+                    Needs Revision
+                    {needsRevision.length > 0 && ` (${needsRevision.length})`}
+                  </h1>
+                </div>
+                <div className="h-fit rounded-md">
+                  {needsRevision.length && needsRevision.length > 0 && (
+                    <div className="flex flex-col gap-2 ">
+                      {needsRevision.map((video) => {
+                        const client = clients.find(
+                          (c: any) => c.value === video.clientId
+                        )!;
+
+                        return (
+                          <Link
+                            href={`/edit/${video.videoNumber}`}
+                            key={video.videoNumber}
+                            className="w-full  border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground cursor-pointer grid gap-2 items-center  md:flex  justify-between"
+                          >
+                            <h1 className="text-xl text-primary">
+                              #{video.videoNumber}
+                            </h1>
+                            <h1 className="text-lg text-primary">
+                              Due date: {formatDaynameMonthDay(video.dueDate)}
+                            </h1>
+                            <div
+                              id="client"
+                              className="w-fit flex items-center rounded-md"
+                            >
+                              {client.icon && (
+                                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
+                              )}
+                              <span className="text-primary">
+                                {client.label}
+                              </span>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {/* -------------------------------------------------*/}
+
+            <div className="flex flex-col  col-span-2 h-fit    ">
               <div className="flex items-center gap-2 mb-2">
-                <div className="h-fit w-fit p-1 bg-red-500/20 rounded-md">
-                  <Icons.xCircle className="h-4 w-4 text-red-500" />
+                <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
+                  <Icons.todo className="h-4 w-4 text-blue-500" />
                 </div>
                 <h1 className="text-primary mt-1  font1 text-2xl">
-                  Needs Revision
-                  {needsRevision.length > 0 && ` (${needsRevision.length})`}
+                  Ready to edit{todo.length > 0 && ` (${todo.length})`}
                 </h1>
               </div>
-              <div className="h-fit rounded-md">
-                {needsRevision.length && needsRevision.length > 0 && (
-                  <div className="flex flex-col gap-2 ">
-                    {needsRevision.map((video) => {
+              <div className="rounded-md  ">
+                {todo.length && todo.length > 0 ? (
+                  <div className="flex flex-col gap-2">
+                    {todo.map((video, i) => {
                       const client = clients.find(
                         (c: any) => c.value === video.clientId
                       )!;
 
                       return (
-                        <Link
-                          href={`/edit/${video.videoNumber}`}
-                          key={video.videoNumber}
-                          className="w-full  border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/50  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
-                        >
-                          <h1 className="text-xl text-primary">
-                            #{video.videoNumber}
-                          </h1>
-                          <h1 className="text-lg text-primary">
-                            Due date: {formatDaynameMonthDay(video.dueDate)}
-                          </h1>
-                          <div
-                            id="client"
-                            className="w-fit flex items-center rounded-md"
+                        <div key={video.videoNumber}>
+                          <Link
+                            href={`/edit/${video.videoNumber}`}
+                            className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                           >
-                            {client.icon && (
-                              <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
-                            )}
-                            <span className="text-primary">{client.label}</span>
-                          </div>
-                        </Link>
+                            <h1 className="text-xl text-primary">
+                              #{video.videoNumber}
+                            </h1>
+                            <h1 className="text-lg text-primary">
+                              Due date: {formatDaynameMonthDay(video.dueDate)}
+                            </h1>
+                            <div
+                              id="client"
+                              className="w-fit flex items-center rounded-md"
+                            >
+                              {client.icon && (
+                                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
+                              )}
+                              <span className="text-primary">
+                                {client.label}
+                              </span>
+                            </div>
+                          </Link>
+                        </div>
                       );
                     })}
                   </div>
+                ) : (
+                  <h1 className="text-xl text-muted-foreground text-center h-full w-full flex justify-center items-center flex-col border bg-foreground/50 blurBack rounded-md p-6">
+                    <Icons.frown className="h-6 w-6 text-muted-foreground" />
+                    No videos ready check back later
+                  </h1>
                 )}
               </div>
-            </div>
-          )}
-          {/* -------------------------------------------------*/}
-
-          <div className="flex flex-col  col-span-2 h-fit    ">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
-                <Icons.todo className="h-4 w-4 text-blue-500" />
-              </div>
-              <h1 className="text-primary mt-1  font1 text-2xl">
-                Ready to edit{todo.length > 0 && ` (${todo.length})`}
-              </h1>
-            </div>
-            <div className="rounded-md  ">
-              {todo.length && todo.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  {todo.map((video, i) => {
-                    const client = clients.find(
-                      (c: any) => c.value === video.clientId
-                    )!;
-
-                    return (
-                      <div key={video.videoNumber}>
-                        <Link
-                          href={`/edit/${video.videoNumber}`}
-                          className="w-full border bg-foreground/50 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground/80  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
-                        >
-                          <h1 className="text-xl text-primary">
-                            #{video.videoNumber}
-                          </h1>
-                          <h1 className="text-lg text-primary">
-                            Due date: {formatDaynameMonthDay(video.dueDate)}
-                          </h1>
-                          <div
-                            id="client"
-                            className="w-fit flex items-center rounded-md"
-                          >
-                            {client.icon && (
-                              <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
-                            )}
-                            <span className="text-primary">{client.label}</span>
-                          </div>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <h1 className="text-xl text-muted-foreground text-center h-full w-full flex justify-center items-center flex-col border bg-foreground/50 blurBack rounded-md p-6">
-                  <Icons.frown className="h-6 w-6 text-muted-foreground" />
-                  No videos ready check back later
-                </h1>
-              )}
             </div>
           </div>
         </div>
       </div>
       {/* -------------------------------------------------*/}
 
-      <div className="grid col-span-2 h-[20%] relative  grid-rows-[48px_1fr] ">
+      <div className="relative h-full  flex flex-col ">
         <div className="flex justify-between w-full h-12  items-center">
           <div className="flex items-center gap-2 mb-2 ">
             <div className="h-fit w-fit p-1 bg-purple-500/20 rounded-md">
@@ -409,9 +456,9 @@ const VideoSheet = ({
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="border bg-foreground/50  p-2 shadow-lg dark:shadow-none rounded-md h-full relative  overflow-scroll ">
+        <div className="border bg-foreground/20  p-2 shadow-lg dark:shadow-none rounded-md  relative overflow-scroll  h-[316px]">
           {completed && completed.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 h-fit ">
+            <div className="flex gap-2 h-fit ">
               {completed.map((video) => (
                 <VideoDisplay video={video} key={video.videoNumber} />
               ))}
@@ -422,7 +469,44 @@ const VideoSheet = ({
             </h1>
           )}
         </div>
+
+        <div className="  w-full  flex flex-col mt-4 h-[250px]">
+          <div className="flex items-center gap-2 mb-2 ">
+            <div className="h-fit w-fit p-1 bg-yellow-500/20 rounded-md">
+              <Icons.profile className="h-4 w-4 text-yellow-500" />
+            </div>
+            <h1 className="text-primary  mt-1  font1 text-2xl">
+              Client library
+            </h1>
+          </div>
+          <ClientDisplay dummyUid={dummyUid} />
+        </div>
       </div>
+    </div>
+  );
+};
+
+const ClientDisplay = ({dummyUid}: {dummyUid: string}) => {
+  const editorData = EDITORS.find((editor) => editor.id === dummyUid);
+
+  const assignedClients = clients.filter((client) =>
+    editorData?.clients.includes(client.value)
+  );
+
+  return (
+    <div className=" dark:bg-foreground/50  p-2 rounded-md relative overflow-scroll flex-grow gap-2 flex flex-col">
+      {assignedClients.map((client) => (
+        <Link
+          key={client.id}
+          href={"/client-page/" + client.value}
+          className="border gap-2 p-2 shadow-lg dark:shadow-none rounded-md flex items-center hover:bg-foreground bg-foreground/80"
+        >
+          {client.icon && (
+            <client.icon className="h-6 w-6 text-muted-foreground rounded-sm" />
+          )}
+          <h1 className="text-primary text-lg font-bold">{client.label}</h1>
+        </Link>
+      ))}
     </div>
   );
 };
@@ -454,8 +538,8 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
   const {isVisible, targetRef} = useIsVisible(
     {
       root: null,
-      rootMargin: "300px",
-      threshold: 0.8,
+      rootMargin: "10px",
+      threshold: 1,
     },
     false
   );
@@ -473,9 +557,9 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
       href={`/edit/${video.videoNumber}`}
       key={video.videoNumber}
       ref={targetRef as any}
-      className="aspect-[9/16] w-full border hover:border-primary p-6 rounded-md hover:bg-muted/40 cursor-pointer relative group"
+      className="aspect-[9/16] h-[300px] border hover:border-primary p-6 rounded-md hover:bg-muted/40 cursor-pointer relative group"
     >
-      <div className=" w-full items-center gap-2 absolute bottom-0  rounded-md left-0 p-2  justify-between z-20 flex bg-background/70 blurBack">
+      <div className=" w-full items-center gap-2 absolute bottom-0  rounded-md left-0 p-2  justify-between z-20 flex bg-background/20 blurBack">
         <h1 className="text-[12px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
           {video.title}
         </h1>
@@ -483,7 +567,7 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
           <client.icon className=" h-6 w-6 text-muted-foreground rounded-sm" />
         )}
       </div>
-      <div className="absolute top-0 left-0 w-full rounded-t-md flex justify-between p-2 bg-background/70 blurBack z-20">
+      <div className="absolute top-0 left-0 w-full rounded-t-md flex justify-between p-2 bg-background/20 blurBack z-20">
         <div className=" font1 text-primary z-20 text-white">
           #{video.videoNumber}
         </div>

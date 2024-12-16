@@ -4,7 +4,11 @@ import React, {use, useEffect, useState} from "react";
 import {Icons} from "@/components/icons";
 import {Button} from "@/components/ui/button";
 import {db} from "@/config/firebase";
-import {convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
+import {
+  convertTimestampToDate,
+  convertDateToTimestamp,
+  isDueDateBeforeToday,
+} from "@/lib/utils";
 import {
   getDoc,
   doc,
@@ -134,7 +138,18 @@ const Tasks = () => {
         convertTimestampToDate(task.dueDate).toDateString() ===
           selectedDate.toDateString();
 
-      return matchesStatus && matchesUsers && matchesDate && !task.isWeekly;
+      const isIncomplete =
+        selectedDate &&
+        selectedDate.toLocaleDateString() === new Date().toLocaleDateString() &&
+        task.status === "todo" &&
+        isDueDateBeforeToday(convertTimestampToDate(task.dueDate));
+
+      return (
+        matchesStatus &&
+        matchesUsers &&
+        (matchesDate || isIncomplete) &&
+        !task.isWeekly
+      );
     });
   }, [tasks, selectedStatus, selectedUsers, selectedDate]);
 
@@ -249,7 +264,11 @@ const Tasks = () => {
                     setSelectedDate={setSelectedDate}
                   />
 
-                  <TaskTable tasks={filteredTasks} userData={userData} />
+                  <TaskTable
+                    tasks={filteredTasks}
+                    userData={userData}
+                    selectedDate={selectedDate}
+                  />
                 </div>
                 <div className="w-full  max-w-full border h-full flex flex-col blurBack rounded-md shadow-lg">
                   <div className="p-4 bg-foreground/40 dark:bg-muted/40 flex items-center justify-between">

@@ -5,7 +5,7 @@ import {LucideProps} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {buttonVariants} from "@/components/ui/button";
 import Link from "next/link";
-const Navbar = ({show}: {show: boolean}) => {
+const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
   const [showNavbar, setShowNavbar] = useState(show);
 
   useEffect(() => {
@@ -28,68 +28,144 @@ const Navbar = ({show}: {show: boolean}) => {
   return (
     <>
       <AnimatePresence>
-        {showNavbar && (
-          <motion.div
-            animate={{y: 0, opacity: 1}}
-            initial={{y: -100, opacity: 0}}
-            exit={{y: -100, opacity: 0}}
-            className="fixed top-0  py-4  h-[80px] w-screen px-4 md:px-8 z-[999] "
+        {isRelative ? (
+          <div
+            className={"relative py-4  h-[80px] w-screen px-4 md:px-8 z-[90] "}
           >
-            <div
-              className="w-full h-[80px]  absolute left-0 top-0 z-10"
-              style={{
-                opacity: 0.8,
-                backgroundColor: "transparent",
-                backgroundImage: `radial-gradient( transparent 1px,  #151618 1px)`,
-                backgroundSize: "4px 4px",
-                maskImage: `
-                  linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
-                `,
-                WebkitMaskImage: `
-                  linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
-                `,
-              }}
-            />
-            <div
-              className="w-full h-[80px]  absolute left-0 top-0 z-[5]"
-              //   style={{
-              //     opacity: 0.8,
-              //     backgroundColor: "transparent",
-              //     backgroundImage: `radial-gradient( transparent 1px,  #141516 0.4px)`,
-              //     backgroundSize: "4px 4px",
-              //     maskImage: `
-              //   linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
-              // `,
-              //     WebkitMaskImage: `
-              //   linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
-              // `,
-              //   }}
-              style={{
-                backgroundColor: "transparent",
-                // backgroundImage: `radial-gradient(transparent 1px, var(rgb(15, 17, 21), #ffffff) 1px)`,
-                backgroundSize: `4px 4px`,
-                backdropFilter: `blur(3px)`,
-                maskImage: ` linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)`,
-                WebkitMaskImage: ` linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)`,
-                opacity: 1,
-              }}
-            />
             <div className="absolute top-0 left-0  w-full h-[80px]"></div>
             <div className="items-center flex justify-between w-full  relative z-30  h-full ">
+              {/* <Link
+          className=" md:left-[18px] h-fit relative md:absolute z-30 md:bottom-2 md:translate-y-1/2"
+          href="/"
+        >
+          <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
+        </Link> */}
+              <div className=" flex items-center gap-2 ">
+                <Link className="  h-fit relative " href="/">
+                  <Logo className="fill-[#34F4AF] h-8 w-8 mb-1 " />
+                </Link>
+                <span className="text-xl font1-bold">Whitespace Media</span>
+              </div>
+
+              <div className="flex gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Link href="/#stats" className=" capitalize font1">
+                  process
+                </Link>
+                <Link href="/#stats" className=" capitalize font1">
+                  about
+                </Link>
+                <button className="text-primary capitalize font1">
+                  Resources
+                </button>
+              </div>
+
               <Link
-                className=" md:left-[18px] h-fit relative md:absolute z-30 md:bottom-2 md:translate-y-1/2"
-                href="/"
+                href="/work-with-us"
+                className={cn(
+                  buttonVariants({variant: "outline"}),
+                  " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
+                )}
               >
-                <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
+                Get in touch
               </Link>
-              <div className=" flex justify-between items-center  w-fit md:right-0  relative md:absolute z-20 md:bottom-2 md:translate-y-1/2 ">
-                <div className="flex gap-4 md:gap-8 ml-auto items-center ">
-                  <Link href="/#stats" className=" capitalize font1">
-                    about
-                  </Link>
-                  <button className="text-primary capitalize font1">
-                    Blog
-                  </button>
+              {/* <div className=" flex justify-between items-center  w-fit md:right-0  relative md:absolute z-20 md:bottom-2 md:translate-y-1/2 ">
+        <div className="flex gap-4 md:gap-8 ml-auto items-center ">
+          <Link href="/#stats" className=" capitalize font1">
+            about
+          </Link>
+          <button className="text-primary capitalize font1">
+            Blog
+          </button>
+
+          <Link
+            href="/work-with-us"
+            className={cn(
+              buttonVariants({variant: "outline"}),
+              " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
+            )}
+          >
+            Contact
+          </Link>
+        </div>
+      </div> */}
+            </div>
+          </div>
+        ) : (
+          <>
+            {showNavbar && (
+              <motion.div
+                animate={{y: 0, opacity: 1}}
+                initial={!show ? {y: -100, opacity: 0} : {y: 0, opacity: 1}}
+                exit={{y: -100, opacity: 0}}
+                className={
+                  "fixed top-0  py-4  h-[80px] w-screen px-4 md:px-8 z-[90] "
+                }
+              >
+                <div
+                  className="w-full h-[80px]  absolute left-0 top-0 z-10"
+                  style={{
+                    opacity: 0.8,
+                    backgroundColor: "transparent",
+                    backgroundImage: `radial-gradient( transparent 1px,  #151618 1px)`,
+                    backgroundSize: "4px 4px",
+                    maskImage: `
+                    linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
+                  `,
+                    WebkitMaskImage: `
+                    linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
+                  `,
+                  }}
+                />
+                <div
+                  className="w-full h-[80px]  absolute left-0 top-0 z-[5]"
+                  //   style={{
+                  //     opacity: 0.8,
+                  //     backgroundColor: "transparent",
+                  //     backgroundImage: `radial-gradient( transparent 1px,  #141516 0.4px)`,
+                  //     backgroundSize: "4px 4px",
+                  //     maskImage: `
+                  //   linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
+                  // `,
+                  //     WebkitMaskImage: `
+                  //   linear-gradient(to top , rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 30%)
+                  // `,
+                  //   }}
+                  style={{
+                    backgroundColor: "transparent",
+                    // backgroundImage: `radial-gradient(transparent 1px, var(rgb(15, 17, 21), #ffffff) 1px)`,
+                    backgroundSize: `4px 4px`,
+                    backdropFilter: `blur(3px)`,
+                    maskImage: ` linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)`,
+                    WebkitMaskImage: ` linear-gradient(rgb(0, 0, 0) 60%, rgba(0, 0, 0, 0) 100%)`,
+                    opacity: 1,
+                  }}
+                />
+                <div className="absolute top-0 left-0  w-full h-[80px]"></div>
+                <div className="items-center flex justify-between w-full  relative z-30  h-full ">
+                  {/* <Link
+                    className=" md:left-[18px] h-fit relative md:absolute z-30 md:bottom-2 md:translate-y-1/2"
+                    href="/"
+                  >
+                    <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
+                  </Link> */}
+                  <div className=" flex items-center gap-2 ">
+                    <Link className="  h-fit relative " href="/">
+                      <Logo className="fill-[#34F4AF] h-8 w-8 mb-1 " />
+                    </Link>
+                    <span className="text-xl font1-bold">Whitespace Media</span>
+                  </div>
+
+                  <div className=" gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex">
+                    <Link href="/#stats" className=" capitalize font1">
+                      process
+                    </Link>
+                    <Link href="/#stats" className=" capitalize font1">
+                      about
+                    </Link>
+                    <Link href="/blog" className=" capitalize font1">
+                      Resources
+                    </Link>
+                  </div>
 
                   <Link
                     href="/work-with-us"
@@ -98,12 +174,32 @@ const Navbar = ({show}: {show: boolean}) => {
                       " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
                     )}
                   >
-                    Contact
+                    Get in touch
                   </Link>
+                  {/* <div className=" flex justify-between items-center  w-fit md:right-0  relative md:absolute z-20 md:bottom-2 md:translate-y-1/2 ">
+                  <div className="flex gap-4 md:gap-8 ml-auto items-center ">
+                    <Link href="/#stats" className=" capitalize font1">
+                      about
+                    </Link>
+                    <button className="text-primary capitalize font1">
+                      Blog
+                    </button>
+  
+                    <Link
+                      href="/work-with-us"
+                      className={cn(
+                        buttonVariants({variant: "outline"}),
+                        " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
+                      )}
+                    >
+                      Contact
+                    </Link>
+                  </div>
+                </div> */}
                 </div>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            )}
+          </>
         )}
       </AnimatePresence>
     </>

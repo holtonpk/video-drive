@@ -30,9 +30,9 @@ import {PlusCircle} from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Editor} from "@/src/app/(tool)/(auth)/(admin)/video-review/script/script-edit";
 import Link from "next/link";
-import {Textarea} from "@/components/ui/textarea";
 // import {AiCaption} from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/components/post-details";
 import {useAuth} from "@/context/user-auth";
+import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {onSnapshot} from "firebase/firestore";
 import edjsHTML from "editorjs-html";
@@ -51,7 +51,6 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import {statuses as videoStatuses} from "@/config/data";
-import {set} from "date-fns";
 import {ScrollArea} from "@/components/ui/scroll-area";
 
 const statuses = ["script done", "video uploaded", "video needs revision"];
@@ -843,7 +842,7 @@ const ScriptReview = ({
   );
 };
 
-const EditorJsRender = ({script}: {script: OutputData}) => {
+export const EditorJsRender = ({script}: {script: OutputData}) => {
   const edjsParser = edjsHTML();
   const htmlList = edjsParser.parse(script);
 

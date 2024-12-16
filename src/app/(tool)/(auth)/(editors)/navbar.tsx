@@ -28,7 +28,7 @@ const Navbar = () => {
   const {currentUser, logOut} = useAuth()!;
   const {setTheme} = useTheme();
   return (
-    <div className="flex w-full md:flex-row flex-col  p-4 items-center px-8">
+    <div className="flex w-full md:flex-row flex-col h-16   p-4 items-center px-8">
       <Link href={"/dashboard"} className="flex items-center">
         <Logo className="fill-primary h-9  md:h-9 mb-1" />
         <h1 className="text-3xl text-primary font-bold whitespace-nowrap  font1 ml-2">

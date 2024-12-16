@@ -6,13 +6,13 @@ import {useAuth, UserData} from "@/context/user-auth";
 import {Button} from "@/components/ui/button";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {db} from "@/config/firebase";
-import {formatDaynameMonthDay} from "@/lib/utils";
+import {formatTimeDifference} from "@/lib/utils";
 import {OutputData} from "@editorjs/editorjs";
 import {motion} from "framer-motion";
 import {AnimatePresence} from "framer-motion";
 import {sendNotification} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/notifications";
 import {deleteDoc, setDoc, doc, getDoc} from "firebase/firestore";
-import {cn, convertTimestampToDate, convertDateToTimestamp} from "@/lib/utils";
+import {cn, convertTimestampToDate, isDueDateBeforeToday} from "@/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,9 +47,11 @@ import {TaskCard} from "@/src/app/(tool)/(auth)/(admin)/tasks/components/task-ca
 export const TaskRow = ({
   taskData,
   userData,
+  selectedDate,
 }: {
   taskData: Task;
   userData: UserData[];
+  selectedDate: Date | undefined;
 }) => {
   const [task, setTask] = React.useState(taskData);
   const [isCompleted, setIsCompleted] = React.useState<boolean>();
@@ -95,8 +97,19 @@ export const TaskRow = ({
     console.log("task.status", task.status);
   }, [taskData]);
 
-  console.log("isCompleted", isCompleted);
-  console.log("task.status", taskData.status);
+  const isDueDateBeforeSelected = (dueDate: Date) => {
+    if (!selectedDate) return false;
+    // Convert task.dueDate to a date object and reset time to midnight
+    const dueDateObj = new Date(dueDate);
+    dueDateObj.setHours(0, 0, 0, 0);
+
+    const selectedDateObj = new Date(selectedDate);
+
+    selectedDateObj.setHours(0, 0, 0, 0);
+
+    // Compare the dates
+    return dueDateObj < selectedDateObj;
+  };
 
   return (
     <div className="flex  justify-between items-center bg-foreground/40 overflow-hidden text-primary p-2 px-4 rounded-lg  border relative gap-4 w-full hover:bg-foreground/60">
@@ -227,6 +240,11 @@ export const TaskRow = ({
       >
         {task.name}
       </h1>
+      {isDueDateBeforeSelected(convertTimestampToDate(task.dueDate)) && (
+        <span className="text-red-500 text-[12px]">
+          overdue by {formatTimeDifference(task.dueDate)}
+        </span>
+      )}
       {/* <h1 className="w-[400px] overflow-hidden text-ellipsis whitespace-nowrap text-muted-foreground w-[150px] sm:w-[225px] md:w-[185px]  lg:w-[350px]">
         {task.notes}
       </h1> */}

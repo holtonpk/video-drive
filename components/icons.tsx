@@ -142,11 +142,11 @@ import {
   Frown,
   BellRing,
 } from "lucide-react";
-import {todo} from "node:test";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  circle: Circle,
   bell: BellRing,
   frown: Frown,
   note: NotebookPen,

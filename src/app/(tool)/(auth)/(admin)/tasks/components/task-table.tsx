@@ -10,22 +10,55 @@ import {motion, AnimatePresence} from "framer-motion";
 export const TaskTable = ({
   tasks,
   userData,
+  selectedDate,
 }: {
   tasks: Task[];
-
   userData: UserData[];
+  selectedDate: Date | undefined;
 }) => {
   // order by status if the status is the same order by due date
-  tasks.sort((a, b) => {
-    if (a.status == b.status) {
-      return (
-        convertTimestampToDate(a.dueDate).getTime() -
-        convertTimestampToDate(b.dueDate).getTime()
-      );
-    } else {
-      return a.status == "done" ? 1 : -1;
-    }
-  });
+  function sortTasks(tasks: Task[]): Task[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of the day
+
+    return tasks.sort((a, b) => {
+      const aDate = convertTimestampToDate(a.dueDate);
+      const bDate = convertTimestampToDate(b.dueDate);
+
+      aDate.setHours(0, 0, 0, 0);
+      bDate.setHours(0, 0, 0, 0);
+
+      // Custom priority order
+      const getPriority = (task: Task, date: Date) => {
+        if (date < today) return 0; // Before today gets lowest priority
+        if (date.getTime() === today.getTime()) {
+          return task.status === "todo" ? 2 : 1; // Today's todo tasks come after other tasks
+        }
+        return 3; // Future tasks
+      };
+
+      const aPriority = getPriority(a, aDate);
+      const bPriority = getPriority(b, bDate);
+
+      if (aPriority !== bPriority) {
+        return aPriority - bPriority;
+      }
+
+      // If priorities are the same, sort by date
+      return aDate.getTime() - bDate.getTime();
+    });
+  }
+
+  const sortedTasks = sortTasks(tasks);
+
+  console.log(
+    "tasks",
+    tasks.map((task) => task.id)
+  );
+  console.log(
+    "sortedTasks",
+    sortedTasks.map((task) => task.id)
+  );
 
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
 
@@ -49,8 +82,13 @@ export const TaskTable = ({
           </div>
         ) : (
           <div className="flex flex-col items-center gap-1 py-2 w-[100%] ">
-            {tasks.map((task) => (
-              <TaskRow taskData={task} key={task.id} userData={userData} />
+            {sortedTasks.reverse().map((task) => (
+              <TaskRow
+                taskData={task}
+                key={task.id}
+                userData={userData}
+                selectedDate={selectedDate}
+              />
             ))}
           </div>
         )}

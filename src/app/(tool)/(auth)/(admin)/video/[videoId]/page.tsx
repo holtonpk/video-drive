@@ -12,9 +12,9 @@ export const generateMetadata = ({
     title: `Video - #${params.videoId}`,
     description: "Agency Video Sheet",
     icons: {
-      icon: "image/favicon.ico",
-      shortcut: "image/favicon-16x16.png",
-      apple: "image/apple-touch-icon.png",
+      icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+      shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
+      apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
     },
   };
 };

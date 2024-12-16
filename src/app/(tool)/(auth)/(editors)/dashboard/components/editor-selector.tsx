@@ -28,7 +28,7 @@ export const EditorSelector = ({
     const fetchEditors = async () => {
       try {
         const editorPromises = EDITORS.map(async (editor) => {
-          const dataSnap = await getDoc(doc(db, "users", editor));
+          const dataSnap = await getDoc(doc(db, "users", editor.id));
           return dataSnap.data() as UserData;
         });
 

@@ -142,11 +142,11 @@ export const CreateVideo = ({
   };
 
   return (
-    <div className="w-full  flex flex-col ">
+    <div className="w-fit flex flex-col ">
       {newVideos && newVideos.length > 0 ? (
         <>
-          <div className="relative ">
-            <div className="flex flex-col gap-6">
+          <div className=" container pt-16 left-0 absolute bg-foreground/40 blurBack border-t pb-4">
+            <div className="flex flex-col gap-6 ">
               {newVideos.map((video) => (
                 <VideoProvider
                   key={video.videoNumber}
@@ -166,29 +166,26 @@ export const CreateVideo = ({
               <Icons.add className="h-5 w-5 mr-2" />
               Video
             </Button>
+            <div className="w-fit gap-4 absolute top-0 h-16 items-center flex justify-between ">
+              <h1 className="text-primary text-xl font-bold">Video Creator</h1>
+              <Button onClick={saveVideos} className="w-fit ">
+                {saving ? (
+                  <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
+                ) : (
+                  <Icons.uploadCloud className="h-5 w-5 mr-2" />
+                )}
+                Save all ({newVideos.length})
+              </Button>
+            </div>
           </div>
-          <Button
-            onClick={saveVideos}
-            className="w-fit ml-auto absolute top-8 right-8"
-          >
-            {saving ? (
-              <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
-            ) : (
-              <Icons.uploadCloud className="h-5 w-5 mr-2" />
-            )}
-            Save all ({newVideos.length})
-          </Button>
         </>
       ) : (
-        <div className="flex gap-2  absolute top-8 right-8">
-          <Button onClick={createNewVideo} className="w-fit ml-auto">
+        <div className="flex gap-2 w-fit ">
+          <Button onClick={createNewVideo} className="w-fit ">
             <Icons.add className="h-5 w-5 mr-2" />
             New Video
           </Button>
-          <Button
-            onClick={() => setShowBulkSchedule(true)}
-            className="w-fit ml-auto"
-          >
+          <Button onClick={() => setShowBulkSchedule(true)} className="w-fit ">
             <Icons.calendar className="h-5 w-5 mr-2" />
             Bulk Schedule
           </Button>

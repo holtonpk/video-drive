@@ -49,7 +49,102 @@ const Navbar = () => {
   return (
     <div className="justify-between top-0 gap-8 p-4 items-center z-[50] h-16 px-6 hidden sm:flex">
       <NavigationMenu>
-        <NavigationMenuList className="gap-8">
+        <NavigationMenuList className="gap-6">
+          <NavigationMenuItem>
+            <NavigationMenuTrigger
+              className={`p-0 text-base bg-transparent font-bold px-2
+             ${
+               segment === "video-planning"
+                 ? "text-primary"
+                 : "text-muted-foreground hover:text-primary"
+             }`}
+            >
+              Video Planning
+            </NavigationMenuTrigger>
+
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-2 md:w-[400px] lg:w-[500px] ">
+                {clients.map((client) => {
+                  return (
+                    <li key={client.id} className="row-span-3">
+                      <Link
+                        href={`/client-view/${client.value}`}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink asChild>
+                          <div
+                            className={
+                              "flex gap-2 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline  outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            }
+                          >
+                            <client.icon className="h-6 w-6" />
+                            <div className="text-base font-bold leading-none">
+                              {client.label}
+                            </div>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem className="relative">
+            <NavigationMenuTrigger
+              className={`p-0 text-base bg-transparent font-bold px-2
+             ${
+               segment === "client-library"
+                 ? "text-primary"
+                 : "text-muted-foreground hover:text-primary"
+             }`}
+            >
+              Client Library
+            </NavigationMenuTrigger>
+
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-2   md:w-[400px] lg:w-[500px]">
+                {clients.map((client) => {
+                  return (
+                    <li key={client.id} className="row-span-3">
+                      <Link
+                        href={`/client-library/${client.value}`}
+                        legacyBehavior
+                        passHref
+                      >
+                        <NavigationMenuLink asChild>
+                          <div
+                            className={
+                              "flex gap-2 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline  outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                            }
+                          >
+                            <client.icon className="h-6 w-6" />
+                            <div className="text-base font-bold leading-none">
+                              {client.label}
+                            </div>
+                          </div>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              className={`font-bold
+        ${
+          segment === "video-review"
+            ? "text-primary "
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+            >
+              <VideoReview />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <Link href="/tasks" legacyBehavior passHref>
               <NavigationMenuLink
@@ -95,42 +190,20 @@ const Navbar = () => {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <VideoReview />
           <NavigationMenuItem>
-            <NavigationMenuTrigger
-              className={`p-0 text-base bg-transparent font-bold
-             ${
-               segment === "video-planning"
-                 ? "text-primary"
-                 : "text-muted-foreground hover:text-primary"
-             }`}
-            >
-              Video Planning
-            </NavigationMenuTrigger>
-
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-2 md:w-[400px] lg:w-[500px] ">
-                {clients.map((client) => {
-                  return (
-                    <li key={client.id} className="row-span-3">
-                      <NavigationMenuLink asChild>
-                        <a
-                          href={`/client-view/${client.value}`}
-                          className={
-                            "flex gap-2 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline  outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                          }
-                        >
-                          <client.icon className="h-6 w-6" />
-                          <div className="text-base font-bold leading-none">
-                            {client.label}
-                          </div>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            </NavigationMenuContent>
+            <Link href="/blog-manage" legacyBehavior passHref>
+              <NavigationMenuLink
+                className={`font-bold
+        ${
+          segment === "blog-manage"
+            ? "text-primary"
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+              >
+                Blog
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>

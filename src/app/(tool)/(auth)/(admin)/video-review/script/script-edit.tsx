@@ -129,9 +129,7 @@ export function Editor({post, setScript}: EditorProps) {
         <div
           id="script-editor-review"
           className="h-fit relative w-full  p-4  mx-auto text-primary  editor-js-view"
-        >
-          {/* s */}
-        </div>
+        ></div>
       </div>
     </div>
   );

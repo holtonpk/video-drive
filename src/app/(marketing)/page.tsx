@@ -26,20 +26,20 @@ const HomePage = () => {
       <div className="dark ">
         <Background />
         <div className="md:h-screen   min-w-screen   flex flex-col  overflow-hidden">
-          <Navbar show={false} />
+          <Navbar show={true} />
 
-          <div className=" h-screen w-full pt-[200px]  flex md:pt-[140px]  relative">
+          <div className=" h-screen w-full   items-center justify-center  flex   relative">
             <Hero />
             <DownArrow />
           </div>
           {/* <Banner /> */}
         </div>
-        <div className="container">
+        <div className="">
           <IntroText />
           <Stats />
 
-          <Process />
           <Showcase />
+          <Process />
           <CTA />
         </div>
         {/* 

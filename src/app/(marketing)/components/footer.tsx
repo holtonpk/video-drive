@@ -21,7 +21,7 @@ const Footer = () => {
               about
             </Link>
             <Link
-              href="/#stats"
+              href="/blog"
               className="text-[#141516] hover:text-white transition-all duration-300 capitalize"
             >
               Blog

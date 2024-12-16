@@ -168,6 +168,48 @@ input:-webkit-autofill:active {
   height: 150px;
 }
 
+.videoShadow {
+  box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+  -webkit-box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+  -moz-box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+}
+
+.rotating-text {
+  transform: translateX(0px);
+
+  p {
+    display: inline-flex;
+    margin: 0;
+    vertical-align: top;
+
+    .word {
+      position: absolute;
+      display: flex;
+      opacity: 0;
+
+      .letter {
+        transform-origin: center center 25px;
+
+        &.out {
+          transform: rotateX(90deg);
+          transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+        }
+        &.in {
+          transition: 0.38s ease;
+        }
+        &.behind {
+          transform: rotateX(-90deg);
+        }
+      }
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
 @keyframes jumbo {
   from {
     background-position: 50% 50%, 50% 50%;

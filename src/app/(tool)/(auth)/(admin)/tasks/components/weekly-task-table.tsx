@@ -39,7 +39,7 @@ export const WeeklyTaskTable = ({
         }
       }}
       id="task-table"
-      className="max-h-fit h-[405px] overflow-scroll    w-full max-w-full  border-t bg-muted/10 "
+      className="max-h-fit h-[472px] overflow-scroll   w-full max-w-full  border-t bg-muted/10 "
     >
       <ScrollBar orientation="vertical" className="" />
       <div className="w-[200px] h-full flex flex-col min-w-full items-center gap-1">

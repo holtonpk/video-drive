@@ -28,7 +28,7 @@ const config: Config = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         foreground: "hsla(var(--foreground))",
-        background: "hsl(var(--background))",
+        background: "hsla(var(--background))",
         theme: {
           red: "hsl(var(--red))",
           orange: "hsl(var(--orange))",

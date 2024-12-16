@@ -78,6 +78,20 @@ export function formatDaynameMonthDay(timestamp: Timestamp | any): string {
   return date.toLocaleDateString(undefined, options); // Convert the date to a formatted string
 }
 
+export function formatMonthDayYear(timestamp: Timestamp | any): string {
+  // Convert the seconds to milliseconds (JavaScript Date uses milliseconds)
+  const date = new Date(timestamp.seconds * 1000);
+
+  // Define options for formatting the date
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short", // Short month name (e.g., Oct)
+    day: "numeric", // Numeric day (e.g., 22)
+    year: "numeric", // Full year (e.g., 2024)
+  };
+
+  return date.toLocaleDateString(undefined, options); // Convert the date to a formatted string
+}
+
 export function formatDateFromTimestampToTime(
   timestamp: Timestamp | any
 ): string {
@@ -184,4 +198,40 @@ const timezoneMap: {[key: string]: string} = {
   "720": "AEDT", // Australian Eastern Daylight Time, UTC+11
   "780": "NZDT", // New Zealand Daylight Time, UTC+13
   "840": "ChST", // Chamorro Standard Time, UTC+10
+};
+
+export const formatTimeDifference = (timestamp: Timestamp): string => {
+  const now = new Date();
+  const timestampDate = convertTimestampToDate(timestamp);
+  const diffMs = now.getTime() - timestampDate.getTime();
+  const diffSec = Math.round(diffMs / 1000);
+  const diffMin = Math.round(diffSec / 60);
+  const diffHrs = Math.round(diffMin / 60);
+  const diffDays = Math.round(diffHrs / 24);
+  const diffWeeks = Math.round(diffDays / 7);
+
+  if (diffSec < 60) {
+    return "just now";
+  } else if (diffMin < 60) {
+    return `${diffMin} min`;
+  } else if (diffHrs < 24) {
+    return `${diffHrs} hr${diffHrs === 1 ? "" : "s"}`;
+  } else if (diffDays < 7) {
+    return `${diffDays} day${diffDays === 1 ? "" : "s"}`;
+  } else {
+    return `${diffWeeks} week${diffWeeks === 1 ? "" : "s"}`;
+  }
+};
+
+export const isDueDateBeforeToday = (dueDate: Date) => {
+  // Convert task.dueDate to a date object and reset time to midnight
+  const dueDateObj = new Date(dueDate);
+  dueDateObj.setHours(0, 0, 0, 0);
+
+  // Get today's date and reset time to midnight
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Compare the dates
+  return dueDateObj < today;
 };

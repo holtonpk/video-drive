@@ -25,8 +25,25 @@ export const ADMIN_USERS = [
 ];
 export const EDITORS = [
   // "orxFlEC5v8euefk1OSJVTVXgilE2",
+  {id: "y9VhFCzIuRW33vjKhmVrpqH4ajx2", clients: ["blaze", "morty", "frizzle"]},
+  {
+    id: "Mi4yipMXrlckU117edbYNiwrmI92",
+    clients: [
+      "blaze",
+      "morty",
+      "founderCentral",
+      "learnXYZ",
+      "mindy",
+      "frizzle",
+    ],
+  },
+];
+
+export const ALL_USERS = [
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
   "Mi4yipMXrlckU117edbYNiwrmI92",
+  "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+  "x9h3UepduwQHoCkwUh7bPGqEeTj2",
 ];
 
 export const REVIEW_USERS_DATA = [
@@ -111,6 +128,20 @@ export const editorStatuses = [
     description: "The video needs to be revised.",
   },
 ];
+
+export type ClientInfo = {
+  id: string;
+  value: string;
+  label: string;
+  description: string;
+  assets: ClientAsset[];
+};
+
+type ClientAsset = {
+  name: string;
+  url: string;
+  type: "img" | "video";
+};
 
 export const clients = [
   {
@@ -317,3 +348,33 @@ export type Invoice = {
   total: number;
   videos: string[];
 };
+
+export type BlogPost = {
+  id: string;
+  title: string;
+  description: string;
+  content?: any; // Assuming you're using Prisma's Json type, adjust as needed
+  published: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  category: string;
+  tags: string[];
+  image?: string;
+  length: number;
+  path: string;
+  // Assuming there's a User type defined somewhere
+  author: User;
+};
+
+type User = {
+  id: string;
+  name: string;
+  avatar: string;
+};
+
+export const blogCategories = [
+  "Tech",
+  "Startups",
+  "Marketing",
+  "Video Content",
+];
