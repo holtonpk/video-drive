@@ -28,26 +28,25 @@ export const Banner = () => {
 
 export const Hero = () => {
   const router = useRouter();
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    const container = containerRef.current;
+    const container = containerRef.current as HTMLElement;
     if (!container) return;
-
     const words = container.querySelectorAll(".word");
 
     // Process each word, including those with spaces
-    words.forEach((word) => {
+    words.forEach((word: any) => {
       // Split the text, preserving spaces
       let textContent = word.textContent;
       let characters = textContent
         .split("")
-        .map((char) => (char === " " ? " " : char));
+        .map((char: any) => (char === " " ? " " : char));
 
       // Clear original text content
       word.textContent = "";
 
       // Create spans for each character
-      characters.forEach((char) => {
+      characters.forEach((char: any) => {
         let span = document.createElement("span");
 
         // Handle spaces differently
@@ -75,7 +74,7 @@ export const Hero = () => {
           : words[currentWordIndex + 1];
 
       // rotate out letters of current word
-      Array.from(currentWord.children).forEach((letter, i) => {
+      Array.from(currentWord.children).forEach((letter: any, i) => {
         setTimeout(() => {
           letter.className = letter.classList.contains("space")
             ? "letter space"
@@ -85,7 +84,7 @@ export const Hero = () => {
 
       // reveal and rotate in letters of next word
       (nextWord as HTMLElement).style.opacity = "1";
-      Array.from(nextWord.children).forEach((letter, i) => {
+      Array.from(nextWord.children).forEach((letter: any, i) => {
         letter.className = letter.classList.contains("space")
           ? "letter space"
           : "letter behind";
@@ -100,7 +99,6 @@ export const Hero = () => {
       currentWordIndex =
         currentWordIndex === maxWordIndex ? 0 : currentWordIndex + 1;
     };
-
     rotateText();
     const intervalId = setInterval(rotateText, 4000);
 
@@ -216,7 +214,7 @@ export const Hero = () => {
               className="w-full h-full z-10 absolute"
             ></button>
             <motion.div
-              ref={containerRef}
+              // ref={containerRef}
               initial={{opacity: 0, width: 225, height: 400}}
               animate={{
                 opacity: 1,
