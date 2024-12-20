@@ -19,7 +19,7 @@ const AdminLayout = ({children}: {children: React.ReactNode}) => {
 
   if (
     !ADMIN_USERS.includes(currentUser.uid) &&
-    !EDITORS.includes(currentUser.uid)
+    !EDITORS.some((editor) => editor.id === currentUser.uid)
   ) {
     return (
       <div className=" items-center justify-center w-screen h-screen flex flex-col">
