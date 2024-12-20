@@ -1,6 +1,4 @@
 import React from "react";
-
-import {Metadata} from "next";
 import Background from "@/src/app/(marketing)/components/background";
 import Navbar from "@/src/app/(marketing)/components/navbar";
 import Footer from "@/src/app/(marketing)/components/footer";
@@ -9,7 +7,6 @@ import {BlogPost} from "@/config/data";
 import {notFound} from "next/navigation";
 
 async function getPost(path: string) {
-  // Call an external API endpoint to get posts
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`,
     {
@@ -21,27 +18,48 @@ async function getPost(path: string) {
     }
   );
 
-  const resData = await res.json();
+  if (!res.ok) {
+    console.error(`Failed to fetch blog post: ${res.status} ${res.statusText}`);
+    notFound(); // Trigger Next.js 404 page
+  }
 
-  const postData: BlogPost = resData.response;
+  try {
+    const resData = await res.json();
+    const postData: BlogPost = resData.response;
 
-  if (!postData) notFound();
-  return postData;
+    if (!postData) notFound();
+    return postData;
+  } catch (error) {
+    console.error("Error parsing JSON response:", error);
+    notFound(); // Trigger 404 if response isn't valid JSON
+  }
 }
 
-// export async function generateStaticParams() {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
-//     {
-//       cache: "no-cache",
-//     }
-//   );
-//   const posts = await res.json();
+export async function generateStaticParams() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+      {
+        cache: "no-cache",
+      }
+    );
 
-//   return posts.posts.map((postId: any) => ({
-//     blogPath: postId.path,
-//   }));
-// }
+    if (!res.ok) {
+      console.error(
+        `Failed to fetch blog posts: ${res.status} ${res.statusText}`
+      );
+      return []; // Return an empty array to avoid build failure
+    }
+
+    const posts = await res.json();
+    return posts.posts.map((postId: any) => ({
+      blogPath: postId.path,
+    }));
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+    return []; // Handle the case where fetch fails
+  }
+}
 
 export async function generateMetadata({
   params,
