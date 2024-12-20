@@ -38,19 +38,37 @@ export default async function Page() {
   );
 }
 
+// async function getPosts() {
+//   // Call an external API endpoint to get posts
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+//     {
+//       cache: "no-cache",
+//     }
+//   );
+//   const posts = await res.json();
+
+//   const postsData: BlogPost[] = posts.posts;
+
+//   if (!postsData) notFound();
+//   return postsData;
+// }
+
 async function getPosts() {
   // Call an external API endpoint to get posts
-  const res = await fetch(
-    `/api/fetch-blog-posts`,
-    // `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
-    {
-      cache: "no-cache",
-    }
-  );
-  const posts = await res.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+      {
+        cache: "no-cache",
+      }
+    );
+    const posts = await res.json();
 
-  const postsData: BlogPost[] = posts.posts;
-
-  if (!postsData) notFound();
-  return postsData;
+    const postsData: BlogPost[] = posts.posts;
+    return postsData;
+  } catch (error) {
+    console.error("Error fetching blog posts===:", error);
+    return []; // Handle the case where fetch fails
+  }
 }

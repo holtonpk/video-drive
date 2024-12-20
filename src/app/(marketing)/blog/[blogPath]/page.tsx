@@ -38,8 +38,7 @@ async function getPost(path: string) {
 export async function generateStaticParams() {
   try {
     const res = await fetch(
-      `/api/fetch-blog-posts`,
-      // `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
       {
         cache: "no-cache",
       }
