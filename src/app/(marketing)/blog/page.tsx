@@ -41,7 +41,8 @@ export default async function Page() {
 async function getPosts() {
   // Call an external API endpoint to get posts
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+    `/api/fetch-blog-posts`,
+    // `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
     {
       cache: "no-cache",
     }
