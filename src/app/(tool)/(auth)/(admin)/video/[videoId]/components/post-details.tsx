@@ -733,6 +733,13 @@ function VideoDisplay({
             <span className="text-muted-foreground text-center  justify-center items-center flex">
               No videos uploaded
             </span>
+            <input
+              type="file"
+              id="selectedFile2"
+              className="hidden"
+              onChange={onFileChange}
+            />
+
             <button
               onClick={() => document.getElementById("selectedFile2")?.click()}
               className="h-fit justify-center  p-2  text-center rounded-md w-fit px-6 bg-blue-500/20 hover:bg-blue-500/50 text-blue-500 flex items-center"

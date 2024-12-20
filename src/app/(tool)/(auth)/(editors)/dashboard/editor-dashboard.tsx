@@ -166,13 +166,12 @@ const VideoSheet = ({
   const reviewerIds = REVIEW_USERS_DATA.map((user) => user.id);
 
   const todo = videoData.filter(
-    (video) =>
-      video.status === "todo" &&
-      video.scriptReviewed && // Ensure scriptReviewed is not undefined
-      Array.isArray(video.scriptReviewed) &&
-      reviewerIds.every(
-        (id) => video.scriptReviewed && video.scriptReviewed.includes(id)
-      )
+    (video) => video.status === "todo"
+    // video.scriptReviewed && // Ensure scriptReviewed is not undefined
+    // Array.isArray(video.scriptReviewed) &&
+    // reviewerIds.every(
+    //   (id) => video.scriptReviewed && video.scriptReviewed.includes(id)
+    // )
   );
 
   const [showPaid, setShowPaid] = React.useState(true);

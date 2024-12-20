@@ -141,56 +141,86 @@ export const CreateVideo = ({
     }
   };
 
+  const [openVideoCreator, setOpenVideoCreator] =
+    React.useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(newVideos);
+    setOpenVideoCreator(newVideos && newVideos.length > 0 ? true : false);
+  }, [newVideos]);
+
   return (
     <div className="w-fit flex flex-col ">
-      {newVideos && newVideos.length > 0 ? (
-        <>
-          <div className=" container pt-16 left-0 absolute bg-foreground/40 blurBack border-t pb-4">
-            <div className="flex flex-col gap-6 ">
-              {newVideos.map((video) => (
-                <VideoProvider
-                  key={video.videoNumber}
-                  newVideos={newVideos}
-                  setNewVideos={setNewVideos}
-                  video={video}
-                >
-                  <NewVideoDraft />
-                </VideoProvider>
-              ))}
-            </div>
-            <Button
-              onClick={addVideo}
-              className="mx-auto mt-4 w-full bg-transparent text-primary border-primary hover:bg-primary hover:text-white"
-              variant={"outline"}
-            >
-              <Icons.add className="h-5 w-5 mr-2" />
-              Video
-            </Button>
-            <div className="w-fit gap-4 absolute top-0 h-16 items-center flex justify-between ">
-              <h1 className="text-primary text-xl font-bold">Video Creator</h1>
-              <Button onClick={saveVideos} className="w-fit ">
-                {saving ? (
-                  <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
-                ) : (
-                  <Icons.uploadCloud className="h-5 w-5 mr-2" />
-                )}
-                Save all ({newVideos.length})
+      <Dialog
+        open={openVideoCreator}
+        onOpenChange={(value) => {
+          if (value === false) {
+            setNewVideos([]);
+          }
+        }}
+      >
+        <DialogContent className="max-w-[1200px] overflow-hidden bg-muted/20 blurBack">
+          {newVideos && newVideos.length > 0 && (
+            <div className="max-h-[80vh] overflow-scroll">
+              <div className="flex flex-col gap-6 pt-16 ">
+                {newVideos.map((video) => (
+                  <VideoProvider
+                    key={video.videoNumber}
+                    newVideos={newVideos}
+                    setNewVideos={setNewVideos}
+                    video={video}
+                  >
+                    <NewVideoDraft />
+                  </VideoProvider>
+                ))}
+              </div>
+              <Button
+                onClick={addVideo}
+                className="mx-auto mt-4 w-full bg-transparent text-primary border-primary hover:bg-primary hover:text-white"
+                variant={"outline"}
+              >
+                <Icons.add className="h-5 w-5 mr-2" />
+                Video
               </Button>
+              <div className="left-0 gap-4 absolute top-0 h-16 items-center flex justify-between bg-popover w-full p-4">
+                <h1 className="text-primary text-xl font-bold">
+                  Video Creator
+                </h1>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => setNewVideos([])}
+                    variant={"ghost"}
+                    className="text-primary"
+                  >
+                    <Icons.close className="h-5 w-5 mr-2" />
+                    Cancel
+                  </Button>
+                  <Button onClick={saveVideos} className="w-fit ">
+                    {saving ? (
+                      <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
+                    ) : (
+                      <Icons.uploadCloud className="h-5 w-5 mr-2" />
+                    )}
+                    Save all ({newVideos.length})
+                  </Button>
+                </div>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <div className="flex gap-2 w-fit ">
-          <Button onClick={createNewVideo} className="w-fit ">
-            <Icons.add className="h-5 w-5 mr-2" />
-            New Video
-          </Button>
-          <Button onClick={() => setShowBulkSchedule(true)} className="w-fit ">
-            <Icons.calendar className="h-5 w-5 mr-2" />
-            Bulk Schedule
-          </Button>
-        </div>
-      )}
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <div className="flex gap-2 w-fit ">
+        <Button onClick={createNewVideo} className="w-fit ">
+          <Icons.add className="h-5 w-5 mr-2" />
+          New Video
+        </Button>
+        <Button onClick={() => setShowBulkSchedule(true)} className="w-fit ">
+          <Icons.calendar className="h-5 w-5 mr-2" />
+          Bulk Schedule
+        </Button>
+      </div>
+
       {showBulkSchedule && (
         <BulkSchedule
           showModal={showBulkSchedule}
@@ -283,7 +313,7 @@ const BulkSchedule = ({
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <DialogContent>
+      <DialogContent className="min-w-fit">
         <div className="flex flex-col gap-4 text-primary rounded-md shadow-sm ">
           <div className="grid gap-2">
             <Label>Total Videos</Label>
@@ -308,7 +338,7 @@ const BulkSchedule = ({
 const NewVideoDraft = () => {
   const {video, setNewVideos, newVideos} = React.useContext(NewVideoContext)!;
 
-  const [status, setStatus] = React.useState<string>(video.status);
+  // const [status, setStatus] = React.useState<string>(video.status);
 
   const deleteVideo = () => {
     setNewVideos(newVideos.filter((v) => v.videoNumber !== video.videoNumber));
@@ -386,7 +416,7 @@ const NewVideoDraft = () => {
                 placeholder="Title"
               />
             </div>
-            <div className="grid-gap-1">
+            {/* <div className="grid-gap-1">
               <Label>Status</Label>
               <Select
                 value={status}
@@ -435,7 +465,7 @@ const NewVideoDraft = () => {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
 
             <div className="grid gap-1">
               <Label htmlFor="client">Notes</Label>
@@ -649,42 +679,30 @@ export function DatePickerWithRange({
 }) {
   return (
     <div className={cn("grid gap-2")}>
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button
-            id="date"
-            variant={"outline"}
-            className={cn(
-              "w-full justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
-              ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Select a date range</span>
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            initialFocus
-            mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
-            numberOfMonths={2}
-          />
-        </PopoverContent>
-      </Popover>
+      <div className="flex items-center">
+        <CalendarIcon className="mr-2 h-4 w-4" />
+        {date?.from ? (
+          date.to ? (
+            <>
+              {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+            </>
+          ) : (
+            format(date.from, "LLL dd, y")
+          )
+        ) : (
+          <span>Select a date range below</span>
+        )}
+      </div>
+
+      <Calendar
+        className="bg-muted/40  rounded-md"
+        initialFocus
+        mode="range"
+        defaultMonth={date?.from}
+        selected={date}
+        onSelect={setDate}
+        numberOfMonths={2}
+      />
     </div>
   );
 }
@@ -738,7 +756,7 @@ const EditorSelector = ({
     const fetchEditors = async () => {
       try {
         const editorPromises = EDITORS.map(async (editor) => {
-          const dataSnap = await getDoc(doc(db, "users", editor));
+          const dataSnap = await getDoc(doc(db, "users", editor.id));
           return dataSnap.data() as UserData;
         });
 

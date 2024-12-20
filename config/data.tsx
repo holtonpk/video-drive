@@ -23,11 +23,23 @@ export const ADMIN_USERS = [
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
   "x9h3UepduwQHoCkwUh7bPGqEeTj2",
 ];
+
 export const EDITORS = [
   // "orxFlEC5v8euefk1OSJVTVXgilE2",
   {id: "y9VhFCzIuRW33vjKhmVrpqH4ajx2", clients: ["blaze", "morty", "frizzle"]},
   {
     id: "Mi4yipMXrlckU117edbYNiwrmI92",
+    clients: [
+      "blaze",
+      "morty",
+      "founderCentral",
+      "learnXYZ",
+      "mindy",
+      "frizzle",
+    ],
+  },
+  {
+    id: "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
     clients: [
       "blaze",
       "morty",
