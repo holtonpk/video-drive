@@ -29,19 +29,19 @@ async function getPost(path: string) {
   return postData;
 }
 
-export async function generateStaticParams() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
-    {
-      cache: "no-cache",
-    }
-  );
-  const posts = await res.json();
+// export async function generateStaticParams() {
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+//     {
+//       cache: "no-cache",
+//     }
+//   );
+//   const posts = await res.json();
 
-  return posts.posts.map((postId: any) => ({
-    blogPath: postId.path,
-  }));
-}
+//   return posts.posts.map((postId: any) => ({
+//     blogPath: postId.path,
+//   }));
+// }
 
 export async function generateMetadata({
   params,
