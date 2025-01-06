@@ -209,13 +209,14 @@ export const CreateTask = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>{children}</DialogTrigger>
 
-        <DialogContent className="text-primary min-w-fit ">
+        <DialogContent className="text-primary min-w-fit   ">
           <DialogHeader>
             <DialogTitle className="text-primary">{heading}</DialogTitle>
             <DialogDescription className="text-muted-foreground">
               Fill in the details below to create a new task
             </DialogDescription>
           </DialogHeader>
+
           <div className="grid grid-cols-2 gap-4">
             <div className="grid gap-1 ">
               <h1>Task name</h1>
@@ -285,7 +286,7 @@ export const CreateTask = ({
             <div className="grid gap-1">
               <h1>Assign to</h1>
 
-              <div className=" flex h-9 items-center  rounded-md border border-border overflow-hidden  max-w-full">
+              <div className=" flex items-center h-9  rounded-md border border-border overflow-hidden  max-w-full relative">
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -304,11 +305,13 @@ export const CreateTask = ({
                           {assignee.map((user) => (
                             <div
                               key={user}
-                              className="bg-foreground dark:bg-muted text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm"
+                              className="bg-foreground dark:bg-muted text-primary h-full rounded-sm px-2 flex items-center gap-1 text-sm "
                             >
                               {/* <button
                                 onClick={() => {
-                                  setAssignee(assignee?.filter((u) => u != user));
+                                  setAssignee(
+                                    assignee?.filter((u) => u != user)
+                                  );
                                 }}
                                 className="hover:text-primary/70"
                               >
@@ -324,7 +327,10 @@ export const CreateTask = ({
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-1 h-fit" align="start">
+                  <PopoverContent
+                    className="w-[200px] p-1 h-fit relative"
+                    align="start"
+                  >
                     <>
                       {userData.map((user) => (
                         <button
