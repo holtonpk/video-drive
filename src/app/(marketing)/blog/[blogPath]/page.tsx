@@ -7,6 +7,7 @@ import {BlogPost} from "@/config/data";
 import {notFound} from "next/navigation";
 
 async function getPost(path: string) {
+  console.log("R%%%%%%%:", path);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`,
     {
