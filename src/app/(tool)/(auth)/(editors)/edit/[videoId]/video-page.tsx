@@ -108,7 +108,8 @@ export default function VideoPage({videoId}: {videoId: string}) {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="chat">
-                <ChatBox video={video} />
+                {/* <ChatBox video={video} /> */}
+                <>coming soon</>
               </TabsContent>
               <TabsContent value="uploads">
                 <Uploads />
