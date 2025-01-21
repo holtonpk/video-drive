@@ -109,7 +109,7 @@ export default function VideoPage({videoId}: {videoId: string}) {
               </TabsList>
               <TabsContent value="chat">
                 {/* <ChatBox video={video} /> */}
-                <>coming soon</>
+                <p>coming soon</p>
               </TabsContent>
               <TabsContent value="uploads">
                 <Uploads />
