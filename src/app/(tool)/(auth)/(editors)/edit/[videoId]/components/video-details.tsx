@@ -299,17 +299,17 @@ export const VideoDetails = () => {
   const [price, setPrice] = React.useState<number | undefined>(video.priceUSD);
 
   return (
-    <div className="flex flex-col gap-2">
-      <h1 className="text-primary text-2xl font-bold ">
-        Video #{video.videoNumber}
-      </h1>
+    <div className="flex flex-col gap-2 relative z-20">
       <Card
-        className={` shadow-sm w-full relative border h-full bg-foreground pt-4
+        className={` shadow-sm w-full relative border h-full bg-foreground/40 blurBack pt-4 
         `}
       >
         <CardContent className="grid gap-6 ">
           <div className="grid grid-cols-2 items-start gap-6 ">
-            <div className="grid gap-2 col-span-2">
+            <h1 className="text-primary text-2xl font-bold ">
+              Video #{video.videoNumber}
+            </h1>
+            <div className="grid gap-2 c">
               <div className="flex items-end">
                 <Icons.bookmark className="mr-1 h-4 w-4" />
                 <Label htmlFor="title">Title</Label>
@@ -318,6 +318,7 @@ export const VideoDetails = () => {
                 {title}
               </div>
             </div>
+
             <div className="grid gap-2">
               <div className="flex items-end">
                 <Icons.profile className="mr-2 h-4 w-4" />

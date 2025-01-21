@@ -2,7 +2,7 @@ import Background from "@/src/app/(marketing)/components/background";
 import Navbar from "@/src/app/(marketing)/components/navbar";
 import Footer from "@/src/app/(marketing)/components/footer";
 import LoadingScreen from "@/src/app/(marketing)/components/loading-screen";
-import {Hero, Banner} from "@/src/app/(marketing)/components/hero";
+import {Hero} from "@/src/app/(marketing)/hero/page";
 import {Stats} from "@/src/app/(marketing)/components/stats";
 import {Testimonials} from "@/src/app/(marketing)/components/testimonials";
 import {Faq} from "@/src/app/(marketing)/components/faq";
@@ -14,9 +14,11 @@ import {Showcase} from "@/src/app/(marketing)/components/showcase";
 import {CTA} from "@/src/app/(marketing)/components/cta";
 import {delay} from "framer-motion";
 import DownArrow from "./components/down-arrow";
+import UseCases from "./components/use-cases";
+import Compare from "./components/compare";
 
 export const metadata = constructMetadata({
-  title: "Whitespace Media",
+  title: "Ripple Media",
   description: "Experts in short form",
 });
 const HomePage = () => {
@@ -26,7 +28,7 @@ const HomePage = () => {
       <div className="dark ">
         <Background />
         <div className="md:h-screen   min-w-screen   flex flex-col  overflow-hidden">
-          <Navbar show={true} />
+          <Navbar show={false} />
 
           <div className=" h-screen w-full   items-center justify-center  flex   relative">
             <Hero />
@@ -37,6 +39,8 @@ const HomePage = () => {
         <div className="">
           <IntroText />
           <Stats />
+          <UseCases />
+          <Compare />
 
           <Showcase />
           <Process />

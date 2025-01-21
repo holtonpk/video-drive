@@ -128,6 +128,10 @@
   }
 }
 
+.noResize {
+  resize: none;
+}
+
 .blurBack {
   backdrop-filter: blur(10px);
 }
@@ -186,6 +190,23 @@
     180deg,
     hsl(var(--card) / 0) 0%,
     hsl(var(--card) / 0.5) 99%
+  );
+}
+.message-grad-bottom {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    180deg,
+    hsl(var(--popover) / 0) 0%,
+    hsl(var(--popover) / 0.8) 99%
+  );
+}
+
+.dark .message-grad-bottom {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    180deg,
+    hsl(var(--popover) / 0) 0%,
+    hsl(var(--popover) / 0.6) 99%
   );
 }
 

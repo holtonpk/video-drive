@@ -296,6 +296,15 @@ export type VideoData = {
   scriptReviewed?: string[];
   videoReviewed?: string[];
   payoutChangeRequest?: PayoutChangeRequest;
+  messages?: videoMessage[];
+};
+
+export type videoMessage = {
+  id: string;
+  message: string;
+  senderId: string;
+  timestamp: Date;
+  viewedBy: string[];
 };
 
 type PayoutChangeRequest = {
@@ -331,6 +340,7 @@ export type VideoDataWithPosts = {
   caption?: string;
   postDate: Timestamp;
   posted?: boolean;
+  messages?: videoMessage[];
 };
 
 interface Timestamp {

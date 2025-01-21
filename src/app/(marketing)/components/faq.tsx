@@ -18,7 +18,7 @@ export function Faq() {
       a: "Investing in short-form content is essential for capturing attention in today's fast-paced digital landscape. Its concise format boosts engagement, particularly on mobile platforms, and maximizes brand visibility across various social media channels. With its cost-effectiveness and adaptability, short-form content offers a powerful means to drive brand awareness and connect with your audience effectively.",
     },
     {
-      q: "Why choose Whitespace Media?",
+      q: "Why choose Ripple Media?",
       a: "Our young, dynamic team understands the pulse of the new generation, delivering content tailored to engage and resonate with today's audiences. Whether extracting clips from long-form content or creating original, attention-grabbing videos, we're committed to helping your brand stand out in the digital sphere.",
     },
     {

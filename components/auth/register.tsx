@@ -49,7 +49,7 @@ const RegisterForm = () => {
       <div className="flex items-center">
         <Logo className="fill-primary h-6 md:h-6 mb-1" />
         <h1 className="text-3xl text-primary font-bold whitespace-nowrap  font1 ml-2">
-          Whitespace Media
+          Ripple Media
         </h1>
       </div>
       {/* <h1 className="text-2xl md:text-4xl font-semibold text-background dark font1 text-center mt-4">

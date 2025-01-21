@@ -113,7 +113,7 @@ export const convertDateToTimestamp = (date: Date): Timestamp => {
 };
 
 export function constructMetadata({
-  title = "Whitespace Media",
+  title = "Ripple Media",
   description = "We specialize in organic marketing",
   image = `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
 }: {
@@ -220,6 +220,31 @@ export const formatTimeDifference = (timestamp: Timestamp): string => {
     return `${diffDays} day${diffDays === 1 ? "" : "s"}`;
   } else {
     return `${diffWeeks} week${diffWeeks === 1 ? "" : "s"}`;
+  }
+};
+
+export const formatTimeDifference2 = (timestamp: Timestamp): string => {
+  const now = new Date();
+  const timestampDate = convertTimestampToDate(timestamp);
+  const diffMs = now.getTime() - timestampDate.getTime();
+  const diffSec = Math.round(diffMs / 1000);
+  const diffMin = Math.round(diffSec / 60);
+  const diffHrs = Math.round(diffMin / 60);
+  const diffDays = Math.round(diffHrs / 24);
+  const diffWeeks = Math.round(diffDays / 7);
+
+  if (!diffSec) {
+    return "just now";
+  } else if (diffSec < 60) {
+    return "just now";
+  } else if (diffMin < 60) {
+    return `${diffMin} min ago`;
+  } else if (diffHrs < 24) {
+    return `${diffHrs} hr${diffHrs === 1 ? "" : "s"} ago`;
+  } else if (diffDays < 7) {
+    return `${diffDays} day${diffDays === 1 ? "" : "s"} ago`;
+  } else {
+    return `${diffWeeks} week${diffWeeks === 1 ? "" : "s"} ago`;
   }
 };
 

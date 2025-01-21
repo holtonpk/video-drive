@@ -13,7 +13,7 @@ const Requirements = () => {
   const {video} = useVideo()!;
 
   return (
-    <div className="w-full h-fit   overflow-hidden bg-foreground ">
+    <div className="w-full h-fit   overflow-hidden ">
       <div className="flex flex-col gap-4 pt-0 ">
         {video.script && (
           <>
@@ -36,7 +36,7 @@ const Requirements = () => {
                 <Label>Script</Label>
               </div>
               {typeof video.script === "string" ? (
-                <div className="h-fit  overflow-scroll w-full  text-primary  editor-js-view flex flex-col gap-4 ">
+                <div className="h-fit  bg-foreground/40 blurBack overflow-scroll w-full  text-primary  editor-js-view flex flex-col gap-4 ">
                   {video.script}
                 </div>
               ) : (
@@ -71,7 +71,7 @@ const EditorJsRender = ({script}: {script: OutputData}) => {
   return (
     <div
       dangerouslySetInnerHTML={{__html: html}}
-      className="h-fit overflow-scroll w-full  text-primary  editor-js-view flex flex-col gap-4 "
+      className="h-fit overflow-scroll w-full  text-primary bg-foreground/20 blurBack p-4 rounded-md  editor-js-view flex flex-col gap-4 "
     />
   );
 };

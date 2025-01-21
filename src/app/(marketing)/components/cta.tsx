@@ -5,7 +5,7 @@ import {LinkButton} from "@/components/ui/link";
 import {Icons} from "@/components/icons";
 
 export const CTA = () => {
-  const text = "Amplify your business with Whitespace".split(" ");
+  const text = "Amplify your business with Ripple Media".split(" ");
 
   return (
     <div className="flex flex-col h-fit py-32 container items-center ">

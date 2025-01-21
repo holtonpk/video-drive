@@ -37,7 +37,7 @@ export const Stats = () => {
 
   return (
     <div id="stats" className="text-black px-4 md:container md:mt-20">
-      <div className="grid  md:grid-cols-2 gap-4 md:gap-10 relative max-w-[800px] mx-auto">
+      <div className="grid  md:grid-cols-4 gap-4 md:gap-10 relative  mx-auto">
         {stats.map((stat, index) => (
           <motion.div
             key={index}

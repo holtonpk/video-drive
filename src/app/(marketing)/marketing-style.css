@@ -510,3 +510,30 @@ input:-webkit-autofill:active {
   background-image: radial-gradient(#444cf7 1px, transparent 0.4px);
   background-size: 8px 8px;
 }
+
+.inlay-shadow {
+  box-shadow: 4px 4px 10px rgba(52, 244, 175, 0.3),
+    -4px -4px 10px rgba(52, 244, 175, 0.2);
+}
+
+.card-shadow2 {
+  box-shadow: inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+    inset -4px -4px 10px rgba(52, 244, 175, 0.2), 0 0 20px 5px rgb(0, 0, 0); /* Outer black shadow */
+  animation: card-shadow-animation 3s ease forwards;
+  animation-delay: 4s;
+}
+
+@keyframes card-shadow-animation {
+  0% {
+    box-shadow: inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+      inset -4px -4px 10px rgba(52, 244, 175, 0.2), 0 0 20px 5px rgb(0, 0, 0); /* Outer black shadow */
+  }
+  100% {
+    box-shadow: inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+      inset -4px -4px 10px rgba(52, 244, 175, 0.2), 0 0 20px 200px rgb(0, 0, 0); /* Outer black shadow */
+  }
+}
+.white-filter {
+  filter: brightness(100%) invert(100%);
+  mix-blend-mode: difference; /* Ensures proper blending for a pure white effect */
+}

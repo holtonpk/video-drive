@@ -160,9 +160,9 @@ const Uploads = () => {
     );
   };
   return (
-    <div className="w-full  min-h-fit h-fit flex flex-col gap-2  md:pl-3">
-      <h1 className="text-primary text-2xl font-bold ">Completed Videos</h1>
-      <div className="w-full border bg-foreground rounded-md p-2 flex flex-col gap-2 flex-grow">
+    <div className="w-full  min-h-fit h-fit flex flex-col gap-2 relative z-20 ">
+      {/* <h1 className="text-primary text-2xl font-bold ">Completed Videos</h1> */}
+      <div className="w-full border bg-foreground/40 blurBack rounded-md p-2 flex flex-col gap-2 flex-grow">
         {(!video.uploadedVideos || video.uploadedVideos.length == 0) &&
           !isUploading && (
             <span className="text-muted-foreground text-center flex-grow justify-center items-center flex">
@@ -184,7 +184,7 @@ const Uploads = () => {
               return (
                 <div
                   key={uploadedVideo.id}
-                  className={`w-full  text-foreground border rounded-md  flex-col   gap-4
+                  className={`w-full bg-foreground/40 text-foreground border rounded-md  flex-col   gap-4
                     ${
                       uploadedVideo.needsRevision
                         ? "border-destructive"

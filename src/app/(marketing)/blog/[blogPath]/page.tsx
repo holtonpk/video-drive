@@ -70,7 +70,7 @@ export async function generateMetadata({
   const post = await getPost(blogPath);
 
   return {
-    title: `Whitespace | ${post.title}`,
+    title: `Ripple Media| ${post.title}`,
     description: `${post.description}`,
   };
 }

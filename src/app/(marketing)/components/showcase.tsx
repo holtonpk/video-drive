@@ -25,7 +25,7 @@ export const Showcase = () => {
         Showcase
       </h1>
       <div className="flex flex-col gap-2 md:gap-4 md:w-[600px] w-[80%] items-start md:mx-auto ">
-        <div className="flex gap-1 md:gap-2 w-full flex-wrap">
+        <div className="flex justify-center gap-1 md:gap-2 w-full flex-wrap text-center">
           {text.map((el, i) => (
             <motion.span
               variants={{
@@ -63,7 +63,7 @@ export const Showcase = () => {
           initial="hidden" // Start in the hidden state
           whileInView="visible" // Animate to the visible state when in view
           viewport={{once: true}} // Ensures animation only plays once
-          className="font1-light text-xl md:text-2xl text-white  w-full h-fit md:max-w-[500px]  "
+          className="font1-light text-xl md:text-2xl text-white  w-full h-fit    text-center"
         >
           Here are some of our best work. Custom made for some of the amazing
           companies we have worked with.
@@ -110,7 +110,7 @@ const VideoPlayer = ({video}: {video: string}) => {
         >
           {/* {!isPlaying ? <Icons.play className="h-8 w-8 text-white" />} */}
         </button>
-        {/* <video
+        <video
           ref={videoRef}
           src={video}
           className="w-full h-full object-cover rounded-[6px]"
@@ -118,7 +118,7 @@ const VideoPlayer = ({video}: {video: string}) => {
           autoPlay
           muted
           loop
-        ></video> */}
+        ></video>
       </div>
     </div>
   );

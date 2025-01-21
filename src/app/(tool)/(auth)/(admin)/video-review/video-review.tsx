@@ -17,6 +17,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import {
+  ALL_USERS,
   clients,
   VideoData,
   Post,
@@ -24,14 +25,18 @@ import {
   UploadedVideo,
   REVIEW_USERS_DATA,
 } from "@/config/data";
-import {formatDaynameMonthDay, formatAsUSD} from "@/lib/utils";
+import {
+  formatDaynameMonthDay,
+  formatAsUSD,
+  formatTimeDifference2,
+} from "@/lib/utils";
 import {Icons} from "@/components/icons";
 import {PlusCircle} from "lucide-react";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Editor} from "@/src/app/(tool)/(auth)/(admin)/video-review/script/script-edit";
 import Link from "next/link";
 // import {AiCaption} from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/components/post-details";
-import {useAuth} from "@/context/user-auth";
+import {useAuth, UserData} from "@/context/user-auth";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {onSnapshot} from "firebase/firestore";
@@ -237,8 +242,9 @@ const VideoReview = () => {
     }
   }, [itemsToReview, isOriginalSet, loading1, loading2]);
 
-  console.log("itemsToReview", itemsToReview);
-  console.log("ogggitemsToReview", originalItemsToReview);
+  const videosWithMessages = displayVideos?.filter(
+    (video) => video.messages && video.messages.length > 0
+  );
 
   return (
     <div>
@@ -299,6 +305,9 @@ const VideoReview = () => {
               You are all caught up. no items to review 🎉
             </h1>
           )}
+          {videosWithMessages && (
+            <VideoChats videosWithMessages={videosWithMessages} />
+          )}
         </>
       )}
     </div>
@@ -306,6 +315,78 @@ const VideoReview = () => {
 };
 
 export default VideoReview;
+
+const VideoChats = ({
+  videosWithMessages,
+}: {
+  videosWithMessages: VideoDataWithPosts[];
+}) => {
+  const [userData, setUserData] = React.useState<UserData[] | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userDataPromises = ALL_USERS.map(async (userId) => {
+          console.log("userId", userId);
+          const userRef = doc(db, "users", userId);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            return userDoc.data() as UserData;
+          }
+          return null;
+        });
+
+        // Wait for all promises to resolve
+        const resolvedUserData = await Promise.all(userDataPromises);
+        // Filter out any null values
+        setUserData(
+          resolvedUserData.filter((user) => user !== null) as UserData[]
+        );
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  return (
+    <div className="flex flex-col container gap-2 md:w-[50%]">
+      <h1 className="text-primary font-bold text-2xl">Video Chats</h1>
+      <div className="w-full  flex flex-col overflow-scroll ">
+        {videosWithMessages.map((video) => (
+          <button
+            key={video.videoNumber}
+            className="w-full relative border rounded-md p-2 hover:border-primary bg-foreground/40 px-4"
+          >
+            <div className="flex flex-col items-start gap-1">
+              <h1 className="text-primary text-lg">
+                Video #{video.videoNumber}
+              </h1>
+              <div className="flex text-muted-foreground">
+                {
+                  userData?.find(
+                    (u) =>
+                      u.uid ==
+                      video.messages[video.messages?.length - 1].senderId
+                  )?.firstName
+                }{" "}
+                : {video.messages[video.messages?.length - 1].message}
+              </div>
+            </div>
+            <span className="text-xs text-gray-400 absolute top-2 right-2">
+              {formatTimeDifference2(
+                video.messages[video.messages?.length - 1].timestamp
+              )}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export function FilterStatus({
   selectedStatus,

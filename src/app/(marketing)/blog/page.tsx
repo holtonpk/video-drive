@@ -8,7 +8,7 @@ import {notFound} from "next/navigation";
 
 export const generateMetadata = (): Metadata => {
   return {
-    title: `Whitespace | Blog`,
+    title: `Ripple Media| Blog`,
     description:
       "Read out latest thoughts and insights on the world of tech tool marketing",
     icons: {

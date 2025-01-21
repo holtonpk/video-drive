@@ -255,7 +255,7 @@ export function Editor({post}: {post: BlogPost}) {
   const saveAuthor = async (author: string) => {
     let authorData = {
       id: "team",
-      name: "Whitespace Team",
+      name: "Ripple MediaTeam",
       avatar: "logo",
     };
     if (author !== "team") {
@@ -435,7 +435,7 @@ export function Editor({post}: {post: BlogPost}) {
                       </SelectItem>
                     );
                   })}
-                  <SelectItem value={"team"}>Whitespace team</SelectItem>
+                  <SelectItem value={"team"}>Ripple Mediateam</SelectItem>
                 </SelectContent>
               </Select>
             )}

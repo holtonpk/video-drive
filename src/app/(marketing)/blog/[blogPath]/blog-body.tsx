@@ -122,7 +122,7 @@ const BlogBody = ({post}: {post: BlogPost}) => {
         </div>
         <div className="w-full p-4 bg-black/40 border mt-10 md:mt-20 rounded-sm  items-center flex flex-col text-center px-8 md:px-16 py-8 gap-2">
           <h1 className="text-2xl font1-bold">
-            Learn how Whitespace Media can help transform your startup
+            Learn how Ripple Media can help transform your startup
           </h1>
           <p className="text-sm text-muted-foreground">
             Running a startup is hard. Our teams have the experience and
