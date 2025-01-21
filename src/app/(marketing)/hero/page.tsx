@@ -20,8 +20,6 @@ export const Page = () => {
 export const Hero = () => {
   const playerHeight = 400;
 
-  const windowHeight = window.innerHeight;
-
   const [openPlayer, setOpenPlayer] = React.useState(false);
 
   return (
