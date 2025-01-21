@@ -23,6 +23,7 @@ async function getPost(path: string) {
     console.error(`Failed to fetch blog post: ${res.status} ${res.statusText}`);
     notFound(); // Trigger Next.js 404 page
   }
+  console.log("abc####:", res);
 
   try {
     const resData = await res.json();
