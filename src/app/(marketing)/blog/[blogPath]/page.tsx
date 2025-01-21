@@ -83,6 +83,8 @@ export default async function Page({
   const {blogPath} = await params;
   const postData = await getPost(blogPath);
 
+  console.log("postData===>", postData);
+
   return (
     <div className="dark flex flex-col h-fit min-h-screen">
       <Background />
