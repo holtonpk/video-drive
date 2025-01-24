@@ -5,7 +5,6 @@ import {Icons, Logo} from "@/components/icons";
 import {Button} from "@/components/ui/button";
 import {LinkButton} from "@/components/ui/link";
 import {useEffect, useState, useRef} from "react";
-import {Boxes} from "../hero/hero";
 
 export const Banner = () => {
   return (
@@ -39,7 +38,7 @@ export const Hero = () => {
           transition={{duration: 0.8, delay: 3}}
           className="absolute text-center whitespace-nowrap left-1/2 -translate-x-1/2 -translate-y-1/2 z-[80] flex flex-col"
         >
-          <h1 className="relative z-20 font1-bold text-8xl ">
+          <h1 className="relative z-20 font1-bold b-b text-3xl md:text-4xl lg:text-2xl xl:text-8xl">
             {" "}
             We Scale{" "}
             <span className="relative px-3  ">
@@ -47,7 +46,7 @@ export const Hero = () => {
                 initial={{width: "0%"}}
                 animate={{width: "100%"}}
                 transition={{duration: 0.8, delay: 4}}
-                className="absolute  h-[96px] bg-[rgb(52,244,175)] left-0 z-10 rounded-md   origin-left"
+                className="absolute h-[96px] bg-[rgb(52,244,175)] left-0 z-10 rounded-md origin-left"
               ></motion.span>
               <motion.div
                 initial={{width: "100%"}}

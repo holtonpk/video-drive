@@ -26,6 +26,9 @@ const Compare = () => {
 
   return (
     <div className="container mt-20">
+      <h1 className="text-4xl font1-bold text-center mb-8">
+        Other Agencies vs. Ripple Media
+      </h1>
       <div className="w-full border rounded-xl overflow-hidden grid grid-cols-[40%_1fr] divide-x-2 divide-y-2">
         <h1 className="p-4 text-2xl font1-bold bg-black/30 blurBack">
           What they do

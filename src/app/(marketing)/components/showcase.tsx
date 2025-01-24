@@ -24,7 +24,7 @@ export const Showcase = () => {
       <h1 className="text-primary font1-bold text-4xl md:text-6xl text-center">
         Showcase
       </h1>
-      <div className="flex flex-col gap-2 md:gap-4 md:w-[600px] w-[80%] items-start md:mx-auto ">
+      <div className="flex flex-col gap-2 md:gap-4 md:w-[600px] w-[80%] items-start mx-auto ">
         <div className="flex justify-center gap-1 md:gap-2 w-full flex-wrap text-center">
           {text.map((el, i) => (
             <motion.span
@@ -81,15 +81,13 @@ export const Showcase = () => {
 const VideoPlayer = ({video}: {video: string}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const [isPlaying, setIsPlaying] = React.useState(true);
+  const [isMuted, setIsMuted] = React.useState(true);
 
-  const togglePlay = () => {
-    if (isPlaying) {
-      videoRef.current?.pause();
-      setIsPlaying(false);
+  const toggleMute = () => {
+    if (isMuted) {
+      setIsMuted(false);
     } else {
-      videoRef.current?.play();
-      setIsPlaying(true);
+      setIsMuted(true);
     }
   };
 
@@ -105,7 +103,7 @@ const VideoPlayer = ({video}: {video: string}) => {
     >
       <div className="w-full relative  h-full bg-muted rounded-[6px] border">
         <button
-          onClick={togglePlay}
+          onClick={toggleMute}
           className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-transparent"
         >
           {/* {!isPlaying ? <Icons.play className="h-8 w-8 text-white" />} */}
@@ -115,8 +113,8 @@ const VideoPlayer = ({video}: {video: string}) => {
           src={video}
           className="w-full h-full object-cover rounded-[6px]"
           // controls
+          muted={isMuted}
           autoPlay
-          muted
           loop
         ></video>
       </div>

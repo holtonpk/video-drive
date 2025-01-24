@@ -16,6 +16,7 @@ import {delay} from "framer-motion";
 import DownArrow from "./components/down-arrow";
 import UseCases from "./components/use-cases";
 import Compare from "./components/compare";
+import {RippleEffect} from "./hero/hero";
 
 export const metadata = constructMetadata({
   title: "Ripple Media",
@@ -25,27 +26,27 @@ const HomePage = () => {
   return (
     <>
       {/* <LoadingScreen /> */}
-      <div className="dark ">
+      <div className="dark max-w-screen h-fit overflow-hidden over-x">
         <Background />
-        <div className="md:h-screen   min-w-screen   flex flex-col  overflow-hidden">
+        <RippleEffect />
+        <div className="md:h-screen max-w-screen  w-screen max-w-screen   flex flex-col  overflow-hidden">
           <Navbar show={false} />
-
-          <div className=" h-screen w-full   items-center justify-center  flex   relative">
+          <div className="h-[600px] md:h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex   relative">
             <Hero />
             <DownArrow />
           </div>
           {/* <Banner /> */}
         </div>
-        <div className="">
-          <IntroText />
-          <Stats />
-          <UseCases />
-          <Compare />
 
-          <Showcase />
-          <Process />
-          <CTA />
-        </div>
+        <IntroText />
+        <Stats />
+        <UseCases />
+        <Compare />
+
+        <Showcase />
+        {/* <Process /> */}
+        <CTA />
+
         {/* 
 
         <Testimonials />

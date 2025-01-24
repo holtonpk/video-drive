@@ -63,6 +63,12 @@
   }
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .font1-extra-bold {
   font-family: "Gabarito", sans-serif;
   font-optical-sizing: auto;
