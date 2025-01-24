@@ -33,7 +33,7 @@ export const Hero = () => {
         transition={{duration: 0.8, delay: 0.5}}
         className="absolute text-center whitespace-nowrap left-1/2  z-[999] flex flex-col items-center "
       >
-        <h1 className="relative z-20 font1-bold  text-3xl sm:text-5xl md:text-6xl lg:text-7xl  ">
+        <h1 className="relative z-20 font1-bold  text-4xl sm:text-5xl md:text-6xl lg:text-7xl  ">
           {" "}
           We Scale{" "}
           <span className="relative px-2  ">
@@ -58,7 +58,7 @@ export const Hero = () => {
             </motion.span>
           </span>
         </h1>
-        <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-6">
+        <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
           <motion.span
             initial={{opacity: 0}}
             animate={{opacity: 1}}
@@ -81,7 +81,7 @@ export const Hero = () => {
           initial={{opacity: 0}}
           animate={{opacity: 1}}
           transition={{duration: 2, delay: 1.8}}
-          className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/80 text-background font1-bold text-lg md:text-2xl mt-8 uppercase flex items-center gap-1 relative pr-[52px] group"
+          className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/80 text-background font1-bold text-lg md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group"
         >
           Get my custom social media plan
           <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
@@ -134,10 +134,10 @@ export const Hero = () => {
         animate={{translateX: "0%"}}
         transition={{duration: 0.8, delay: 1.8}}
         onClick={() => setOpenPlayer(true)}
-        className="fixed bottom-8 right-0 flex gap-2 font1-bold text-[#34F4AF] items-center text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99]"
+        className="fixed bottom-8 right-0 flex gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99]"
       >
         <div className="rounded-full p-2 bg-[#34F4AF]">
-          <Icons.play className="h-6 w-6 fill-background text-background" />
+          <Icons.play className="md:h-6 md:w-6 h-4 w-4 fill-background text-background" />
         </div>
         What is Ripple Media?
       </motion.button>
