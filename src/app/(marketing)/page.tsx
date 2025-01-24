@@ -2,7 +2,6 @@ import Background from "@/src/app/(marketing)/components/background";
 import Navbar from "@/src/app/(marketing)/components/navbar";
 import Footer from "@/src/app/(marketing)/components/footer";
 import LoadingScreen from "@/src/app/(marketing)/components/loading-screen";
-import {Hero} from "@/src/app/(marketing)/hero/page";
 import {Stats} from "@/src/app/(marketing)/components/stats";
 import {Testimonials} from "@/src/app/(marketing)/components/testimonials";
 import {Faq} from "@/src/app/(marketing)/components/faq";
@@ -16,7 +15,7 @@ import {delay} from "framer-motion";
 import DownArrow from "./components/down-arrow";
 import UseCases from "./components/use-cases";
 import Compare from "./components/compare";
-import {RippleEffect} from "./hero/hero";
+import {RippleEffect, Hero} from "./hero/hero";
 
 export const metadata = constructMetadata({
   title: "Ripple Media",
