@@ -152,14 +152,20 @@ export const RippleEffect = () => {
     zIndex: number;
   };
 
-  const ringArray: Box[] = Array.from({length: 20}, (_, i) => ({
-    height: window.innerWidth > 400 ? 600 + i * 50 : 100 + i * 50,
-    width: window.innerWidth > 400 ? 600 + i * 50 : 100 + i * 50,
-    zIndex: 10 - i, // zIndex starts at 10 for the smallest box
-  }));
+  const [ringArray, setRingArray] = useState<Box[]>([]);
 
-  console.log("abc", window.innerWidth);
+  useEffect(() => {
+    // This ensures the code runs only on the client side
+    const isLargeScreen = window.innerWidth > 400;
 
+    const rings: Box[] = Array.from({length: 20}, (_, i) => ({
+      height: isLargeScreen ? 600 + i * 50 : 100 + i * 50,
+      width: isLargeScreen ? 600 + i * 50 : 100 + i * 50,
+      zIndex: 10 - i, // zIndex starts at 10 for the smallest box
+    }));
+
+    setRingArray(rings);
+  }, []);
   return (
     <>
       {ringArray.map((ring, i) => (
