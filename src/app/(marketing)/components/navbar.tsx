@@ -98,7 +98,7 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
               transition={!show ? {delay: 1.8, duration: 1} : {delay: 0}}
               exit={{y: -100, opacity: 0}}
               className={
-                "fixed top-0  py-4  h-[80px] w-screen px-4 md:px-8 z-[90] "
+                "fixed top-0  py-4  h-[80px] w-screen px-4 md:px-8 z-[100] "
               }
             >
               <div

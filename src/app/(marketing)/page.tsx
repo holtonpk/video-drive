@@ -30,7 +30,7 @@ const HomePage = () => {
         <RippleEffect />
         <div className="md:h-screen max-w-screen  w-screen max-w-screen   flex flex-col  overflow-hidden">
           <Navbar show={false} />
-          <div className="h-[600px] md:h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex   relative">
+          <div className="h-[600px] md:h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex z-30 relative">
             <Hero />
             <DownArrow />
           </div>

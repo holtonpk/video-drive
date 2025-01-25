@@ -1051,7 +1051,6 @@ const UploadedVideoReview = ({
 
   useEffect(() => {
     if (!videoData) return;
-    console.log("setttting 111s", videoData.status);
     setIsReviewed(
       (currentUser?.uid &&
         videoData.videoReviewed?.includes(currentUser?.uid)) ||
@@ -1354,7 +1353,7 @@ const UploadedVideoReview = ({
               </div>
               <div className="flex flex-col w-full gap-4  items-center">
                 <div className=" flex flex-col p-4 gap-4  flex-grow border  rounded-md w-[90%] ">
-                  {isReviewed && selectedVideo?.needsRevision && (
+                  {selectedVideo?.needsRevision && (
                     <div className="w-full  relative h-full  rounded-md  flex flex-col gap-2">
                       <div className="flex items-center w-full justify-between">
                         <Label className="text-xl font-bold" htmlFor="notes">
@@ -1401,7 +1400,7 @@ const UploadedVideoReview = ({
                       </Button>
                     </div>
                   )}
-                  {!isReviewed && (
+                  {!isReviewed && !selectedVideo?.needsRevision && (
                     <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow">
                       <Button
                         onClick={markAsReadyToPost}
@@ -1415,6 +1414,35 @@ const UploadedVideoReview = ({
                         onClick={markAsNeedsRevision}
                       >
                         Video needs revision
+                      </Button>
+                    </div>
+                  )}
+                  {isReviewed &&
+                    !selectedVideo?.isReadyToPost &&
+                    !selectedVideo?.needsRevision && (
+                      <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow ">
+                        <Button
+                          onClick={markAsReadyToPost}
+                          className="bg-green-500 hover:bg-green-600 text-white w-full"
+                        >
+                          Mark as ready to post
+                        </Button>
+                        <Button
+                          className="w-full"
+                          variant={"destructive"}
+                          onClick={markAsNeedsRevision}
+                        >
+                          Video needs revision
+                        </Button>
+                      </div>
+                    )}
+                  {!isReviewed && selectedVideo?.needsRevision && (
+                    <div className="flex flex-col gap-2 w-full items-center justify-center  flex-grow">
+                      <Button
+                        onClick={markAsNeedsRevision}
+                        className="bg-green-500 hover:bg-green-600 text-white w-full"
+                      >
+                        Agree with revision
                       </Button>
                     </div>
                   )}

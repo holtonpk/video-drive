@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {platforms, Post} from "@/config/data";
+import {platforms, Post, VideoData} from "@/config/data";
 
 import {VideoProvider, useVideo} from "../data/video-context";
 import {setDoc, doc, collection, getDoc, deleteDoc} from "firebase/firestore";
@@ -173,7 +173,7 @@ function PostSelector({
   selectedPost: Post;
   setSelectedPost: React.Dispatch<React.SetStateAction<Post | undefined>>;
 }) {
-  const {video} = useVideo()!;
+  const {video, setVideo} = useVideo()!;
   const {currentUser} = useAuth()!;
 
   const deletePost = async (postId: string) => {
@@ -582,18 +582,11 @@ function VideoDisplay({
   };
 
   async function saveFileToFirebase(file: File) {
-    console.log("post", post);
-
-    if (!post) return;
+    console.log("saving file to firebase");
     const storage = getStorage(app);
-    const storageRef = ref(
-      storage,
-      `post/${post.id + "." + getFileExtension(file.name)}`
-    );
-
+    const storageRef = ref(storage, `video/${file.name}`);
     // Start the file upload
     const uploadTask = uploadBytesResumable(storageRef, file);
-
     // Return a promise that resolves with the download URL
     // after the upload is complete
     return new Promise((resolve, reject) => {
@@ -603,6 +596,7 @@ function VideoDisplay({
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setUploadProgress(progress); // Update the upload progress state
+          console.log("Upload is " + progress + "% done");
         },
         (error) => {
           // Handle unsuccessful uploads
@@ -612,31 +606,37 @@ function VideoDisplay({
         async () => {
           // Handle successful uploads on complete
           try {
-            if (!posts) return;
             const fileUrl = await getDownloadURL(uploadTask.snapshot.ref);
             resolve(fileUrl);
             // save the file url to the video
-            const postId: string = post ? post?.id : posts[0].id;
+            const newUploadedVideo = {
+              id: video.uploadedVideos ? video?.uploadedVideos.length + 1 : 1,
+              title: file.name,
+              videoURL: fileUrl,
+            };
             await setDoc(
-              doc(db, "posts", postId),
+              doc(db, "videos", video.videoNumber.toString()),
               {
-                videoURL: fileUrl,
+                uploadedVideos: video.uploadedVideos
+                  ? [...video.uploadedVideos, newUploadedVideo]
+                  : [newUploadedVideo],
                 updatedAt: {date: new Date(), user: currentUser?.firstName},
+                status: "done",
+                videoReviewed: [],
               },
               {
                 merge: true,
               }
             );
-
-            const postRef = await getDoc(doc(db, "posts", postId));
-            const postData = postRef.data() as Post;
-            console.log("postData ******", postData);
-            // update the post in the posts array with new video url
-            const postIndex = posts.findIndex((post) => post.id === postId);
-            const newPosts = [...posts];
-            newPosts[postIndex] = postData;
-            setPosts(newPosts);
-            setPost(postData);
+            setVideo(
+              (prev) =>
+                ({
+                  ...prev,
+                  uploadedVideos: video.uploadedVideos
+                    ? [...video.uploadedVideos, newUploadedVideo]
+                    : [newUploadedVideo],
+                } as VideoData)
+            );
           } catch (error) {
             reject(error);
           }
@@ -645,15 +645,14 @@ function VideoDisplay({
     });
   }
 
-  const {video} = useVideo()!;
-
   async function onFileChange(e: any) {
-    console.log(e.target.files);
     const file = e.target.files[0];
     setIsUploading(true);
     await saveFileToFirebase(file);
     setIsUploading(false);
   }
+
+  const {video, setVideo} = useVideo()!;
 
   async function removeVideo() {
     if (!posts || !post) return;
@@ -835,19 +834,34 @@ function VideoDisplay({
                 </div>
               );
             })}
+            {isUploading && (
+              <div className="w-full text-foreground border rounded-md p-4 flex  items-center justify-between gap-4">
+                <h1 className="text-primary font-bold whitespace-nowrap text-base">
+                  Uploading Video
+                </h1>
+                <Progress
+                  value={uploadProgress}
+                  className="bg-muted-foreground"
+                />
+                <span className="text-primary w-[80px] ">
+                  {Math.round(uploadProgress)}%
+                </span>
+              </div>
+            )}
+            <input
+              type="file"
+              id="selectedFile2"
+              className="hidden"
+              onChange={onFileChange}
+            />
+            <button
+              onClick={() => document.getElementById("selectedFile2")?.click()}
+              className="h-fit justify-center   p-2  text-center rounded-md w-full bg-blue-500/20 hover:bg-blue-500/50 text-blue-500 flex items-center"
+            >
+              <Icons.add className="h-6 w-6 mr-1" />
+              Click to Upload
+            </button>
           </div>
-        </div>
-      )}
-
-      {isUploading && (
-        <div className="w-full text-foreground border rounded-md p-4 flex  items-center justify-between gap-4">
-          <h1 className="text-primary font-bold whitespace-nowrap">
-            Uploading Video
-          </h1>
-          <Progress value={uploadProgress} className="bg-muted-foreground" />
-          <span className="text-primary w-[80px] ">
-            {Math.round(uploadProgress)}%
-          </span>
         </div>
       )}
     </div>

@@ -3,6 +3,8 @@ import React from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import {useEffect, useState, useRef} from "react";
 import {Icons} from "@/components/icons";
+import Link from "next/link";
+import {TypeAnimation} from "react-type-animation";
 
 export const Hero = () => {
   const playerHeight = 400;
@@ -58,7 +60,33 @@ export const Hero = () => {
             </motion.span>
           </span>
         </h1>
-        <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
+
+        <motion.span
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          transition={{duration: 1, delay: 0.9}}
+          className="text-2xl md:text-4xl text-white flex justify-start w-[250px] md:w-[350px] gap-2 font1-bold mt-3 md:mt-6"
+        >
+          with
+          <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              " Short Form Content",
+              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              " Content Marketing",
+              1000,
+              " Social Media",
+              1000,
+              " Brand Awareness",
+              1000,
+            ]}
+            wrapper="span"
+            speed={10}
+            repeat={Infinity}
+            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)]"
+          />
+        </motion.span>
+        {/* <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
           <motion.span
             initial={{opacity: 0}}
             animate={{opacity: 1}}
@@ -73,21 +101,26 @@ export const Hero = () => {
             transition={{duration: 2, delay: 1.3}}
             className="text-2xl md:text-4xl"
           >
-            {/* <RotatingWords /> */}
+
             short form content
           </motion.span>
-        </span>
-        <motion.button
+        </span> */}
+
+        <motion.div
           initial={{opacity: 0}}
           animate={{opacity: 1}}
           transition={{duration: 2, delay: 1.8}}
-          className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/80 text-background font1-bold text-lg md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group"
         >
-          Get my custom social media plan
-          <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
-        </motion.button>
+          <Link
+            href={"/content-plan"}
+            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-lg md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
+          >
+            Get my custom social media plan
+            <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
+          </Link>
+        </motion.div>
       </motion.div>
-      {/* <RippleEffect /> */}
+
       <AnimatePresence>
         {openPlayer && (
           <motion.div
@@ -132,14 +165,26 @@ export const Hero = () => {
       <motion.button
         initial={{translateX: "100%"}}
         animate={{translateX: "0%"}}
-        transition={{duration: 0.8, delay: 1.8}}
+        transition={{duration: 0.8, delay: 2}}
         onClick={() => setOpenPlayer(true)}
-        className="fixed bottom-8 right-0 flex gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99]"
+        className="fixed bottom-8 right-0 flex gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99] overflow-hidden group"
       >
-        <div className="rounded-full p-2 bg-[#34F4AF]">
-          <Icons.play className="md:h-6 md:w-6 h-4 w-4 fill-background text-background" />
+        <div
+          className="w-full h-full  absolute left-0 top-0 z-10"
+          style={{
+            opacity: 0.8,
+            backgroundColor: "transparent",
+            backgroundImage: `radial-gradient( transparent 1px,  #151618 1px)`,
+            backgroundSize: "4px 4px",
+          }}
+        />
+        <div className="rounded-full p-2 bg-[#34F4AF] relative z-20 group-hover:scale-[1.1] transition-all duration-300">
+          <span className="absolute  h-full w-full animate-ping rounded-full bg-[#34F4AF] opacity-50 left-0 top-0 z-10 play-ping-animation group-hover:inline-flex hidden" />
+          <Icons.play className="md:h-6 md:w-6 h-4 w-4 fill-background text-background relative z-20" />
         </div>
-        What is Ripple Media?
+        <span className="relative z-20 group-hover:text-white transition-all duration-300">
+          What is Ripple Media?
+        </span>
       </motion.button>
     </>
   );
