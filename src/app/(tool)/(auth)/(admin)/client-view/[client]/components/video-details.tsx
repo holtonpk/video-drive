@@ -335,7 +335,11 @@ const EditorSelector = ({
     fetchEditors();
   }, []);
 
-  console.log("editors", editors);
+  useEffect(() => {
+    if (selectedEditor !== undefined && selectedEditor !== editor) {
+      setEditor(selectedEditor);
+    }
+  }, [selectedEditor]);
 
   return (
     <>
