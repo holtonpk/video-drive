@@ -121,7 +121,7 @@ export const Hero = () => {
         </motion.div>
       </motion.div>
       <motion.div
-        initial={{top: "50%", translateY: "-50%", translateX: "-50%"}}
+        initial={{top: "350px", translateY: "-50%", translateX: "-50%"}}
         animate={{
           // top: screenWidth > 600 ? 120 + playerHeight : 140,
           top: "300px",
@@ -134,12 +134,12 @@ export const Hero = () => {
         <h1 className="relative z-20 font1-bold  text-4xl sm:text-5xl md:text-6xl lg:text-7xl  ">
           {" "}
           We Scale{" "}
-          <span className="relative px-2  ">
+          <span className="relative px-1">
             <motion.span
               initial={{width: "0%"}}
               animate={{width: "100%"}}
               transition={{duration: 0.8, delay: 0.5}}
-              className="absolute h-[40px] sm:h-[48px] md:h-[72px] bg-[rgb(52,244,175)] left-0 z-10 rounded-md   origin-left"
+              className="absolute h-[40px] sm:h-[48px] md:h-[72px] bg-[rgb(52,244,175)] left-0 z-10 rounded-sm   origin-left"
             ></motion.span>
             <motion.div
               initial={{width: "100%"}}
@@ -147,7 +147,7 @@ export const Hero = () => {
               transition={{duration: 0.8, delay: 0.5}}
               className="absolute z-30  right-0 top-1/2 -translate-y-1/2 overflow-hidden    h-[40px] sm:h-[48px] md:h-[72px]"
             >
-              <span className="absolute  text-white right-0 px-3">
+              <span className="absolute  text-white right-0 px-2">
                 Tech Tools
               </span>
             </motion.div>
