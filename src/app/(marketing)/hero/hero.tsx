@@ -113,7 +113,7 @@ export const Hero = () => {
         >
           <Link
             href={"/content-plan"}
-            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-lg md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
+            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-base md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
           >
             Get my custom social media plan
             <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />

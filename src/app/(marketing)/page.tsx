@@ -25,12 +25,14 @@ const HomePage = () => {
   return (
     <>
       {/* <LoadingScreen /> */}
-      <div className="dark max-w-screen h-fit overflow-hidden over-x">
+      <div className="dark max-w-screen relative h-fit overflow-hidden over-x">
         <Background />
-        <RippleEffect />
+        <div className="h-screen w-screen absolute ">
+          <RippleEffect />
+        </div>
         <div className="md:h-screen max-w-screen  w-screen max-w-screen   flex flex-col  overflow-hidden">
           <Navbar show={false} />
-          <div className="h-[600px] md:h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex z-30 relative">
+          <div className="h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex z-30 relative s">
             <Hero />
             <DownArrow />
           </div>
