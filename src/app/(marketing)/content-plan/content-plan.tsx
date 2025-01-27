@@ -7,6 +7,7 @@ import * as z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {LinkButton} from "@/components/ui/link";
 import axios from "axios";
+import Image from "next/image";
 
 import {
   Form,
@@ -48,22 +49,24 @@ export const ContentPlanForm = () => {
   });
 
   return (
-    <div className="container z-30 relative  flex flex-col justify-center  items-center gap-10 md:w-[1200px] h-fit py-[80px]">
+    <div className="container z-30 relative  flex flex-col justify-center  items-center  gap-6 md:w-[1200px] h-fit py-[80px]">
       {step < 5 ? (
-        <h1 className="text-4xl md:text-6xl font1-bold text-center">
+        <h1 className="text-3xl md:text-5xl font1-bold text-center">
           Get Your Free Personalized Social Media Content Plan ...in under 30
           seconds.
         </h1>
       ) : (
-        <h1 className="text-4xl md:text-6xl font1-bold text-center">
+        <h1 className="text-3xl md:text-6xl font1-bold text-center">
           Check your email for your Personalized Social Media Content Plan!
         </h1>
       )}
-      <div className="grid grid-cols-3 w-full items-center">
-        <div className="w-[90%] aspect-video bg-white rounded-md "></div>
-        <div className="w-full aspect-video bg-white rounded-md"></div>
-        <div className="w-[90%] aspect-video bg-white rounded-md ml-auto"></div>
-      </div>
+      <Image
+        width={800}
+        height={268}
+        alt="demo"
+        src="/demo.png"
+        className="w-full max-w-[800px]"
+      />
 
       {step === 1 && (
         <Step1
@@ -117,12 +120,20 @@ const Step1 = ({
   const [isSuccess, setIsSuccess] = React.useState(false);
 
   const ContactFormSchema = z.object({
-    first_name: z.string({
-      required_error: "Please enter your first name.",
-    }),
-    last_name: z.string({
-      required_error: "Please enter your last name.",
-    }),
+    first_name: z
+      .string({
+        required_error: "Please enter your first name.",
+      })
+      .min(2, {
+        message: "Please enter a valid first name.",
+      }),
+    last_name: z
+      .string({
+        required_error: "Please enter your last name.",
+      })
+      .min(2, {
+        message: "Please enter a valid last name.",
+      }),
   });
   type ContactFormValue = z.infer<typeof ContactFormSchema>;
 
@@ -184,9 +195,9 @@ const Step1 = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 md:w-[80%]"
+        className="flex flex-col gap-6 w-full md:w-[80%]"
       >
-        <span className="text-4xl font1">
+        <span className="text-2xl md:text-4xl font1 text-center md:text-left">
           What&apos;s Your
           <span className="font1-bold "> Name?</span>
         </span>
@@ -207,7 +218,7 @@ const Step1 = ({
                         first_name: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.first_name
                 ? "focus-visible:ring-red-600"
@@ -237,7 +248,7 @@ const Step1 = ({
                       }));
                     }}
                     placeholder="Last Name"
-                    className={`bg-white/5 blurBack text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.last_name
                 ? "focus-visible:ring-red-600"
@@ -253,7 +264,7 @@ const Step1 = ({
           />
         </div>
         <Button
-          className="text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+          className="text-xl md:text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
           //   onClick={() => setStep(2)}
         >
           {isLoading ? (
@@ -341,9 +352,9 @@ const Step2 = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 md:w-[80%]"
+        className="flex flex-col gap-6  w-full md:w-[80%]"
       >
-        <span className="text-4xl font1">
+        <span className="text-2xl md:text-4xl font1 text-center md:text-left">
           Where should we
           <span className="font1-bold "> email </span>
           it to?
@@ -365,7 +376,7 @@ const Step2 = ({
                         email: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-2xl py-4 h-fit placeholder:uppercase
+                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase
           ${
             form.formState.errors.email
               ? "focus-visible:ring-red-600"
@@ -382,7 +393,7 @@ const Step2 = ({
         </div>
         <div className="flex flex-col gap-2">
           <Button
-            className="text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+            className="text-xl md:text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
             //   onClick={() => setStep(2)}
           >
             {isLoading ? (
@@ -482,9 +493,9 @@ const Step3 = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 md:w-[80%]"
+        className="flex flex-col gap-6  w-full md:w-[80%]"
       >
-        <span className="text-4xl font1">
+        <span className="text-2xl md:text-4xl font1 text-center md:text-left">
           What is your
           <span className="font1-bold "> phone number?</span>
         </span>
@@ -499,7 +510,7 @@ const Step3 = ({
                     initialValueFormat="national"
                     international={true}
                     defaultCountry="US"
-                    className={` ring-offset-background
+                    className={` ring-offset-background text-lg md:text-2xl
                         ${
                           form.formState.errors.phone
                             ? "ring-red-600"
@@ -524,7 +535,7 @@ const Step3 = ({
         <div className="flex flex-col gap-2">
           <Button
             type="submit"
-            className="text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+            className="text-xl md:text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
           >
             {isLoading ? (
               <Icons.spinner className="h-8 w-8 text-background animate-spin" />
@@ -658,9 +669,9 @@ const Step4 = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-8 md:w-[80%]"
+        className="flex flex-col gap-6  w-full md:w-[80%]"
       >
-        <span className="text-4xl font1">
+        <span className="text-2xl md:text-4xl font1 text-center md:text-left">
           Tell us about your
           <span className="font1-bold "> Business</span>
         </span>
@@ -681,7 +692,7 @@ const Step4 = ({
                         business_name: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.business_name
                 ? "focus-visible:ring-red-600"
@@ -713,7 +724,7 @@ const Step4 = ({
                         role: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.role
                 ? "focus-visible:ring-red-600"
@@ -731,7 +742,7 @@ const Step4 = ({
         <div className="flex flex-col gap-2">
           <Button
             type="submit"
-            className="text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+            className="text-xl md:text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
           >
             {isLoading ? (
               <Icons.spinner className="h-8 w-8 text-background animate-spin" />
@@ -756,14 +767,14 @@ const Step4 = ({
 const Success = () => {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-2xl w-full md:w-[80%] mx-auto text-center">
+      <p className="text-xl md:text-2xl w-full md:w-[80%] mx-auto text-center">
         We&apos;ll get started creating your plan. We should have is built in
         the next few days. In the meantime, you can contact us directly to learn
         more about our process.
       </p>
       <LinkButton
         href="/work-with-us"
-        className="text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+        className="text-xl md:text-3xl py-4 h-fit w-full md:w-[80%] mx-auto font1-bold rounded-full bg-[#34F4AF] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
       >
         Contact Us
       </LinkButton>
