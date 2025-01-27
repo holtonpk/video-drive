@@ -33,7 +33,7 @@ export const Hero = () => {
           translateX: "-50%",
         }}
         transition={{duration: 0.8, delay: 0.5}}
-        className="absolute text-center whitespace-nowrap left-1/2  z-[999] flex flex-col items-center "
+        className="absolute text-center whitespace-nowrap left-1/2  z-[999] hidden md:flex flex-col items-center "
       >
         <h1 className="relative z-20 font1-bold  text-4xl sm:text-5xl md:text-6xl lg:text-7xl  ">
           {" "}
@@ -120,7 +120,102 @@ export const Hero = () => {
           </Link>
         </motion.div>
       </motion.div>
+      <motion.div
+        initial={{top: "50%", translateY: "-50%", translateX: "-50%"}}
+        animate={{
+          // top: screenWidth > 600 ? 120 + playerHeight : 140,
+          top: "300px",
+          translateY: "-50%",
+          translateX: "-50%",
+        }}
+        transition={{duration: 0.8, delay: 0.5}}
+        className="absolute md:hidden text-center whitespace-nowrap left-1/2  z-[999] flex flex-col items-center "
+      >
+        <h1 className="relative z-20 font1-bold  text-4xl sm:text-5xl md:text-6xl lg:text-7xl  ">
+          {" "}
+          We Scale{" "}
+          <span className="relative px-2  ">
+            <motion.span
+              initial={{width: "0%"}}
+              animate={{width: "100%"}}
+              transition={{duration: 0.8, delay: 0.5}}
+              className="absolute h-[40px] sm:h-[48px] md:h-[72px] bg-[rgb(52,244,175)] left-0 z-10 rounded-md   origin-left"
+            ></motion.span>
+            <motion.div
+              initial={{width: "100%"}}
+              animate={{width: "0%"}}
+              transition={{duration: 0.8, delay: 0.5}}
+              className="absolute z-30  right-0 top-1/2 -translate-y-1/2 overflow-hidden    h-[40px] sm:h-[48px] md:h-[72px]"
+            >
+              <span className="absolute  text-white right-0 px-3">
+                Tech Tools
+              </span>
+            </motion.div>
+            <motion.span className="relative z-20  text-[rgb(21,21,25)]">
+              Tech Tools
+            </motion.span>
+          </span>
+        </h1>
 
+        <motion.span
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          transition={{duration: 1, delay: 0.9}}
+          className="text-2xl md:text-4xl text-white flex justify-start w-[250px] md:w-[350px] gap-2 font1-bold mt-3 md:mt-6"
+        >
+          with
+          <TypeAnimation
+            sequence={[
+              // Same substring at the start will only be typed out once, initially
+              " Short Form Content",
+              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              " Content Marketing",
+              1000,
+              " Social Media",
+              1000,
+              " Brand Awareness",
+              1000,
+            ]}
+            wrapper="span"
+            speed={10}
+            repeat={Infinity}
+            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)]"
+          />
+        </motion.span>
+        {/* <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
+          <motion.span
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            transition={{duration: 1, delay: 0.9}}
+            className="text-2xl md:text-4xl text-white"
+          >
+            with
+          </motion.span>
+          <motion.span
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            transition={{duration: 2, delay: 1.3}}
+            className="text-2xl md:text-4xl"
+          >
+
+            short form content
+          </motion.span>
+        </span> */}
+
+        <motion.div
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          transition={{duration: 2, delay: 1.8}}
+        >
+          <Link
+            href={"/content-plan"}
+            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-sm md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
+          >
+            Get my custom social media plan
+            <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
+          </Link>
+        </motion.div>
+      </motion.div>
       <AnimatePresence>
         {openPlayer && (
           <motion.div
@@ -187,11 +282,11 @@ export const Hero = () => {
         </span>
       </motion.button>
       <motion.button
-        initial={{translateX: "0%"}}
-        animate={{translateX: "-50%"}}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
         transition={{duration: 0.8, delay: 2}}
         onClick={() => setOpenPlayer(true)}
-        className="absolute bottom-40 left-1/2 md:hidden flex  gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-md border border-[#34F4AF] z-[99] overflow-hidden group"
+        className="absolute bottom-40 -translate-x-1/2 left-1/2 md:hidden flex  gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-md border border-[#34F4AF] z-[99] overflow-hidden group"
       >
         <div
           className="w-full h-full  absolute left-0 top-0 z-10"
@@ -237,45 +332,88 @@ export const RippleEffect = () => {
   }, []);
   return (
     <>
-      {ringArray.map((ring, i) => (
-        <>
-          {i > 0 && (
-            <motion.div
-              initial={{
-                // rotate: 8 * i,
-                translateX: "-50%",
-                translateY: "-50%",
-                scale: 1,
-                opacity: 0.6,
-              }}
-              animate={{scale: 1.02, opacity: i * 0.05 * 0.6}}
-              transition={{
-                scale: {
-                  duration: 0.5,
-                  delay: 0.5 + i * 0.04,
-                  ease: "easeInOut",
-                  repeatDelay: 3,
-                  repeat: Infinity,
-                },
-                opacity: {
-                  duration: 0.5,
-                  delay: 0.5 + i * 0.04,
-                  repeatDelay: 3,
-                  repeat: Infinity,
-                },
-              }}
-              key={i}
-              style={{
-                willChange: "transform",
-                height: ring.height,
-                width: ring.width,
-                zIndex: ring.zIndex,
-              }}
-              className="absolute top-1/2 left-1/2  border-[rgb(52,244,175)] rounded-full border-[1px]   z-20 inlay-shadow origin-center"
-            />
-          )}
-        </>
-      ))}
+      <div className="md:hidden block">
+        {ringArray.map((ring, i) => (
+          <>
+            {i > 0 && (
+              <motion.div
+                initial={{
+                  // rotate: 8 * i,
+                  translateX: "-50%",
+                  translateY: "-50%",
+                  scale: 1,
+                  opacity: 0.6,
+                }}
+                animate={{scale: 1.02, opacity: i * 0.05 * 0.6}}
+                transition={{
+                  scale: {
+                    duration: 0.5,
+                    delay: 0.5 + i * 0.04,
+                    ease: "easeInOut",
+                    repeatDelay: 3,
+                    repeat: Infinity,
+                  },
+                  opacity: {
+                    duration: 0.5,
+                    delay: 0.5 + i * 0.04,
+                    repeatDelay: 3,
+                    repeat: Infinity,
+                  },
+                }}
+                key={i}
+                style={{
+                  willChange: "transform",
+                  height: ring.height,
+                  width: ring.width,
+                  zIndex: ring.zIndex,
+                }}
+                className="absolute top-[300px] left-1/2  border-[rgb(52,244,175)] rounded-full border-[1px]   z-20 inlay-shadow origin-center"
+              />
+            )}
+          </>
+        ))}
+      </div>
+      <div className="hidden md:block">
+        {ringArray.map((ring, i) => (
+          <>
+            {i > 0 && (
+              <motion.div
+                initial={{
+                  // rotate: 8 * i,
+                  translateX: "-50%",
+                  translateY: "-50%",
+                  scale: 1,
+                  opacity: 0.6,
+                }}
+                animate={{scale: 1.02, opacity: i * 0.05 * 0.6}}
+                transition={{
+                  scale: {
+                    duration: 0.5,
+                    delay: 0.5 + i * 0.04,
+                    ease: "easeInOut",
+                    repeatDelay: 3,
+                    repeat: Infinity,
+                  },
+                  opacity: {
+                    duration: 0.5,
+                    delay: 0.5 + i * 0.04,
+                    repeatDelay: 3,
+                    repeat: Infinity,
+                  },
+                }}
+                key={i}
+                style={{
+                  willChange: "transform",
+                  height: ring.height,
+                  width: ring.width,
+                  zIndex: ring.zIndex,
+                }}
+                className="absolute top-1/2 left-1/2  border-[rgb(52,244,175)] rounded-full border-[1px]   z-20 inlay-shadow origin-center"
+              />
+            )}
+          </>
+        ))}
+      </div>
     </>
   );
 };
