@@ -171,7 +171,7 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
                   href="/work-with-us"
                   className={cn(
                     buttonVariants({variant: "outline"}),
-                    " capitalize rounded-[4px] bg-primary  font1 text-background hover:bg-primary hover:text-background transition-colors duration-500"
+                    " capitalize rounded-[4px]  text-[#34F4AF] bg-transparent blurBack border-[#34F4AF] hover:bg-[#34F4AF]  font1   hover:text-background transition-colors duration-500"
                   )}
                 >
                   Get in touch

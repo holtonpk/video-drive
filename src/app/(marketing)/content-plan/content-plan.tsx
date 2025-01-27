@@ -49,7 +49,7 @@ export const ContentPlanForm = () => {
   });
 
   return (
-    <div className="container z-30 relative  flex flex-col justify-center  items-center  gap-6 md:w-[1200px] h-fit py-[80px]">
+    <div className="container z-30 relative  flex flex-col justify-center  items-center  gap-6 md:w-[1200px] h-fit pb-[80px]">
       {step < 5 ? (
         <h1 className="text-3xl md:text-5xl font1-bold text-center">
           Get Your Free Personalized Social Media Content Plan ...in under 30

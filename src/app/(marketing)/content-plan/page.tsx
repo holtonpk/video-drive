@@ -16,7 +16,7 @@ const Page = () => {
       <div className="dark flex flex-col h-fit min-h-screen">
         <Background />
         <div className="   min-w-screen   flex flex-col  overflow-hidden">
-          <Navbar show={true} />
+          <Navbar show={true} isRelative={true} />
           <ContentPlanForm />
         </div>
         <div className="mt-auto">
