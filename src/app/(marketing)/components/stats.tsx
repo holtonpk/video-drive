@@ -19,7 +19,8 @@ export const Stats = () => {
     {
       title: "Leads Generated",
       value: 10000,
-      description: "Our content is driving thousands of qualified leads week",
+      description:
+        "Our content is driving thousands of qualified leads per week",
     },
     {
       title: "Followers",
