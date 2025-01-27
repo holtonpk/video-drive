@@ -13,21 +13,21 @@ const UseCases = () => {
         <ClientCard
           name="Blaze"
           description="Blaze uses AI to help small and medium businesses create custom content that feels true to their brand. Whether it’s social media posts, blogs, newsletters, or even websites, Blaze makes sure everything matches your style and voice. It’s an easy way to save time and create content that connects with your audience."
-          logo={<BlazeFlat className="b-b w-full h-auto" />}
+          logo={<BlazeFlat className="w-full h-auto" />}
           id="blaze"
         />
 
         <ClientCard
           name="Morty"
           description="Morty is a free app that helps you find, track, and review immersive attractions from all over the world. Whether it’s a mind-blowing experience in a strip mall or a warehouse-turned-wonderland, Morty brings it all together in one place. It’s an easy way to explore the best immersive experiences out there and stay connected with a global community."
-          logo={<MortyFlat />}
+          logo={<MortyFlat className="w-full h-auto" />}
           id="morty"
         />
 
         <ClientCard
           name="Founder Central"
           description="Founder Central is a media company dedicated to showcasing the success stories of the most inspiring founders and uncovering emerging business opportunities. Targeted at the Gen Z audience, they define themselves as the #1 place for future billionaires, offering insights and inspiration to the next wave of entrepreneurs"
-          logo={<FcFlat />}
+          logo={<FcFlat className="w-full h-auto" />}
           id="founderCentral"
         />
       </div>

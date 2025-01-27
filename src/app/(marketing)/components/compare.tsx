@@ -29,20 +29,25 @@ const Compare = () => {
       <h1 className="text-4xl font1-bold text-center mb-8">
         Other Agencies vs. Ripple Media
       </h1>
-      <div className="w-full border rounded-xl overflow-hidden grid grid-cols-[40%_1fr] divide-x-2 divide-y-2">
-        <h1 className="p-4 text-2xl font1-bold bg-black/30 blurBack">
+      <div className="w-full border rounded-xl overflow-hidden grid grid-cols-[40%_1fr]  divide-x divide-y">
+        <h1 className="p-4 text-xl md:text-2xl font1-bold bg-black/30 blurBack">
           What they do
         </h1>
-        <h1 className="p-4 text-2xl font1-bold bg-[#34F4AF] text-background">
+        <h1 className="p-4 text-xl md:text-2xl font1-bold bg-[#34F4AF] text-background">
           What Ripple Media does{" "}
         </h1>
 
         {text.map((el, i) => (
           <>
-            <div className="h-fit items-center flex ">
-              <p className="text-xl p-4  ">{el.them}</p>
+            <div className="h-fit items-center flex w-full relative">
+              <p
+                lang="en"
+                className="text-md md:text-xl p-2 md:p-4 hyphenate  w-full"
+              >
+                {el.them}
+              </p>
             </div>
-            <p className="p-4 text-xl">{el.us}</p>
+            <p className="p-2 md:p-4 text-md md:text-xl">{el.us}</p>
           </>
         ))}
       </div>

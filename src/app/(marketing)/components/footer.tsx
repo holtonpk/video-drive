@@ -89,7 +89,7 @@ const Footer = () => {
       </div>
       <span className="w-full border-t border-dashed border-[#141516] "></span>
       <h1 className="text-[#141516] opacity-70 text-[12px] font1 my-2">
-        © 2024 Ripple Media. All rights reserved.
+        © 2025 Ripple Media. All rights reserved.
       </h1>
     </div>
   );
