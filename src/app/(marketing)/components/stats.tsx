@@ -16,12 +16,12 @@ export const Stats = () => {
       description:
         "We've generated millions of organic impressions across all platforms",
     },
-    {
-      title: "Leads Generated",
-      value: 10000,
-      description:
-        "Our content is driving thousands of qualified leads per week",
-    },
+    // {
+    //   title: "Leads Generated",
+    //   value: 10000,
+    //   description:
+    //     "Our content is driving thousands of qualified leads per week",
+    // },
     {
       title: "Followers",
       value: 250000,
@@ -38,7 +38,7 @@ export const Stats = () => {
 
   return (
     <div id="stats" className="text-black px-4 md:container md:mt-20">
-      <div className="grid  md:grid-cols-4 gap-4 md:gap-10 relative  mx-auto">
+      <div className="grid  md:grid-cols-3 gap-4 md:gap-10 relative  mx-auto">
         {stats.map((stat, index) => (
           <motion.div
             key={index}
