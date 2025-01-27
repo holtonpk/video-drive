@@ -32,7 +32,7 @@ const HomePage = () => {
         </div>
         <div className="md:h-screen max-w-screen  w-screen max-w-screen   flex flex-col  overflow-hidden">
           <Navbar show={false} />
-          <div className="h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex z-30 relative s">
+          <div className=" h-screen max-h-screen w-full max-w-screen over-x items-center justify-center  flex z-30 relative s">
             <Hero />
             <DownArrow />
           </div>

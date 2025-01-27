@@ -113,7 +113,7 @@ export const Hero = () => {
         >
           <Link
             href={"/content-plan"}
-            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-base md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
+            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-sm md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
           >
             Get my custom social media plan
             <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
@@ -128,7 +128,7 @@ export const Hero = () => {
             animate={{opacity: 1}}
             exit={{opacity: 0}}
             transition={{duration: 0.5}}
-            className="h-screen w-screen fixed top-0 left-0 bg-black/50 blurBack  z-[9999] flex items-center justify-center"
+            className="h-screen w-screen hidden md:flex fixed top-0 left-0 bg-black/50 blurBack  z-[9999] items-center justify-center"
           >
             <button
               onClick={() => setOpenPlayer(false)}
@@ -167,7 +167,7 @@ export const Hero = () => {
         animate={{translateX: "0%"}}
         transition={{duration: 0.8, delay: 2}}
         onClick={() => setOpenPlayer(true)}
-        className="fixed bottom-8 right-0 flex gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99] overflow-hidden group"
+        className="fixed bottom-8 right-0 hidden md:flex gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-l-md border border-r-0 border-[#34F4AF] z-[99] overflow-hidden group"
       >
         <div
           className="w-full h-full  absolute left-0 top-0 z-10"
@@ -183,6 +183,30 @@ export const Hero = () => {
           <Icons.play className="md:h-6 md:w-6 h-4 w-4 fill-background text-background relative z-20" />
         </div>
         <span className="relative z-20 group-hover:text-white transition-all duration-300">
+          What is Ripple Media?
+        </span>
+      </motion.button>
+      <motion.button
+        initial={{translateX: "0%"}}
+        animate={{translateX: "-50%"}}
+        transition={{duration: 0.8, delay: 2}}
+        onClick={() => setOpenPlayer(true)}
+        className="absolute bottom-40 left-1/2 md:hidden flex  gap-2 font1-bold text-[#34F4AF] items-center text-xl md:text-2xl bg-[rgb(21,21,25)]/60 blurBack pr-8 p-3 pl-3 rounded-md border border-[#34F4AF] z-[99] overflow-hidden group"
+      >
+        <div
+          className="w-full h-full  absolute left-0 top-0 z-10"
+          style={{
+            opacity: 0.8,
+            backgroundColor: "transparent",
+            backgroundImage: `radial-gradient( transparent 1px,  #151618 1px)`,
+            backgroundSize: "4px 4px",
+          }}
+        />
+        <div className="rounded-full p-2 bg-[#34F4AF] relative z-20 group-hover:scale-[1.1] transition-all duration-300">
+          <span className="absolute  h-full w-full animate-ping rounded-full bg-[#34F4AF] opacity-50 left-0 top-0 z-10 play-ping-animation group-hover:inline-flex hidden" />
+          <Icons.play className="md:h-6 md:w-6 h-4 w-4 fill-background text-background relative z-20" />
+        </div>
+        <span className="relative z-20 group-hover:text-white transition-all duration-300 whitespace-nowrap">
           What is Ripple Media?
         </span>
       </motion.button>
