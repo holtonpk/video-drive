@@ -13,7 +13,7 @@ const UseCases = () => {
         <ClientCard
           name="Blaze"
           description="Blaze uses AI to help small and medium businesses create custom content that feels true to their brand. Whether it’s social media posts, blogs, newsletters, or even websites, Blaze makes sure everything matches your style and voice. It’s an easy way to save time and create content that connects with your audience."
-          logo={<BlazeFlat />}
+          logo={<BlazeFlat className="b-b" />}
           id="blaze"
         />
 
