@@ -39,38 +39,38 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
-  // const blogPath =
-  // "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing";
+// export async function GET() {
+//   // const blogPath =
+//   // "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing";
 
-  try {
-    //   // fetch doc with field path equal to blogId
-    //   const docQuery = query(
-    //     collection(db, "blog"),
-    //     where("path", "==", blogPath)
-    //   );
-    //   const querySnapshot = await getDocs(docQuery);
-    //   const docSnap = querySnapshot.docs[0];
+//   try {
+//     //   // fetch doc with field path equal to blogId
+//     //   const docQuery = query(
+//     //     collection(db, "blog"),
+//     //     where("path", "==", blogPath)
+//     //   );
+//     //   const querySnapshot = await getDocs(docQuery);
+//     //   const docSnap = querySnapshot.docs[0];
 
-    const blogId = "a9X8Paar3GltBg9ALy3W";
-    const docRef = doc(db, "blog", blogId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return NextResponse.json({
-        response: docSnap.data(),
-      });
-    } else {
-      return NextResponse.json({
-        response: "No such document!",
-      });
-    }
-  } catch (error) {
-    console.log("error =========", error);
-    return NextResponse.json({
-      response: error,
-    });
-  }
-}
+//     const blogId = "a9X8Paar3GltBg9ALy3W";
+//     const docRef = doc(db, "blog", blogId);
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//       return NextResponse.json({
+//         response: docSnap.data(),
+//       });
+//     } else {
+//       return NextResponse.json({
+//         response: "No such document!",
+//       });
+//     }
+//   } catch (error) {
+//     console.log("error =========", error);
+//     return NextResponse.json({
+//       response: error,
+//     });
+//   }
+// }
 
 const dummyRes = {
   response: {

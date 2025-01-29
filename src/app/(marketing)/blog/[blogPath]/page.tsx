@@ -37,6 +37,10 @@ export async function generateStaticParams() {
       blogPath:
         "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
     },
+    {
+      blogPath:
+        "just-over-a-year-ago-my-colleagues-and-i-unintentionally-started-a-marketing-agency",
+    },
   ];
   // --------------------------------------------------------------------
   // this is for auto generating the blog posts
