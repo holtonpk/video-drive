@@ -78,19 +78,19 @@ export async function generateStaticParams() {
   // }
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{blogPath: string}>;
-}) {
-  const {blogPath} = await params;
-  const post = await getPost(blogPath);
+// export async function generateMetadata({
+//   params,
+// }: {
+//   params: Promise<{blogPath: string}>;
+// }) {
+//   const {blogPath} = await params;
+//   const post = await getPost(blogPath);
 
-  return {
-    title: `Ripple Media | ${post.title}`,
-    description: `${post.description}`,
-  };
-}
+//   return {
+//     title: `Ripple Media | ${post.title}`,
+//     description: `${post.description}`,
+//   };
+// }
 
 export default async function Page({
   params,
