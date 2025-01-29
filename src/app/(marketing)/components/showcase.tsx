@@ -69,7 +69,7 @@ export const Showcase = () => {
           companies we have worked with.
         </motion.div>
       </div>
-      <div className="w-full grid grid-cols-2 sm:grid-cols-6 gap-2 mt-10 justify-between smd:max-w-[800px] mx-auto ">
+      <div className="w-full grid grid-cols-2 sm:grid-cols-6 md:gap-2 mt-10 justify-between smd:max-w-[800px] mx-auto ">
         {videos.map((video, i) => (
           <VideoPlayer video={video} key={i} />
         ))}
@@ -93,16 +93,6 @@ const VideoPlayer = ({video}: {video: string}) => {
 
   const [isPlaying, setIsPlaying] = React.useState(false);
 
-  const togglePlay = () => {
-    if (isPlaying) {
-      setIsPlaying(false);
-      videoRef.current?.pause();
-    } else {
-      setIsPlaying(true);
-      videoRef.current?.play();
-    }
-  };
-
   return (
     <div
       style={{
@@ -111,7 +101,7 @@ const VideoPlayer = ({video}: {video: string}) => {
         backgroundImage: `radial-gradient( #F51085 1px, transparent 0.4px)`,
         backgroundSize: "8px 8px",
       }}
-      className="w-full aspect-[9/16] p-4"
+      className="w-full aspect-[9/16] p-4  "
     >
       <div className="w-full relative  h-full bg-muted rounded-[6px] border">
         <button
@@ -120,7 +110,7 @@ const VideoPlayer = ({video}: {video: string}) => {
         >
           {/* {!isPlaying ? <Icons.play className="h-8 w-8 text-white" />} */}
         </button>
-        <video
+        {/* <video
           ref={videoRef}
           src={video}
           className="w-full h-full object-cover rounded-[6px] hidden md:block"
@@ -128,8 +118,8 @@ const VideoPlayer = ({video}: {video: string}) => {
           autoPlay
           playsInline
           loop
-        ></video>
-        <div className="h-full w-full relative block md:hidden ">
+        ></video> */}
+        <div className="h-full w-full relative ">
           <video
             ref={videoRef}
             src={video}
@@ -139,6 +129,7 @@ const VideoPlayer = ({video}: {video: string}) => {
             playsInline
             webkit-playsinline
             loop
+            preload="auto"
           ></video>
           {/* <button
             onClick={toggleMute}
