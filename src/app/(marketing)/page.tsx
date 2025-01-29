@@ -45,13 +45,13 @@ const HomePage = () => {
         <UseCases />
         <Compare />
         <Showcase />
-        <Process />
+        {/* <Process /> */}
+        <Faq />
         <CTA />
 
         {/* 
 
         <Testimonials />
-        <Faq />
         <ContactUs /> */}
       </div>
       <Footer />

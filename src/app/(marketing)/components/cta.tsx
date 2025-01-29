@@ -50,9 +50,9 @@ export const CTA = () => {
       >
         <LinkButton
           href="/work-with-us"
-          className="w-fit mt-4 group relative z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-[4px] items-center"
+          className="w-fit mt-4 group relative p-6  z-20 bg-[#1863F0] hover:bg-[#1863F0] rounded-md items-center"
         >
-          <span className="text-white font1">Book a call today</span>
+          <span className="text-white font1 text-2xl">Book a call today</span>
           <Icons.chevronRight className="group-hover:ml-4 ml-2 transition-all duration-300 text-white h-4 w-4" />
         </LinkButton>
       </motion.div>

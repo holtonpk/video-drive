@@ -21,7 +21,7 @@ export const Showcase = () => {
 
   return (
     <div className="flex flex-col pb-20 gap-8 mt-10">
-      <h1 className="text-primary font1-bold text-4xl md:text-6xl text-center">
+      <h1 className="text-[#F51085] font1-bold text-4xl md:text-6xl text-center">
         Showcase
       </h1>
       <div className="flex flex-col gap-2 md:gap-4 md:w-[600px] w-[80%] items-start mx-auto ">

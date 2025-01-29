@@ -27,9 +27,9 @@ const Compare = () => {
   return (
     <div id="compare" className="container pt-20">
       <h1 className="text-4xl font1-bold text-center mb-8">
-        Other Agencies vs. Ripple Media
+        Other Agencies vs. <span className="text-[#34F4AF]">Ripple Media</span>
       </h1>
-      <div className="w-full border rounded-xl overflow-hidden grid grid-cols-[40%_1fr]  divide-x divide-y">
+      <div className="w-full border rounded-xl overflow-hidden grid grid-cols-[40%_1fr]  divide-x divide-y bg-black/10">
         <h1 className="p-4 text-xl md:text-2xl font1-bold bg-black/30 blurBack">
           What they do
         </h1>
@@ -39,7 +39,7 @@ const Compare = () => {
 
         {text.map((el, i) => (
           <>
-            <div className="h-fit items-center flex w-full relative">
+            <div className="h-fit items-center flex w-full relative ">
               <p
                 lang="en"
                 className="text-md md:text-xl p-2 md:p-4 hyphenate  w-full"

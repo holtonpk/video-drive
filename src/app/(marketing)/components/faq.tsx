@@ -28,15 +28,22 @@ export function Faq() {
   ];
 
   return (
-    <div className="flex flex-col relative container items-center md:my-20 bg-white/40 blurBack rounded-xl w-[80%] p-4 md:p-10">
-      <h1 className="text-[10rem] leading-[160px] font1 text-primary">FAQ</h1>
-      <Accordion type="single" collapsible className="md:w-[90%] ">
+    <div className="flex gap-4 md:gap-10 relative container items-starts flex-col md:flex-row  mb-20">
+      <h1 className="text-5xl mx-auto md:ml-auto md:text-8xl font1-bold text-[#53E8B3] text-left">
+        Frequently <br />
+        Asked <br /> Questions.
+      </h1>
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full bg-black/40 border blurBack rounded-xl p-4 md:p-6"
+      >
         {questions.map((question, index) => (
           <AccordionItem key={index} value={question.q}>
-            <AccordionTrigger className="font-bold md:text-2xl text-left">
+            <AccordionTrigger className="font-bold font1 md:text-2xl text-left">
               {question.q}
             </AccordionTrigger>
-            <AccordionContent className=" md:text-2xl">
+            <AccordionContent className=" md:text-2xl font1-bold text-[#53E8B3]">
               {question.a}
             </AccordionContent>
           </AccordionItem>
