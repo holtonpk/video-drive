@@ -241,7 +241,8 @@ async function getPost(path: string) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({blogPath: path}),
+      body: JSON.stringify({blogPath: "a9X8Paar3GltBg9ALy3W"}),
+      // body: JSON.stringify({blogPath: path}),
     }
   );
   console.log("abc####:", res);
