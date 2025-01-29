@@ -32,7 +32,11 @@ async function getPost(path: string) {
     if (!postData) notFound();
     return postData;
   } catch (error) {
-    console.error("path****", path);
+    console.error(
+      "path****",
+      path,
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`
+    );
     console.error("Error fetching blog post:", error);
     notFound();
   }
