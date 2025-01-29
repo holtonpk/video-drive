@@ -5,38 +5,22 @@ import Footer from "@/src/app/(marketing)/components/footer";
 import BlogBody from "@/src/app/(marketing)/blog/[blogPath]/blog-body";
 import {BlogPost} from "@/config/data";
 import {notFound} from "next/navigation";
+import axios from "axios";
 
 async function getPost(path: string) {
   try {
-    const res = await fetch(
+    const res = await axios.post(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`,
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({blogPath: path}),
+        blogPath: path,
       }
     );
 
-    if (!res.ok) {
-      console.error(
-        `Failed to fetch blog post: ${res.status} ${res.statusText}`
-      );
-      notFound();
-    }
-
-    const resData = await res.json();
-    const postData: BlogPost = resData.response;
+    const postData: BlogPost = res.data.response;
 
     if (!postData) notFound();
     return postData;
   } catch (error) {
-    console.error(
-      "path****",
-      path,
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`
-    );
     console.error("Error fetching blog post:", error);
     notFound();
   }
