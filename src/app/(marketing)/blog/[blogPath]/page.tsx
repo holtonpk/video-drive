@@ -92,14 +92,10 @@ export async function generateStaticParams() {
 //   };
 // }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{blogPath: string}>;
-}) {
+export default async function Page({params}: {params: {blogPath: string}}) {
   console.log("params::", params);
-  const {blogPath} = await params;
-  const postData = await getPost(blogPath);
+  // const {blogPath} = await params;
+  const postData = await getPost(params.blogPath);
 
   return (
     <div className="dark flex flex-col h-fit min-h-screen">
