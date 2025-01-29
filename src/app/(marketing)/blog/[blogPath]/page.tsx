@@ -7,37 +7,33 @@ import {BlogPost} from "@/config/data";
 import {notFound} from "next/navigation";
 
 async function getPost(path: string) {
-  console.log(
-    "R%%%%%%%:",
-    process.env.NEXT_PUBLIC_SITE_URL + "/api/fetch-blog-post"
-  );
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // body: JSON.stringify({blogPath: "a9X8Paar3GltBg9ALy3W"}),
-      body: JSON.stringify({blogPath: path}),
-    }
-  );
-
-  if (!res.ok) {
-    console.error(`Failed to fetch blog post: ${res.status} ${res.statusText}`);
-    notFound(); // Trigger Next.js 404 page
-  }
-
   try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-post`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({blogPath: path}),
+      }
+    );
+
+    if (!res.ok) {
+      console.error(
+        `Failed to fetch blog post: ${res.status} ${res.statusText}`
+      );
+      notFound();
+    }
+
     const resData = await res.json();
     const postData: BlogPost = resData.response;
 
     if (!postData) notFound();
     return postData;
   } catch (error) {
-    console.error("Error parsing JSON response:", error);
-    notFound(); // Trigger 404 if response isn't valid JSON
+    console.error("Error fetching blog post:", error);
+    notFound();
   }
 }
 
@@ -52,49 +48,10 @@ export async function generateStaticParams() {
         "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
     },
   ];
-  // try {
-  //   const res = await fetch(
-  //     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
-  //     {
-  //       cache: "no-cache",
-  //     }
-  //   );
-
-  //   if (!res.ok) {
-  //     console.error(
-  //       `Failed to fetch blog posts: ${res.status} ${res.statusText}`
-  //     );
-  //     return []; // Return an empty array to avoid build failure
-  //   }
-
-  //   const posts = await res.json();
-
-  //   // return posts.posts.map((postId: any) => ({
-  //   //   blogPath: postId.path,
-  //   // }));
-  // } catch (error) {
-  //   console.error("Error fetching blog posts:", error);
-  //   return []; // Handle the case where fetch fails
-  // }
 }
-
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: Promise<{blogPath: string}>;
-// }) {
-//   const {blogPath} = await params;
-//   const post = await getPost(blogPath);
-
-//   return {
-//     title: `Ripple Media | ${post.title}`,
-//     description: `${post.description}`,
-//   };
-// }
 
 export default async function Page({params}: {params: {blogPath: string}}) {
   console.log("params::", params);
-  // const {blogPath} = await params;
   const postData = await getPost(params.blogPath);
 
   return (
