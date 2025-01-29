@@ -65,7 +65,7 @@ export const Showcase = () => {
           viewport={{once: true}} // Ensures animation only plays once
           className="font1-light text-xl md:text-2xl text-white  w-full h-fit    text-center"
         >
-          Here are some of our best work. Custom made for some of the amazing
+          Here are some of our best videos. Custom made for some of the amazing
           companies we have worked with.
         </motion.div>
       </div>
