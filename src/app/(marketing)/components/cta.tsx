@@ -8,7 +8,7 @@ export const CTA = () => {
   const text = "Amplify your business with Ripple Media".split(" ");
 
   return (
-    <div className="flex flex-col h-fit  pb-32 container items-center ">
+    <div className="flex flex-col h-fit  pb-32 md:container items-center ">
       <div className="flex gap-2 flex-wrap mx-auto w-fit justify-center md:justify-normal">
         {text.map((el, i) => (
           <motion.span

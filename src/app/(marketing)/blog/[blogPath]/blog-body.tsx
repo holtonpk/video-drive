@@ -60,7 +60,7 @@ const BlogBody = ({post}: {post: BlogPost}) => {
           <Icons.chevronLeft className="h-6 w-6" />
           Back to blog home
         </LinkButton>
-        <h2 className="text-[#34F4AF]">Marketing</h2>
+        <h2 className="text-[#34F4AF]">{post.category}</h2>
         <h1 className="md:text-4xl text-2xl  font1-bold">{post.title}</h1>
         <p className="text-sm md:text-lg text-muted-foreground font1 ">
           {post.description}

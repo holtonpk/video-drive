@@ -25,7 +25,7 @@ const Compare = () => {
   ];
 
   return (
-    <div className="container mt-20">
+    <div id="compare" className="container pt-20">
       <h1 className="text-4xl font1-bold text-center mb-8">
         Other Agencies vs. Ripple Media
       </h1>

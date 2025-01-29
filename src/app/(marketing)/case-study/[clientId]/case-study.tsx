@@ -12,57 +12,72 @@ import {
   FcFlat,
   BlazeFlat,
   MortyFlat,
+  Icons,
 } from "@/components/icons";
 import {ClientCard} from "../../components/use-cases";
+import {LinkButton} from "@/components/ui/link";
 const CaseStudy = ({clientId}: {clientId: string}) => {
   const clientData = ClientData.find((client) => client.clientId === clientId);
 
   return (
-    <div className="flex flex-col pt-[120px] pb-10 gap-10 container items-center max-w-[800px] h-fit">
-      <div className="flex flex-col gap-2 items-center">
-        <div className="flex flex-col gap-2 items-center justify-center">
-          {clientData && (
-            <clientData.icon className="h-12 w-12 rounded-[12px]" />
-          )}
-
-          <h1 className="text-5xl font1-bold ">{clientData?.name}</h1>
-        </div>
-        <p className="text-xl font1 text-center">{clientData?.description}</p>
-      </div>
-
-      <div className="flex flex-col gap-2 items-center">
-        <h1 className="text-3xl font1-bold text-[#F51085] text-center">
-          The Challenge
-        </h1>
-        <p className="text-xl font1  text-center">{clientData?.challenge}</p>
-      </div>
-      <div className="flex flex-col gap-2 items-center">
-        <h1 className="text-3xl font1-bold text-[#971EF7] text-center">
-          Our Solution
-        </h1>
-        <p className="text-xl font1 text-center">{clientData?.solution}</p>
-      </div>
-      <div className="flex flex-col gap-2 items-center">
-        <h1 className="text-3xl font1-bold text-[#1963F0] text-center">
-          The Outcome
-        </h1>
-        <p className="text-xl font1 text-center">{clientData?.outcome}</p>
-      </div>
-      <h1 className="text-4xl font1-bold mt-8">More Case Studies</h1>
-      <div className="grid grid-cols-2 gap-10 w-full">
-        {ClientData.map((client) => (
-          <>
-            {client.clientId !== clientId && (
-              <ClientCard
-                key={client.clientId}
-                name={client.name}
-                description={client.description}
-                logo={<client.flatIcon />}
-                id={client.clientId}
-              />
+    <div className="flex flex-col  pb-10 gap-10 container items-center  h-fit">
+      <div className="flex flex-col w-[90%] md:w-[70%] px-4 gap-2 mx-auto md:px-[2rem] relative md:container bg-black/40 border md:text-left tsext-center rounded-md  py-4 mt-12 ">
+        <LinkButton
+          href="/#"
+          variant={"ghost"}
+          className="rounded-[8px] w-fit  absolute  -top-2 px-0  -translate-y-full left-0  hover:bg-transparent hover:opacity-70"
+        >
+          <Icons.chevronLeft className="h-6 w-6" />
+          Back to home page
+        </LinkButton>
+        <div className="flex flex-col gap-2 items-center">
+          <div className="flex flex-col  gap-2 items-center justify-center">
+            {clientData && (
+              <clientData.icon className="h-12 w-12 rounded-[12px]" />
             )}
-          </>
-        ))}
+
+            <h1 className="text-5xl font1-bold ">{clientData?.name}</h1>
+          </div>
+          <p className="text-xl font1 text-center">{clientData?.description}</p>
+        </div>
+      </div>
+      <div className="w-[90%] md:w-[70%]  gap-8 mx-auto  relative flex flex-col">
+        <div className="flex flex-col gap-2 items-start">
+          <h1 className="text-3xl font1-bold text-[#F51085] text-left">
+            The Challenge
+          </h1>
+          <p className="text-xl font1  text-left">{clientData?.challenge}</p>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          <h1 className="text-3xl font1-bold text-[#971EF7] text-left">
+            Our Solution
+          </h1>
+          <p className="text-xl font1 text-left">{clientData?.solution}</p>
+        </div>
+        <div className="flex flex-col gap-2 ">
+          <h1 className="text-3xl font1-bold text-[#1963F0] text-left">
+            The Outcome
+          </h1>
+          <p className="text-xl font1 text-left">{clientData?.outcome}</p>
+        </div>
+        <h1 className="text-4xl font1-bold mt-8 text-center md:text-left">
+          More Case Studies
+        </h1>
+        <div className="grid md:grid-cols-2 gap-10 w-full">
+          {ClientData.map((client) => (
+            <>
+              {client.clientId !== clientId && (
+                <ClientCard
+                  key={client.clientId}
+                  name={client.name}
+                  description={client.description}
+                  logo={<client.flatIcon />}
+                  id={client.clientId}
+                />
+              )}
+            </>
+          ))}
+        </div>
       </div>
     </div>
   );

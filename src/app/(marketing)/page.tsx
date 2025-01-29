@@ -44,9 +44,8 @@ const HomePage = () => {
         <Stats />
         <UseCases />
         <Compare />
-
         <Showcase />
-        {/* <Process /> */}
+        <Process />
         <CTA />
 
         {/* 

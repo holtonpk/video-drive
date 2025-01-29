@@ -20,7 +20,7 @@ export const Showcase = () => {
   ];
 
   return (
-    <div className="flex flex-col pb-20 gap-8 mt-20">
+    <div className="flex flex-col pb-20 gap-8 mt-10">
       <h1 className="text-primary font1-bold text-4xl md:text-6xl text-center">
         Showcase
       </h1>

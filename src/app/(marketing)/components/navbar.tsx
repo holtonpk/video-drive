@@ -48,10 +48,10 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
               </div>
 
               <div className="flex gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <Link href="/#stats" className=" capitalize font1">
-                  process
+                <Link href="/#compare" className=" capitalize font1">
+                  why Ripple?
                 </Link>
-                <Link href="/#stats" className=" capitalize font1">
+                <Link href="/#about" className=" capitalize font1">
                   about
                 </Link>
                 <button className="text-primary capitalize font1">
@@ -156,13 +156,13 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
                 </div>
 
                 <div className=" gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex">
-                  <Link href="/#stats" className=" capitalize font1">
-                    process
+                  <Link href="/#compare" className=" capitalize font1 ">
+                    Why Ripple?
                   </Link>
-                  <Link href="/#stats" className=" capitalize font1">
+                  <Link href="/#about" className=" capitalize font1 ">
                     about
                   </Link>
-                  <Link href="/blog" className=" capitalize font1">
+                  <Link href="/blog" className=" capitalize font1 ">
                     Resources
                   </Link>
                 </div>

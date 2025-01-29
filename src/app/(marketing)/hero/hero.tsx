@@ -84,7 +84,7 @@ export const Hero = () => {
             speed={10}
             preRenderFirstString
             repeat={Infinity}
-            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)]"
+            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)] "
           />
         </motion.span>
         {/* <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
@@ -114,7 +114,7 @@ export const Hero = () => {
         >
           <Link
             href={"/content-plan"}
-            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-sm md:text-2xl mt-4 md:mt-8 uppercase flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
+            className="px-6 py-2 rounded-full bg-[rgb(52,244,175)] hover:bg-[rgb(52,244,175)]/90 text-background font1-extra-bold text-sm md:text-2xl mt-4 md:mt-8  flex items-center gap-1 relative pr-[52px] group hover:-translate-y-[2px] transition-all duration-300"
           >
             Get my custom social media plan
             <Icons.arrowRight className="h-6 w-6 text-background absolute right-6 group-hover:right-2 transition-all duration-500 top-1/2 -translate-y-1/2" />
@@ -180,7 +180,7 @@ export const Hero = () => {
             wrapper="span"
             speed={10}
             repeat={Infinity}
-            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)]"
+            className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)] "
           />
         </motion.span>
         {/* <span className="flex gap-2 text-[rgb(52,244,175)] font1-bold mt-3 md:mt-6">
@@ -217,7 +217,7 @@ export const Hero = () => {
           </Link>
         </motion.div>
       </motion.div>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {openPlayer && (
           <motion.div
             initial={{opacity: 0}}
@@ -249,7 +249,6 @@ export const Hero = () => {
               <span className="text-background font1-extra-bold text-center text-2xl  whitespace-nowrap">
                 What is ripple studios?
               </span>
-              {/* <Icons.frown className="h-6 w-6 fill-white" /> */}
               <span className="text-background font1-bold text-center text-xl whitespace-nowrap">
                 (sorry our amazing team of editors are still working on this
                 video)
@@ -305,7 +304,7 @@ export const Hero = () => {
         <span className="relative z-20 group-hover:text-white transition-all duration-300 whitespace-nowrap">
           What is Ripple Media?
         </span>
-      </motion.button>
+      </motion.button> */}
     </>
   );
 };
