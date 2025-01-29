@@ -42,6 +42,16 @@ async function getPost(path: string) {
 }
 
 export async function generateStaticParams() {
+  return [
+    {
+      blogPath:
+        "the-ultimate-guide-to-crafting-a-winning-social-media-marketing-strategy",
+    },
+    {
+      blogPath:
+        "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
+    },
+  ];
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
@@ -58,9 +68,10 @@ export async function generateStaticParams() {
     }
 
     const posts = await res.json();
-    return posts.posts.map((postId: any) => ({
-      blogPath: postId.path,
-    }));
+
+    // return posts.posts.map((postId: any) => ({
+    //   blogPath: postId.path,
+    // }));
   } catch (error) {
     console.error("Error fetching blog posts:", error);
     return []; // Handle the case where fetch fails
