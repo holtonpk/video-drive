@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import {motion, AnimatePresence} from "framer-motion";
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState, useMemo, useRef} from "react";
 import {Icons} from "@/components/icons";
 import Link from "next/link";
 import {TypeAnimation} from "react-type-animation";
@@ -33,7 +33,7 @@ export const Hero = () => {
           translateX: "-50%",
         }}
         transition={{duration: 0.8, delay: 0.5}}
-        className="absolute text-center whitespace-nowrap left-1/2  z-[999] hidden md:flex flex-col items-center "
+        className="absolute text-center whitespace-nowrap left-1/2   z-[999] hidden md:flex flex-col items-center "
       >
         <h1 className="relative z-20 font1-bold  text-4xl sm:text-5xl md:text-6xl lg:text-7xl  ">
           {" "}
@@ -72,7 +72,7 @@ export const Hero = () => {
             sequence={[
               // Same substring at the start will only be typed out once, initially
               " Short Form Content",
-              1000, // wait 1s before replacing "Mice" with "Hamsters"
+              3000, // wait 1s before replacing "Mice" with "Hamsters"
               " Content Marketing",
               1000,
               " Social Media",
@@ -82,6 +82,7 @@ export const Hero = () => {
             ]}
             wrapper="span"
             speed={10}
+            preRenderFirstString
             repeat={Infinity}
             className="font1-bold text-2xl md:text-4xl text-[rgb(52,244,175)]"
           />
@@ -309,7 +310,7 @@ export const Hero = () => {
   );
 };
 
-export const RippleEffect = () => {
+export const RippleEffect = React.memo(() => {
   type Box = {
     height: number;
     width: number;
@@ -319,26 +320,27 @@ export const RippleEffect = () => {
   const [ringArray, setRingArray] = useState<Box[]>([]);
 
   useEffect(() => {
-    // This ensures the code runs only on the client side
     const isLargeScreen = window.innerWidth > 400;
 
     const rings: Box[] = Array.from({length: 20}, (_, i) => ({
       height: isLargeScreen ? 600 + i * 50 : 100 + i * 50,
       width: isLargeScreen ? 600 + i * 50 : 100 + i * 50,
-      zIndex: 10 - i, // zIndex starts at 10 for the smallest box
+      zIndex: 10 - i,
     }));
 
     setRingArray(rings);
   }, []);
+
+  const memoizedRingArray = useMemo(() => ringArray, [ringArray]);
+
   return (
     <>
       <div className="md:hidden block">
-        {ringArray.map((ring, i) => (
-          <>
-            {i > 0 && (
+        {memoizedRingArray.map(
+          (ring, i) =>
+            i > 0 && (
               <motion.div
                 initial={{
-                  // rotate: 8 * i,
                   translateX: "-50%",
                   translateY: "-50%",
                   scale: 1,
@@ -362,24 +364,23 @@ export const RippleEffect = () => {
                 }}
                 key={i}
                 style={{
-                  willChange: "transform",
+                  willChange: "transform, opacity",
                   height: ring.height,
                   width: ring.width,
                   zIndex: ring.zIndex,
+                  transform: "translateZ(0)", // Enable GPU acceleration
                 }}
-                className="absolute top-[300px] left-1/2  border-[rgb(52,244,175)] rounded-full border-[1px]   z-20 inlay-shadow origin-center"
+                className="absolute top-[300px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-[rgb(52,244,175)] rounded-full border z-20 inlay-shadow origin-center"
               />
-            )}
-          </>
-        ))}
+            )
+        )}
       </div>
       <div className="hidden md:block">
-        {ringArray.map((ring, i) => (
-          <>
-            {i > 0 && (
+        {memoizedRingArray.map(
+          (ring, i) =>
+            i > 0 && (
               <motion.div
                 initial={{
-                  // rotate: 8 * i,
                   translateX: "-50%",
                   translateY: "-50%",
                   scale: 1,
@@ -403,17 +404,17 @@ export const RippleEffect = () => {
                 }}
                 key={i}
                 style={{
-                  willChange: "transform",
+                  willChange: "transform, opacity",
                   height: ring.height,
                   width: ring.width,
                   zIndex: ring.zIndex,
+                  transform: "translateZ(0)", // Enable GPU acceleration
                 }}
-                className="absolute top-1/2 left-1/2  border-[rgb(52,244,175)] rounded-full border-[1px]   z-20 inlay-shadow origin-center"
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-[rgb(52,244,175)] rounded-full border z-20 inlay-shadow origin-center"
               />
-            )}
-          </>
-        ))}
+            )
+        )}
       </div>
     </>
   );
-};
+});
