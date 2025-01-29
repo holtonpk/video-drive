@@ -15,7 +15,8 @@ import {delay} from "framer-motion";
 import DownArrow from "./components/down-arrow";
 import UseCases from "./components/use-cases";
 import Compare from "./components/compare";
-import {RippleEffect, Hero} from "./hero/hero";
+import {Hero} from "./hero/hero";
+import {RippleEffect} from "./hero/ripple-effect";
 
 export const metadata = constructMetadata({
   title: "Ripple Media",
