@@ -27,55 +27,58 @@ async function getPost(path: string) {
 }
 
 export async function generateStaticParams() {
-  // return [
-  //   {
-  //     blogPath:
-  //       "the-ultimate-guide-to-crafting-a-winning-social-media-marketing-strategy",
-  //   },
-  //   {
-  //     blogPath:
-  //       "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
-  //   },
-  // ];
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
-      {
-        cache: "no-cache",
-      }
-    );
+  // manually adding the blog posts for now --------------------------------------------
+  return [
+    {
+      blogPath:
+        "the-ultimate-guide-to-crafting-a-winning-social-media-marketing-strategy",
+    },
+    {
+      blogPath:
+        "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
+    },
+  ];
+  // --------------------------------------------------------------------
+  // this is for auto generating the blog posts
+  // try {
+  //   const res = await fetch(
+  //     `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
+  //     {
+  //       cache: "no-cache",
+  //     }
+  //   );
 
-    if (!res.ok) {
-      console.error(
-        `Failed to fetch blog posts: ${res.status} ${res.statusText}`
-      );
-      return []; // Return an empty array to avoid build failure
-    }
+  //   if (!res.ok) {
+  //     console.error(
+  //       `Failed to fetch blog posts: ${res.status} ${res.statusText}`
+  //     );
+  //     return []; // Return an empty array to avoid build failure
+  //   }
 
-    const posts = await res.json();
+  //   const posts = await res.json();
 
-    return posts.posts.map((postId: any) => ({
-      blogPath: postId.path,
-    }));
-  } catch (error) {
-    console.error("Error fetching blog posts:", error);
-    return []; // Handle the case where fetch fails
-  }
+  //   return posts.posts.map((postId: any) => ({
+  //     blogPath: postId.path,
+  //   }));
+  // } catch (error) {
+  //   console.error("Error fetching blog posts:", error);
+  //   return []; // Handle the case where fetch fails
+  // }
 }
 
-// export async function generateMetadata({
-//   params,
-// }: {
-//   params: Promise<{blogPath: string}>;
-// }) {
-//   const {blogPath} = await params;
-//   const post = await getPost(blogPath);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{blogPath: string}>;
+}) {
+  const {blogPath} = await params;
+  const post = await getPost(blogPath);
 
-//   return {
-//     title: `Ripple Media | ${post.title}`,
-//     description: `${post.description}`,
-//   };
-// }
+  return {
+    title: `Ripple Media | ${post.title}`,
+    description: `${post.description}`,
+  };
+}
 
 export default async function Page({params}: {params: {blogPath: string}}) {
   console.log("params::", params);
