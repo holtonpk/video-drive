@@ -32,6 +32,7 @@ async function getPost(path: string) {
     if (!postData) notFound();
     return postData;
   } catch (error) {
+    console.error("path****", path);
     console.error("Error fetching blog post:", error);
     notFound();
   }
