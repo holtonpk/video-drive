@@ -7,7 +7,7 @@ import {cn} from "@/lib/utils";
 import {ButtonProps, buttonVariants} from "@/components/ui/button";
 import {toast} from "@/components/ui/use-toast";
 import {Icons} from "@/components/icons";
-import {addDoc, collection, serverTimestamp} from "firebase/firestore";
+import {setDoc, collection, serverTimestamp, doc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {useAuth, UserData} from "@/context/user-auth";
 
@@ -26,7 +26,7 @@ export function PostCreateButton({
   const CreateBlogPost = async (currentUser: UserData | undefined) => {
     try {
       const id = Math.random().toString(36).substr(2, 9);
-      const response = await addDoc(collection(db, "blog"), {
+      const response = await setDoc(doc(db, "blog", id), {
         title: "Untitled Post",
         content: "",
         published: false,

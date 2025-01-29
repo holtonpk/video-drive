@@ -13,21 +13,21 @@ const BlogLayout = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [posts, setPosts] = React.useState<BlogPost[] | null>(null);
 
-  const GetBlogPosts = async () => {
-    const posts = await getDocs(collection(db, "blog"));
-    const allPosts = posts.docs.map((doc) => ({id: doc.id, ...doc.data()}));
-    return allPosts as BlogPost[];
-  };
-
   useEffect(() => {
     async function fetchPosts() {
+      const GetBlogPosts = async () => {
+        const posts = await getDocs(collection(db, "blog"));
+        const allPosts = posts.docs.map((doc) => ({id: doc.id, ...doc.data()}));
+        return allPosts as BlogPost[];
+      };
       const posts = await GetBlogPosts();
       console.log("posts", JSON.stringify(posts));
       setPosts(posts);
       setIsLoading(false);
     }
     fetchPosts();
-  }, [GetBlogPosts]);
+  }, []);
+
   console.log("posts", posts);
 
   return (

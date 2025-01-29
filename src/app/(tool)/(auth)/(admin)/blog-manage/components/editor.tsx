@@ -140,7 +140,6 @@ export function Editor({post}: {post: BlogPost}) {
       return "error";
     }
   };
-  console.log("post", post);
 
   async function onSubmit(data: FormData) {
     setIsSaving(true);
@@ -324,6 +323,7 @@ export function Editor({post}: {post: BlogPost}) {
       return "error";
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

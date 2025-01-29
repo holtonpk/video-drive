@@ -20,6 +20,7 @@ export default function EditorLayout({postId}: {postId: string}) {
     const fetchPost = async () => {
       const FindBlogPost = async (id: string) => {
         const post = await getDoc(doc(db, "blog", id));
+        console.log("postData", post.data());
         return {id: id, ...post.data()} as BlogPost;
       };
       const post = await FindBlogPost(postId);
@@ -29,6 +30,8 @@ export default function EditorLayout({postId}: {postId: string}) {
 
     fetchPost();
   }, [postId]);
+
+  console.log("post", post);
 
   return (
     <>

@@ -87,15 +87,15 @@ export function PostOperations({post}: PostOperationsProps) {
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
+            <AlertDialogTitle className="text-primary">
               Are you sure you want to delete this post?
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="text-primary">
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="text-foreground border-foreground hover:bg-muted-foreground">
+            <AlertDialogCancel className="text-primary border-primary hover:bg-muted-foreground">
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
