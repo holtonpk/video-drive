@@ -66,6 +66,8 @@ async function getPosts() {
     );
     const posts = await res.json();
 
+    console.log("posts::===>", posts);
+
     const postsData: BlogPost[] = posts.posts;
     return postsData;
   } catch (error) {
