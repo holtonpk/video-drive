@@ -14,14 +14,14 @@ export async function POST(req: Request) {
 
   try {
     // fetch doc with field path equal to blogId
-    // const docQuery = query(
-    //   collection(db, "blog"),
-    //   where("path", "==", blogPath)
-    // );
-    // const querySnapshot = await getDocs(docQuery);
-    // const docSnap = querySnapshot.docs[0];
-    const docRef = doc(db, "blog", blogPath);
-    const docSnap = await getDoc(docRef);
+    const docQuery = query(
+      collection(db, "blog"),
+      where("path", "==", blogPath)
+    );
+    const querySnapshot = await getDocs(docQuery);
+    const docSnap = querySnapshot.docs[0];
+    // const docRef = doc(db, "blog", blogPath);
+    // const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return NextResponse.json({
         response: docSnap.data(),
