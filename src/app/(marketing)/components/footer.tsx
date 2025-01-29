@@ -45,7 +45,7 @@ const Footer = () => {
           <div className="flex w-fit gap-2 flex-col ">
             <h1 className="text-[#141516] font1-extra-bold">Ripple</h1>
             <Link
-              href="/#stats"
+              href="/#about"
               className="text-[#141516] hover:text-white transition-all duration-300 capitalize"
             >
               about

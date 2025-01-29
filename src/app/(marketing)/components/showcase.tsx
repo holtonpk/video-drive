@@ -91,6 +91,18 @@ const VideoPlayer = ({video}: {video: string}) => {
     }
   };
 
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      videoRef.current?.pause();
+    } else {
+      setIsPlaying(true);
+      videoRef.current?.play();
+    }
+  };
+
   return (
     <div
       style={{
@@ -104,19 +116,39 @@ const VideoPlayer = ({video}: {video: string}) => {
       <div className="w-full relative  h-full bg-muted rounded-[6px] border">
         <button
           onClick={toggleMute}
-          className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-transparent"
+          className="absolute  z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-transparent"
         >
           {/* {!isPlaying ? <Icons.play className="h-8 w-8 text-white" />} */}
         </button>
         <video
           ref={videoRef}
           src={video}
-          className="w-full h-full object-cover rounded-[6px]"
-          // controls
+          className="w-full h-full object-cover rounded-[6px] hidden md:block"
           muted={isMuted}
           autoPlay
+          playsInline
           loop
         ></video>
+        <div className="h-full w-full relative block md:hidden ">
+          <video
+            ref={videoRef}
+            src={video}
+            className="w-full h-full object-cover rounded-[6px] relative z-20"
+            muted={isMuted}
+            autoPlay
+            playsInline
+            webkit-playsinline
+            loop
+          ></video>
+          {/* <button
+            onClick={toggleMute}
+            className="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full bg-transparent flex items-center justify-center"
+          >
+            {!isPlaying ? (
+              <Icons.play className="h-8 w-8 text-white fill-white" />
+            ) : null}
+          </button> */}
+        </div>
       </div>
     </div>
   );

@@ -10,7 +10,10 @@ export const IntroText = () => {
     );
 
   return (
-    <div className="flex flex-col gap-4 md:gap-8 w-[90%] md:w-[600px] items-start mx-auto py-20 ">
+    <div
+      id="about"
+      className="flex flex-col gap-4 md:gap-8 w-[90%] md:w-[600px] items-start mx-auto py-20 "
+    >
       <div className="flex gap-1 md:gap-2 w-full flex-wrap">
         {text.map((el, i) => (
           <motion.span
