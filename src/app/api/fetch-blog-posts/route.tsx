@@ -19,7 +19,6 @@ export async function GET() {
     const posts: BlogPost[] = [];
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-
       posts.push(data as BlogPost);
     });
     return NextResponse.json({
