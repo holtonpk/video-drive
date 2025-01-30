@@ -40,7 +40,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/content-plan`,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 0.5,
+      priority: 0.9,
+    },
+    {
+      url: `${process.env.NEXT_PUBLIC_SITE_URL}/work-with-us`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${process.env.NEXT_PUBLIC_SITE_URL}/case-study/blaze`,
