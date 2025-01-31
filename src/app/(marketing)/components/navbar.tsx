@@ -40,12 +40,12 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
         >
           <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
         </Link> */}
-              <div className=" flex items-center gap-2 ">
-                <Link className="  h-fit relative " href="/">
+              <Link className="  h-fit relative " href="/">
+                <div className=" flex items-center gap-2 ">
                   <Logo className="fill-[#34F4AF] h-8 w-8 mb-1 " />
-                </Link>
-                <span className="text-xl font1-bold">Ripple Media</span>
-              </div>
+                  <span className="text-xl font1-bold">Ripple Media</span>
+                </div>
+              </Link>
 
               <div className="flex gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Link href="/#compare" className=" capitalize font1">
@@ -148,12 +148,12 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
                   >
                     <Logo className="fill-[#34F4AF] h-12 w-12 mb-1 " />
                   </Link> */}
-                <div className=" flex items-center gap-2 ">
-                  <Link className="  h-fit relative " href="/">
+                <Link className="  h-fit relative " href="/">
+                  <div className=" flex items-center gap-2 ">
                     <Logo className="fill-[#34F4AF] h-8 w-8  " />
-                  </Link>
-                  <span className="text-2xl font1-bold">ripple media</span>
-                </div>
+                    <span className="text-2xl font1-bold">ripple media</span>
+                  </div>
+                </Link>
 
                 <div className=" gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex">
                   <Link href="/#compare" className=" capitalize font1 ">

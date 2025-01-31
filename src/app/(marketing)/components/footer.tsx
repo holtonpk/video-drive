@@ -88,9 +88,23 @@ const Footer = () => {
         {/* <div className="absolute z-10  h-[100%]  md:left-0 bottom-0 -translate-x-1/3 md:-translate-x-0  "></div> */}
       </div>
       <span className="w-full border-t border-dashed border-[#141516] "></span>
-      <h1 className="text-[#141516] opacity-70 text-[12px] font1 my-2">
-        © 2025 Ripple Media. All rights reserved.
-      </h1>
+      <div className="flex flex-row gap-4">
+        <h1 className="text-[#141516] opacity-70 text-[12px] font1 my-2">
+          © 2025 Ripple Media. All rights reserved.
+        </h1>
+        <Link
+          href="/legal/privacy"
+          className="text-[#141516] opacity-70 text-[12px] font1 my-2 hover:text-white"
+        >
+          Privacy Policy
+        </Link>
+        <Link
+          href="/legal/terms"
+          className="text-[#141516] opacity-70 text-[12px] font1 my-2 hover:text-white"
+        >
+          Terms
+        </Link>
+      </div>
     </div>
   );
 };

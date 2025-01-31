@@ -1,0 +1,49 @@
+.legal {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  color: white;
+}
+.legal h1 {
+  font-size: 50px;
+}
+
+.legal h1,
+.legal h2,
+.legal h3 {
+  /* color: #2c3e50; */
+  color: rgb(52, 244, 175);
+  margin-bottom: 10px;
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.legal a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.legal a:hover {
+  text-decoration: underline;
+}
+
+.legal ul {
+  padding-left: 20px;
+}
+
+.legal ul li {
+  margin-bottom: 8px;
+}
+
+.legal hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  margin: 20px 0;
+}
