@@ -12,6 +12,7 @@ import {
 } from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/data/video-context";
 import {VideoDisplay} from "./components/video-display";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import ExportData from "./components/export";
 
 const ClientPage = ({client}: {client: string}) => {
   const clientInfo = clients.find((c: any) => c.value === client);
@@ -42,6 +43,7 @@ const ClientPage = ({client}: {client: string}) => {
                   Total Videos: {totalVideos.toString()}
                 </span>
               </div>
+              <ExportData clientInfo={clientInfo} />
               <CreateVideo
                 clientInfo={clientInfo}
                 totalVideos={currentVideoNumber}

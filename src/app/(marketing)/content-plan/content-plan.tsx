@@ -22,6 +22,7 @@ import validator from "validator";
 import {setDoc, doc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {E164Number} from "libphonenumber-js";
+import {motion} from "framer-motion";
 
 type FormData = {
   first_name: string;
@@ -101,6 +102,54 @@ export const ContentPlanForm = () => {
         />
       )}
       {step === 5 && <Success />}
+      {step < 5 && (
+        <div className="flex gap-1 items-center">
+          <motion.div
+            initial={step === 1 ? {width: 24} : {width: 8}}
+            animate={step === 1 ? {width: 24} : {width: 8}}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className={`h-2  rounded-full transition-colors duration-300
+          ${step === 1 ? " bg-[#34F4AF]" : " bg-white/20"}
+          `}
+          />
+          <motion.div
+            initial={{width: 8}}
+            animate={step === 2 ? {width: 24} : {width: 8}}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className={`h-2  rounded-full transition-colors duration-300
+          ${step === 2 ? " bg-[#34F4AF]" : " bg-white/20"}
+          `}
+          />
+          <motion.div
+            initial={{width: 8}}
+            animate={step === 3 ? {width: 24} : {width: 8}}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className={`h-2  rounded-full transition-colors duration-300
+          ${step === 3 ? " bg-[#34F4AF]" : " bg-white/20"}
+          `}
+          />
+          <motion.div
+            initial={{width: 8}}
+            animate={step === 4 ? {width: 24} : {width: 8}}
+            transition={{
+              duration: 0.8,
+              ease: [0, 0.71, 0.2, 1.01],
+            }}
+            className={`h-2  rounded-full transition-colors duration-300
+          ${step === 4 ? " bg-[#34F4AF]" : " bg-white/20"}
+          `}
+          />
+        </div>
+      )}
     </div>
   );
 };
@@ -218,7 +267,7 @@ const Step1 = ({
                         first_name: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack  text-md py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.first_name
                 ? "focus-visible:ring-red-600"
@@ -248,7 +297,7 @@ const Step1 = ({
                       }));
                     }}
                     placeholder="Last Name"
-                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack text-md py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.last_name
                 ? "focus-visible:ring-red-600"
@@ -376,7 +425,7 @@ const Step2 = ({
                         email: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase
+                    className={`bg-white/5 blurBack  text-md py-4 h-fit placeholder:uppercase
           ${
             form.formState.errors.email
               ? "focus-visible:ring-red-600"
@@ -510,7 +559,7 @@ const Step3 = ({
                     initialValueFormat="national"
                     international={true}
                     defaultCountry="US"
-                    className={` ring-offset-background text-lg md:text-2xl
+                    className={` ring-offset-background  text-md
                         ${
                           form.formState.errors.phone
                             ? "ring-red-600"
@@ -571,12 +620,20 @@ const Step4 = ({
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const ContactFormSchema = z.object({
-    business_name: z.string({
-      required_error: "Please enter your business name.",
-    }),
-    role: z.string({
-      required_error: "Please enter your role in the business.",
-    }),
+    business_name: z
+      .string({
+        required_error: "Please enter your business name.",
+      })
+      .min(3, {
+        message: "Please enter a valid business name.",
+      }),
+    role: z
+      .string({
+        required_error: "Please enter your role in the business.",
+      })
+      .min(2, {
+        message: "Please enter a valid role.",
+      }),
   });
   type ContactFormValue = z.infer<typeof ContactFormSchema>;
 
@@ -692,7 +749,7 @@ const Step4 = ({
                         business_name: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack  text-md py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.business_name
                 ? "focus-visible:ring-red-600"
@@ -724,7 +781,7 @@ const Step4 = ({
                         role: e.target.value, // Update formData state
                       }));
                     }}
-                    className={`bg-white/5 blurBack text-lg md:text-2xl py-4 h-fit placeholder:uppercase 
+                    className={`bg-white/5 blurBack  text-md py-4 h-fit placeholder:uppercase 
             ${
               form.formState.errors.role
                 ? "focus-visible:ring-red-600"

@@ -265,7 +265,7 @@ export type Post = {
   uploaded?: boolean;
 };
 
-type UpdatedAt = {
+export type UpdatedAt = {
   time: Timestamp;
   user: string;
 };
@@ -307,7 +307,7 @@ export type videoMessage = {
   viewedBy: string[];
 };
 
-type PayoutChangeRequest = {
+export type PayoutChangeRequest = {
   value: number;
   reason: string;
   status: "pending" | "approved" | "rejected";

@@ -141,11 +141,13 @@ import {
   NotebookPen,
   Frown,
   BellRing,
+  Download,
 } from "lucide-react";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  download2: Download,
   circle: Circle,
   bell: BellRing,
   frown: Frown,

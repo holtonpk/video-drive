@@ -144,32 +144,31 @@ const InvoiceRow = ({
   const [selectedVideos, setSelectedVideos] = React.useState<string[]>();
   const [paid, setPaid] = React.useState<boolean>(invoice.paid || false);
 
-  useEffect(() => {
-    const updatePaid = async () => {
-      await updateDoc(doc(db, "invoices", invoice.id), {
-        paid,
-      });
-    };
+  const updatePaid = async (isPaid: boolean) => {
+    await updateDoc(doc(db, "invoices", invoice.id), {
+      paid: isPaid,
+    });
+  };
 
-    const updateVideos = async () => {
-      if (!videos) {
-        console.error("Videos are undefined");
-        return;
-      }
-      const videoPromises: Promise<void>[] = videos.map(async (video) => {
-        await updateDoc(doc(db, "videos", video.videoNumber), {
-          paid,
-        });
-      });
-
-      await Promise.all(videoPromises);
-    };
-
-    if (paid !== invoice.paid) {
-      updatePaid();
-      updateVideos();
+  const updateVideos = async (isPaid: boolean) => {
+    if (!videos) {
+      console.error("Videos are undefined");
+      return;
     }
-  }, [paid, invoice, videos]);
+    const videoPromises: Promise<void>[] = videos.map(async (video) => {
+      await updateDoc(doc(db, "videos", video.videoNumber), {
+        paid: isPaid,
+      });
+    });
+
+    await Promise.all(videoPromises);
+  };
+
+  const togglePaid = async (isPaid: boolean) => {
+    setPaid(isPaid);
+    await updatePaid(isPaid);
+    await updateVideos(isPaid);
+  };
 
   return (
     <div
@@ -228,7 +227,7 @@ const InvoiceRow = ({
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Switch id="paid" checked={paid} onCheckedChange={setPaid} />
+          <Switch id="paid" checked={paid} onCheckedChange={togglePaid} />
           <Label
             htmlFor="airplane-mode"
             className={`${paid ? "text-green-500" : "text-red-500"}`}

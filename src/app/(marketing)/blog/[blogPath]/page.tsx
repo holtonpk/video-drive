@@ -38,8 +38,7 @@ export async function generateStaticParams() {
         "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
     },
     {
-      blogPath:
-        "just-over-a-year-ago-my-colleagues-and-i-unintentionally-started-a-marketing-agency",
+      blogPath: "the-start-of-a-10m-impression-marketing-agency",
     },
   ];
   // --------------------------------------------------------------------

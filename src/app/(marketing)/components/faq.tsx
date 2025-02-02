@@ -40,10 +40,10 @@ export function Faq() {
       >
         {questions.map((question, index) => (
           <AccordionItem key={index} value={question.q}>
-            <AccordionTrigger className="font-bold font1 md:text-2xl text-left">
+            <AccordionTrigger className="font-bold font1 md:text-2xl text-left data-[state=open]:text-[#53E8B3] hover:text-[#53E8B3] transition-colors duration-300">
               {question.q}
             </AccordionTrigger>
-            <AccordionContent className=" md:text-2xl font1-bold text-[#53E8B3]">
+            <AccordionContent className=" md:text-lg font1 text-white">
               {question.a}
             </AccordionContent>
           </AccordionItem>
