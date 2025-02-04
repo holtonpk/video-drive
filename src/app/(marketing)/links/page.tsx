@@ -39,12 +39,12 @@ const Page = () => {
             >
               <Icons.link2 className="" />
             </Link>
-            <Link
+            {/* <Link
               href="https://www.linkedin.com/in/adamholton1/"
               className="border-2 border-white h-10 w-10 rounded-full flex items-center justify-center"
             >
               <Icons.linkedin className="" />
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className="border rounded-md border-white p-4 gap-4 flex flex-col items-center">
