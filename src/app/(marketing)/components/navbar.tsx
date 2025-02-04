@@ -43,11 +43,13 @@ const Navbar = ({show, isRelative}: {show: boolean; isRelative?: boolean}) => {
               <Link className="  h-fit relative " href="/">
                 <div className=" flex items-center gap-2 ">
                   <Logo className="fill-[#34F4AF] h-8 w-8 mb-1 " />
-                  <span className="text-xl font1-bold">Ripple Media</span>
+                  <span className="text-lg md:text-xl font1-bold">
+                    Ripple Media
+                  </span>
                 </div>
               </Link>
 
-              <div className="flex gap-4 md:gap-8  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="md:flex gap-4 md:gap-8 hidden  items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Link href="/#compare" className=" capitalize font1">
                   why Ripple?
                 </Link>
