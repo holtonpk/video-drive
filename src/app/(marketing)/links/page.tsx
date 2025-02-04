@@ -64,14 +64,14 @@ const Page = () => {
             Get Your Free Personalized Social Media Content Plan ...in under 30
             seconds.
           </p>
-          <LinkButton
-            className="bg-[#34F4AF] w-full font1-bold"
+          <Link
+            className="bg-[#34F4AF] w-full font1-bold rounded-md flex items-center justify-center py-2 text-[#1A191E] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
             href={"/content-plan"}
           >
             Get my plan
-          </LinkButton>
+          </Link>
         </div>
-        <h2 className="text-xl font1-bold  w-full text-center rounded-md flex items-center justify-center">
+        <h2 className="text-xl font1-bold  w-full text-center rounded-md ">
           Our Agency
         </h2>
         <div className="border rounded-md border-white p-4 gap-4 flex flex-col ">
@@ -86,15 +86,15 @@ const Page = () => {
               </p>
             </div>
           </div>
-          <LinkButton
-            className="bg-[#34F4AF] w-full font1-bold"
-            href={"/content-plan"}
+          <Link
+            className="bg-[#34F4AF] w-full font1-bold rounded-md flex items-center justify-center py-2 text-[#1A191E] hover:bg-[#34F4AF]/90 hover:-translate-y-[2px] transition-all duration-300"
+            href={"/#"}
           >
             Let&apos;s work together
-          </LinkButton>
+          </Link>
         </div>
       </div>
-      <div className="flex w-full items-center justify-center text-muted gap-2 mt-auto">
+      <div className="flex w-full items-center justify-center text-muted gap-2 mt-auto mb-4">
         <Link className="text-muted  font1-bold" href={"/legal/privacy"}>
           Privacy Policy
         </Link>
