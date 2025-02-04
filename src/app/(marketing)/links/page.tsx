@@ -57,6 +57,7 @@ const Page = () => {
               alt="demo"
               src="/demo.png"
               className="w-full max-w-[800px]"
+              priority
             />
           </div>
           <p className="font1 text-lg text-center">
