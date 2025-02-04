@@ -14,9 +14,9 @@ export const metadata = constructMetadata({
 
 const Page = () => {
   return (
-    <div className="dark flex flex-col h-fit min-h-screen">
+    <div className="dark flex flex-col h-fit min-h-screen ">
       <Background />
-      <div className=" mx-auto  flex flex-col  overflow-hidden w-screen max-w-[400px] px-2 py-10 items-center gap-4">
+      <div className=" mx-auto  flex flex-col  overflow-hidden w-screen max-w-[400px] px-4 mt-6 pb-4 items-center gap-4">
         <div className="flex flex-col gap-2 items-center ">
           <AmLogo className="h-20 w-20" />
 
