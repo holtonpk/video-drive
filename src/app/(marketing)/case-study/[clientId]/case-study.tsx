@@ -38,7 +38,9 @@ const CaseStudy = ({clientId}: {clientId: string}) => {
 
             <h1 className="text-5xl font1-bold ">{clientData?.name}</h1>
           </div>
-          <p className="text-xl font1 text-center">{clientData?.description}</p>
+          <p className="text-xl font1 text-center">
+            {clientData?.clientDescription}
+          </p>
         </div>
       </div>
       <div className="w-[90%] md:w-[70%]  gap-8 mx-auto  relative flex flex-col">
@@ -70,7 +72,7 @@ const CaseStudy = ({clientId}: {clientId: string}) => {
                 <ClientCard
                   key={client.clientId}
                   name={client.name}
-                  description={client.description}
+                  clientDescription={client.clientDescription}
                   logo={<client.flatIcon />}
                   id={client.clientId}
                 />
@@ -91,7 +93,7 @@ const ClientData = [
     flatIcon: BlazeFlat,
     name: "Blaze Ai",
     clientId: "blaze",
-    description:
+    clientDescription:
       "Blaze uses AI to help small and medium businesses create custom content that feels true to their brand. Whether it’s social media posts, blogs, newsletters, or even websites, Blaze makes sure everything matches your style and voice. It’s an easy way to save time and create content that connects with your audience.",
     challenge:
       "The team was looking for a way to scale up their organic reach with short-form content to grow Blaze’s community and engage viewers. The challenge was creating content that worked well with algorithms while still connecting with their audience.",
@@ -109,7 +111,7 @@ Highlighted Blaze’s offerings and mission through engaging, tailored content d
     flatIcon: MortyFlat,
     name: "Morty",
     clientId: "morty",
-    description:
+    clientDescription:
       "Morty is a free app that helps you find, track, and review immersive attractions from all over the world. Whether it’s a mind-blowing experience in a strip mall or a warehouse-turned-wonderland, Morty brings it all together in one place. It’s an easy way to explore the best immersive experiences out there and stay connected with a global community.",
     challenge:
       "The Morty team was looking for a way to scale their organic reach and build a community around immersive attractions. Their challenge was crafting content that balanced algorithm-friendly strategies while capturing the excitement and curiosity of those passionate about unique, immersive experiences.",
@@ -128,7 +130,7 @@ By embracing viral trends and formats across TikTok, Instagram Reels, and YouTub
     flatIcon: FcFlat,
     name: "Founder Central",
     clientId: "founderCentral",
-    description:
+    clientDescription:
       "Founder Central is a media company dedicated to showcasing the success stories of the most inspiring founders and uncovering emerging business opportunities. Targeted at the Gen Z audience, they define themselves as the #1 place for future billionaires, offering insights and inspiration to the next wave of entrepreneurs",
     challenge:
       "Founder Central wanted to grow its audience and solidify its position as the go-to platform for Gen Z entrepreneurs and aspiring billionaires. The challenge was to create content that would resonate with this audience while promoting the success stories of founders and business opportunities in an authentic, relatable way. They needed a strategy to amplify their message and connect with an audience that’s both highly engaged and fiercely independent.",
