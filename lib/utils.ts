@@ -138,7 +138,7 @@ export function constructMetadata({
       shortcut: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
       apple: `${process.env.NEXT_PUBLIC_SITE_URL}/image/apple-touch-icon.png`,
     },
-    metadataBase: new URL("http://whitespace-media.com"),
+    metadataBase: new URL("http://ripple-media.com"),
     themeColor: "#FFF",
   };
 }
