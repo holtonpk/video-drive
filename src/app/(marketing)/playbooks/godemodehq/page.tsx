@@ -17,7 +17,7 @@ const Page = () => {
         className="fixed bottom-4 right-4 bg-[#34F4AF] text-[#0f1115] px-4 py-2 rounded-md flex items-center z-[999]"
       >
         <Phone className="w-4 h-4 mr-2" />
-        Let's chat
+        Let&apos;s chat
       </Link>
       <div className="flex flex-col items-center gap-2">
         <div className="h-16 w-16 rounded-md overflow-hidden">
@@ -32,9 +32,9 @@ const Page = () => {
           Godmode HQ social media playbook
         </h1>
         <p className="max-w-[500px] text-center">
-          We've developed this playbook to help you kickstart your social media
-          journey. At the bottom of this page you will find 6 videos that we've
-          created to help you guys out.
+          We&apos;ve developed this playbook to help you kickstart your social
+          media journey. At the bottom of this page you will find 6 videos that
+          we&apos;ve created to help you guys out.
         </p>
         <div className="flex flex-col gap-2 w-full">
           <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#34F4AF]">
@@ -119,6 +119,7 @@ const SeriesIdeas = () => {
           {series.map((series) => {
             return (
               <button
+                key={series.id}
                 className={`flex flex-col gap-2 border text-left p-2 px-4 rounded-md group transition-all duration-300 ${
                   selectedSeries === series.id
                     ? "border-[#34F4AF] "
@@ -152,7 +153,7 @@ const SeriesIdeas = () => {
                   <div className="overflow-hidden">
                     <p className="text-sm text-white/50">
                       {series.description.map((description) => (
-                        <p>- {description}</p>
+                        <p key={description}>- {description}</p>
                       ))}
                     </p>
                   </div>
@@ -233,6 +234,7 @@ const Videos = () => {
             {videos.map((video) => {
               return (
                 <button
+                  key={video.id}
                   className={`flex items-center gap-2 py-1 w-full border group rounded-sm px-4 transition-all duration-300 ${
                     selectedVideo === video.id
                       ? "bg-[#34F4AF]/10 border-[#34F4AF]"
@@ -261,7 +263,7 @@ const Videos = () => {
       </div>
       <div className="md:hidden flex flex-col gap-4 mt-2">
         {videos.map((video) => {
-          return <VideoCard video={video} />;
+          return <VideoCard key={video.id} video={video} />;
         })}
       </div>
     </div>
@@ -318,7 +320,7 @@ const VideoCard = ({video}: {video: any}) => {
             border border-white/10 p-2 w-full rounded-md overflow-hidden transition-all duration-300 pb-2 text-ellipsis relative h-fit flex flex-col `}
           >
             {video?.caption.split("\n").map((line: string) => (
-              <p>{line}</p>
+              <p key={line}>{line}</p>
             ))}
             <button className="absolute bottom-0 left-0 w-full blurBack bg-[#0f1115] text-white/50 px-2 py-1 rounded-md flex items-center justify-center"></button>
           </div>
