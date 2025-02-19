@@ -49,7 +49,7 @@ const Page = () => {
             </p>
             <p>
               - Although memes help with follower retention, the space is too
-              saturated for fast growth. Custom content is king.
+              saturated for fast growth. Unique custom content is king.
             </p>
             <p>
               - Avoid collaborations until you have a solid content base and at

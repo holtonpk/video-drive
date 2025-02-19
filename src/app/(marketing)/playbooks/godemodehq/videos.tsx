@@ -200,7 +200,7 @@ const videos = [
       "Are you a gigacloser?\nScale your sales for $1/lead with AI-powered prospecting. Get your first leads at godmodehq.com ",
 
     video:
-      "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/godemode%2FGPT%20Closer%20(meme).mov?alt=media&token=1067388e-1433-440c-8ee7-60d8338bc0ac",
+      "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/godemode%2F0218.mov?alt=media&token=1ae945f2-c932-4273-95f1-1068a673c072",
   },
   {
     id: 2,
