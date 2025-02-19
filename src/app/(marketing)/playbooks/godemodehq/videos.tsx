@@ -134,7 +134,7 @@ const VideoCard = ({video}: {video: any}) => {
   };
 
   return (
-    <div className="grid items-center md:grid-cols-[200px_1fr] gap-4 w-full border rounded-md border-white/10 p-2">
+    <div className="flex flex-col md:grid items-center md:grid-cols-[200px_1fr] gap-4 w-full border rounded-md border-white/10 p-2">
       <h1 className="md:hidden text-2xl font-bold text-center">
         {video?.title}
       </h1>

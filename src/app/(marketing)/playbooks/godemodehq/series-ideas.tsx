@@ -5,9 +5,7 @@ import {useState} from "react";
 import {Icons} from "@/components/icons";
 
 export const SeriesIdeas = () => {
-  const [selectedSeries, setSelectedSeries] = useState<number | undefined>(
-    undefined
-  );
+  const [selectedSeries, setSelectedSeries] = useState<number | undefined>(1);
 
   const series = [
     {
@@ -64,7 +62,7 @@ export const SeriesIdeas = () => {
                   )
                 }
               >
-                <div className="flex items-center mt-2">
+                <div className="flex items-center justify-between mt-2">
                   {series.title}
                   <Icons.chevronDown
                     className={`w-4 h-4 ml-auto   
