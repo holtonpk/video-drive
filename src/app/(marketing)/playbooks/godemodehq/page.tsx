@@ -8,6 +8,13 @@ import {motion} from "framer-motion";
 import JSZip from "jszip";
 import {Phone} from "lucide-react";
 import Link from "next/link";
+import {constructMetadata} from "@/lib/utils";
+
+export const metadata = constructMetadata({
+  title: "Godmode HQ Playbook",
+  description: "A playbook for Godmode HQ",
+});
+
 const Page = () => {
   return (
     <div className="flex flex-col items-center px-4  md:container mx-auto gap-8 py-6">
