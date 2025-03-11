@@ -140,9 +140,9 @@ const Page = () => {
               insights and metrics)
             </p>
             <p>
-              • Monthly reports (Macro breakdown - Last month's performance,
-              strategy for the upcoming month, and any revisions to the current
-              strategy. On a call or a video presentation. )
+              • Monthly reports (Macro breakdown - Last month&apos;s
+              performance, strategy for the upcoming month, and any revisions to
+              the current strategy. On a call or a video presentation. )
             </p>
             <p>• Month to Month contract (cancel anytime)</p>
           </div>
@@ -160,5 +160,5 @@ export default Page;
 // •**Our team at your disposal** (Have a new feature or announcement? Have an idea for a video?)
 // •**Management of socials** (community engagement (stories, comment replies), arranging collaborations, planning content, posting content)
 // •**Weekly reports** (Micro breakdown •What worked, content pivots, insights and metrics)
-// •**Monthly Reports** (Macro breakdown •Last month's performance, strategy for the upcoming month, and any revisions to the current strategy. On a call or a video presentation. )
+// •**Monthly Reports** (Macro breakdown •Last month&apos;s performance, strategy for the upcoming month, and any revisions to the current strategy. On a call or a video presentation. )
 // •**Month to Month contract** (cancel anytime)
