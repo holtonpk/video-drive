@@ -39,7 +39,7 @@ const Page = () => {
           </h2>
           <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md">
             <p>
-              Mozi thrives on fostering real-world connections, making social
+              Mozi thrives on creating real-world connections, making social
               media the ideal platform to engage with community-oriented
               individuals who seek meaningful social interactions.
             </p>
