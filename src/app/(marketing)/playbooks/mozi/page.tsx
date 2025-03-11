@@ -125,7 +125,6 @@ const Page = () => {
               • 5 Short form videos per week (Posted on Instagram, Youtube, and
               Tiktok)
             </p>
-            <p>• 2 Collaborative video per week.</p>
             <p>
               • Our team at your disposal (Have a new feature or announcement?
               Have an idea for a video?)
@@ -153,12 +152,3 @@ const Page = () => {
 };
 
 export default Page;
-
-// ## Our Service 🛠
-
-// •**2 Short form videos per day** (Posted on Instagram, LinkedIn, X, Youtube,  and Tiktok)
-// •**Our team at your disposal** (Have a new feature or announcement? Have an idea for a video?)
-// •**Management of socials** (community engagement (stories, comment replies), arranging collaborations, planning content, posting content)
-// •**Weekly reports** (Micro breakdown •What worked, content pivots, insights and metrics)
-// •**Monthly Reports** (Macro breakdown •Last month&apos;s performance, strategy for the upcoming month, and any revisions to the current strategy. On a call or a video presentation. )
-// •**Month to Month contract** (cancel anytime)
