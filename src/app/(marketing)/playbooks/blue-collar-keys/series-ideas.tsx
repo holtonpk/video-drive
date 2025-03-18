@@ -341,8 +341,11 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
           <ReactMarkdown
             components={{
               ...commonMarkdownComponents,
-              h2: ({children}: {children: React.ReactNode}) => (
-                <h2 className="text-md text-[#233461] font-bold mt-4">
+              h2: ({children, ...props}) => (
+                <h2
+                  className="text-md text-[#233461] font-bold mt-4"
+                  {...props}
+                >
                   {children}
                 </h2>
               ),
