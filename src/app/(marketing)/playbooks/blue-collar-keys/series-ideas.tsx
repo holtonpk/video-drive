@@ -214,6 +214,7 @@ export const SeriesIdeas = () => {
                         <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
                         {series.videos.map((video) => (
                           <Video
+                            key={video}
                             src={video}
                             isOpen={selectedSeries === series.id}
                           />
