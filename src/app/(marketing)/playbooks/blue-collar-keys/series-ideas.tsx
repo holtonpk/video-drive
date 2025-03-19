@@ -68,9 +68,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc3.mp4",
+          accountLabel: "Soft White Underbelly",
+          accountUrl: "https://www.instagram.com/soft_white_underbelly/",
         },
         {
           videoUrl: "/bcc/bcc4.mp4",
+          accountLabel: "Humans of NY",
+          accountUrl: "https://www.instagram.com/humansofny/",
         },
       ],
       videos2: [
@@ -139,9 +143,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc1.mp4",
+          accountLabel: "Brady Your Tudor",
+          accountUrl: "https://www.youtube.com/@BradyYourTutor/shorts",
         },
         {
           videoUrl: "/bcc/bcc2.mp4",
+          accountLabel: "Street Interviews",
+          accountUrl: "https://www.instagram.com/streetinterviewsofficial/",
         },
       ],
     },
@@ -158,9 +166,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc5.mp4",
+          accountLabel: "OurFuture",
+          accountUrl: "https://www.instagram.com/ourfuturehq/",
         },
         {
           videoUrl: "/bcc/bcc6.mp4",
+          accountLabel: "Founder Central",
+          accountUrl: "https://www.instagram.com/attentionmarketers/",
         },
       ],
     },
@@ -177,9 +189,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc7.mp4",
+          accountLabel: "Plumber John",
+          accountUrl: "https://www.youtube.com/@Plumberjohn/shorts",
         },
         {
           videoUrl: "/bcc/bcc8.mp4",
+          accountLabel: "NYC Hvac",
+          accountUrl: "https://www.youtube.com/@NYCHvac/shorts",
         },
       ],
     },
@@ -196,9 +212,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc9.mp4",
+          accountLabel: "Blue Collar Rebellion",
+          accountUrl: "https://www.instagram.com/bluecollarrebellion/",
         },
         {
           videoUrl: "/bcc/bcc10.mp4",
+          accountLabel: "Blue Collar Rebellion",
+          accountUrl: "https://www.instagram.com/bluecollarrebellion/",
         },
       ],
     },
@@ -215,9 +235,13 @@ export const SeriesIdeas = () => {
       videos: [
         {
           videoUrl: "/bcc/bcc11.mp4",
+          accountLabel: "Morty app",
+          accountUrl: "https://www.youtube.com/@mortyapp/shorts",
         },
         {
           videoUrl: "/bcc/bcc12.mp4",
+          accountLabel: "Renzo Fortini",
+          accountUrl: "https://www.tiktok.com/@renzo.fortini",
         },
       ],
     },
@@ -295,6 +319,8 @@ export const SeriesIdeas = () => {
                         <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
                         {series.videos.map((video) => (
                           <Video
+                            accountUrl={video.accountUrl}
+                            accountLabel={video.accountLabel}
                             key={video.videoUrl}
                             src={video.videoUrl}
                             isOpen={selectedSeries === series.id}
