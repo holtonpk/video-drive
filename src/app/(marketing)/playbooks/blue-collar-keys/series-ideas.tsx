@@ -182,7 +182,7 @@ export const SeriesIdeas = () => {
       description: [
         {
           content:
-            "ASMR/Satisfying videos if blue collar work is a sub-genre of content that we can naturally use. These videos are inherently viral thanks to the long retention rates and it fits perfectly into our brand. The idea here is to source videos we can use in the background and overlay with engaging story voice overs.",
+            "ASMR/Satisfying videos of blue collar work is a sub-genre of content that we can naturally use. These videos are inherently viral thanks to the long retention rates and it fits perfectly into our brand. The idea here is to source videos we can use in the background and overlay with engaging story voice overs.",
           type: "paragraph",
         },
       ],
