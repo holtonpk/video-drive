@@ -157,8 +157,9 @@ const Page = () => {
           </h1>
           <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
             <p>
-              • Our team at your disposal (Have a new feature or announcement?
-              Have an idea for a video?)
+              • Strategy Development - We handle all aspects of content
+              strategy—from ideation to execution—ensuring alignment with your
+              brand goals, audience engagement, and industry trends.
             </p>
             <p>
               • Management of socials (community engagement (stories, comment

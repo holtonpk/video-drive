@@ -23,16 +23,18 @@ export const SeriesIdeas = () => {
     title: string;
     description: DescriptionItem[];
     videos: string[];
+    videos2?: string[];
   };
 
   const series: Series[] = [
     {
       id: 1,
-      title: "Man on the street V1",
+      title:
+        "Man on the street - Inspired by Humans of NY and Soft White Underbelly",
       description: [
         {
           content:
-            "To create high quality man on the street content, future interviews should be shot with a stronger focus on storytelling, structure, and setting. We will provide detailed directions for this and ecstasy what we think we need to get the best shots.",
+            "To create high quality man on the street content, future interviews should be shot with a stronger focus on storytelling, structure, and setting. We will provide detailed directions for this and exactly what we think we need to get the best shots.",
           type: "paragraph",
         },
         {
@@ -50,12 +52,24 @@ export const SeriesIdeas = () => {
             "Structured Storytelling and Questions: Instead of disconnected soundbites, interviews should guide subjects through a clear beginning, middle and end. Questions should be designed to build a cohesive narrative, allowing clips to be seamlessly stitched together into a full story.",
           type: "list-item",
         },
+        {
+          content:
+            "And in addition to the 2 formats above, every month we will sprinkle in experiments testing new formats that are trending (see examples below for a few more unique street interview formats we can try to replicate)",
+          type: "heading",
+        },
       ],
       videos: ["/bcc/bcc3.mp4", "/bcc/bcc4.mp4"],
+      videos2: [
+        "/bcc/bcc13.mp4",
+        "/bcc/bcc14.mp4",
+        "/bcc/bcc15.mp4",
+        "/bcc/bcc16.mp4",
+        "/bcc/bcc17.mp4",
+      ],
     },
     {
       id: 8,
-      title: "Man on the street V2",
+      title: "Man on the street - Interactive Series Trivia ",
       description: [
         {
           content:
@@ -76,11 +90,6 @@ export const SeriesIdeas = () => {
           content:
             "Questions will include; guessing the logo/company and trivia on different trade techniques or tools and insider lingo.",
           type: "list-item",
-        },
-        {
-          content:
-            "And in addition to the 2 formats above, every month we will sprinkle in experiments testing new formats that are trending (see examples below for a few more unique street interview formats we can try to replicate)",
-          type: "heading",
         },
       ],
       videos: ["/bcc/bcc1.mp4", "/bcc/bcc2.mp4"],
@@ -147,9 +156,9 @@ export const SeriesIdeas = () => {
             return (
               <div
                 key={series.id}
-                className={`flex relative flex-col gap-2 border text-left p-2 px-4 bg-white rounded-md  shadow-md group transition-all duration-300 ${
+                className={`flex relative flex-col gap-2 border text-left  p-2 px-4 bg-white rounded-md  shadow-md group transition-all duration-300 ${
                   selectedSeries === series.id
-                    ? "border-[#7DA2DD] "
+                    ? "border-[#7DA2DD] pb-4"
                     : " border-black/10 hover:border-[#7DA2DD]/50"
                 }`}
               >
@@ -214,6 +223,23 @@ export const SeriesIdeas = () => {
                         ))}
                       </div>
                     </div>
+                    {series.videos2 && (
+                      <div className="flex gap-1  flex-col">
+                        <h1 className="text-sm text-[#7DA2DD] font-bold mt-4">
+                          Best in class examples
+                        </h1>
+                        <div className="flex gap-4 w-fit ">
+                          <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
+                          {series.videos2.map((video) => (
+                            <Video
+                              key={video}
+                              src={video}
+                              isOpen={selectedSeries === series.id}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
