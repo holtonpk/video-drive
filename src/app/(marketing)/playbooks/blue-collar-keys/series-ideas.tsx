@@ -65,6 +65,8 @@ export const SeriesIdeas = () => {
         "/bcc/bcc15.mp4",
         "/bcc/bcc16.mp4",
         "/bcc/bcc17.mp4",
+        "/bcc/bcc18.mp4",
+        "/bcc/bcc19.mp4",
       ],
     },
     {
@@ -228,8 +230,7 @@ export const SeriesIdeas = () => {
                         <h1 className="text-sm text-[#7DA2DD] font-bold mt-4">
                           Best in class examples
                         </h1>
-                        <div className="flex gap-4 w-fit ">
-                          <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
+                        <div className="flex gap-4 flex-wrap  w-full ">
                           {series.videos2.map((video) => (
                             <Video
                               key={video}
