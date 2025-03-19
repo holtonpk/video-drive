@@ -133,18 +133,18 @@ const Page = () => {
         </div>
         <SeriesIdeas />
         <div className="flex gap-6 mt-10">
-          <div className="flex flex-col items-end">
+          {/* <div className="flex flex-col items-end">
             <h1 className="text-2xl max-w-[200px] font-bold text-[#7DA2DD]">
               An example of the branding of your account
             </h1>
             <Arrow1 className="w-[100px] h-[100px] -rotate-[10deg]  fill-[#7DA2DD] scale-x-[-1] " />
-          </div>
+          </div> */}
           <Image
             className=" "
             src="/bcc/bcc_feed.png"
             alt="Blue Collar Keys Series Ideas"
-            width={500}
-            height={500}
+            width={300}
+            height={300}
           />
         </div>
 
