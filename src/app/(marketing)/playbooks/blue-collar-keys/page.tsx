@@ -117,14 +117,16 @@ const Page = () => {
           <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
             <p>
               Our content strategy will use a 60/40 split, where 60% of the
-              content focuses on high-value, bottom-of-funnel branded content,
-              and the remaining 40% serves as top-of-funnel humor and relatable
-              content designed to capture attention and build awareness.
+              content focuses on high-value, story-driven content that engages
+              and builds long-term relationships, while the remaining 40% is
+              designed for reach, featuring humor and relatable content to
+              capture attention and increase awareness.
             </p>
             <p>
               By combining these two distinct content types, the plan is to
-              capture a wide audience with the TOF content and the high-value
-              story focused content will keep them around for the long-term.
+              capture a wide audience with the broader attention-optimized
+              content and then retain them and build community with the
+              high-value branded content
             </p>
             <p>
               Below are the specific series idea that fall under each category.
