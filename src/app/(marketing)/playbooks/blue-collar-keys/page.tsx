@@ -8,6 +8,7 @@ import {
   Camera,
   Gem,
   LucideProps,
+  Target,
 } from "lucide-react";
 import {Phone} from "lucide-react";
 import Link from "next/link";
@@ -134,13 +135,22 @@ const Page = () => {
           </div>
         </div>
         <SeriesIdeas />
-        <div className="flex gap-6 mt-10">
-          {/* <div className="flex flex-col items-end">
-            <h1 className="text-2xl max-w-[200px] font-bold text-[#7DA2DD]">
-              An example of the branding of your account
+        <div className=" gap-6 mt-10 max-w-[1000px] grid grid-cols-[1fr_300px] items-center">
+          <div className="flex flex-col gap-2 ">
+            <h1 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#233461]">
+              <Target className="w-5 h-5" />
+              Our Goal
             </h1>
-            <Arrow1 className="w-[100px] h-[100px] -rotate-[10deg]  fill-[#7DA2DD] scale-x-[-1] " />
-          </div> */}
+            <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
+              <p>
+                We want BCK to become the go-to media brand when it comes to
+                blue collar workers. Our vision is to build a very systemized
+                evergreen content engine—one where we devise a strategy, send it
+                over to you, film at events, we create, post, and refine in a
+                continuous cycle.
+              </p>
+            </div>
+          </div>
           <Image
             className=" "
             src="/bcc/bcc_feed.png"

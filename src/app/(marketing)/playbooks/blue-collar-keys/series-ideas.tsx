@@ -6,6 +6,7 @@ import {Icons} from "@/components/icons";
 import {LucideProps} from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Markdown from "react-markdown";
+import Link from "next/link";
 
 type DescriptionItem = {
   content: string;
@@ -18,12 +19,18 @@ export const SeriesIdeas = () => {
     undefined
   );
 
+  type video = {
+    videoUrl: string;
+    accountUrl?: string;
+    accountLabel?: string;
+  };
+
   type Series = {
     id: number;
     title: string;
     description: DescriptionItem[];
-    videos: string[];
-    videos2?: string[];
+    videos: video[];
+    videos2?: video[];
   };
 
   const series: Series[] = [
@@ -58,15 +65,50 @@ export const SeriesIdeas = () => {
           type: "heading",
         },
       ],
-      videos: ["/bcc/bcc3.mp4", "/bcc/bcc4.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc3.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc4.mp4",
+        },
+      ],
       videos2: [
-        "/bcc/bcc13.mp4",
-        "/bcc/bcc14.mp4",
-        "/bcc/bcc15.mp4",
-        "/bcc/bcc16.mp4",
-        "/bcc/bcc17.mp4",
-        "/bcc/bcc18.mp4",
-        "/bcc/bcc19.mp4",
+        {
+          videoUrl: "/bcc/bcc13.mp4",
+          accountLabel: "Ramen on the Street",
+          accountUrl: "https://www.instagram.com/ramenonthestreet/",
+        },
+        {
+          videoUrl: "/bcc/bcc14.mp4",
+          accountLabel: "We're Not Really Strangers",
+          accountUrl: "https://www.instagram.com/werenotreallystrangers/",
+        },
+        {
+          videoUrl: "/bcc/bcc15.mp4",
+          accountLabel: "Get Ahead",
+          accountUrl: "https://www.instagram.com/getahead.app/",
+        },
+        {
+          videoUrl: "/bcc/bcc16.mp4",
+          accountLabel: "Salary Transparent Street",
+          accountUrl: "https://www.instagram.com/salarytransparentstreet/",
+        },
+        {
+          videoUrl: "/bcc/bcc17.mp4",
+          accountLabel: "School of Hard Knockz",
+          accountUrl: "https://www.instagram.com/theschoolofhardknockz/",
+        },
+        {
+          videoUrl: "/bcc/bcc18.mp4",
+          accountLabel: "Emma Finance",
+          accountUrl: "https://www.instagram.com/emma_finance/",
+        },
+        {
+          videoUrl: "/bcc/bcc19.mp4",
+          accountLabel: "Tavolo",
+          accountUrl: "https://www.instagram.com/itstavolo",
+        },
       ],
     },
     {
@@ -94,7 +136,14 @@ export const SeriesIdeas = () => {
           type: "list-item",
         },
       ],
-      videos: ["/bcc/bcc1.mp4", "/bcc/bcc2.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc1.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc2.mp4",
+        },
+      ],
     },
     {
       id: 2,
@@ -106,7 +155,14 @@ export const SeriesIdeas = () => {
           type: "paragraph",
         },
       ],
-      videos: ["/bcc/bcc5.mp4", "/bcc/bcc6.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc5.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc6.mp4",
+        },
+      ],
     },
     {
       id: 3,
@@ -118,7 +174,14 @@ export const SeriesIdeas = () => {
           type: "paragraph",
         },
       ],
-      videos: ["/bcc/bcc7.mp4", "/bcc/bcc8.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc7.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc8.mp4",
+        },
+      ],
     },
     {
       id: 4,
@@ -130,7 +193,14 @@ export const SeriesIdeas = () => {
           type: "paragraph",
         },
       ],
-      videos: ["/bcc/bcc9.mp4", "/bcc/bcc10.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc9.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc10.mp4",
+        },
+      ],
     },
     {
       id: 5,
@@ -142,7 +212,14 @@ export const SeriesIdeas = () => {
           type: "paragraph",
         },
       ],
-      videos: ["/bcc/bcc11.mp4", "/bcc/bcc12.mp4"],
+      videos: [
+        {
+          videoUrl: "/bcc/bcc11.mp4",
+        },
+        {
+          videoUrl: "/bcc/bcc12.mp4",
+        },
+      ],
     },
   ];
 
@@ -218,8 +295,8 @@ export const SeriesIdeas = () => {
                         <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
                         {series.videos.map((video) => (
                           <Video
-                            key={video}
-                            src={video}
+                            key={video.videoUrl}
+                            src={video.videoUrl}
                             isOpen={selectedSeries === series.id}
                           />
                         ))}
@@ -233,8 +310,10 @@ export const SeriesIdeas = () => {
                         <div className="flex gap-4 flex-wrap  w-full ">
                           {series.videos2.map((video) => (
                             <Video
-                              key={video}
-                              src={video}
+                              accountUrl={video.accountUrl}
+                              accountLabel={video.accountLabel}
+                              key={video.videoUrl}
+                              src={video.videoUrl}
                               isOpen={selectedSeries === series.id}
                             />
                           ))}
@@ -255,7 +334,17 @@ export const SeriesIdeas = () => {
   );
 };
 
-const Video = ({src, isOpen}: {src: string; isOpen: boolean}) => {
+const Video = ({
+  src,
+  isOpen,
+  accountUrl,
+  accountLabel,
+}: {
+  src: string;
+  isOpen: boolean;
+  accountUrl?: string;
+  accountLabel?: string;
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const handlePlay = () => {
@@ -289,6 +378,15 @@ const Video = ({src, isOpen}: {src: string; isOpen: boolean}) => {
         loop
         onEnded={() => setIsPlaying(false)}
       />
+      {!isPlaying && accountUrl && accountLabel && (
+        <Link
+          href={accountUrl}
+          target="_blank"
+          className="text-black hover:underline px-2 blurBack  overflow-hidden min-h-10 text-ellipsis font-bold h-fit w-full absolute bottom-0 left-0 z-50 bg-white/60 flex items-center justify-center whitespacse-nowrap text-[12px]"
+        >
+          {accountLabel}
+        </Link>
+      )}
     </div>
   );
 };
