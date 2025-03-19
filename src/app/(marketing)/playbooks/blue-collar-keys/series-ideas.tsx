@@ -321,9 +321,9 @@ const Arrow2 = ({...props}: LucideProps) => {
 };
 
 const commonMarkdownComponents = {
-  a: ({href, children}: {href?: string; children: React.ReactNode}) => (
+  a: ({node, children, ...props}: any) => (
     <a
-      href={href}
+      {...props}
       target="_blank"
       rel="noopener noreferrer"
       className="text-[#7DA2DD] underline hover:text-[#7DA2DD]/80 relative z-30"
