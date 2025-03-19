@@ -28,13 +28,8 @@ export const SeriesIdeas = () => {
   const series: Series[] = [
     {
       id: 1,
-      title: "Man on the street",
+      title: "Man on the street V1",
       description: [
-        {
-          content:
-            "## V1: Inspired by *[Humans of NY](https://www.instagram.com/humansofny) and [Soft White Underbelly](https://www.instagram.com/soft_white_underbelly)*",
-          type: "heading",
-        },
         {
           content:
             "To create high quality man on the street content, future interviews should be shot with a stronger focus on storytelling, structure, and setting. We will provide detailed directions for this and ecstasy what we think we need to get the best shots.",
@@ -55,10 +50,13 @@ export const SeriesIdeas = () => {
             "Structured Storytelling and Questions: Instead of disconnected soundbites, interviews should guide subjects through a clear beginning, middle and end. Questions should be designed to build a cohesive narrative, allowing clips to be seamlessly stitched together into a full story.",
           type: "list-item",
         },
-        {
-          content: "## V2: Interactive Series Trivia",
-          type: "heading",
-        },
+      ],
+      videos: ["/bcc/bcc3.mp4", "/bcc/bcc4.mp4"],
+    },
+    {
+      id: 8,
+      title: "Man on the street V2",
+      description: [
         {
           content:
             "Inspired by accounts like ([Street Interviews](https://www.instagram.com/streetinterviewsofficial/) and [Brady Your Tudor](https://www.youtube.com/@BradyYourTutor/shorts))",
@@ -85,12 +83,7 @@ export const SeriesIdeas = () => {
           type: "heading",
         },
       ],
-      videos: [
-        "/bcc/bcc1.mp4",
-        "/bcc/bcc2.mp4",
-        "/bcc/bcc3.mp4",
-        "/bcc/bcc4.mp4",
-      ],
+      videos: ["/bcc/bcc1.mp4", "/bcc/bcc2.mp4"],
     },
     {
       id: 2,
