@@ -197,7 +197,6 @@ const Page = () => {
           <div className="flex flex-col gap-2 text-black bg-white p-4 rounded-md shadow-md border">
             <h1 className="text-lg font-bold">Plan A - $9,950 per month.</h1>
             <p>🔹 40 videos a month across all major platforms.</p>
-            <p>🔹 Strategy consultations included.</p>
             <p>🔹 High volume upfront to test & optimize formats.</p>
             <p>
               🔹 With this plan we can start with high volume, testing out the
@@ -209,7 +208,6 @@ const Page = () => {
           <div className="flex flex-col gap-2 text-black bg-white p-4 rounded-md shadow-md border">
             <h1 className="text-lg font-bold">Plan B - $7,000 per month</h1>
             <p>🔹 20 videos a month across all major platforms.</p>
-            <p>🔹 Strategy consultations NOT included.</p>
             <p>
               🔹 With this plan, we are just going to start with just 1 series;
               editing the street interview content you provide and optimizing it
