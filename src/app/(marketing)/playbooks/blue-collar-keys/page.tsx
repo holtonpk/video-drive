@@ -22,7 +22,7 @@ export const metadata = constructMetadata({
 
 const Page = () => {
   return (
-    <div className="flex flex-col items-center px-4 bg-[white]  md:container mx-auto gap-8 py-6">
+    <div className="flex flex-col items-center px-4 bg-[white] w-screen  mdscontainer mx-auto gap-8 py-6">
       {/* <Link
         href="https://calendly.com/holtonpk/30min"
         target="_blank"
@@ -135,7 +135,7 @@ const Page = () => {
           </div>
         </div>
         <SeriesIdeas />
-        <div className=" gap-6 mt-10 max-w-[1000px] grid grid-cols-[1fr_300px] items-center">
+        <div className=" gap-6 mt-10 max-w-[1000px] grid md:grid-cols-[1fr_300px] items-center">
           <div className="flex flex-col gap-2 ">
             <h1 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#233461]">
               <Target className="w-5 h-5" />

@@ -316,7 +316,7 @@ export const SeriesIdeas = () => {
                         Examples
                       </h1>
                       <div className="flex gap-4 w-fit ">
-                        <Arrow1 className="w-[50px] h-[50px] -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
+                        <Arrow1 className="w-[50px] h-[50px] hidden md:block -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
                         {series.videos.map((video) => (
                           <Video
                             accountUrl={video.accountUrl}
