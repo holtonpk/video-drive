@@ -1,0 +1,58 @@
+{
+  "refundPolicy": {
+    "moneyBackGuarantee": 30,
+    "digitalProductRefundDays": 14,
+    "refundEligibilityMonths": 6,
+    "restockingFeePercentage": 15,
+    "excludedCategories": ["personalized", "perishable", "downloadable"]
+  },
+  "shippingPolicy": {
+    "processingDays": 2,
+    "domesticShippingDays": {
+      "min": 3,
+      "max": 5
+    },
+    "internationalShippingDays": {
+      "min": 7,
+      "max": 14
+    },
+    "freeShippingThreshold": 100,
+    "domesticShippingRates": {
+      "standard": 5.99,
+      "express": 15.99,
+      "overnight": 29.99
+    }
+  },
+  "customerService": {
+    "email": "support@yourcompany.com",
+    "phone": "1-800-123-4567",
+    "hours": {
+      "weekday": {
+        "open": "9:00",
+        "close": "17:00"
+      },
+      "timezone": "EST"
+    },
+    "responseTime": {
+      "email": 24,
+      "chat": 1
+    }
+  },
+  "businessInfo": {
+    "companyName": "Your Company Name",
+    "address": {
+      "street": "123 Business Street",
+      "suite": "Suite 100",
+      "city": "City",
+      "state": "State",
+      "zip": "12345",
+      "country": "United States"
+    }
+  },
+  "paymentMethods": {
+    "acceptedCards": ["visa", "mastercard", "amex", "discover"],
+    "minimumOrder": 10,
+    "maximumOrder": 5000,
+    "currencies": ["USD", "EUR", "GBP"]
+  }
+}
