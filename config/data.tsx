@@ -13,6 +13,7 @@ import {
   LearnXYZLogo,
   MindyLogo,
   FrizzleLogo,
+  BlueCollarKeysLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -22,6 +23,7 @@ export const ADMIN_USERS = [
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
   "x9h3UepduwQHoCkwUh7bPGqEeTj2",
+  "KWfkeozhuHhq95XIkuhUhLYmSci1",
 ];
 
 export const EDITORS = [
@@ -180,28 +182,35 @@ export const clients = [
       "Viral Factory create viral short video that are perfect for social media.",
   },
   {
-    id: "4",
-    value: "learnXYZ",
-    label: "Learn XYZ",
-    icon: LearnXYZLogo,
-    description: "Explore bite-sized Learning with the magic of AI",
+    id: "6",
+    value: "blueCollarKeys",
+    label: "Blue Collar Keys",
+    icon: BlueCollarKeysLogo,
+    description: "Blue Collar Keys is a company that sells keys.",
   },
-  {
-    id: "8762",
-    value: "mindy",
-    label: "Mindy",
-    icon: MindyLogo,
-    description:
-      "Mindy can help with everything from complex research to shopping for great deals to organizing your meetings.",
-  },
-  {
-    id: "5",
-    value: "frizzle",
-    label: "Frizzle AI",
-    icon: FrizzleLogo,
-    description:
-      "Turn anything into a presentation. Frizzle AI is a presentation tool that uses AI to turn your ideas into beautiful slides.",
-  },
+  // {
+  //   id: "4",
+  //   value: "learnXYZ",
+  //   label: "Learn XYZ",
+  //   icon: LearnXYZLogo,
+  //   description: "Explore bite-sized Learning with the magic of AI",
+  // },
+  // {
+  //   id: "8762",
+  //   value: "mindy",
+  //   label: "Mindy",
+  //   icon: MindyLogo,
+  //   description:
+  //     "Mindy can help with everything from complex research to shopping for great deals to organizing your meetings.",
+  // },
+  // {
+  //   id: "5",
+  //   value: "frizzle",
+  //   label: "Frizzle AI",
+  //   icon: FrizzleLogo,
+  //   description:
+  //     "Turn anything into a presentation. Frizzle AI is a presentation tool that uses AI to turn your ideas into beautiful slides.",
+  // },
 ];
 
 export const priorities = [
@@ -283,7 +292,7 @@ export type VideoData = {
   assets: VideoAsset[];
   voiceOver: VideoAsset[];
   notes: string;
-  script: OutputData | string;
+  script: ScriptData | string;
   caption?: string;
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
@@ -297,6 +306,10 @@ export type VideoData = {
   videoReviewed?: string[];
   payoutChangeRequest?: PayoutChangeRequest;
   messages?: videoMessage[];
+};
+
+type ScriptData = {
+  dd: OutputData;
 };
 
 export type videoMessage = {

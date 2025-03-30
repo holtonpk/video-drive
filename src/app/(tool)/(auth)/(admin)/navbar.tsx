@@ -78,7 +78,7 @@ const Navbar = () => {
                               "flex gap-2 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline  outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             }
                           >
-                            <client.icon className="h-6 w-6" />
+                            <client.icon className="h-6 w-6 rounded-[4px]" />
                             <div className="text-base font-bold leading-none">
                               {client.label}
                             </div>
@@ -119,7 +119,7 @@ const Navbar = () => {
                               "flex gap-2 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline  outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                             }
                           >
-                            <client.icon className="h-6 w-6" />
+                            <client.icon className="h-6 w-6 rounded-[4px]" />
                             <div className="text-base font-bold leading-none">
                               {client.label}
                             </div>
