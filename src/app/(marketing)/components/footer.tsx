@@ -104,6 +104,12 @@ const Footer = () => {
         >
           Terms
         </Link>
+        <Link
+          href="/legal/policy"
+          className="text-[#141516] opacity-70 text-[12px] font1 my-2 hover:text-white"
+        >
+          Fulfillment Policy
+        </Link>
       </div>
     </div>
   );
