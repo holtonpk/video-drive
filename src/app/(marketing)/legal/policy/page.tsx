@@ -28,14 +28,16 @@ const PolicyBody = () => {
 
       {/* Refund Policy Section */}
       <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">What We're Selling:</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          What We&apos;re Selling:
+        </h2>
         <p>
           Ripple Media is a digital marketing agency that helps businesses grow
           their online presence through high-performing short-form video
           content. We specialize in organic content strategies across TikTok,
           Instagram Reels, and YouTube Shorts—designed to drive attention,
           clicks, and measurable attribution. We create custom short-form video
-          packages tailored to each client's goals. Our services include:
+          packages tailored to each client&apos;s goals. Our services include:
           <ul className="list-disc pl-6">
             <li>Content strategy and planning</li>
             <li>Video concept, scriptwriting and editing</li>
@@ -45,8 +47,8 @@ const PolicyBody = () => {
           </ul>
           We offer flexible, month-to-month packages based on the number of
           videos produced per month. Our goal is to help brands go viral through
-          consistent, high-quality content—no ad spend required. You'll receive
-          a dedicated content strategy, transparent communication, and a
+          consistent, high-quality content—no ad spend required. You&apos;ll
+          receive a dedicated content strategy, transparent communication, and a
           reliable team focused on helping your brand gain traction online.
         </p>
         <h2 className="text-2xl font-semibold mb-4 mt-4">
@@ -55,9 +57,9 @@ const PolicyBody = () => {
         <p className="mb-4">
           All prices listed on our website are in United States Dollars (USD).
           This currency will be used for all transactions, invoices, and
-          payments unless otherwise agreed upon in writing. Please ensure you're
-          aware of any potential conversion fees if purchasing from outside the
-          U.S.
+          payments unless otherwise agreed upon in writing. Please ensure
+          you&apos;re aware of any potential conversion fees if purchasing from
+          outside the U.S.
         </p>
       </section>
 
@@ -67,7 +69,7 @@ const PolicyBody = () => {
           Customer Service Contact Information:
         </h2>
         <p className="mb-4">
-          We're here to help! For questions, support, or inquiries, you can
+          We&apos;re here to help! For questions, support, or inquiries, you can
           reach us through the following channels:
           <ul className="list-disc pl-6">
             <li>Email: team@ripplemedia.co</li>
@@ -77,8 +79,9 @@ const PolicyBody = () => {
             </li>
           </ul>
           We aim to respond to all messages within 24 hours during business
-          days. Whether you're a current client or just curious about our
-          services, don't hesitate to get in touch—we're happy to chat.
+          days. Whether you&apos;re a current client or just curious about our
+          services, don&apos;t hesitate to get in touch—we&apos;re happy to
+          chat.
         </p>
       </section>
 
@@ -113,9 +116,9 @@ const PolicyBody = () => {
         <h3 className="text-xl font-semibold mb-2">Return Policy</h3>
         <p className="mb-4">
           As our services are digital and customized, there are no returns.
-          However, we're committed to delivering content you're happy with, and
-          we'll work with you to make necessary revisions based on our original
-          agreement.
+          However, we&apos;re committed to delivering content you&apos;re happy
+          with, and we&apos;ll work with you to make necessary revisions based
+          on our original agreement.
         </p>
 
         <h3 className="text-xl font-semibold mb-2">
@@ -123,15 +126,15 @@ const PolicyBody = () => {
         </h3>
         <p className="mb-4">
           Clients may cancel their month-to-month subscription at any time with
-          15 days' written notice prior to the next billing cycle. Work already
-          completed or in progress will be delivered, and no further billing
-          will occur following the cancellation date.
+          15 days&apos; written notice prior to the next billing cycle. Work
+          already completed or in progress will be delivered, and no further
+          billing will occur following the cancellation date.
         </p>
         <p className="mb-4">
-          Additionally, the Client may terminate the agreement with 15 days'
-          written notice if Ripple Media breaches any material term or condition
-          of the agreement and fails to resolve the issue within 7 days of
-          receiving written notice of the breach.
+          Additionally, the Client may terminate the agreement with 15
+          days&apos; written notice if Ripple Media breaches any material term
+          or condition of the agreement and fails to resolve the issue within 7
+          days of receiving written notice of the breach.
         </p>
 
         <p className="italic mt-6">
@@ -228,14 +231,14 @@ const PolicyBody = () => {
           Website & Payment Security
         </h2>
         <p className="mb-4">
-          Your security is important to us. Ripple Media's website uses HTTPS
-          encryption and complies with PCI DSS standards to ensure your payment
-          and personal information is handled securely.
+          Your security is important to us. Ripple Media&apos;s website uses
+          HTTPS encryption and complies with PCI DSS standards to ensure your
+          payment and personal information is handled securely.
         </p>
         <p className="mb-4">
           We partner with Stripe to process all payments, so your card details
-          are never stored on our servers. Stripe's secure infrastructure helps
-          us safeguard your data against unauthorized access and fraud.
+          are never stored on our servers. Stripe&apos;s secure infrastructure
+          helps us safeguard your data against unauthorized access and fraud.
         </p>
       </section>
 
@@ -254,7 +257,8 @@ const PolicyBody = () => {
           <DiscoverIcon className="w-10 h-10" />
         </ul>
         <p className="mb-4">
-          You'll see accepted payment methods at checkout and on your invoice.
+          You&apos;ll see accepted payment methods at checkout and on your
+          invoice.
         </p>
       </section>
     </div>
