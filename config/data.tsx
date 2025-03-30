@@ -292,7 +292,8 @@ export type VideoData = {
   assets: VideoAsset[];
   voiceOver: VideoAsset[];
   notes: string;
-  script: ScriptData | string;
+  // script: ScriptData | string;
+  script: OutputData | string;
   caption?: string;
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
