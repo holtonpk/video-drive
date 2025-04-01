@@ -414,7 +414,7 @@ const VideoSheet = ({
                                   + ${video.priceUSD}
                                 </h1>
                               ) : (
-                                <h1 className="text-lg  bg-blue/20 rounded-md p-2 text-blue-500">
+                                <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
                                   demo
                                 </h1>
                               )}
