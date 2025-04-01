@@ -46,6 +46,7 @@ import {useAuth} from "@/context/user-auth";
 import {VideoDataWithPosts, REVIEW_USERS_DATA} from "@/config/data";
 import {formatDaynameMonthDay, formatAsUSD} from "@/lib/utils";
 import {statuses as videoStatuses} from "@/config/data";
+import {OutputData} from "@editorjs/editorjs";
 
 type ReviewData = {
   reviewType: "script" | "video" | "payout";
@@ -657,7 +658,7 @@ const VideoScript = () => {
               {scriptValue}
             </div>
           ) : (
-            <EditorJsRender script={scriptValue} />
+            <EditorJsRender script={scriptValue as OutputData} />
           )}
         </>
       )}

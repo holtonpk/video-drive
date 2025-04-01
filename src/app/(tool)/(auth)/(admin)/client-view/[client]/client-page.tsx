@@ -13,16 +13,20 @@ import {
 import {VideoDisplay} from "./components/video-display";
 import {ScrollArea} from "@/components/ui/scroll-area";
 import ExportData from "./components/export";
+import VectorizeData from "./components/vectorize-data";
+import {Button} from "@/components/ui/button";
 
 const ClientPage = ({client}: {client: string}) => {
   const clientInfo = clients.find((c: any) => c.value === client);
-  const [totalVideos, setTotalVideos] = React.useState<number>(0);
+  const [totalVideos, setTotalVideos] = React.useState<number>(1);
 
   const [currentVideoNumber, setCurrentVideoNumber] = React.useState<number>(0);
 
   const [displayedVideo, setDisplayedVideo] = React.useState<
     VideoData | undefined
   >();
+
+  console.log("clientInfo", clientInfo);
 
   return (
     <>
@@ -43,6 +47,7 @@ const ClientPage = ({client}: {client: string}) => {
                   Total Videos: {totalVideos.toString()}
                 </span>
               </div>
+              <VectorizeData clientInfo={clientInfo} />
               <ExportData clientInfo={clientInfo} />
               <CreateVideo
                 clientInfo={clientInfo}

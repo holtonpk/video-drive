@@ -29,6 +29,7 @@ import {
   formatAsUSD,
   convertTimestampToDate,
 } from "@/lib/utils";
+import {DatabaseZap} from "lucide-react";
 
 type ClientDataByWeek = {
   weekRange: string;
@@ -36,7 +37,7 @@ type ClientDataByWeek = {
   posts: VideoData[];
 };
 
-const ExportData = ({clientInfo}: {clientInfo: any}) => {
+const VectorizeData = ({clientInfo}: {clientInfo: any}) => {
   const [totalVideos, setTotalVideos] = useState<number>();
 
   const [ClientData, setClientData] = React.useState<ClientDataByWeek[] | null>(
@@ -144,10 +145,10 @@ const ExportData = ({clientInfo}: {clientInfo: any}) => {
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="text-primary bg-transparent border-primary  mr-2"
+          className="text-primary bg-transparent border-primary ml-auto mr-2"
         >
-          <Icons.download2 className="h-4 w-4 mr-2" />
-          Export Data
+          <DatabaseZap className="mr-2 h-4 w-4" />
+          Vectorize Data
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -161,7 +162,7 @@ const ExportData = ({clientInfo}: {clientInfo: any}) => {
   );
 };
 
-export default ExportData;
+export default VectorizeData;
 
 const ExportBody = ({
   clientData,
@@ -198,6 +199,7 @@ const ExportBody = ({
     "videoNumber",
     "title",
     "postDate",
+    "script",
     "priceUSD",
     "clientId",
     "editor",
@@ -207,9 +209,8 @@ const ExportBody = ({
 
   const [selectedFields, setSelectedFields] = useState<(keyof VideoData)[]>([
     "videoNumber",
-    "priceUSD",
-    "postDate",
-    "paid",
+    "title",
+    "script",
   ]);
 
   const toggleFieldSelection = (fieldValue: keyof VideoData) => {
@@ -241,6 +242,7 @@ const ExportBody = ({
 
     weeks.forEach((weekData) => {
       weekData.posts.forEach((video) => {
+        // console.log("vv", video);
         // Pick only the selected fields from each video
         const videoData = selectedFields.reduce<Record<string, any>>(
           (acc, field) => {
@@ -252,6 +254,14 @@ const ExportBody = ({
                 day: "numeric",
                 year: "numeric",
               });
+            } else if (field == "script") {
+              console.log("ss", acc);
+              acc[field] =
+                typeof video?.script == "object"
+                  ? video.script.blocks
+                      .flatMap((block) => block.data.text)
+                      .join(" ")
+                  : video.script || "no script";
             } else {
               acc[field] = video[field as keyof VideoData];
             }
@@ -264,46 +274,24 @@ const ExportBody = ({
       });
     });
 
-    const csvContent = convertToCSV(FilteredData);
-
-    // Trigger download
-    downloadCSV(
-      csvContent,
-      `${clientInfo.value}_video_data_weeks-(${selectedWeeks.join("_")}).csv`
-    );
+    console.log("FilteredData", FilteredData);
 
     setIsExporting(false);
   };
 
-  const convertToCSV = (data: any[]): string => {
-    if (data.length === 0) return "";
+const createEmbedding = async (textToEmbed:string) =>{
 
-    const headers = Object.keys(data[0]).join(","); // CSV headers
-    const rows = data.map((row) =>
-      Object.values(row)
-        .map((value) => (typeof value === "string" ? `"${value}"` : value)) // Wrap strings in quotes
-        .join(",")
-    );
+  // let response = await fetch ()
 
-    return [headers, ...rows].join("\n");
-  };
 
-  const downloadCSV = (csvContent: string, filename: string) => {
-    const blob = new Blob([csvContent], {type: "text/csv"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+}
+
+
 
   return (
     <div className="flex flex-col">
       <h1 className="text-primary text-2xl font-bold mb-2">
-        Export data to csv
+        Select data to Vectorize
       </h1>
 
       <div className="flex justify-between items-center">
@@ -400,7 +388,7 @@ const ExportBody = ({
           {isExporting ? (
             <>
               <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
-              Exporting Data
+              Vectorize Data
             </>
           ) : (
             "Export Data"

@@ -67,8 +67,13 @@ export const WeeksDisplay = ({
       const largestVideoNumber = Math.max(
         ...clientDataLocal.map((post: any) => post.videoNumber)
       );
+
       setTotalVideos(clientDataLocal.length);
-      setCurrentVideoNumber(largestVideoNumber);
+      setCurrentVideoNumber(
+        largestVideoNumber > 0
+          ? largestVideoNumber
+          : Number(clientInfo.id + "000")
+      );
 
       // Get the earliest and latest post date in UTC
       const earliestPostDate = new Date(
