@@ -4,6 +4,7 @@ import Cards from "./components/stat-cards";
 import {Icons} from "@/components/icons";
 import {Button} from "@/components/ui/button";
 import axios from "axios";
+import {Timestamp} from "@/config/data";
 import {
   Select,
   SelectContent,
@@ -206,6 +207,18 @@ const VideoSheet = ({
 
   const [isScrolled, setIsScrolled] = React.useState<boolean>(false);
 
+  const getTimeUntilDue = (dueDate: Timestamp) => {
+    const now = new Date();
+    const diffTime = dueDate.seconds * 1000 - now.getTime();
+    const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffHours < 24) {
+      return `${diffHours}h`;
+    }
+    return `${diffDays}d`;
+  };
+
   return (
     <div className="w-full  overflow-hiddens  h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
       <div className=" flex flex-col  h-[calc(100vh-104px)]  gap-8">
@@ -379,23 +392,33 @@ const VideoSheet = ({
                             href={`/edit/${video.videoNumber}`}
                             className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                           >
-                            <h1 className="text-xl text-primary">
-                              #{video.videoNumber}
-                            </h1>
-                            <h1 className="text-lg text-primary">
-                              Due date: {formatDaynameMonthDay(video.dueDate)}
-                            </h1>
-                            <div
-                              id="client"
-                              className="w-fit flex items-center rounded-md"
-                            >
+                            <div className="flex items-center gap-2">
                               {client.icon && (
-                                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
+                                <client.icon className=" h-6 w-6 text-muted-foreground rounded-sm" />
                               )}
                               <span className="text-primary">
                                 {client.label}
                               </span>
+                              <span className="text-muted-foreground">•</span>
+                              <h1 className=" text-primary">
+                                #{video.videoNumber}
+                              </h1>
                             </div>
+
+                            <h1 className="text-lg text-primary">
+                              Due in: {getTimeUntilDue(video.dueDate)}
+                            </h1>
+                            <>
+                              {video.priceUSD > 0 ? (
+                                <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+                                  + ${video.priceUSD}
+                                </h1>
+                              ) : (
+                                <h1 className="text-lg  bg-blue/20 rounded-md p-2 text-blue-500">
+                                  demo
+                                </h1>
+                              )}
+                            </>
                           </Link>
                         </div>
                       );
@@ -551,6 +574,8 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
     }
   }, [isVisible]);
 
+  console.log("client", client);
+
   return (
     <Link
       href={`/edit/${video.videoNumber}`}
@@ -562,7 +587,7 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
         <h1 className="text-[12px] text-white font-bold whitespace-nowrap overflow-hidden text-ellipsis">
           {video.title}
         </h1>
-        {client.icon && (
+        {client?.icon && (
           <client.icon className=" h-6 w-6 text-muted-foreground rounded-sm" />
         )}
       </div>

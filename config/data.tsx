@@ -357,7 +357,7 @@ export type VideoDataWithPosts = {
   messages?: videoMessage[];
 };
 
-interface Timestamp {
+export interface Timestamp {
   nanoseconds: number;
   seconds: number;
 }
