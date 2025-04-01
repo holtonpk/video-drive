@@ -340,25 +340,35 @@ const VideoSheet = ({
                           <Link
                             href={`/edit/${video.videoNumber}`}
                             key={video.videoNumber}
-                            className="w-full  border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground cursor-pointer grid gap-2 items-center  md:flex  justify-between"
+                            className="w-full  border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                           >
-                            <h1 className="text-xl text-primary">
-                              #{video.videoNumber}
-                            </h1>
-                            <h1 className="text-lg text-primary">
-                              Due date: {formatDaynameMonthDay(video.dueDate)}
-                            </h1>
-                            <div
-                              id="client"
-                              className="w-fit flex items-center rounded-md"
-                            >
+                            <div className="flex items-center gap-2">
                               {client.icon && (
-                                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
+                                <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
                               )}
                               <span className="text-primary">
                                 {client.label}
                               </span>
+                              <span className="text-muted-foreground">•</span>
+                              <h1 className=" text-primary">
+                                #{video.videoNumber}
+                              </h1>
                             </div>
+
+                            <h1 className="text-lg text-primary">
+                              Due in: {getTimeUntilDue(video.dueDate)}
+                            </h1>
+                            <>
+                              {video.priceUSD > 0 ? (
+                                <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+                                  + ${video.priceUSD}
+                                </h1>
+                              ) : (
+                                <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
+                                  Demo
+                                </h1>
+                              )}
+                            </>
                           </Link>
                         );
                       })}
@@ -390,11 +400,11 @@ const VideoSheet = ({
                         <div key={video.videoNumber}>
                           <Link
                             href={`/edit/${video.videoNumber}`}
-                            className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-6 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
+                            className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                           >
                             <div className="flex items-center gap-2">
                               {client.icon && (
-                                <client.icon className=" h-6 w-6 text-muted-foreground rounded-sm" />
+                                <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
                               )}
                               <span className="text-primary">
                                 {client.label}
@@ -415,7 +425,7 @@ const VideoSheet = ({
                                 </h1>
                               ) : (
                                 <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
-                                  demo
+                                  Demo
                                 </h1>
                               )}
                             </>
