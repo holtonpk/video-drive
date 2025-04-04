@@ -183,7 +183,7 @@ const VideoArchive = ({clientId}: {clientId: string}) => {
                       })}
                     </span>
                   </div>
-                  <div className="grid grid-cols-7 border rounded-lg bg-foreground/10 p-4">
+                  <div className="grid grid-cols-7 border rounded-lg bg-black p-4">
                     {weekRange.map((video) => {
                       return (
                         <VideoColumn key={video.id} video={video} index={i} />
