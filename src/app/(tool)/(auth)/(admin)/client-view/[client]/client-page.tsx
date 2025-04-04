@@ -5,7 +5,7 @@ import {clients} from "@/config/data";
 import {ADMIN_USERS, EDITORS, Post, VideoData} from "@/config/data";
 
 import {CreateVideo} from "./components/create-videos";
-import {WeeksDisplay} from "./components/weeks-display";
+import {WeeksDisplay} from "./components/weeks-display2";
 import {
   VideoProvider,
   useVideo,

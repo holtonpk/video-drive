@@ -33,6 +33,7 @@ import {EDITORS} from "@/config/data";
 import {UserData} from "@/context/user-auth";
 import {useAuth} from "@/context/user-auth";
 import {Switch} from "@/components/ui/switch";
+import DatePickerWithRange2 from "./date-picker-hour";
 
 export const VideoDetails = () => {
   const {currentUser} = useAuth()!;
@@ -173,11 +174,15 @@ export const VideoDetails = () => {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {postDate ? format(postDate, "PPP") : <span>Post Date</span>}
+                  {postDate ? (
+                    format(postDate, "PPP 'at' p")
+                  ) : (
+                    <span>Post Date</span>
+                  )}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar
+                {/* <Calendar
                   mode="single"
                   selected={postDate}
                   onSelect={(value) => {
@@ -185,6 +190,14 @@ export const VideoDetails = () => {
                     updateField("postDate", value);
                   }}
                   initialFocus
+                /> */}
+                <DatePickerWithRange2
+                  date={postDate}
+                  setDate={setPostDate}
+                  onSelect={(value) => {
+                    setPostDate(value);
+                    updateField("postDate", value);
+                  }}
                 />
               </PopoverContent>
             </Popover>
@@ -201,11 +214,15 @@ export const VideoDetails = () => {
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+                  {dueDate ? (
+                    format(dueDate, "PPP 'at' p")
+                  ) : (
+                    <span>Due Date</span>
+                  )}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar
+                {/* <Calendar
                   mode="single"
                   selected={dueDate}
                   onSelect={(value) => {
@@ -213,6 +230,14 @@ export const VideoDetails = () => {
                     updateField("dueDate", value);
                   }}
                   initialFocus
+                /> */}
+                <DatePickerWithRange2
+                  date={dueDate}
+                  setDate={setDueDate}
+                  onSelect={(value) => {
+                    setDueDate(value);
+                    updateField("dueDate", value);
+                  }}
                 />
               </PopoverContent>
             </Popover>

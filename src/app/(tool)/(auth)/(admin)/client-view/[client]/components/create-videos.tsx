@@ -13,6 +13,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
+import DatePickerWithRange2 from "./date-picker-hour";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
@@ -60,9 +61,9 @@ type NewVideo = {
   videoNumber: string;
   clientId: string;
   status: string;
-  dueDate: Date;
-  postDate: Date;
-  scriptDueDate: Date;
+  dueDate: Date | undefined;
+  postDate: Date | undefined;
+  scriptDueDate: Date | undefined;
   notes: string;
   script: string;
   posted: boolean;
@@ -91,9 +92,12 @@ export const CreateVideo = ({
         videoNumber: Number(totalVideos + 1).toString(),
         clientId: clientInfo.value,
         status: "draft",
-        dueDate: new Date(),
-        postDate: new Date(),
-        scriptDueDate: new Date(),
+        dueDate: undefined,
+        // dueDate: new Date(),
+        // postDate: new Date(),
+        postDate: undefined,
+        // scriptDueDate: new Date(),
+        scriptDueDate: undefined,
         notes: "",
         script: "",
         posted: false,
@@ -159,7 +163,7 @@ export const CreateVideo = ({
           }
         }}
       >
-        <DialogContent className="max-w-[1200px] overflow-hidden bg-muted/20 blurBack">
+        <DialogContent className="max-w-[1200px] overflow-hiddens bg-muted/20 blurBack">
           {newVideos && newVideos.length > 0 && (
             <div className="max-h-[80vh] overflow-scroll">
               <div className="flex flex-col gap-6 pt-16 ">
@@ -313,7 +317,7 @@ const BulkSchedule = ({
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <DialogContent className="min-w-fit">
+      <DialogContent className="min-w-fit ">
         <div className="flex flex-col gap-4 text-primary rounded-md shadow-sm ">
           <div className="grid gap-2">
             <Label>Total Videos</Label>
@@ -397,7 +401,7 @@ const NewVideoDraft = () => {
       <CardContent>
         <div className="grid grid-cols-2 p-4 gap-4">
           <div className="grid gap-4">
-            <div className="grid gap-1">
+            <div className="grid gap-1 h-fit">
               <Label htmlFor="client">Title</Label>
               <Input
                 value={title}
@@ -467,7 +471,7 @@ const NewVideoDraft = () => {
               </Select>
             </div> */}
 
-            <div className="grid gap-1">
+            <div className="grid gap-1 h-fit">
               <Label htmlFor="client">Notes</Label>
               <Textarea
                 value={notes}
@@ -495,6 +499,10 @@ const NewVideoDraft = () => {
             <div className="grid gap-1">
               <Label>Script Due</Label>
               <ScriptDatePicker />
+            </div>
+            <div className="grid gap-1">
+              <Label>Editing Due</Label>
+              <DueDatePicker />
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="grid gap-1">
@@ -525,10 +533,6 @@ const NewVideoDraft = () => {
                   }}
                 />
               </div>
-              <div className="grid gap-1">
-                <Label>Editing Due</Label>
-                <DueDatePicker />
-              </div>
             </div>
           </div>
         </div>
@@ -554,11 +558,11 @@ export function PostDatePicker() {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {postDate ? format(postDate, "PPP") : <span>Post Date</span>}
+          {postDate ? format(postDate, "PPP 'at' p") : <span>Post Date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar
+        {/* <Calendar
           mode="single"
           selected={postDate}
           onSelect={(value) => {
@@ -574,7 +578,8 @@ export function PostDatePicker() {
             );
           }}
           initialFocus
-        />
+        /> */}
+        <DatePickerWithRange2 date={postDate} setDate={setPostDate} />
       </PopoverContent>
     </Popover>
   );
@@ -599,30 +604,14 @@ export function ScriptDatePicker() {
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {scriptDueDate ? (
-            format(scriptDueDate, "PPP")
+            format(scriptDueDate, "PPP 'at' p")
           ) : (
-            <span>Post Date</span>
+            <span>Script Due</span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar
-          mode="single"
-          selected={scriptDueDate}
-          onSelect={(value) => {
-            if (!value) return;
-            setScriptDueDate(value);
-            setNewVideos(
-              newVideos.map((v) => {
-                if (v.videoNumber === video.videoNumber) {
-                  return {...v, scriptDueDate: value};
-                }
-                return v;
-              })
-            );
-          }}
-          initialFocus
-        />
+        <DatePickerWithRange2 date={scriptDueDate} setDate={setScriptDueDate} />
       </PopoverContent>
     </Popover>
   );
@@ -644,11 +633,11 @@ export function DueDatePicker() {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+          {dueDate ? format(dueDate, "PPP 'at' p") : <span>Editing Due</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <Calendar
+        {/* <Calendar
           mode="single"
           selected={dueDate}
           onSelect={(value) => {
@@ -664,7 +653,8 @@ export function DueDatePicker() {
             );
           }}
           initialFocus
-        />
+        /> */}
+        <DatePickerWithRange2 date={dueDate} setDate={setDueDate} />
       </PopoverContent>
     </Popover>
   );
