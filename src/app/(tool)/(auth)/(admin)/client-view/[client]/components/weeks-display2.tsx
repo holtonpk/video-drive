@@ -117,8 +117,6 @@ export const WeeksDisplay = ({
     return acc;
   }, {} as {[key: number]: VideoData[]});
 
-  console.log("videosByWeek", videosByWeek);
-
   const getWeekRange = (weekRange: VideoData[]) => {
     // Find the earliest post date
     const firstVideoDate = weekRange.reduce((earliest, current) => {
@@ -153,8 +151,7 @@ export const WeeksDisplay = ({
                 const weekNumber = parseInt(week);
                 const weekRange = videosByWeek[weekNumber];
                 const {startDate, endDate} = getWeekRange(weekRange);
-                console.log("startDate", startDate);
-                console.log("endDate", endDate);
+
                 return (
                   <div key={i} className="border  shadow-lg rounded-md pt-3">
                     <span className="p-3 text-primary ">

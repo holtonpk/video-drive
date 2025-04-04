@@ -12,14 +12,35 @@ import {Component, useEffect, useState, useId} from "react";
 const DatePickerWithRange2 = ({
   date,
   setDate,
-  onSelect,
+  onSave,
 }: {
   date: Date | undefined;
   setDate: (date: Date) => void;
-  onSelect: (date: Date) => void;
+  onSave: (date: Date) => void;
 }) => {
+  const [dateLocal, setDateLocal] = useState<Date | undefined>(date);
   const today = new Date();
-  const [time, setTime] = useState<string | null>(null);
+  const [time, setTime] = useState<string | null>(
+    date ? format(date, "HH:mm") : null
+  );
+  const [originalDate, setOriginalDate] = useState<Date | undefined>(date);
+  const [originalTime, setOriginalTime] = useState<string | null>(
+    date ? format(date, "HH:mm") : null
+  );
+
+  useEffect(() => {
+    if (!date) return;
+    setTime(format(date, "HH:mm"));
+    // Store the original date and time when component mounts
+    if (!originalDate) {
+      setOriginalDate(new Date(date));
+      setOriginalTime(format(date, "HH:mm"));
+    }
+  }, [date, originalDate]);
+
+  console.log("date===", date);
+
+  console.log("time===", date ? format(date, "HH:mm") : null);
 
   const id = useId();
 
@@ -30,10 +51,8 @@ const DatePickerWithRange2 = ({
     const minute = parseInt(minutes);
     const newDate = new Date(date);
     newDate.setHours(hour, minute, 0); // Set hours and minutes directly, reset seconds to 0
-    setDate(newDate);
+    setDateLocal(newDate);
   };
-  console.log("time===", time);
-  console.log("date===", date);
 
   return (
     <div>
@@ -41,10 +60,10 @@ const DatePickerWithRange2 = ({
         <Calendar
           mode="single"
           className="p-2 bg-background"
-          selected={date}
+          selected={dateLocal}
           onSelect={(date) => {
-            setDate(date as Date);
-            onSelect(date as Date);
+            setDateLocal(date as Date);
+            // onSelect(date as Date);
           }}
         />
         <div className="border-t border-border p-3">
@@ -69,6 +88,30 @@ const DatePickerWithRange2 = ({
               </div>
             </div>
           </div>
+          {/* if the date or time is not changed from the original date, then don't show the save button. */}
+          {date &&
+            time &&
+            originalDate &&
+            originalTime &&
+            (date.getTime() !== originalDate.getTime() ||
+              time !== originalTime) && (
+              <Button
+                onClick={() => {
+                  // the time needs to be added to the date
+                  const newDate = new Date(date as Date);
+                  newDate.setHours(
+                    parseInt(time?.split(":")[0] || "0"),
+                    parseInt(time?.split(":")[1] || "0"),
+                    0
+                  );
+                  setDate(newDate);
+                  onSave(newDate);
+                }}
+                className="w-full mt-1"
+              >
+                Save
+              </Button>
+            )}
         </div>
       </div>
     </div>

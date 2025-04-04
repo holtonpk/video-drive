@@ -119,6 +119,9 @@ export const VideoDetails = () => {
     );
   }
 
+  const [openDueDate, setOpenDueDate] = React.useState<boolean>(false);
+  const [openPostDate, setOpenPostDate] = React.useState<boolean>(false);
+
   return (
     <div
       className={`h-fit  w-full relative flex flex-col gap-2 rounded-md b 
@@ -164,7 +167,7 @@ export const VideoDetails = () => {
 
           <div className="grid gap-2">
             <Label htmlFor="due-date">Post Date</Label>
-            <Popover>
+            <Popover open={openPostDate} onOpenChange={setOpenPostDate}>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -194,9 +197,10 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={postDate}
                   setDate={setPostDate}
-                  onSelect={(value) => {
+                  onSave={(value) => {
                     setPostDate(value);
                     updateField("postDate", value);
+                    setOpenPostDate(false);
                   }}
                 />
               </PopoverContent>
@@ -204,7 +208,7 @@ export const VideoDetails = () => {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="due-date">Editing Due Date</Label>
-            <Popover>
+            <Popover open={openDueDate} onOpenChange={setOpenDueDate}>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -234,9 +238,10 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={dueDate}
                   setDate={setDueDate}
-                  onSelect={(value) => {
+                  onSave={(value) => {
                     setDueDate(value);
                     updateField("dueDate", value);
+                    setOpenDueDate(false);
                   }}
                 />
               </PopoverContent>

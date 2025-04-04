@@ -39,13 +39,19 @@ const ClientPage = ({client}: {client: string}) => {
                   {clientInfo.icon && (
                     <clientInfo.icon className="h-10 w-10 rounded-lg" />
                   )}
-                  <span className="font-bold text-4xl">
+                  <span
+                    className={`font-bold transition-all duration-300
+                    ${displayedVideo ? "text-xl" : "text-4xl"}
+                    `}
+                  >
                     {clientInfo?.label}
                   </span>
                 </div>
-                <span className="text-primary mt-2">
-                  Total Videos: {totalVideos.toString()}
-                </span>
+                {!displayedVideo && (
+                  <span className="text-primary mt-2">
+                    Total Videos: {totalVideos.toString()}
+                  </span>
+                )}
               </div>
               <VectorizeData clientInfo={clientInfo} />
               <ExportData clientInfo={clientInfo} />

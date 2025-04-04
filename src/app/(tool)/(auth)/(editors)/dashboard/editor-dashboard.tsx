@@ -59,7 +59,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {Calendar} from "@/components/ui/calendar";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
-import {cn} from "@/lib/utils";
+import {cn, convertTimestampToDate} from "@/lib/utils";
 import {CalendarIcon} from "@radix-ui/react-icons";
 import {format} from "date-fns";
 import {
@@ -81,6 +81,7 @@ import Background from "@/components/background";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {useToast} from "@/components/ui/use-toast";
+import {Clock} from "lucide-react";
 
 const EditDashboard = () => {
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
@@ -210,14 +211,28 @@ const VideoSheet = ({
   const getTimeUntilDue = (dueDate: Timestamp) => {
     const now = new Date();
     const diffTime = dueDate.seconds * 1000 - now.getTime();
-    const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffHours = Math.ceil(Math.abs(diffTime) / (1000 * 60 * 60));
+    const diffDays = Math.ceil(Math.abs(diffTime) / (1000 * 60 * 60 * 24));
+
+    if (diffTime < 0) {
+      if (diffHours < 24) {
+        return {isLate: true, value: `${diffHours}h`};
+      }
+      return {isLate: true, value: `${diffDays}d`};
+    }
 
     if (diffHours < 24) {
-      return `${diffHours}h`;
+      return {isLate: false, value: `${diffHours}h`};
     }
-    return `${diffDays}d`;
+    return {isLate: false, value: `${diffDays}d`};
   };
+
+  const orderedTodo = todo.sort((a, b) => {
+    return (
+      convertTimestampToDate(a.dueDate).getTime() -
+      convertTimestampToDate(b.dueDate).getTime()
+    );
+  });
 
   return (
     <div className="w-full  overflow-hiddens  h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
@@ -355,8 +370,16 @@ const VideoSheet = ({
                               </h1>
                             </div>
 
-                            <h1 className="text-lg text-primary">
-                              Due in: {getTimeUntilDue(video.dueDate)}
+                            <h1
+                              className={cn("text-lg text-primary", {
+                                "text-red-500": getTimeUntilDue(video.dueDate)
+                                  .isLate,
+                              })}
+                            >
+                              {getTimeUntilDue(video.dueDate).isLate
+                                ? "Late by "
+                                : "Due in "}
+                              {getTimeUntilDue(video.dueDate).value}
                             </h1>
                             <>
                               {video.priceUSD > 0 ? (
@@ -389,9 +412,9 @@ const VideoSheet = ({
                 </h1>
               </div>
               <div className="rounded-md  ">
-                {todo.length && todo.length > 0 ? (
+                {orderedTodo.length && orderedTodo.length > 0 ? (
                   <div className="flex flex-col gap-2">
-                    {todo.map((video, i) => {
+                    {orderedTodo.map((video, i) => {
                       const client = clients.find(
                         (c: any) => c.value === video.clientId
                       )!;
@@ -415,8 +438,24 @@ const VideoSheet = ({
                               </h1>
                             </div>
 
-                            <h1 className="text-lg text-primary">
-                              Due in: {getTimeUntilDue(video.dueDate)}
+                            <h1
+                              className={`
+                                text-sm  ml-auto flex items-center gap-1
+                                ${
+                                  getTimeUntilDue(video.dueDate).isLate
+                                    ? "text-red-500"
+                                    : "text-muted-foreground"
+                                }
+                              `}
+                            >
+                              <Clock className="h-4 w-4 " />
+                              {getTimeUntilDue(video.dueDate).isLate
+                                ? `Late by ${
+                                    getTimeUntilDue(video.dueDate).value
+                                  }`
+                                : `Due in ${
+                                    getTimeUntilDue(video.dueDate).value
+                                  }`}
                             </h1>
                             <>
                               {video.priceUSD > 0 ? (
@@ -583,8 +622,6 @@ const VideoDisplay = ({video}: {video: VideoData}) => {
       return;
     }
   }, [isVisible]);
-
-  console.log("client", client);
 
   return (
     <Link

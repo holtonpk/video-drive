@@ -25,7 +25,7 @@ import {
   ref,
   getStorage,
 } from "firebase/storage";
-
+import DatePickerWithRange2 from "@/src/app/(tool)/(auth)/(admin)/client-view/[client]/components/date-picker-hour";
 export const VideoScript = () => {
   const {video} = useVideo()!;
 
@@ -214,12 +214,15 @@ export const VideoScript = () => {
 
   console.log("video-script ============", video.script);
 
+  const [openScriptDueDate, setOpenScriptDueDate] =
+    React.useState<boolean>(false);
+
   return (
     <Card className="relative shadow-sm h-fit w-fit ">
       <CardHeader>
         <CardTitle className="flex justify-between items-center ">
           Video Script
-          <Popover>
+          <Popover open={openScriptDueDate} onOpenChange={setOpenScriptDueDate}>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
@@ -231,12 +234,16 @@ export const VideoScript = () => {
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 <span className="mr-2">Script Due Date:</span>
                 <span className="font-bold">
-                  {dueDate ? format(dueDate, "PPP") : <span>Due Date</span>}
+                  {dueDate ? (
+                    format(dueDate, "PPP 'at' p")
+                  ) : (
+                    <span>Due Date</span>
+                  )}
                 </span>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Calendar
+              {/* <Calendar
                 mode="single"
                 selected={dueDate}
                 onSelect={(value) => {
@@ -244,6 +251,15 @@ export const VideoScript = () => {
                   updateField("scriptDueDate", value);
                 }}
                 initialFocus
+              /> */}
+              <DatePickerWithRange2
+                date={dueDate}
+                setDate={setDueDate}
+                onSave={(value) => {
+                  setDueDate(value);
+                  updateField("scriptDueDate", value);
+                  setOpenScriptDueDate(false);
+                }}
               />
             </PopoverContent>
           </Popover>
