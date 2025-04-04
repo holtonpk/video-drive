@@ -102,6 +102,8 @@ const VideoArchive = ({clientId}: {clientId: string}) => {
 
   const clientInfo = clients.find((c: any) => c.value === clientId);
 
+  console.log("CDDDD", ClientData);
+
   return (
     <div className="dark  min-h-screen p-6 z-20 relative">
       {clientInfo && (

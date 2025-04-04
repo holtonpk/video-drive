@@ -1,9 +1,10 @@
 import {constructMetadata} from "@/lib/utils";
 
 import {Metadata} from "next";
-import VideoArchive from "./video-archive";
+import VideoArchive from "./video-archive2";
 import {clients} from "@/config/data";
-import Background from "@/components/background";
+
+import Background from "@/src/app/(marketing)/components/background";
 
 export const generateMetadata = ({
   params,
@@ -25,9 +26,9 @@ export const generateMetadata = ({
 
 const Page = ({params}: {params: {clientId: string}}) => {
   return (
-    <div className="bg-background dark">
-      <VideoArchive clientId={params.clientId} />
+    <div className="dark flex flex-col h-fit min-h-screen">
       <Background />
+      <VideoArchive clientId={params.clientId} />
     </div>
   );
 };
