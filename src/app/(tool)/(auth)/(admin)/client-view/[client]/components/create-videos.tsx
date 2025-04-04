@@ -579,7 +579,20 @@ export function PostDatePicker() {
           }}
           initialFocus
         /> */}
-        <DatePickerWithRange2 date={postDate} setDate={setPostDate} />
+        <DatePickerWithRange2
+          date={postDate}
+          setDate={setPostDate}
+          onSelect={(value) => {
+            setPostDate(value);
+            setNewVideos(
+              newVideos.map((v) =>
+                v.videoNumber === video.videoNumber
+                  ? {...v, postDate: value}
+                  : v
+              )
+            );
+          }}
+        />
       </PopoverContent>
     </Popover>
   );
@@ -611,7 +624,20 @@ export function ScriptDatePicker() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
-        <DatePickerWithRange2 date={scriptDueDate} setDate={setScriptDueDate} />
+        <DatePickerWithRange2
+          date={scriptDueDate}
+          setDate={setScriptDueDate}
+          onSelect={(value) => {
+            setScriptDueDate(value);
+            setNewVideos(
+              newVideos.map((v) =>
+                v.videoNumber === video.videoNumber
+                  ? {...v, scriptDueDate: value}
+                  : v
+              )
+            );
+          }}
+        />
       </PopoverContent>
     </Popover>
   );
@@ -654,7 +680,18 @@ export function DueDatePicker() {
           }}
           initialFocus
         /> */}
-        <DatePickerWithRange2 date={dueDate} setDate={setDueDate} />
+        <DatePickerWithRange2
+          date={dueDate}
+          setDate={setDueDate}
+          onSelect={(value) => {
+            setDueDate(value);
+            setNewVideos(
+              newVideos.map((v) =>
+                v.videoNumber === video.videoNumber ? {...v, dueDate: value} : v
+              )
+            );
+          }}
+        />
       </PopoverContent>
     </Popover>
   );
