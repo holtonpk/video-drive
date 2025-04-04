@@ -16,7 +16,7 @@ import emailjs from "@emailjs/browser";
 import {editorStatuses, clients, VideoData, Post} from "@/config/data";
 import Link from "next/link";
 import {Calendar as CalendarIcon} from "lucide-react";
-import {cn, convertToUserLocalTime} from "@/lib/utils";
+import {cn, convertTimestampToDate} from "@/lib/utils";
 import {format} from "date-fns";
 import {
   uploadBytesResumable,
@@ -33,7 +33,6 @@ import {Textarea} from "@/components/ui/textarea";
 import {useVideo} from "../data/video-context";
 import {useAuth} from "@/context/user-auth";
 import {setDoc, deleteDoc, doc, getDoc, collection} from "firebase/firestore";
-import {convertTimestampToDate} from "@/lib/utils";
 import Requirements from "./requirements";
 import {
   Dialog,
@@ -298,6 +297,27 @@ export const VideoDetails = () => {
   };
   const [price, setPrice] = React.useState<number | undefined>(video.priceUSD);
 
+  const getLocalTimeZone = () => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  };
+
+  console.log("local timezone", getLocalTimeZone());
+
+  const convertDateToLocalTimeZone = (date: Date) => {
+    // display the date in the format of monday, march 12, 2024 at 12:00 am (est)
+    const localDate = new Date(
+      date.toLocaleString("en-US", {timeZone: getLocalTimeZone()})
+    );
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("timezone", timezone);
+    return format(localDate, "PPP 'at' p (") + timezone + ")";
+  };
+
+  console.log(
+    "converted date",
+    convertDateToLocalTimeZone(convertTimestampToDate(video.dueDate))
+  );
+
   return (
     <div className="flex flex-col gap-2 relative z-20">
       <Card
@@ -343,7 +363,10 @@ export const VideoDetails = () => {
                 )}
               >
                 {dueDate ? (
-                  convertToUserLocalTime(video.dueDate)
+                  // Display the date in the user's local timezone
+                  convertDateToLocalTimeZone(
+                    convertTimestampToDate(video.dueDate)
+                  )
                 ) : (
                   <span>Due Date</span>
                 )}
