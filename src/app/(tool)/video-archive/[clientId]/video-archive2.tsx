@@ -281,7 +281,7 @@ const VideoColumn = ({
               />
             </div>
           ) : (
-            <h1 className="w-full h-full items-center justify-center flex">
+            <h1 className="w-full h-full items-center justify-center flex text-white">
               In Production
             </h1>
           )}
@@ -294,7 +294,7 @@ const VideoColumn = ({
         Post Date:{" "}
         <span className="font-bold">{formatDayMonthDay(video.postDate)}</span>
       </span>
-      <div className="flex items-center gap-2 text-sm font1">
+      <div className="flex items-center gap-2 text-sm font1 text-white">
         Posted:
         <span className="font1 text-primary">{video.posted ? "✅" : "❌"}</span>
       </div>
