@@ -107,6 +107,18 @@ export const VideoDetails = () => {
   const [openPostDate, setOpenPostDate] = React.useState<boolean>(false);
   const [openDueDate, setOpenDueDate] = React.useState<boolean>(false);
 
+  const updatePostDate = (date: Date) => {
+    setPostDate(date);
+    updateField("postDate", date);
+    setOpenPostDate(false);
+  };
+
+  const updateDueDate = (date: Date) => {
+    setDueDate(date);
+    updateField("dueDate", date);
+    setOpenDueDate(false);
+  };
+
   return (
     <Card
       className={`h-fit shadow-sm w-full relative border-4
@@ -233,11 +245,7 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={dueDate}
                   setDate={setDueDate}
-                  onSave={(value) => {
-                    setDueDate(value);
-                    updateField("dueDate", value);
-                    setOpenDueDate(false);
-                  }}
+                  onSave={updateDueDate}
                 />
               </PopoverContent>
             </Popover>
@@ -274,11 +282,7 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={postDate}
                   setDate={setPostDate}
-                  onSave={(value) => {
-                    setPostDate(value);
-                    updateField("postDate", value);
-                    setOpenPostDate(false);
-                  }}
+                  onSave={updatePostDate}
                 />
               </PopoverContent>
             </Popover>

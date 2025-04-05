@@ -549,6 +549,17 @@ export function PostDatePicker() {
 
   const [openPostDate, setOpenPostDate] = React.useState<boolean>(false);
 
+  const updatePostDate = (date: Date) => {
+    setPostDate(date);
+    setNewVideos(
+      newVideos.map((v) =>
+        v.videoNumber === video.videoNumber ? {...v, postDate: date} : v
+      )
+    );
+    setOpenPostDate(false);
+  };
+
+  console.log("postDate==================", postDate);
   return (
     <Popover open={openPostDate} onOpenChange={setOpenPostDate}>
       <PopoverTrigger asChild>
@@ -584,17 +595,7 @@ export function PostDatePicker() {
         <DatePickerWithRange2
           date={postDate}
           setDate={setPostDate}
-          onSave={(value) => {
-            setPostDate(value);
-            setNewVideos(
-              newVideos.map((v) =>
-                v.videoNumber === video.videoNumber
-                  ? {...v, postDate: value}
-                  : v
-              )
-            );
-            setOpenPostDate(false);
-          }}
+          onSave={updatePostDate}
         />
       </PopoverContent>
     </Popover>
@@ -610,6 +611,16 @@ export function ScriptDatePicker() {
 
   const [openScriptDueDate, setOpenScriptDueDate] =
     React.useState<boolean>(false);
+
+  const updateScriptDueDate = (date: Date) => {
+    setScriptDueDate(date);
+    setNewVideos(
+      newVideos.map((v) =>
+        v.videoNumber === video.videoNumber ? {...v, scriptDueDate: date} : v
+      )
+    );
+    setOpenScriptDueDate(false);
+  };
 
   return (
     <Popover open={openScriptDueDate} onOpenChange={setOpenScriptDueDate}>
@@ -633,17 +644,7 @@ export function ScriptDatePicker() {
         <DatePickerWithRange2
           date={scriptDueDate}
           setDate={setScriptDueDate}
-          onSave={(value) => {
-            setScriptDueDate(value);
-            setNewVideos(
-              newVideos.map((v) =>
-                v.videoNumber === video.videoNumber
-                  ? {...v, scriptDueDate: value}
-                  : v
-              )
-            );
-            setOpenScriptDueDate(false);
-          }}
+          onSave={updateScriptDueDate}
         />
       </PopoverContent>
     </Popover>
@@ -655,6 +656,16 @@ export function DueDatePicker() {
 
   const [dueDate, setDueDate] = React.useState<Date | undefined>(video.dueDate);
   const [openDueDate, setOpenDueDate] = React.useState<boolean>(false);
+
+  const updateDueDate = (date: Date) => {
+    setDueDate(date);
+    setNewVideos(
+      newVideos.map((v) =>
+        v.videoNumber === video.videoNumber ? {...v, dueDate: date} : v
+      )
+    );
+    setOpenDueDate(false);
+  };
 
   return (
     <Popover open={openDueDate} onOpenChange={setOpenDueDate}>
@@ -691,15 +702,7 @@ export function DueDatePicker() {
         <DatePickerWithRange2
           date={dueDate}
           setDate={setDueDate}
-          onSave={(value) => {
-            setDueDate(value);
-            setNewVideos(
-              newVideos.map((v) =>
-                v.videoNumber === video.videoNumber ? {...v, dueDate: value} : v
-              )
-            );
-            setOpenDueDate(false);
-          }}
+          onSave={updateDueDate}
         />
       </PopoverContent>
     </Popover>

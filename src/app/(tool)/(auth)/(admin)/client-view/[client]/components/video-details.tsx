@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {statuses, clients} from "@/config/data";
+import {statuses, clients, REVIEW_USERS_DATA} from "@/config/data";
 import Link from "next/link";
 
 import {Calendar as CalendarIcon} from "lucide-react";
@@ -122,9 +122,27 @@ export const VideoDetails = () => {
   const [openDueDate, setOpenDueDate] = React.useState<boolean>(false);
   const [openPostDate, setOpenPostDate] = React.useState<boolean>(false);
 
+  const updateDueDate = (date: Date) => {
+    setDueDate(date);
+    updateField("dueDate", date);
+    setOpenDueDate(false);
+  };
+
+  const updatePostDate = (date: Date) => {
+    setPostDate(date);
+    updateField("postDate", date);
+    setOpenPostDate(false);
+  };
+
+  const shareWithEditor = () => {
+    updateField("scriptReviewed", [
+      ...REVIEW_USERS_DATA.map((user) => user.id),
+    ]);
+  };
+
   return (
     <div
-      className={`h-fit  w-full relative flex flex-col gap-2 rounded-md b 
+      className={`h-fit  w-full relative flex flex-col gap-2 rounded-md  z-[90]
 
     `}
     >
@@ -197,11 +215,7 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={postDate}
                   setDate={setPostDate}
-                  onSave={(value) => {
-                    setPostDate(value);
-                    updateField("postDate", value);
-                    setOpenPostDate(false);
-                  }}
+                  onSave={updatePostDate}
                 />
               </PopoverContent>
             </Popover>
@@ -238,11 +252,7 @@ export const VideoDetails = () => {
                 <DatePickerWithRange2
                   date={dueDate}
                   setDate={setDueDate}
-                  onSave={(value) => {
-                    setDueDate(value);
-                    updateField("dueDate", value);
-                    setOpenDueDate(false);
-                  }}
+                  onSave={updateDueDate}
                 />
               </PopoverContent>
             </Popover>
@@ -331,6 +341,16 @@ export const VideoDetails = () => {
           </Select>
         </div> */}
       </div>
+      {/* if scriptReviewed doesnt include both ids from REVIEW_USERS_DATA then show the button */}
+      {video.scriptReviewed?.length !== REVIEW_USERS_DATA.length && (
+        <Button
+          onClick={shareWithEditor}
+          variant={"outline"}
+          className="w-full"
+        >
+          Share with editor
+        </Button>
+      )}
     </div>
   );
 };

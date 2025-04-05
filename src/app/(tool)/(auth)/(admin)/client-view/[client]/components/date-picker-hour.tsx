@@ -55,64 +55,77 @@ const DatePickerWithRange2 = ({
   };
 
   return (
-    <div>
-      <div className="rounded-lg border border-border">
-        <Calendar
-          mode="single"
-          className="p-2 bg-background"
-          selected={dateLocal}
-          onSelect={(date) => {
-            setDateLocal(date as Date);
-            // onSelect(date as Date);
-          }}
-        />
-        <div className="border-t border-border p-3">
-          <div className="flex items-center gap-3">
-            <Label htmlFor={id} className="text-xs">
-              Enter time
-            </Label>
-            <div className="relative grow ">
-              <Input
-                id={id}
-                type="time"
-                onChange={(e) => {
-                  changeTime(e);
-                  setTime(e.target.value);
-                }}
-                step="1"
-                value={time || "00:00:00"}
-                className="peer pl-9  [&::-webkit-calendar-picker-indicator]:hidden "
-              />
-              <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                <Clock size={16} strokeWidth={2} aria-hidden="true" />
-              </div>
+    <div className="rounded-lg border border-border grid grid-cols-2 relative z-[90]">
+      <Calendar
+        mode="single"
+        className="p-2 bg-background"
+        selected={dateLocal}
+        onSelect={(date) => {
+          setDateLocal(date as Date);
+          // onSelect(date as Date);
+        }}
+      />
+      <div className="border-t border-border p-3">
+        <div className="flex items-center gap-3">
+          <Label htmlFor={id} className="text-xs">
+            Enter time
+          </Label>
+          <div className="relative grow ">
+            <Input
+              id={id}
+              type="time"
+              onChange={(e) => {
+                changeTime(e);
+                setTime(e.target.value);
+              }}
+              step="1"
+              value={time || "00:00:00"}
+              className="peer pl-9  [&::-webkit-calendar-picker-indicator]:hidden "
+            />
+            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+              <Clock size={16} strokeWidth={2} aria-hidden="true" />
             </div>
           </div>
-          {/* if the date or time is not changed from the original date, then don't show the save button. */}
-          {date &&
-            time &&
-            originalDate &&
-            originalTime &&
-            (date.getTime() !== originalDate.getTime() ||
-              time !== originalTime) && (
-              <Button
-                onClick={() => {
-                  // the time needs to be added to the date
-                  const newDate = new Date(date as Date);
-                  newDate.setHours(
-                    parseInt(time?.split(":")[0] || "0"),
-                    parseInt(time?.split(":")[1] || "0"),
-                    0
-                  );
-                  setDate(newDate);
-                  onSave(newDate);
-                }}
-                className="w-full mt-1"
-              >
-                Save
-              </Button>
-            )}
         </div>
+        {/* if the date or time is not changed from the original date, then don't show the save button. */}
+
+        {date === undefined && dateLocal !== undefined ? (
+          <Button
+            onClick={() => {
+              // the time needs to be added to the date
+              const newDate = new Date(dateLocal as Date);
+              newDate.setHours(
+                parseInt(time?.split(":")[0] || "0"),
+                parseInt(time?.split(":")[1] || "0"),
+                0
+              );
+              setDate(newDate);
+              onSave(newDate);
+            }}
+            className="w-full mt-1"
+          >
+            Save
+          </Button>
+        ) : (
+          dateLocal !== date && (
+            <Button
+              onClick={() => {
+                // the time needs to be added to the date
+                const newDate = new Date(dateLocal as Date);
+                newDate.setHours(
+                  parseInt(time?.split(":")[0] || "0"),
+                  parseInt(time?.split(":")[1] || "0"),
+                  0
+                );
+                setDate(newDate);
+                onSave(newDate);
+              }}
+              className="w-full mt-1"
+            >
+              Update
+            </Button>
+          )
+        )}
       </div>
     </div>
   );

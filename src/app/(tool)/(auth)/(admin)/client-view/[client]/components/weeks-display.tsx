@@ -166,7 +166,7 @@ export const WeeksDisplay = ({
   return (
     <>
       {ClientData ? (
-        <div className="flex flex-col gap-6 z-10 relative container">
+        <div className="flex flex-col gap-6 z-10 relative container b-b">
           {[...ClientData].reverse().map((week: ClientDataByWeek, i) => (
             <div key={i} className="border  shadow-lg rounded-md pt-3">
               <span className="p-3 text-primary ">

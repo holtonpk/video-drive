@@ -217,6 +217,12 @@ export const VideoScript = () => {
   const [openScriptDueDate, setOpenScriptDueDate] =
     React.useState<boolean>(false);
 
+  const updateScriptDueDate = (date: Date) => {
+    setDueDate(date);
+    updateField("scriptDueDate", date);
+    setOpenScriptDueDate(false);
+  };
+
   return (
     <Card className="relative shadow-sm h-fit w-fit ">
       <CardHeader>
@@ -255,11 +261,7 @@ export const VideoScript = () => {
               <DatePickerWithRange2
                 date={dueDate}
                 setDate={setDueDate}
-                onSave={(value) => {
-                  setDueDate(value);
-                  updateField("scriptDueDate", value);
-                  setOpenScriptDueDate(false);
-                }}
+                onSave={updateScriptDueDate}
               />
             </PopoverContent>
           </Popover>

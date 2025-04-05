@@ -102,7 +102,7 @@ export const VideoDisplay = ({
     <VideoProvider videoData={video}>
       <div
         id={video.videoNumber}
-        className="min-w-fulls top-[64px] right-0 w-[40vw] fixed h-[calc(100vh-64px)] overflow-hidden rounded-md rounded-r-none flex flex-col border  text-primary gap-2 bg-foreground/40 dark:bg-foreground/20 "
+        className="min-w-fulls top-[64px] right-0 w-[40vw] fixed h-[calc(100vh-64px)] overflow-hidden rounded-md rounded-r-none flex flex-col border  text-primary gap-2 bg-foreground/40 dark:bg-foreground/20 z-[99]"
       >
         <div className="h-16  items-center bg-background border-b p-4 py-2 gap-4 w-full justify-between flex ">
           <Link

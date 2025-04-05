@@ -143,7 +143,7 @@ export const WeeksDisplay = ({
   return (
     <>
       {ClientData ? (
-        <div className="flex flex-col gap-6 z-10 relative container">
+        <div className="flex flex-col gap-6 z-10 relative container ">
           {videosByWeek &&
             Object.keys(videosByWeek)
               .reverse()
@@ -206,16 +206,18 @@ export const WeeksDisplay = ({
                       <span className="w-[80px] ">Posted</span>
                     </div>
                     <div className="flex flex-col  ">
-                      {weekRange.map((post: VideoData, index) => (
-                        <VideoColumn
-                          key={index}
-                          post={post}
-                          index={index}
-                          userData={userData}
-                          displayedVideo={displayedVideo}
-                          setDisplayedVideo={setDisplayedVideo}
-                        />
-                      ))}
+                      {weekRange
+                        .sort((a: any, b: any) => a.postDate - b.postDate)
+                        .map((post: VideoData, index) => (
+                          <VideoColumn
+                            key={index}
+                            post={post}
+                            index={index}
+                            userData={userData}
+                            displayedVideo={displayedVideo}
+                            setDisplayedVideo={setDisplayedVideo}
+                          />
+                        ))}
                     </div>
                   </div>
                 );
