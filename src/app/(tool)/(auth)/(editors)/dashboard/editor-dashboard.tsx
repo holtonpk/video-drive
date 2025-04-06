@@ -81,7 +81,8 @@ import Background from "@/components/background";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import {useToast} from "@/components/ui/use-toast";
-import {Clock} from "lucide-react";
+import {Banknote, Clock, Grid, List} from "lucide-react";
+import {VideoDisplay} from "../../(admin)/client-view/[client]/components/video-display";
 
 const EditDashboard = () => {
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
@@ -116,7 +117,7 @@ const EditDashboard = () => {
   }, [dummyUid, currentUser]);
 
   return (
-    <div className="container h-fit md:h-[calc(100vh-104px)]  overflow-hidden  flex flex-col ">
+    <div className="md:container h-fit md:h-[calc(100vh-104px)]  overflow-hidden  flex flex-col ">
       {/* <Cards /> */}
       {currentUser && ADMIN_USERS.includes(currentUser.uid) && (
         <EditorSelector selectEditor={setDummyUid} selectedEditor={dummyUid} />
@@ -143,7 +144,10 @@ const Counter: React.FC<CounterProps> = ({from, to}) => {
       const controls = animate(from, to, {
         duration: 0.5,
         onUpdate(value) {
-          node.textContent = value.toFixed(2);
+          node.textContent = value.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
         },
       });
 
@@ -234,12 +238,16 @@ const VideoSheet = ({
     );
   });
 
+  const [completedView, setCompletedView] = React.useState<"grid" | "list">(
+    "list"
+  );
+
   return (
-    <div className="w-full  overflow-hiddens  h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
-      <div className=" flex flex-col  h-[calc(100vh-104px)]  gap-8">
+    <div className="w-full  overflow-hiddens  h-fit md:h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
+      <div className=" flex flex-col   md:h-[calc(100vh-104px)]  gap-4">
         {/* -------------------------------------------------*/}
-        <div className="flex flex-col  h-[150px] ">
-          <div className="flex items-center gap-2 mb-2 ">
+        <div className="flex flex-col h-fit md:h-[150px] ">
+          <div className="flex items-center gap-2  ">
             <div className="h-fit w-fit p-1 bg-green-500/20 rounded-md">
               <Icons.money className="h-4 w-4 text-green-500" />
             </div>
@@ -315,171 +323,100 @@ const VideoSheet = ({
             )}
           </AnimatePresence>
 
-          {needsRevision.length + todo.length > 4 && (
+          {/* {needsRevision.length + todo.length > 4 && (
             <>
               <div className=" absolute bottom-0 left-0 w-full pointer-events-none z-30 animate-in fade-in-0 duration-500">
                 <div className="task-table-grad-bottom w-full h-20 z-30 pointer-events-none"></div>
               </div>
             </>
-          )}
-          <div
-            onScroll={(e: any) => {
-              if (e.target.scrollTop !== 0) {
-                setIsScrolled(true);
-              } else {
-                setIsScrolled(false);
-              }
-            }}
-            className="h-full  flex flex-col gap-8   border p-2 rounded-md dark:bg-foreground/50  overflow-scroll pb-10 relatives"
-          >
-            {needsRevision && needsRevision.length > 0 && (
-              <div className="flex flex-col col-span-2 h-fit  max-h-[50%]   ">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="h-fit w-fit p-1 bg-red-500/20 rounded-md">
-                    <Icons.xCircle className="h-4 w-4 text-red-500" />
-                  </div>
-                  <h1 className="text-primary mt-1  font1 text-2xl">
-                    Needs Revision
-                    {needsRevision.length > 0 && ` (${needsRevision.length})`}
-                  </h1>
-                </div>
-                <div className="h-fit rounded-md">
-                  {needsRevision.length && needsRevision.length > 0 && (
-                    <div className="flex flex-col gap-2 ">
-                      {needsRevision.map((video) => {
-                        const client = clients.find(
-                          (c: any) => c.value === video.clientId
-                        )!;
+          )} */}
 
-                        return (
-                          <Link
-                            href={`/edit/${video.videoNumber}`}
-                            key={video.videoNumber}
-                            className="w-full  border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground cursor-pointer grid gap-2 items-center  md:flex  justify-between"
-                          >
-                            <div className="flex items-center gap-2">
-                              {client.icon && (
-                                <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
-                              )}
-                              <span className="text-primary">
-                                {client.label}
-                              </span>
-                              <span className="text-muted-foreground">•</span>
-                              <h1 className=" text-primary">
-                                #{video.videoNumber}
-                              </h1>
-                            </div>
+          <div className="flex flex-col  col-span-2 h-full    ">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
+                <Icons.todo className="h-4 w-4 text-blue-500" />
+              </div>
+              <h1 className="text-primary mt-1  font1 text-2xl">
+                Ready to edit
+                {todo.length + needsRevision.length > 0 &&
+                  ` (${todo.length + needsRevision.length})`}
+              </h1>
+            </div>
+            <div
+              className="rounded-md h-full   flex flex-col gap-8   border p-2  dark:bg-foreground/50  overflow-scroll pb-6 relatives
+             "
+            >
+              {orderedTodo.length && orderedTodo.length > 0 ? (
+                <div className="flex flex-col gap-2 ">
+                  {[...needsRevision, ...orderedTodo].map((video, i) => {
+                    const client = clients.find(
+                      (c: any) => c.value === video.clientId
+                    )!;
 
-                            <h1
-                              className={cn("text-lg text-primary", {
-                                "text-red-500": getTimeUntilDue(video.dueDate)
-                                  .isLate,
-                              })}
-                            >
-                              {getTimeUntilDue(video.dueDate).isLate
-                                ? "Late by "
-                                : "Due in "}
-                              {getTimeUntilDue(video.dueDate).value}
+                    return (
+                      <div key={video.videoNumber}>
+                        <Link
+                          href={`/edit/${video.videoNumber}`}
+                          className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
+                        >
+                          <div className="flex items-center gap-2">
+                            {client.icon && (
+                              <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
+                            )}
+                            <span className="text-primary">{client.label}</span>
+                            <span className="text-muted-foreground">•</span>
+                            <h1 className=" text-primary">
+                              #{video.videoNumber}
                             </h1>
-                            <>
-                              {video.priceUSD > 0 ? (
-                                <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
-                                  + ${video.priceUSD}
-                                </h1>
-                              ) : (
-                                <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
-                                  Demo
-                                </h1>
-                              )}
-                            </>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-            {/* -------------------------------------------------*/}
+                          </div>
 
-            <div className="flex flex-col  col-span-2 h-fit    ">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="h-fit w-fit p-1 bg-blue-500/20 rounded-md">
-                  <Icons.todo className="h-4 w-4 text-blue-500" />
-                </div>
-                <h1 className="text-primary mt-1  font1 text-2xl">
-                  Ready to edit{todo.length > 0 && ` (${todo.length})`}
-                </h1>
-              </div>
-              <div className="rounded-md  ">
-                {orderedTodo.length && orderedTodo.length > 0 ? (
-                  <div className="flex flex-col gap-2">
-                    {orderedTodo.map((video, i) => {
-                      const client = clients.find(
-                        (c: any) => c.value === video.clientId
-                      )!;
-
-                      return (
-                        <div key={video.videoNumber}>
-                          <Link
-                            href={`/edit/${video.videoNumber}`}
-                            className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
-                          >
-                            <div className="flex items-center gap-2">
-                              {client.icon && (
-                                <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
-                              )}
-                              <span className="text-primary">
-                                {client.label}
-                              </span>
-                              <span className="text-muted-foreground">•</span>
-                              <h1 className=" text-primary">
-                                #{video.videoNumber}
-                              </h1>
+                          {video.status === "needs revision" && (
+                            <div className="text-red-500 bg-red-500/20 rounded-md p-2 text-sm">
+                              Needs revision
                             </div>
+                          )}
 
-                            <h1
-                              className={`
-                                text-sm  ml-auto flex items-center gap-1
+                          <h1
+                            className={`
+                                text-sm  md:ml-auto flex items-center gap-1
                                 ${
                                   getTimeUntilDue(video.dueDate).isLate
                                     ? "text-red-500"
                                     : "text-muted-foreground"
                                 }
                               `}
-                            >
-                              <Clock className="h-4 w-4 " />
-                              {getTimeUntilDue(video.dueDate).isLate
-                                ? `Late by ${
-                                    getTimeUntilDue(video.dueDate).value
-                                  }`
-                                : `Due in ${
-                                    getTimeUntilDue(video.dueDate).value
-                                  }`}
-                            </h1>
-                            <>
-                              {video.priceUSD > 0 ? (
-                                <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
-                                  + ${video.priceUSD}
-                                </h1>
-                              ) : (
-                                <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
-                                  Demo
-                                </h1>
-                              )}
-                            </>
-                          </Link>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <h1 className="text-xl text-muted-foreground text-center h-full w-full flex justify-center items-center flex-col border bg-foreground/50 blurBack rounded-md p-6">
-                    <Icons.frown className="h-6 w-6 text-muted-foreground" />
-                    No videos ready check back later
-                  </h1>
-                )}
-              </div>
+                          >
+                            <Clock className="h-4 w-4 " />
+                            {getTimeUntilDue(video.dueDate).isLate
+                              ? `Late by ${
+                                  getTimeUntilDue(video.dueDate).value
+                                }`
+                              : `Due in ${
+                                  getTimeUntilDue(video.dueDate).value
+                                }`}
+                          </h1>
+                          <>
+                            {video.priceUSD > 0 ? (
+                              <h1 className="text-lg w-fit bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+                                + ${video.priceUSD}
+                              </h1>
+                            ) : (
+                              <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
+                                Demo
+                              </h1>
+                            )}
+                          </>
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <h1 className="text-xl text-muted-foreground text-center h-full w-full flex justify-center items-center flex-col border bg-foreground/50 blurBack rounded-md p-6">
+                  <Icons.frown className="h-6 w-6 text-muted-foreground" />
+                  No videos ready check back later
+                </h1>
+              )}
             </div>
           </div>
         </div>
@@ -496,44 +433,91 @@ const VideoSheet = ({
               Completed videos{completed.length > 0 && ` (${completed.length})`}
             </h1>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="text-[10px] py-[6px] ml-auto bg-foreground/50 hover:bg-foreground/80 text-primary border h-fit p-2  rounded-md flex  items-center gap-1">
-                <Icons.filter className="h-3 w-3 text-muted-foreground" />
-                Filter
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className=" w-[100px]">
-              <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuCheckboxItem
-                checked={showPaid}
-                onCheckedChange={setShowPaid}
+          <div className="hidden md:flex items-center w-fit ml-auto  gap-2 ">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-[10px] rounded-l-md rounded-r-none flex  items-center gap-1 bg-foreground/50 hover:bg-foreground/80 text-primary border  rounded-md"
+                >
+                  <Icons.filter className="h-4 w-4 text-muted-foreground" />
+                  Filter
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className=" w-[100px]">
+                <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuCheckboxItem
+                  checked={showPaid}
+                  onCheckedChange={setShowPaid}
+                >
+                  Paid
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  checked={showUnpaid}
+                  onCheckedChange={setShowUnpaid}
+                >
+                  Unpaid
+                </DropdownMenuCheckboxItem>
+                <DropdownMenuCheckboxItem
+                  checked={showDemos}
+                  onCheckedChange={setShowDemos}
+                >
+                  Demos
+                </DropdownMenuCheckboxItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <div className=" bg-foreground/50 hover:bg-foreground/80 text-primary border  rounded-md overflow-hidden">
+              <Button
+                size="sm"
+                className={`
+                  ${
+                    completedView === "grid"
+                      ? "bg-primary/10 text-background hover:bg-primary/10"
+                      : "bg-foreground/50 hover:bg-primary/5"
+                  }
+                   rounded-none
+                  `}
+                onClick={() => setCompletedView("grid")}
               >
-                Paid
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={showUnpaid}
-                onCheckedChange={setShowUnpaid}
+                <Grid className="h-3 w-3 text-muted-foreground" />
+              </Button>
+              <Button
+                size="sm"
+                className={`
+                  ${
+                    completedView === "list"
+                      ? "bg-primary/10 text-background hover:bg-primary/10"
+                      : "bg-foreground/50 hover:bg-primary/5"
+                  }
+                  rounded-l-none rounded-r-md
+                  `}
+                onClick={() => setCompletedView("list")}
               >
-                Unpaid
-              </DropdownMenuCheckboxItem>
-              <DropdownMenuCheckboxItem
-                checked={showDemos}
-                onCheckedChange={setShowDemos}
-              >
-                Demos
-              </DropdownMenuCheckboxItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        <div className="border bg-foreground/20  p-2 shadow-lg dark:shadow-none rounded-md  relative overflow-scroll  h-[316px]">
-          {completed && completed.length > 0 ? (
-            <div className="flex gap-2 h-fit ">
-              {completed.map((video) => (
-                <VideoDisplay video={video} key={video.videoNumber} />
-              ))}
+                <List className="h-3 w-3 text-muted-foreground" />
+              </Button>
             </div>
+          </div>
+        </div>
+        <div className="border dark:bg-foreground/50 blurBack  p-2 shadow-lg dark:shadow-none rounded-md  relative overflow-scroll  h-[316px]">
+          {completed && completed.length > 0 ? (
+            <>
+              {completedView === "grid" && (
+                <div className="flex gap-2 h-fit ">
+                  {completed.map((video) => (
+                    <VideoDisplayGrid video={video} key={video.videoNumber} />
+                  ))}
+                </div>
+              )}
+              {completedView === "list" && (
+                <div className="flex gap-2 h-fit flex-col ">
+                  {completed.map((video) => (
+                    <VideoDisplayList video={video} key={video.videoNumber} />
+                  ))}
+                </div>
+              )}
+            </>
           ) : (
             <h1 className="text-xl text-muted-foreground text-center h-full w-full flex justify-center items-center">
               No videos completed
@@ -582,7 +566,115 @@ const ClientDisplay = ({dummyUid}: {dummyUid: string}) => {
   );
 };
 
-const VideoDisplay = ({video}: {video: VideoData}) => {
+const VideoDisplayList = ({video}: {video: VideoData}) => {
+  const client = clients.find((c: any) => c.value === video.clientId)!;
+
+  const [postData, setPostData] = React.useState<Post | undefined>();
+
+  useEffect(() => {
+    const fetchVideo = async () => {
+      if (video?.postIds && video?.postIds.length > 0) {
+        const getDocRef = await getDoc(doc(db, "posts", video?.postIds[0]));
+
+        if (getDocRef.exists()) {
+          setPostData(getDocRef.data() as Post);
+        }
+      }
+    };
+    fetchVideo();
+
+    return () => {
+      setPostData(undefined);
+    };
+  }, [video]);
+
+  const [loadVideo, setLoadVideo] = React.useState(false);
+
+  const {isVisible, targetRef} = useIsVisible(
+    {
+      root: null,
+      rootMargin: "10px",
+      threshold: 1,
+    },
+    false
+  );
+
+  useEffect(() => {
+    if (isVisible) {
+      setLoadVideo(true);
+    } else {
+      return;
+    }
+  }, [isVisible]);
+
+  const getTimeUntilDue = (dueDate: Timestamp) => {
+    const now = new Date();
+    const diffTime = dueDate.seconds * 1000 - now.getTime();
+    const diffHours = Math.ceil(Math.abs(diffTime) / (1000 * 60 * 60));
+    const diffDays = Math.ceil(Math.abs(diffTime) / (1000 * 60 * 60 * 24));
+
+    if (diffTime < 0) {
+      if (diffHours < 24) {
+        return {isLate: true, value: `${diffHours}h`};
+      }
+      return {isLate: true, value: `${diffDays}d`};
+    }
+
+    if (diffHours < 24) {
+      return {isLate: false, value: `${diffHours}h`};
+    }
+    return {isLate: false, value: `${diffDays}d`};
+  };
+
+  return (
+    <Link
+      href={`/edit/${video.videoNumber}`}
+      className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
+    >
+      <div className="flex items-center gap-2">
+        {client?.icon && (
+          <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
+        )}
+        <span className="text-primary">{client?.label}</span>
+        <span className="text-muted-foreground">•</span>
+        <h1 className=" text-primary">#{video.videoNumber}</h1>
+      </div>
+
+      <div className="flex items-center gap-2 ml-auto">
+        <div className=" z-20 font1 text-white flex items-center">
+          {video.priceUSD > 0 ? (
+            <>
+              {video.paid ? (
+                <>
+                  <Icons.check className="h-4 w-4 text-green-500 mr-1 mb-[2px]" />
+                  paid
+                </>
+              ) : (
+                <>
+                  <Icons.close className="h-4 w-4 text-red-500 mr-1 mb-[2px]" />
+                  unpaid
+                </>
+              )}
+            </>
+          ) : (
+            <>demo</>
+          )}
+        </div>
+        {video.priceUSD > 0 ? (
+          <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+            + ${video.priceUSD}
+          </h1>
+        ) : (
+          <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
+            Demo
+          </h1>
+        )}
+      </div>
+    </Link>
+  );
+};
+
+const VideoDisplayGrid = ({video}: {video: VideoData}) => {
   const client = clients.find((c: any) => c.value === video.clientId)!;
 
   const [postData, setPostData] = React.useState<Post | undefined>();
@@ -791,8 +883,15 @@ const PayoutRequest = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="text-[10px] py-[6px] ml-auto bg-foreground/50 hover:bg-foreground/80 text-primary border p-2 rounded-md ">
-        Request a Payout
+      <DialogTrigger asChild>
+        <Button
+          size="sm"
+          variant="ghost"
+          className="text-[10px] rounded-l-md rounded-r-none flex  items-center gap-1 bg-foreground/50 hover:bg-foreground/80 text-primary border  rounded-md ml-auto"
+        >
+          <Banknote className="h-4 w-4 text-muted-foreground" />
+          Request a Payout
+        </Button>
       </DialogTrigger>
       {videos.length > 0 ? (
         <DialogContent>

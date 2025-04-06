@@ -28,7 +28,10 @@ export const ADMIN_USERS = [
 
 export const EDITORS = [
   // "orxFlEC5v8euefk1OSJVTVXgilE2",
-  {id: "y9VhFCzIuRW33vjKhmVrpqH4ajx2", clients: ["blaze", "morty", "frizzle"]},
+  {
+    id: "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+    clients: ["morty", "blueCollarKeys"],
+  },
   {
     id: "Mi4yipMXrlckU117edbYNiwrmI92",
     clients: [
@@ -307,6 +310,26 @@ export type VideoData = {
   videoReviewed?: string[];
   payoutChangeRequest?: PayoutChangeRequest;
   messages?: videoMessage[];
+  files?: AssetFile[];
+};
+
+export type AssetFile = {
+  id: string;
+  uploadedAt: Timestamp;
+  uploadedBy: string;
+  title: string;
+  url: string;
+  type: "img" | "video";
+  notes?: string;
+  chat?: Chat[];
+};
+
+export type Chat = {
+  id: string;
+  message: string;
+  senderId: string;
+  timestamp: Timestamp;
+  viewedBy: string[];
 };
 
 type ScriptData = {
