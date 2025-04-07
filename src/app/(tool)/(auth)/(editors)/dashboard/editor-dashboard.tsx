@@ -363,7 +363,9 @@ const VideoSheet = ({
                             {client.icon && (
                               <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
                             )}
-                            <span className="text-primary">{client.label}</span>
+                            <span className="text-primary max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
+                              {video.title}
+                            </span>
                             <span className="text-muted-foreground">•</span>
                             <h1 className=" text-primary">
                               #{video.videoNumber}
@@ -397,9 +399,19 @@ const VideoSheet = ({
                           </h1>
                           <>
                             {video.priceUSD > 0 ? (
-                              <h1 className="text-lg w-fit bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
-                                + ${video.priceUSD}
-                              </h1>
+                              <>
+                                <h1 className="text-lg w-fit bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+                                  + ${video.priceUSD}
+                                  {video.payoutChangeRequest &&
+                                    video.payoutChangeRequest.status ===
+                                      "pending" && (
+                                      <span className="text-xs text-green-500 ml-1">
+                                        (requested $
+                                        {video.payoutChangeRequest.value})
+                                      </span>
+                                    )}
+                                </h1>
+                              </>
                             ) : (
                               <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
                                 Demo
@@ -635,7 +647,9 @@ const VideoDisplayList = ({video}: {video: VideoData}) => {
         {client?.icon && (
           <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
         )}
-        <span className="text-primary">{client?.label}</span>
+        <span className="text-primary max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
+          {video.title}
+        </span>
         <span className="text-muted-foreground">•</span>
         <h1 className=" text-primary">#{video.videoNumber}</h1>
       </div>
@@ -661,8 +675,14 @@ const VideoDisplayList = ({video}: {video: VideoData}) => {
           )}
         </div>
         {video.priceUSD > 0 ? (
-          <h1 className="text-lg  bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
+          <h1 className="text-lg w-fit bg-green-500/20 rounded-md p-2 text-green-500 items-center flex">
             + ${video.priceUSD}
+            {video.payoutChangeRequest &&
+              video.payoutChangeRequest.status === "pending" && (
+                <span className="text-xs text-green-500 ml-1">
+                  (requested ${video.payoutChangeRequest.value})
+                </span>
+              )}
           </h1>
         ) : (
           <h1 className="text-lg  bg-blue-500/20 rounded-md p-2 text-blue-500 items-center flex">
