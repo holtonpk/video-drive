@@ -288,8 +288,8 @@ const VideoPlayer = ({
           <div className="absolute inset-0 bg-black/70 z-50 flex flex-col items-center justify-center p-4 text-white">
             <h3 className="text-xl font-bold mb-4">Screenshot Instructions</h3>
             <p className="mb-4 text-center">
-              Due to security restrictions, we can't take a screenshot directly.
-              Please use your browser's screenshot tools:
+              Due to security restrictions, we can&apos;t take a screenshot
+              directly. Please use your browser&apos;s screenshot tools:
             </p>
             <div className="flex gap-4 mb-6">
               <div className="text-center">
