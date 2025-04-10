@@ -83,6 +83,7 @@ import {Input} from "@/components/ui/input";
 import {useToast} from "@/components/ui/use-toast";
 import {Banknote, Clock, Grid, List} from "lucide-react";
 import {VideoDisplay} from "../../(admin)/client-view/[client]/components/video-display";
+import {connectStorageEmulator} from "firebase/storage";
 
 const EditDashboard = () => {
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();
@@ -242,6 +243,8 @@ const VideoSheet = ({
     "list"
   );
 
+  console.log("needs revision", needsRevision);
+
   return (
     <div className="w-full  overflow-hiddens  h-fit md:h-[calc(100vh-104px)]  grid md:grid-cols-2  items-start gap-8  relative z-20 ">
       <div className=" flex flex-col   md:h-[calc(100vh-104px)]  gap-4">
@@ -346,7 +349,8 @@ const VideoSheet = ({
               className="rounded-md h-full   flex flex-col gap-8   border p-2  dark:bg-foreground/50  overflow-scroll pb-6 relatives
              "
             >
-              {orderedTodo.length && orderedTodo.length > 0 ? (
+              {(orderedTodo.length && orderedTodo.length > 0) ||
+              (needsRevision.length && needsRevision.length > 0) ? (
                 <div className="flex flex-col gap-2 ">
                   {[...needsRevision, ...orderedTodo].map((video, i) => {
                     const client = clients.find(
