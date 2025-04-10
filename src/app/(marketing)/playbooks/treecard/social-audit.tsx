@@ -4,7 +4,7 @@ import TiktokData from "./tiktok/tiktok";
 import InstagramData from "./instagram/instagram";
 const SocialAudit = () => {
   return (
-    <div className=" grid md:grid-cols-2 gap-4 md:container b-b items-center">
+    <div className=" grid md:grid-cols-2 gap-4 md:container  items-center">
       <TiktokData />
       <InstagramData />
     </div>
