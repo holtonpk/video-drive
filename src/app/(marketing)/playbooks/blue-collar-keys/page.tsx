@@ -189,7 +189,7 @@ const Page = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 max-w-[1000px]">
+        {/* <div className="flex flex-col gap-2 max-w-[1000px]">
           <h1 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#233461]">
             <Gem className="w-5 h-5" />
             The Proposal (plan & payment)
@@ -214,7 +214,7 @@ const Page = () => {
               for short form.
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
