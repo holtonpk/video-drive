@@ -60,7 +60,7 @@ const InstagramData = () => {
 
       <div className="flex gap-1 flex-col">
         <h1 className="text-lg font-bold text-[#00AE70]">Top Videos</h1>
-        <div className="grid grid-cols-6 gap-2 items-center">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 items-center">
           {filteredInstagramData
             .sort((a: any, b: any) => b.videoViewCount - a.videoViewCount)
             .slice(0, 6)
@@ -68,7 +68,7 @@ const InstagramData = () => {
               <button
                 key={instagram.id}
                 onClick={() => setSelectedPost(instagram)}
-                className="relative overflow-hidden rounded-md shadow-lg border hover:border-[#00AE70] transition-all duration-300"
+                className="relative overflow-hidden w-fit rounded-md shadow-lg border hover:border-[#00AE70] transition-all duration-300"
               >
                 <Image
                   className="rounded-md"

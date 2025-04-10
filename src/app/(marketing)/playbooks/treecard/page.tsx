@@ -41,8 +41,7 @@ const Page = () => {
           Treecard Playbook
         </h1>
         <p className="max-w-[500px] text-center  text-[#00AE70]">
-          We&apos;ve developed this playbook to help you kickstart your social
-          media growth.
+          We&apos;ve developed this playbook to help continue your media growth.
         </p>
       </div>
       <SocialAudit />

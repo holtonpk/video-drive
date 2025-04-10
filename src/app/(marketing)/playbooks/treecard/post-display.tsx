@@ -52,7 +52,7 @@ const PostDisplay = ({
         className="w-screen h-screen left-0 top-0 bg-black/50 absolute z-20"
         onClick={onClose}
       ></button>
-      <div className="bg-white rounded-md p-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 grid grid-cols-2 gap-4 items-center">
+      <div className="bg-white rounded-md p-4 absolute top-1/2 left-1/2 max-h-full overflow-scroll w-[80%] md:max-w-[800px]  -translate-x-1/2 -translate-y-1/2 z-30 grid md:grid-cols-2 gap-4 items-center">
         {videoUrl && <VideoPlayer videoUrl={videoUrl} />}
 
         <div className="flex flex-col gap-2 text-black">

@@ -30,7 +30,7 @@ const TiktokData = () => {
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
   return (
-    <div className="flex flex-col gap-4 border rounded-md p-4 border-[#00AE70] shadow-lg">
+    <div className="flex  w-full flex-col gap-4 border rounded-md p-4 border-[#00AE70] shadow-lg">
       <div className="flex gap-2 font-bold text-[#00AE70] border border-[#00AE70] rounded-md p-2 w-fit shadow-lg">
         <TiktokLogo className="w-10 h-10" />
         <h1 className="flex items-center gap-1">
@@ -50,7 +50,7 @@ const TiktokData = () => {
 
       <div className="flex gap-1 flex-col">
         <h1 className="text-lg font-bold text-[#00AE70]">Top Videos</h1>
-        <div className="grid grid-cols-6 gap-2 items-center">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 items-center">
           {tiktokData
             .sort((a, b) => b.playCount - a.playCount)
             .slice(0, 6)
@@ -58,7 +58,7 @@ const TiktokData = () => {
               <button
                 key={tiktok.id}
                 onClick={() => setSelectedPost(tiktok)}
-                className="relative overflow-hidden rounded-md shadow-lg border hover:border-[#00AE70] transition-all duration-300"
+                className="relative overflow-hidden w-fit rounded-md shadow-lg border hover:border-[#00AE70] transition-all duration-300"
               >
                 <Image
                   className="rounded-md"
