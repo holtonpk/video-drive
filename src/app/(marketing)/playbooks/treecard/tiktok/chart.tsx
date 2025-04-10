@@ -1,6 +1,13 @@
 "use client";
 
-import {TrendingUp, TrendingDown} from "lucide-react";
+import {
+  TrendingUp,
+  TrendingDown,
+  Heart,
+  Eye,
+  MessageCircle,
+  Share,
+} from "lucide-react";
 import {Area, AreaChart, CartesianGrid, XAxis, YAxis} from "recharts";
 import {formatNumber} from "../instagram/instagram";
 import {
@@ -172,9 +179,21 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Chart() {
+export function Chart({data}: {data: any[]}) {
+  const averageLikes = Math.round(
+    data.reduce((acc, tiktok) => acc + tiktok.diggCount, 0) / data.length
+  );
+  const averageViews = Math.round(
+    data.reduce((acc, tiktok) => acc + tiktok.playCount, 0) / data.length
+  );
+  const averageComments = Math.round(
+    data.reduce((acc, tiktok) => acc + tiktok.commentCount, 0) / data.length
+  );
+  const averageShares = Math.round(
+    data.reduce((acc, tiktok) => acc + tiktok.shareCount, 0) / data.length
+  );
   return (
-    <Card>
+    <Card className="rounded-md border-none shadow-none pb-0 ">
       <CardHeader>
         <CardTitle>TikTok Organic Content Performance</CardTitle>
         <CardDescription>
@@ -232,9 +251,26 @@ export function Chart() {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pb-0">
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
+            <div className="flex gap-2 font-bold text-[#00AE70]">
+              {/* <TiktokLogo className="w-10 h-10" /> */}
+              <h1 className=" font-bold text-[#00AE70]">Average Performance</h1>
+              <h1 className="flex items-center gap-1">
+                <Heart className="w-4 h-4" /> {formatNumber(averageLikes)}
+              </h1>
+              <h1 className="flex items-center gap-1">
+                <Eye className="w-4 h-4" /> {formatNumber(averageViews)}
+              </h1>
+              <h1 className="flex items-center gap-1">
+                <MessageCircle className="w-4 h-4" />{" "}
+                {formatNumber(averageComments)}
+              </h1>
+              <h1 className="flex items-center gap-1">
+                <Share className="w-4 h-4" /> {formatNumber(averageShares)}
+              </h1>
+            </div>
             <div className="flex items-center gap-2 font-medium leading-none">
               {isTrendingUp ? (
                 <>

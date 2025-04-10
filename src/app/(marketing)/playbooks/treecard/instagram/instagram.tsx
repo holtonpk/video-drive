@@ -13,24 +13,6 @@ const InstagramData = () => {
     (instagram) => instagram.type === "Video"
   );
 
-  const averageLikes = Math.round(
-    filteredInstagramData.reduce(
-      (acc, instagram) => acc + instagram.likesCount,
-      0
-    ) / filteredInstagramData.length
-  );
-  const averageViews = Math.round(
-    filteredInstagramData.reduce(
-      (acc, instagram: any) => acc + instagram.videoViewCount,
-      0
-    ) / filteredInstagramData.length
-  );
-  const averageComments = Math.round(
-    filteredInstagramData.reduce(
-      (acc, instagram) => acc + instagram.commentsCount,
-      0
-    ) / filteredInstagramData.length
-  );
   // const averageShares = Math.round(
   //   instagramData.reduce((acc, instagram) => acc + instagram.videoPlayCount, 0) /
   //     instagramData.length
@@ -39,26 +21,10 @@ const InstagramData = () => {
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
   return (
-    <div className="flex flex-col gap-4 border rounded-md p-4 border-[#00AE70] shadow-lg">
-      <div className="flex gap-2 font-bold text-[#00AE70] border-[#00AE70] border rounded-md p-2 w-fit shadow-lg">
-        <InstagramLogo className="w-10 h-10" />
+    <div className="flex flex-col gap-4 border rounded-md  border-[#00AE70] shadow-lg">
+      <Chart data={filteredInstagramData} />
 
-        <h1 className="flex items-center gap-1">
-          <Heart className="w-4 h-4" /> {formatNumber(averageLikes)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          <Eye className="w-4 h-4" /> {formatNumber(averageViews)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          <MessageCircle className="w-4 h-4" /> {formatNumber(averageComments)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          {/* <Share className="w-4 h-4" /> {averageShares} */}
-        </h1>
-      </div>
-      <Chart />
-
-      <div className="flex gap-1 flex-col">
+      <div className="flex gap-1 flex-col p-6 pt-0">
         <h1 className="text-lg font-bold text-[#00AE70]">Top Videos</h1>
         <div className="flex flex-wrap md:grid md:grid-cols-6 gap-2 items-center">
           {filteredInstagramData

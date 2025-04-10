@@ -11,44 +11,14 @@ import {Chart} from "./chart";
 import PostDisplay from "../post-display";
 const TiktokData = () => {
   console.log("tiktokData", tiktokData);
-  const averageLikes = Math.round(
-    tiktokData.reduce((acc, tiktok) => acc + tiktok.diggCount, 0) /
-      tiktokData.length
-  );
-  const averageViews = Math.round(
-    tiktokData.reduce((acc, tiktok) => acc + tiktok.playCount, 0) /
-      tiktokData.length
-  );
-  const averageComments = Math.round(
-    tiktokData.reduce((acc, tiktok) => acc + tiktok.commentCount, 0) /
-      tiktokData.length
-  );
-  const averageShares = Math.round(
-    tiktokData.reduce((acc, tiktok) => acc + tiktok.shareCount, 0) /
-      tiktokData.length
-  );
+
   const [selectedPost, setSelectedPost] = useState<any | null>(null);
 
   return (
-    <div className="flex  w-full flex-col gap-4 border rounded-md p-4 border-[#00AE70] shadow-lg">
-      <div className="flex gap-2 font-bold text-[#00AE70] border border-[#00AE70] rounded-md p-2 w-fit shadow-lg">
-        <TiktokLogo className="w-10 h-10" />
-        <h1 className="flex items-center gap-1">
-          <Heart className="w-4 h-4" /> {formatNumber(averageLikes)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          <Eye className="w-4 h-4" /> {formatNumber(averageViews)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          <MessageCircle className="w-4 h-4" /> {formatNumber(averageComments)}
-        </h1>
-        <h1 className="flex items-center gap-1">
-          <Share className="w-4 h-4" /> {formatNumber(averageShares)}
-        </h1>
-      </div>
-      <Chart />
+    <div className="flex  w-full flex-col gap-4 border rounded-md  border-[#00AE70] shadow-lg">
+      <Chart data={tiktokData} />
 
-      <div className="flex gap-1 flex-col">
+      <div className="flex gap-1 flex-col p-6 pt-0">
         <h1 className="text-lg font-bold text-[#00AE70]">Top Videos</h1>
         <div className="flex flex-wrap md:grid  md:grid-cols-6 gap-2 items-center">
           {tiktokData
