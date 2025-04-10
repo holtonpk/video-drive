@@ -50,7 +50,7 @@ const TiktokData = () => {
 
       <div className="flex gap-1 flex-col">
         <h1 className="text-lg font-bold text-[#00AE70]">Top Videos</h1>
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-2 items-center">
+        <div className="flex flex-wrap md:grid  md:grid-cols-6 gap-2 items-center">
           {tiktokData
             .sort((a, b) => b.playCount - a.playCount)
             .slice(0, 6)
