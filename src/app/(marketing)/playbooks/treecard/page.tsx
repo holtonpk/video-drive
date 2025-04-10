@@ -52,7 +52,7 @@ const Page = () => {
         <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
           <p>
             <b>Validated Organic Interest:</b> With 500K+ followers and
-            consistent viewership, there's a strong foundation of brand
+            consistent viewership, there&apos;s a strong foundation of brand
             awareness. This size gives us room to test, learn, and
             scale—organically and with paid support. The large following signals
             trust and legitimacy, but it&apos;s underutilized due to a mismatch
