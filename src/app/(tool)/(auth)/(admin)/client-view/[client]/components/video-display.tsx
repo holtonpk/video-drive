@@ -498,7 +498,10 @@ const UploadedVideoReview = ({
                     controls
                   /> */}
                   {selectedVideo && (
-                    <VideoPlayer videoUrl={selectedVideo?.videoURL} />
+                    <VideoPlayer
+                      videoUrl={selectedVideo?.videoURL}
+                      title={selectedVideo?.title}
+                    />
                   )}
                 </div>
               </div>

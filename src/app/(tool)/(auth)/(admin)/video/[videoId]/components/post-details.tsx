@@ -759,7 +759,7 @@ function VideoDisplay({
               //   className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20"
               //   src={post?.videoURL}
               // />
-              <VideoPlayer videoUrl={post?.videoURL} />
+              <VideoPlayer videoUrl={post?.videoURL} title={post?.title} />
             ) : (
               <div className="h-full w-full flex flex-col items-center justify-center bg-muted">
                 <Icons.video className="h-12 w-12 text-primary" />

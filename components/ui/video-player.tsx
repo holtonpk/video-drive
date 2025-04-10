@@ -6,6 +6,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import {Button} from "@/components/ui/button";
+import {Play, Pause, Volume2, Volume1, VolumeX} from "lucide-react";
+import {motion, AnimatePresence} from "framer-motion";
 import {useRef, useState, useEffect} from "react";
 import {cn} from "@/lib/utils";
 import {VolumeOff} from "@/components/icons";
@@ -21,7 +24,7 @@ import {
   MessageCircleIcon,
 } from "lucide-react";
 
-const VideoPlayer = ({
+const VideoPlayer2 = ({
   videoUrl,
   className,
 }: {
@@ -109,11 +112,41 @@ const VideoPlayer = ({
   const handleDownload = () => {
     const video = videoRef.current;
     if (video) {
-      const url = video.src;
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "video.mp4";
-      a.click();
+      try {
+        // Try to get the direct source URL
+        const url = video.src;
+
+        // Check if we have a valid URL
+        if (!url || url === window.location.href) {
+          // If no direct URL, try to get the video URL from the component props
+          if (videoUrl) {
+            // Create a download link with the video URL
+            const a = document.createElement("a");
+            a.href = videoUrl;
+            a.download = "video.mp4";
+            a.target = "_blank"; // Open in new tab as fallback
+            a.click();
+            return;
+          }
+
+          // If we still don't have a URL, show an error message
+          alert(
+            "Unable to download video. Please try opening the video in a new tab and download from there."
+          );
+          return;
+        }
+
+        // If we have a direct URL, try to download it
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "video.mp4";
+        a.target = "_blank"; // Open in new tab as fallback
+        a.click();
+      } catch (error) {
+        console.error("Download error:", error);
+        // Fallback: open in new tab
+        window.open(videoUrl, "_blank");
+      }
     }
   };
 
@@ -129,10 +162,14 @@ const VideoPlayer = ({
   const handleScreenshot = () => {
     if (videoRef.current) {
       try {
-        // Create a temporary video element that we can control
-        const tempVideo = document.createElement("video");
-        tempVideo.src = videoUrl;
-        tempVideo.crossOrigin = "anonymous";
+        // Check if the video has crossOrigin attribute set
+        if (!videoRef.current.crossOrigin) {
+          console.log(
+            "Video doesn't have crossOrigin attribute set, showing instructions"
+          );
+          setShowScreenshotInstructions(true);
+          return;
+        }
 
         // Create a canvas element
         const canvas = document.createElement("canvas");
@@ -156,12 +193,17 @@ const VideoPlayer = ({
 
           // Create a download link
           const link = document.createElement("a");
-          link.download = `frame-${videoRef.current.currentTime}-screenshot.png`;
+          link.download = `frame-${videoRef.current.currentTime.toFixed(
+            2
+          )}-screenshot.png`;
           link.href = dataURL;
           link.click();
         } catch (e) {
           // If canvas export fails, show instructions
-          console.log("Canvas export failed, showing instructions");
+          console.log(
+            "Canvas export failed due to security restrictions. This happens when the video is from a different domain without proper CORS headers.",
+            e
+          );
           setShowScreenshotInstructions(true);
         }
       } catch (e) {
@@ -367,6 +409,412 @@ const VideoPlayer = ({
         )}
       </div>
     </div>
+  );
+};
+
+// export default VideoPlayer;
+
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+};
+
+const CustomSlider = ({
+  value,
+  onChange,
+  className,
+}: {
+  value: number;
+  onChange: (value: number) => void;
+  className?: string;
+}) => {
+  return (
+    <motion.div
+      className={cn(
+        "relative w-full h-1 bg-white/20 rounded-full cursor-pointer",
+        className
+      )}
+      onClick={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const percentage = (x / rect.width) * 100;
+        onChange(Math.min(Math.max(percentage, 0), 100));
+      }}
+    >
+      <motion.div
+        className="absolute top-0 left-0 h-full bg-white rounded-full"
+        style={{width: `${value}%`}}
+        initial={{width: 0}}
+        animate={{width: `${value}%`}}
+        transition={{type: "spring", stiffness: 300, damping: 30}}
+      />
+    </motion.div>
+  );
+};
+
+const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [progress, setProgress] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+
+  const [showControls, setShowControls] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleVolumeChange = (value: number) => {
+    if (videoRef.current) {
+      const newVolume = value / 100;
+      videoRef.current.volume = newVolume;
+      setVolume(newVolume);
+      setIsMuted(newVolume === 0);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const progress =
+        (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(isFinite(progress) ? progress : 0);
+      setCurrentTime(videoRef.current.currentTime);
+      setDuration(videoRef.current.duration);
+    }
+  };
+
+  const handleSeek = (value: number) => {
+    if (videoRef.current && videoRef.current.duration) {
+      const time = (value / 100) * videoRef.current.duration;
+      if (isFinite(time)) {
+        videoRef.current.currentTime = time;
+        setProgress(value);
+      }
+    }
+  };
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+      if (!isMuted) {
+        setVolume(0);
+      } else {
+        setVolume(1);
+        videoRef.current.volume = 1;
+      }
+    }
+  };
+
+  const handleDownload = async () => {
+    const video = videoRef.current;
+    if (video) {
+      try {
+        const response = await fetch(videoUrl);
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok, status: ${response.status}`
+          );
+        }
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = title;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(downloadUrl);
+        a.remove();
+      } catch (error) {
+        console.error("Download error:", error);
+        // Fallback: open in new tab
+        window.open(videoUrl, "_blank");
+      }
+    }
+  };
+
+  const handleFullScreen = () => {
+    if (videoRef.current) {
+      videoRef.current.requestFullscreen();
+    }
+  };
+
+  const [showScreenshotInstructions, setShowScreenshotInstructions] =
+    useState(false);
+
+  const handleScreenshot = () => {
+    if (videoRef.current) {
+      try {
+        // Check if the video has crossOrigin attribute set
+        if (!videoRef.current.crossOrigin) {
+          console.log(
+            "Video doesn't have crossOrigin attribute set, showing instructions"
+          );
+          setShowScreenshotInstructions(true);
+          return;
+        }
+
+        // Create a canvas element
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        if (!ctx) {
+          console.error("Could not get canvas context");
+          return;
+        }
+
+        // Set canvas dimensions to match video
+        canvas.width = videoRef.current.videoWidth;
+        canvas.height = videoRef.current.videoHeight;
+
+        // Draw the current frame to the canvas
+        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+        // Try to get the data URL
+        try {
+          const dataURL = canvas.toDataURL("image/png");
+
+          // Create a download link
+          const link = document.createElement("a");
+          link.download = `frame-${videoRef.current.currentTime.toFixed(
+            2
+          )}-screenshot.png`;
+          link.href = dataURL;
+          link.click();
+        } catch (e) {
+          // If canvas export fails, show instructions
+          console.log(
+            "Canvas export failed due to security restrictions. This happens when the video is from a different domain without proper CORS headers.",
+            e
+          );
+          setShowScreenshotInstructions(true);
+        }
+      } catch (e) {
+        console.error("Screenshot error:", e);
+        setShowScreenshotInstructions(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleArrowKeys = (e: KeyboardEvent) => {
+      if (!videoRef.current) return;
+
+      // Assuming 30fps, each frame is 1/30th of a second
+      const frameDuration = 1 / 30;
+
+      if (e.key === "ArrowRight") {
+        // Seek forward by one frame
+        const newTime = Math.min(
+          videoRef.current.currentTime + frameDuration,
+          videoRef.current.duration
+        );
+        videoRef.current.currentTime = newTime;
+        setProgress((newTime / videoRef.current.duration) * 100);
+      }
+
+      if (e.key === "ArrowLeft") {
+        // Seek backward by one frame
+        const newTime = Math.max(
+          videoRef.current.currentTime - frameDuration,
+          0
+        );
+        videoRef.current.currentTime = newTime;
+        setProgress((newTime / videoRef.current.duration) * 100);
+      }
+    };
+
+    // Add event listener for keyboard events
+    window.addEventListener("keydown", handleArrowKeys);
+
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener("keydown", handleArrowKeys);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden bg-[#11111198] shadow-[0_0_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
+      initial={{opacity: 0, y: 20}}
+      animate={{opacity: 1, y: 0}}
+      transition={{duration: 0.5}}
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
+    >
+      <video
+        ref={videoRef}
+        className="w-full"
+        onTimeUpdate={handleTimeUpdate}
+        src={videoUrl}
+        onClick={togglePlay}
+        loop
+        crossOrigin="anonymous"
+      />
+
+      <AnimatePresence>
+        {showControls && (
+          <motion.div
+            className="flex flex-col absolute bottom-0 mx-auto max-w-[calc(100%-40px)] left-0 right-0 p-4 m-2 bg-[#11111198] backdrop-blur-md rounded-2xl"
+            initial={{y: 20, opacity: 0, filter: "blur(10px)"}}
+            animate={{y: 0, opacity: 1, filter: "blur(0px)"}}
+            exit={{y: 20, opacity: 0, filter: "blur(10px)"}}
+            transition={{duration: 0.6, ease: "circInOut", type: "spring"}}
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-white text-sm">
+                {formatTime(currentTime)}
+              </span>
+              <CustomSlider
+                value={progress}
+                onChange={handleSeek}
+                className="flex-1"
+              />
+              <span className="text-white text-sm">{formatTime(duration)}</span>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <motion.div whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>
+                  <Button
+                    onClick={togglePlay}
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-[#111111d1] hover:text-white"
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-5 w-5" />
+                    ) : (
+                      <Play className="h-5 w-5" />
+                    )}
+                  </Button>
+                </motion.div>
+                <div className="flex items-center gap-x-1">
+                  <motion.div whileHover={{scale: 1.1}} whileTap={{scale: 0.9}}>
+                    <Button
+                      onClick={toggleMute}
+                      variant="ghost"
+                      size="icon"
+                      className="text-white hover:bg-[#111111d1] hover:text-white"
+                    >
+                      {isMuted ? (
+                        <VolumeX className="h-5 w-5" />
+                      ) : volume > 0.5 ? (
+                        <Volume2 className="h-5 w-5" />
+                      ) : (
+                        <Volume1 className="h-5 w-5" />
+                      )}
+                    </Button>
+                  </motion.div>
+
+                  <div className="w-20">
+                    <CustomSlider
+                      value={volume * 100}
+                      onChange={handleVolumeChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="flex items-center gap-2">
+                {[0.5, 1, 1.5, 2].map((speed) => (
+                  <motion.div
+                    whileHover={{scale: 1.1}}
+                    whileTap={{scale: 0.9}}
+                    key={speed}
+                  >
+                    <Button
+                      onClick={() => setSpeed(speed)}
+                      variant="ghost"
+                      size="icon"
+                      className={cn(
+                        "text-white hover:bg-[#111111d1] hover:text-white",
+                        playbackSpeed === speed && "bg-[#111111d1]"
+                      )}
+                    >
+                      {speed}x
+                    </Button>
+                  </motion.div>
+                ))}
+              </div> */}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence>
+        {showControls && (
+          <motion.div
+            className="flex  absolute top-0 mx-auto gap-0 w-fit left-0 right-0 p-2 m-2 bg-[#11111198] backdrop-blur-md rounded-2xl"
+            initial={{y: -20, opacity: 0, filter: "blur(10px)"}}
+            animate={{y: 0, opacity: 1, filter: "blur(0px)"}}
+            exit={{y: -20, opacity: 0, filter: "blur(10px)"}}
+            transition={{duration: 0.6, ease: "circInOut", type: "spring"}}
+          >
+            {/* a button to download the video. add a tooltip to it */}
+            <TooltipProvider>
+              <Tooltip delayDuration={50}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-[#111111d1] hover:text-white"
+                    onClick={handleDownload}
+                  >
+                    <DownloadIcon className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Download Video</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {/* a button to make the video full screen */}
+            <TooltipProvider>
+              <Tooltip delayDuration={50}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-[#111111d1] hover:text-white"
+                    onClick={handleFullScreen}
+                  >
+                    <FullscreenIcon className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">Full Screen</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            {/* a button to take a screenshot of the current frame  */}
+            <TooltipProvider>
+              <Tooltip delayDuration={50}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-[#111111d1] hover:text-white"
+                    onClick={handleScreenshot}
+                  >
+                    <Camera className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  Screenshot Current Frame
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

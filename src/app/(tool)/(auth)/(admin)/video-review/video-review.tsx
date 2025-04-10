@@ -1350,7 +1350,10 @@ const UploadedVideoReview = ({
                     controls
                   /> */}
                   {selectedVideo && selectedVideo.videoURL && (
-                    <VideoPlayer videoUrl={selectedVideo.videoURL} />
+                    <VideoPlayer
+                      videoUrl={selectedVideo.videoURL}
+                      title={selectedVideo.title}
+                    />
                   )}
                 </div>
               </div>
@@ -1576,7 +1579,7 @@ const PostDisplay = ({post}: {post: Post}) => {
               className="w-full h-full object-cover"
               controls
             /> */}
-            <VideoPlayer videoUrl={post.videoURL} />
+            <VideoPlayer videoUrl={post.videoURL} title={post.title} />
           </div>
         ) : (
           <div className="h-[250px] aspect-[9/16] relative mx-auto rounded-md overflow-hidden flex justify-center items-center bg-muted text-center">
