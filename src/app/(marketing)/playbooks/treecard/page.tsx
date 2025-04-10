@@ -37,14 +37,103 @@ const Page = () => {
         <div className="h-16 w-16 bg-white border flex items-center justify-center  rounded-md overflow-hidden shadow-md">
           <Image src="/treecard/logo.png" alt="Mozi" width={100} height={100} />
         </div>
-        <h1 className="text-4xl font-bold text-center text-black">
+        <h1 className="text-4xl font-bold text-center text-[#0A5153]">
           Treecard Playbook
         </h1>
         <p className="max-w-[500px] text-center  text-[#00AE70]">
           We&apos;ve developed this playbook to help continue your media growth.
         </p>
       </div>
+      <div className="flex flex-col gap-2 w-full max-w-[1000px]">
+        <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
+          <Eye className="w-5 h-5" />
+          Opportunity we see
+        </h2>
+        <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
+          <p>
+            <b>The Whitespace:</b> The blue-collar workforce is the backbone of
+            society, yet it remains one of the most underserved and
+            underrepresented groups in digital media. Unlike the oversaturated
+            finance and tech content space, blue-collar storytelling is
+            untapped. With Blue Collar Keys, we see a massive opportunity to
+            create the go-to media brand for blue-collar workers; one that
+            highlights their skills, stories, and career potential in a way
+            that’s both engaging and aspirational.
+          </p>
+          <p>
+            <b>Obvious Demand:</b> Blue-collar industries employ over 70 million
+            people in the U.S. alone. They are very active on social media, but
+            no one is speaking directly to them in a way that resonates. There
+            is no 1 dominant player consistently putting out high-quality,
+            engaging short-form content for blue-collar workers. BCK can be the
+            brand that fills this gap.
+          </p>
+          <p>
+            <b>Endless Content Possibilities:</b> From raw, on-the-ground
+            interviews to highly produced storytelling, the range of content we
+            can create ensures there’s a format that will break through.
+          </p>
+          <p>
+            <b>Inherent Virality:</b> Content featuring everyday workers, niche
+            expertise, and job-related humor is relatable and will perform
+            exceptionally well.
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2 w-full max-w-[1000px]">
+        <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
+          <Brain className="w-5 h-5" />
+          High Level Strategy - The 2 Sided Formula
+        </h2>
+        <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
+          <p>
+            Our content strategy will use a 60/40 split, where 60% of the
+            content focuses on high-value, story-driven content that engages and
+            builds long-term relationships, while the remaining 40% is designed
+            for reach, featuring humor and relatable content to capture
+            attention and increase awareness.
+          </p>
+          <p>
+            By combining these two distinct content types, the plan is to
+            capture a wide audience with the broader attention-optimized content
+            and then retain them and build community with the high-value branded
+            content
+          </p>
+          <p>
+            Below are the specific series idea that fall under each category.
+          </p>
+        </div>
+      </div>
       <SocialAudit />
+      <SeriesIdeas />
+      <div className="flex flex-col gap-2 max-w-[1000px]">
+        <h1 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
+          <Users className="w-5 h-5" />
+          Our Service
+        </h1>
+        <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
+          <p>
+            • Strategy Development - We handle all aspects of content
+            strategy—from ideation to execution—ensuring alignment with your
+            brand goals, audience engagement, and industry trends.
+          </p>
+          <p>
+            • Management of socials (community engagement (stories, comment
+            replies), arranging collaborations, planning content, posting
+            content)
+          </p>
+          <p>
+            • Weekly reports (Micro breakdown - What worked, content pivots,
+            insights and metrics)
+          </p>
+          <p>
+            • Monthly reports (Macro breakdown - Last month&apos;s performance,
+            strategy for the upcoming month, and any revisions to the current
+            strategy. On a call or a video presentation. )
+          </p>
+          <p>• Month to Month contract (cancel anytime)</p>
+        </div>
+      </div>
     </div>
   );
 };

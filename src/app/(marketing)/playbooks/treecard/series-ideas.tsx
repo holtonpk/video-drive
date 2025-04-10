@@ -248,8 +248,8 @@ export const SeriesIdeas = () => {
   ];
 
   return (
-    <div className="flex gap-2 flex-col w-full">
-      <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#233461]">
+    <div className="flex gap-2 flex-col  w-fit">
+      <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
         <Clapperboard className="w-5 h-5" />
         Short Form Series Concepts
       </h2>
@@ -261,8 +261,8 @@ export const SeriesIdeas = () => {
                 key={series.id}
                 className={`flex relative flex-col gap-2 border text-left  p-2 px-4 bg-white rounded-md  shadow-md group transition-all duration-300 ${
                   selectedSeries === series.id
-                    ? "border-[#7DA2DD] pb-4"
-                    : " border-black/10 hover:border-[#7DA2DD]/50"
+                    ? "border-[#00AE70] pb-4"
+                    : " border-black/10 hover:border-[#00AE70]/50"
                 }`}
               >
                 <button
@@ -278,7 +278,7 @@ export const SeriesIdeas = () => {
                     className={`font-bold text-lg capitalize transition-all duration-300 
                     ${
                       selectedSeries === series.id
-                        ? "text-[#233461]"
+                        ? "text-[#0D5153]"
                         : "text-black"
                     }
                     `}
@@ -287,7 +287,7 @@ export const SeriesIdeas = () => {
                   </h1>
 
                   <Icons.chevronDown
-                    className={`w-4 h-4 ml-auto  text-[#7DA2DD]
+                    className={`w-4 h-4 ml-auto  text-[#00AE70]
                       ${
                         selectedSeries === series.id
                           ? "block rotate-180"
@@ -312,11 +312,11 @@ export const SeriesIdeas = () => {
                       ))}
                     </div>
                     <div className="flex  flex-col">
-                      <h1 className="text-sm text-[#7DA2DD] font-bold mt-4">
+                      <h1 className="text-sm text-[#00AE70] font-bold mt-4">
                         Examples
                       </h1>
                       <div className="flex gap-4 w-fit ">
-                        <Arrow1 className="w-[50px] h-[50px] hidden md:block -rotate-[10deg] ml-10 fill-[#7DA2DD] scale-x-[-1] " />
+                        <Arrow1 className="w-[50px] h-[50px] hidden md:block -rotate-[10deg] ml-10 fill-[#00AE70] scale-x-[-1] " />
                         {series.videos.map((video) => (
                           <Video
                             accountUrl={video.accountUrl}
@@ -330,7 +330,7 @@ export const SeriesIdeas = () => {
                     </div>
                     {series.videos2 && (
                       <div className="flex gap-1  flex-col">
-                        <h1 className="text-sm text-[#7DA2DD] font-bold mt-4">
+                        <h1 className="text-sm text-[#00AE70] font-bold mt-4">
                           Best in class examples
                         </h1>
                         <div className="flex gap-4 flex-wrap  w-full ">
@@ -470,7 +470,7 @@ const commonMarkdownComponents = {
       {...props}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-[#7DA2DD] underline hover:text-[#7DA2DD]/80 relative z-30"
+      className="text-[#00AE70] underline hover:text-[#00AE70]/80 relative z-30"
     >
       {children}
     </a>
@@ -505,7 +505,7 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
           components={{
             ...commonMarkdownComponents,
             p: ({node, children, ...props}: any) => (
-              <div className="text-[#7DA2DD] relative z-30" {...props}>
+              <div className="text-[#00AE70] relative z-30" {...props}>
                 {children}
               </div>
             ),
@@ -530,7 +530,7 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#7DA2DD] hover:underline"
+            className="text-[#00AE70] hover:underline"
           >
             <ReactMarkdown components={commonMarkdownComponents}>
               {content}
