@@ -113,10 +113,10 @@ const Page = () => {
         <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
           <p>
             <b>Create Content That Resonates with our Target Demo:</b> The
-            current content leans older—we’ll shift to reflect the voice, humor,
-            and aesthetic of younger audience, especially students and socially
-            conscious Gen Z. That means trend-aware visuals, relatable creators,
-            and content that feels like a friend sent it.
+            current content leans older—we&apos;ll shift to reflect the voice,
+            humor, and aesthetic of younger audience, especially students and
+            socially conscious Gen Z. That means trend-aware visuals, relatable
+            creators, and content that feels like a friend sent it.
           </p>
           <p>
             <b>Improve Bottom-of-Funnel Conversions:</b> Our priority is to turn
@@ -127,11 +127,12 @@ const Page = () => {
             next step.
           </p>
           <p>
-            <b>Reach 1M Views with BOF Content Per Month:</b> We’re setting a
-            clear benchmark: 1 million monthly views from bottom-of-funnel (BOF)
-            content across platforms. This ensures we’re consistently reaching
-            high-intent viewers with messaging that drives action. We’ll use
-            organic virality + paid boosting to scale what performs best.
+            <b>Reach 1M Views with BOF Content Per Month:</b> We&apos;re setting
+            a clear benchmark: 1 million monthly views from bottom-of-funnel
+            (BOF) content across platforms. This ensures we&apos;re consistently
+            reaching high-intent viewers with messaging that drives action.
+            We&apos;ll use organic virality + paid boosting to scale what
+            performs best.
           </p>
         </div>
       </div>
