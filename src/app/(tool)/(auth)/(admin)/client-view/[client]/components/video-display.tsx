@@ -105,21 +105,22 @@ export const VideoDisplay = ({
         id={video.videoNumber}
         className="min-w-fulls top-[64px] right-0 w-[40vw] fixed h-[calc(100vh-64px)] overflow-hidden rounded-md rounded-r-none flex flex-col border  text-primary gap-2 bg-foreground/40 dark:bg-foreground/20 z-[99]"
       >
-        <div className="h-16  items-center bg-background border-b p-4 py-2 gap-4 w-full justify-between flex ">
-          <Link
-            target="_blank"
-            href={`/video/${video.videoNumber}`}
-            className="font-bold text-2xl hover:opacity-80 hover:underline"
-          >
-            #{video.videoNumber} - {video.title}
-          </Link>
+        <div className="h-16  items-center bg-background border-b p-4 py-2 w-full gap-1 justify-between grid grid-cols-[40px_1fr] ">
           <Button
             onClick={() => setDisplayedVideo(undefined)}
-            className="   z-20 w-fit  "
+            size="icon"
+            className="z-20"
             variant={"ghost"}
           >
             <Icons.close className="h-5 w-5" />
           </Button>
+          <Link
+            target="_blank"
+            href={`/video/${video.videoNumber}`}
+            className="font-bold text-2xl hover:opacity-80 hover:underline whitespace-nowrap max-w-full overflow-hidden text-ellipsis"
+          >
+            #{video.videoNumber} - {video.title}
+          </Link>
         </div>
         {/* <div className="grid gap-2 px-4">
 

@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {statuses, clients, REVIEW_USERS_DATA} from "@/config/data";
+import {statuses, clients, REVIEW_USERS_DATA, MANAGERS} from "@/config/data";
 import Link from "next/link";
 
 import {Calendar as CalendarIcon} from "lucide-react";
@@ -152,6 +152,13 @@ export const VideoDetails = () => {
 
       <div className="grid  bg-foreground/40 p-4 rounded-b-md gap-2">
         <div className="grid grid-cols-2 gap-6 ">
+          <div className="grid gap-2">
+            <Label htmlFor="editor">Manager</Label>
+            <ManagerSelector
+              updateField={updateField}
+              selectedManager={video.manager}
+            />
+          </div>
           <div className="grid gap-2 ">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -163,6 +170,7 @@ export const VideoDetails = () => {
               }}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="editor">Editor</Label>
             <EditorSelector
@@ -386,9 +394,7 @@ const EditorSelector = ({
   }, []);
 
   useEffect(() => {
-    if (selectedEditor !== undefined && selectedEditor !== editor) {
-      setEditor(selectedEditor);
-    }
+    setEditor(selectedEditor);
   }, [selectedEditor]);
 
   return (
@@ -414,6 +420,87 @@ const EditorSelector = ({
           </SelectTrigger>
           <SelectContent>
             {editors.map((option) => (
+              <SelectItem
+                key={option.uid}
+                value={option.uid}
+                className="flex flex-nowrap"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={option.photoURL}
+                    alt="editor"
+                    className="h-6 w-6 rounded-full mr-2"
+                  />
+                  <span>{option.firstName}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+    </>
+  );
+};
+
+const ManagerSelector = ({
+  updateField,
+  selectedManager,
+}: {
+  updateField: (field: string, value: any) => void;
+  selectedManager: string | undefined;
+}) => {
+  const [manager, setManager] = React.useState<string | undefined>(
+    selectedManager
+  );
+  const [managers, setManagers] = React.useState<UserData[] | undefined>();
+
+  useEffect(() => {
+    const fetchManagers = async () => {
+      try {
+        const managerPromises = MANAGERS.map(async (manager) => {
+          const dataSnap = await getDoc(doc(db, "users", manager.id));
+          return dataSnap.data() as UserData;
+        });
+
+        const managerData = await Promise.all(managerPromises);
+        setManagers(managerData);
+      } catch (error) {
+        console.error("Error fetching manager data: ", error);
+      }
+    };
+
+    fetchManagers();
+  }, []);
+
+  useEffect(() => {
+    setManager(selectedManager);
+  }, [selectedManager]);
+
+  console.log("manager", selectedManager);
+  return (
+    <>
+      {managers && managers.length > 0 && (
+        <Select
+          key={manager}
+          value={manager}
+          onValueChange={(value) => {
+            setManager(value);
+            updateField("manager", value);
+            // setNewVideos(
+            //   newVideos.map((v) => {
+            //     if (v.videoNumber === video.videoNumber) {
+            //       return {...v, status: value};
+            //     }
+            //     return v;
+            //   })
+            // );
+          }}
+        >
+          <SelectTrigger id="manager" className=" truncate w-full">
+            <SelectValue placeholder="Select a manager" />
+          </SelectTrigger>
+          <SelectContent>
+            {managers.map((option) => (
               <SelectItem
                 key={option.uid}
                 value={option.uid}

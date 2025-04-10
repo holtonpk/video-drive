@@ -190,6 +190,8 @@ export const WeeksDisplay = ({
                 {!displayedVideo && (
                   <>
                     <span className="w-[60px]">Price</span>
+                    <span className="w-[100px] text-center">Manager</span>
+
                     <span className="w-[100px] text-center">Script Done</span>
                     <span className="w-[120px] text-center ">
                       Script reviewed

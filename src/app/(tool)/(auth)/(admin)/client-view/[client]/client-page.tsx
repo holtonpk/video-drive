@@ -28,6 +28,8 @@ const ClientPage = ({client}: {client: string}) => {
 
   console.log("clientInfo", clientInfo);
 
+  console.log("totalVideos", totalVideos);
+
   return (
     <>
       {clientInfo ? (
@@ -57,7 +59,7 @@ const ClientPage = ({client}: {client: string}) => {
               <ExportData clientInfo={clientInfo} />
               <CreateVideo
                 clientInfo={clientInfo}
-                totalVideos={currentVideoNumber}
+                currentVideoNumber={currentVideoNumber}
               />
             </div>
             <WeeksDisplay

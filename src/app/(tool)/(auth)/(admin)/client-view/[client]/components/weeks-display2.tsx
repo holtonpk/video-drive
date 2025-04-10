@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect} from "react";
-import {statuses, clients} from "@/config/data";
+import {statuses, clients, MANAGERS} from "@/config/data";
 import {
   onSnapshot,
   query,
@@ -25,7 +25,7 @@ import Link from "next/link";
 import {Icons} from "@/components/icons";
 import {VideoData} from "@/config/data";
 import {Input} from "@/components/ui/input";
-import {Video} from "lucide-react";
+import {GripVertical, Video} from "lucide-react";
 import {set} from "date-fns";
 import {REVIEW_USERS_DATA} from "@/config/data";
 type ClientDataByWeek = {
@@ -66,6 +66,7 @@ export const WeeksDisplay = ({
         ...clientDataLocal.map((post: any) => post.videoNumber)
       );
       setTotalVideos(clientDataLocal.length);
+      setCurrentVideoNumber(largestVideoNumber);
     });
     return () => unsubscribe();
   }, [clientInfo, setTotalVideos]);
@@ -76,7 +77,7 @@ export const WeeksDisplay = ({
     const fetchUsers = async () => {
       try {
         const usersData = await Promise.all(
-          REVIEW_USERS_DATA.map(async (user) => {
+          MANAGERS.map(async (user) => {
             const userSnap = await getDoc(doc(db, "users", user.id));
             return userSnap.data() as UserData; // Ensure type casting if needed
           })
@@ -185,8 +186,12 @@ export const WeeksDisplay = ({
                       )}
                       <span className="w-[60px]">Post</span>
                       {!displayedVideo && (
+                        <span className="w-[60px]">Price</span>
+                      )}
+                      <span className="w-[100px] text-center">Manager</span>
+
+                      {!displayedVideo && (
                         <>
-                          <span className="w-[60px]">Price</span>
                           <span className="w-[100px] text-center">
                             Script Done
                           </span>
@@ -195,13 +200,15 @@ export const WeeksDisplay = ({
                           </span>
                         </>
                       )}
-                      <span className="w-[100px] ">Editing Status</span>
-                      <span className="w-[120px] text-center">
-                        Video Reviewed
-                      </span>
+                      <span className="w-[100px] ">Status</span>
                       {!displayedVideo && (
-                        <span className="w-[50px]">Caption</span>
+                        <span className="w-[120px] text-center">
+                          Video Reviewed
+                        </span>
                       )}
+                      {/* {!displayedVideo && (
+                        <span className="w-[50px]">Caption</span>
+                      )} */}
 
                       <span className="w-[80px] ">Posted</span>
                     </div>
@@ -354,48 +361,57 @@ ${
         {formatDayMonthDay(post.postDate)}
       </span>
       {!displayedVideo && (
-        <>
-          <span className="relative z-20 pointer-events-none w-[60px]">
-            {formatAsUSD(post.priceUSD)}
-          </span>
-          <span className="relative z-20 pointer-events-none w-[100px] flex justify-center">
-            {videoAlreadyPosted ? (
-              <Icons.check className="h-4 w-4 text-green-500" />
-            ) : (
-              <span className="font-bold">
-                {hasScript ? (
-                  <Icons.check className="h-4 w-4 text-green-500" />
-                ) : (
-                  <Icons.close className=" h-4 w-4 text-red-500" />
-                )}
-              </span>
-            )}
-          </span>
-          <span className="relative z-20 pointer-events-none w-[120px] flex justify-center items-center">
-            {post.scriptReviewed &&
-              post.scriptReviewed.map((reviewer, i) => {
-                const user =
-                  userData && userData.find((u) => u.uid == reviewer);
-                return (
-                  <img
-                    key={i}
-                    src={user?.photoURL}
-                    alt={user?.firstName}
-                    // style={{zIndex: task.assignee.length - index}}
-                    className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
-                  />
-                );
-              })}
-
-            {/* {scriptIsReviewed ? (
-          <Icons.check className="ml-1 h-3 w-3 text-green-500" />
-        ) : (
-          <Icons.close className="ml-1 h-3 w-3 text-red-500" />
-        )} */}
-          </span>
-        </>
+        <span className="relative z-20 pointer-events-none w-[60px]">
+          {formatAsUSD(post.priceUSD)}
+        </span>
       )}
-
+      <span className="relative z-20 pointer-events-none w-[100px] flex justify-center">
+        {post.manager ? (
+          userData && userData.find((u) => u.uid === post.manager) ? (
+            <img
+              src={userData.find((u) => u.uid === post.manager)?.photoURL}
+              alt={userData.find((u) => u.uid === post.manager)?.firstName}
+              className="h-6 min-w-6 w-6 aspect-square rounded-full"
+            />
+          ) : (
+            <span>--</span>
+          )
+        ) : (
+          <span>--</span>
+        )}
+      </span>
+      {!displayedVideo && (
+        <span className="relative z-20 pointer-events-none w-[100px] flex justify-center">
+          {videoAlreadyPosted ? (
+            <Icons.check className="h-4 w-4 text-green-500" />
+          ) : (
+            <span className="font-bold">
+              {hasScript ? (
+                <Icons.check className="h-4 w-4 text-green-500" />
+              ) : (
+                <Icons.close className=" h-4 w-4 text-red-500" />
+              )}
+            </span>
+          )}
+        </span>
+      )}
+      {!displayedVideo && (
+        <span className="relative z-20 pointer-events-none w-[120px] flex justify-center items-center">
+          {post.scriptReviewed &&
+            post.scriptReviewed.map((reviewer, i) => {
+              const user = userData && userData.find((u) => u.uid == reviewer);
+              return (
+                <img
+                  key={i}
+                  src={user?.photoURL}
+                  alt={user?.firstName}
+                  // style={{zIndex: task.assignee.length - index}}
+                  className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
+                />
+              );
+            })}
+        </span>
+      )}
       <span className="flex items-center relative z-20 pointer-events-none w-[100px]">
         {status?.icon && (
           <status.icon
@@ -415,46 +431,21 @@ ${
 
         {status?.value === "needs revision" ? "Revision" : status?.label}
       </span>
-      <span className="relative z-20 pointer-events-none w-[120px]  flex justify-center items-center">
-        {post.videoReviewed &&
-          post.videoReviewed.map((reviewer, i) => {
-            const user = userData && userData.find((u) => u.uid == reviewer);
-            return (
-              <img
-                key={i}
-                src={user?.photoURL}
-                alt={user?.firstName}
-                // style={{zIndex: task.assignee.length - index}}
-                className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
-              />
-            );
-          })}
-        {/* {videoIsReviewed ? (
-          <Icons.check className="ml-1 h-3 w-3 text-green-500" />
-        ) : (
-          <Icons.close className="ml-1 h-3 w-3 text-red-500" />
-        )} */}
-      </span>
       {!displayedVideo && (
-        <span className="relative z-20 pointer-events-none w-[50px] flex justify-center">
-          {videoAlreadyPosted ? (
-            <Icons.check className="h-4 w-4 text-green-500" />
-          ) : (
-            <>
-              {" "}
-              {loadingCaption ? (
-                <Icons.spinner className="h-4 w-4 animate-spin" />
-              ) : (
-                <span className="font-bold">
-                  {hasCaption ? (
-                    <Icons.check className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Icons.close className=" h-4 w-4 text-red-500" />
-                  )}
-                </span>
-              )}
-            </>
-          )}
+        <span className="relative z-20 pointer-events-none w-[120px]  flex justify-center items-center">
+          {post.videoReviewed &&
+            post.videoReviewed.map((reviewer, i) => {
+              const user = userData && userData.find((u) => u.uid == reviewer);
+              return (
+                <img
+                  key={i}
+                  src={user?.photoURL}
+                  alt={user?.firstName}
+                  // style={{zIndex: task.assignee.length - index}}
+                  className="h-6 min-w-6 w-6 aspect-square rounded-full -ml-3"
+                />
+              );
+            })}
         </span>
       )}
       <span className="w-[80px] z-20  flex pl-4">

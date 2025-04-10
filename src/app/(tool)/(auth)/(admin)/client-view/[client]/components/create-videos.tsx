@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect} from "react";
-import {statuses, clients} from "@/config/data";
+import {statuses, clients, MANAGERS} from "@/config/data";
 import {
   onSnapshot,
   query,
@@ -11,6 +11,7 @@ import {
   doc,
   setDoc,
   getDoc,
+  getDocs,
 } from "firebase/firestore";
 import {db} from "@/config/firebase";
 import DatePickerWithRange2 from "./date-picker-hour";
@@ -71,10 +72,10 @@ type NewVideo = {
 
 export const CreateVideo = ({
   clientInfo,
-  totalVideos,
+  currentVideoNumber,
 }: {
   clientInfo: any;
-  totalVideos: number;
+  currentVideoNumber: number;
 }) => {
   const [newVideos, setNewVideos] = React.useState<NewVideo[] | null>();
 
@@ -85,18 +86,17 @@ export const CreateVideo = ({
     return `${clientID}${sequenceString}`;
   };
 
+  console.log("tv", currentVideoNumber);
+
   const createNewVideo = () => {
     setNewVideos([
       {
         title: "",
-        videoNumber: Number(totalVideos + 1).toString(),
+        videoNumber: Number(currentVideoNumber + 1).toString(),
         clientId: clientInfo.value,
         status: "draft",
         dueDate: undefined,
-        // dueDate: new Date(),
-        // postDate: new Date(),
         postDate: undefined,
-        // scriptDueDate: new Date(),
         scriptDueDate: undefined,
         notes: "",
         script: "",
@@ -111,7 +111,7 @@ export const CreateVideo = ({
       {
         title: "",
         videoNumber: newVideos
-          ? Number(totalVideos + newVideos.length + 1).toString()
+          ? Number(currentVideoNumber + newVideos.length + 1).toString()
           : "0",
         clientId: clientInfo.value,
         status: "draft",
@@ -190,7 +190,7 @@ export const CreateVideo = ({
                 <h1 className="text-primary text-xl font-bold">
                   Video Creator
                 </h1>
-                <div className="flex gap-2">
+                <div className="flex gap-2 pr-10">
                   <Button
                     onClick={() => setNewVideos([])}
                     variant={"ghost"}
@@ -231,7 +231,7 @@ export const CreateVideo = ({
           setShowModal={setShowBulkSchedule}
           setNewVideos={setNewVideos}
           clientInfo={clientInfo}
-          clientTotalVideos={totalVideos}
+          clientTotalVideos={currentVideoNumber}
         />
       )}
     </div>
@@ -420,56 +420,15 @@ const NewVideoDraft = () => {
                 placeholder="Title"
               />
             </div>
-            {/* <div className="grid-gap-1">
-              <Label>Status</Label>
-              <Select
-                value={status}
-                onValueChange={(value) => {
-                  setStatus(value);
-                  setNewVideos(
-                    newVideos.map((v) => {
-                      if (v.videoNumber === video.videoNumber) {
-                        return {...v, status: value};
-                      }
-                      return v;
-                    })
-                  );
-                }}
-              >
-                <SelectTrigger id="status" className=" truncate w-full">
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  {statuses.map((option) => (
-                    <SelectItem
-                      key={option.value}
-                      value={option.value}
-                      className="flex flex-nowrap"
-                    >
-                      <div className="flex items-center">
-                        {option.icon && (
-                          <option.icon
-                            className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
-                        ${
-                          option.value === "done"
-                            ? "stroke-green-500 "
-                            : option.value === "todo"
-                            ? "stroke-blue-500"
-                            : option.value === "draft"
-                            ? "stroke-yellow-500"
-                            : "stroke-red-500"
-                        }
-                        
-                        `}
-                          />
-                        )}
-                        <span>{option.label}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div> */}
+            <div className="grid gap-1">
+              <Label>Manager</Label>
+              <ManagerSelector
+                selectedManager={undefined}
+                newVideos={newVideos}
+                video={video}
+                setNewVideos={setNewVideos}
+              />
+            </div>
 
             <div className="grid gap-1 h-fit">
               <Label htmlFor="client">Notes</Label>
@@ -831,6 +790,84 @@ const EditorSelector = ({
           </SelectTrigger>
           <SelectContent>
             {editors.map((option) => (
+              <SelectItem
+                key={option.uid}
+                value={option.uid}
+                className="flex flex-nowrap"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={option.photoURL}
+                    alt="editor"
+                    className="h-6 w-6 rounded-full mr-2"
+                  />
+                  <span>{option.firstName}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+    </>
+  );
+};
+
+const ManagerSelector = ({
+  selectedManager,
+  setNewVideos,
+  newVideos,
+  video,
+}: {
+  selectedManager: string | undefined;
+  setNewVideos: (videos: NewVideo[]) => void;
+  newVideos: NewVideo[];
+  video: NewVideo;
+}) => {
+  const [manager, setManager] = React.useState<string | undefined>(
+    selectedManager
+  );
+  const [managers, setManagers] = React.useState<UserData[] | undefined>();
+
+  useEffect(() => {
+    const fetchEditors = async () => {
+      try {
+        const managerPromises = MANAGERS.map(async (manager) => {
+          const dataSnap = await getDoc(doc(db, "users", manager.id));
+          return dataSnap.data() as UserData;
+        });
+
+        const managerData = await Promise.all(managerPromises);
+        setManagers(managerData);
+      } catch (error) {
+        console.error("Error fetching editor data: ", error);
+      }
+    };
+
+    fetchEditors();
+  }, []);
+
+  return (
+    <>
+      {managers && managers.length > 0 && (
+        <Select
+          value={manager}
+          onValueChange={(value) => {
+            setManager(value);
+            setNewVideos(
+              newVideos.map((v) => {
+                if (v.videoNumber === video.videoNumber) {
+                  return {...v, manager: value};
+                }
+                return v;
+              })
+            );
+          }}
+        >
+          <SelectTrigger id="manager" className=" truncate w-full">
+            <SelectValue placeholder="Select a manager" />
+          </SelectTrigger>
+          <SelectContent>
+            {managers.map((option) => (
               <SelectItem
                 key={option.uid}
                 value={option.uid}

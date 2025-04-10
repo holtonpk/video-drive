@@ -56,6 +56,36 @@ export const EDITORS = [
   },
 ];
 
+export const MANAGERS = [
+  // "orxFlEC5v8euefk1OSJVTVXgilE2",
+  {
+    id: "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+    clients: ["morty", "blueCollarKeys"],
+  },
+  {
+    id: "Mi4yipMXrlckU117edbYNiwrmI92",
+    clients: [
+      "blaze",
+      "morty",
+      "founderCentral",
+      "learnXYZ",
+      "mindy",
+      "frizzle",
+    ],
+  },
+  {
+    id: "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+    clients: [
+      "blaze",
+      "morty",
+      "founderCentral",
+      "learnXYZ",
+      "mindy",
+      "frizzle",
+    ],
+  },
+];
+
 export const ALL_USERS = [
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
   "Mi4yipMXrlckU117edbYNiwrmI92",
@@ -311,6 +341,7 @@ export type VideoData = {
   payoutChangeRequest?: PayoutChangeRequest;
   messages?: videoMessage[];
   files?: AssetFile[];
+  manager?: string;
 };
 
 export type AssetFile = {
