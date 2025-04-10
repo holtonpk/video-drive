@@ -45,7 +45,7 @@ export function ChatBubbleVariants() {
           fallback="AI"
           src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=64&h=64&q=80&crop=faces&fit=crop"
         />
-        <ChatBubbleMessage>Sure, I'd be happy to help!</ChatBubbleMessage>
+        <ChatBubbleMessage>Sure, I&apos;d be happy to help!</ChatBubbleMessage>
       </ChatBubble>
     </div>
   );
