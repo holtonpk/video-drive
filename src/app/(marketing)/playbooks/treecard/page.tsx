@@ -51,32 +51,29 @@ const Page = () => {
         </h2>
         <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
           <p>
-            <b>The Whitespace:</b> The blue-collar workforce is the backbone of
-            society, yet it remains one of the most underserved and
-            underrepresented groups in digital media. Unlike the oversaturated
-            finance and tech content space, blue-collar storytelling is
-            untapped. With Blue Collar Keys, we see a massive opportunity to
-            create the go-to media brand for blue-collar workers; one that
-            highlights their skills, stories, and career potential in a way
-            that’s both engaging and aspirational.
+            <b>Validated Organic Interest:</b> With 500K+ followers and
+            consistent viewership, there's a strong foundation of brand
+            awareness. This size gives us room to test, learn, and
+            scale—organically and with paid support. The large following signals
+            trust and legitimacy, but it&apos;s underutilized due to a mismatch
+            in tone and targeting.
           </p>
           <p>
-            <b>Obvious Demand:</b> Blue-collar industries employ over 70 million
-            people in the U.S. alone. They are very active on social media, but
-            no one is speaking directly to them in a way that resonates. There
-            is no 1 dominant player consistently putting out high-quality,
-            engaging short-form content for blue-collar workers. BCK can be the
-            brand that fills this gap.
+            <b>Inherent Virality in the Mission:</b> The nature of the
+            product—planting trees through everyday actions—is easily shareable,
+            especially with Gen Z&apos;s love of purpose-driven brands. It has a
+            “wait, this exists?” appeal. There&apos;s built-in surprise,
+            emotional reward, and social currency. We just need to package it
+            right.
           </p>
+
           <p>
-            <b>Endless Content Possibilities:</b> From raw, on-the-ground
-            interviews to highly produced storytelling, the range of content we
-            can create ensures there’s a format that will break through.
-          </p>
-          <p>
-            <b>Inherent Virality:</b> Content featuring everyday workers, niche
-            expertise, and job-related humor is relatable and will perform
-            exceptionally well.
+            <b>Endless Content Potential:</b> The intersection of tech, climate
+            impact, and micro-habit behavior change opens the door to a wide
+            range of content types: storytelling, education, personal
+            challenges, creator partnerships, behind-the-scenes, brand
+            mythbusting, and more. This can fuel ongoing social series for
+            months without feeling repetitive
           </p>
         </div>
       </div>
@@ -87,25 +84,57 @@ const Page = () => {
         </h2>
         <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
           <p>
-            Our content strategy will use a 60/40 split, where 60% of the
-            content focuses on high-value, story-driven content that engages and
-            builds long-term relationships, while the remaining 40% is designed
-            for reach, featuring humor and relatable content to capture
-            attention and increase awareness.
+            <b>The 80/20 Split Strategy:</b> Our content strategy will use a
+            80/20 split, where 80% of the content focuses on high-value, bottom
+            of funnel content that engages and builds long-term relationships,
+            while the remaining 20% is designed for reach, featuring humor and
+            relatable content to capture attention and increase awareness. By
+            combining these two distinct content types, the plan is to capture
+            our target audience with the broader attention-optimized content and
+            then retain them and build community with the high-value branded
+            content.
           </p>
           <p>
-            By combining these two distinct content types, the plan is to
-            capture a wide audience with the broader attention-optimized content
-            and then retain them and build community with the high-value branded
-            content
-          </p>
-          <p>
-            Below are the specific series idea that fall under each category.
+            <b>Boost BOF Winners With Paid:</b> We identify what organically
+            performs best from the BOF batch, and boost those posts to the right
+            demo. This lowers CAC and builds trust faster than a pure cold ad
+            campaign.
           </p>
         </div>
       </div>
       <SocialAudit />
       <SeriesIdeas />
+      <div className="flex flex-col gap-2 w-full max-w-[1000px]">
+        <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
+          <Target className="w-5 h-5" />
+          The Goal
+        </h2>
+
+        <div className="flex flex-col gap-3 text-black bg-white p-4 rounded-md shadow-md border">
+          <p>
+            <b>Create Content That Resonates with our Target Demo:</b> The
+            current content leans older—we’ll shift to reflect the voice, humor,
+            and aesthetic of younger audience, especially students and socially
+            conscious Gen Z. That means trend-aware visuals, relatable creators,
+            and content that feels like a friend sent it.
+          </p>
+          <p>
+            <b>Improve Bottom-of-Funnel Conversions:</b> Our priority is to turn
+            awareness into real action—app installs, engagement, and retention.
+            That means doubling down on content that directly explains what
+            TreeCard is, why it matters, and how to get started. We want every
+            post to build trust, spark curiosity, and push viewers to take the
+            next step.
+          </p>
+          <p>
+            <b>Reach 1M Views with BOF Content Per Month:</b> We’re setting a
+            clear benchmark: 1 million monthly views from bottom-of-funnel (BOF)
+            content across platforms. This ensures we’re consistently reaching
+            high-intent viewers with messaging that drives action. We’ll use
+            organic virality + paid boosting to scale what performs best.
+          </p>
+        </div>
+      </div>
       <div className="flex flex-col gap-2 max-w-[1000px]">
         <h1 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
           <Users className="w-5 h-5" />

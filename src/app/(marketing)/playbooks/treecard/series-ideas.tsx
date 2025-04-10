@@ -29,230 +29,325 @@ export const SeriesIdeas = () => {
     id: number;
     title: string;
     description: DescriptionItem[];
-    videos: video[];
+    videos?: video[];
     videos2?: video[];
   };
 
   const series: Series[] = [
     {
       id: 1,
-      title:
-        "Man on the street - Inspired by Humans of NY and Soft White Underbelly",
+      title: "Emotional inspired by Opal (BOF)",
       description: [
         {
           content:
-            "To create high quality man on the street content, future interviews should be shot with a stronger focus on storytelling, structure, and setting. We will provide detailed directions for this and exactly what we think we need to get the best shots.",
+            "Concept: Short, emotionally-driven videos that create urgency, then offer a hopeful solution.",
           type: "paragraph",
         },
         {
-          content:
-            "Pre-Planned Strategy: Before filming, we will define the *key themes* and angles that will resonate with the audience. Having a clear strategy ensures each interview serves a larger purpose rather than just being a collection of isolated moments.",
-          type: "list-item",
-        },
-        {
-          content:
-            "A More Intimate Setting: A quieter, controlled environment will significantly improve audio quality and overall production value. Reducing background noise and distractions keeps the focus on the speaker, making their message more impactful.",
-          type: "list-item",
-        },
-        {
-          content:
-            "Structured Storytelling and Questions: Instead of disconnected soundbites, interviews should guide subjects through a clear beginning, middle and end. Questions should be designed to build a cohesive narrative, allowing clips to be seamlessly stitched together into a full story.",
-          type: "list-item",
-        },
-        {
-          content:
-            "And in addition to the 2 formats above, every month we will sprinkle in experiments testing new formats that are trending (see examples below for a few more unique street interview formats we can try to replicate)",
+          content: "Core Themes:",
           type: "heading",
         },
-      ],
-      videos: [
-        {
-          videoUrl: "/bcc/bcc3.mp4",
-          accountLabel: "Soft White Underbelly",
-          accountUrl: "https://www.instagram.com/soft_white_underbelly/",
-        },
-        {
-          videoUrl: "/bcc/bcc4.mp4",
-          accountLabel: "Humans of NY",
-          accountUrl: "https://www.instagram.com/humansofny/",
-        },
-      ],
-      videos2: [
-        {
-          videoUrl: "/bcc/bcc13.mp4",
-          accountLabel: "Ramen on the Street",
-          accountUrl: "https://www.instagram.com/ramenonthestreet/",
-        },
-        {
-          videoUrl: "/bcc/bcc14.mp4",
-          accountLabel: "We're Not Really Strangers",
-          accountUrl: "https://www.instagram.com/werenotreallystrangers/",
-        },
-        {
-          videoUrl: "/bcc/bcc15.mp4",
-          accountLabel: "Get Ahead",
-          accountUrl: "https://www.instagram.com/getahead.app/",
-        },
-        {
-          videoUrl: "/bcc/bcc16.mp4",
-          accountLabel: "Salary Transparent Street",
-          accountUrl: "https://www.instagram.com/salarytransparentstreet/",
-        },
-        {
-          videoUrl: "/bcc/bcc17.mp4",
-          accountLabel: "School of Hard Knockz",
-          accountUrl: "https://www.instagram.com/theschoolofhardknockz/",
-        },
-        {
-          videoUrl: "/bcc/bcc18.mp4",
-          accountLabel: "Emma Finance",
-          accountUrl: "https://www.instagram.com/emma_finance/",
-        },
-        {
-          videoUrl: "/bcc/bcc19.mp4",
-          accountLabel: "Tavolo",
-          accountUrl: "https://www.instagram.com/itstavolo",
-        },
-      ],
-    },
-    {
-      id: 8,
-      title: "Man on the street - Interactive Series Trivia ",
-      description: [
         {
           content:
-            "Inspired by accounts like ([Street Interviews](https://www.instagram.com/streetinterviewsofficial/) and [Brady Your Tudor](https://www.youtube.com/@BradyYourTutor/shorts))",
+            "Showcase real examples of deforestation, climate change, and how it affects people + ecosystems.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Use quick stats, headlines, or footage to emotionally hook viewers fast.",
+          type: "list-item",
+        },
+        {
+          content:
+            "End with the TreeCard app as a simple, empowering way to help.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Tone: Raw, fast-paced, cinematic, slightly dramatic but hopeful.",
           type: "paragraph",
         },
         {
+          content: "Execution:",
+          type: "heading",
+        },
+        {
+          content: `Split-screen: "What 1 tree does for the planet" vs. "How many you've planted with this app"`,
+          type: "list-item",
+        },
+        {
+          content: `"What's actually happening in [X rainforest] right now" + link it to user impact."`,
+          type: "list-item",
+        },
+        {
+          content: "Use viral audios that's emotional or cinematic.",
+          type: "list-item",
+        },
+        {
+          content: "Best-in-class examples to draw from:",
+          type: "heading",
+        },
+        {
           content:
-            "A high-retention, audience-driven trivia series focused on blue-collar industries. Viewers stay engaged by playing along, making it a guaranteed-value format that doesn't depend on participants answering correctly.",
+            'Opal app\'s "phone addiction" cutdowns: Emotional punch → fast facts → solution.',
           type: "list-item",
         },
         {
           content:
-            "Blue collar related trivia. Does great with retention because the viewer plays long. Guaranteed value doesn't rely on the person answering the questions well. With very tailored questions about the industry, this series will target the demo we are looking for",
+            "Charity:Water's founder TikToks: Grounded storytelling → shows why impact matters.",
           type: "list-item",
-        },
-        {
-          content:
-            "Questions will include; guessing the logo/company and trivia on different trade techniques or tools and insider lingo.",
-          type: "list-item",
-        },
-      ],
-      videos: [
-        {
-          videoUrl: "/bcc/bcc1.mp4",
-          accountLabel: "Brady Your Tudor",
-          accountUrl: "https://www.youtube.com/@BradyYourTutor/shorts",
-        },
-        {
-          videoUrl: "/bcc/bcc2.mp4",
-          accountLabel: "Street Interviews",
-          accountUrl: "https://www.instagram.com/streetinterviewsofficial/",
         },
       ],
     },
     {
       id: 2,
-      title: "Animated Stories",
+      title: "UGC content (BOF)",
       description: [
         {
           content:
-            "Drawing inspiration from the storytelling approach of [OurFuture](https://www.instagram.com/ourfuturehq/) and [Founder Central](https://www.instagram.com/attentionmarketers/), we'll create deep-dive narratives about the history of blue-collar industries, success stories and highlight the workers  that built these businesses from the ground up. This is a very scalable format for short form. We can use some b-roll shot at conferences but 99% of this will be original editing.",
+            "**Concept:** Short, humorous videos that highlight the app's unique features.",
           type: "paragraph",
         },
-      ],
-      videos: [
         {
-          videoUrl: "/bcc/bcc5.mp4",
-          accountLabel: "OurFuture",
-          accountUrl: "https://www.instagram.com/ourfuturehq/",
+          content: "Core Themes:",
+          type: "heading",
         },
         {
-          videoUrl: "/bcc/bcc6.mp4",
-          accountLabel: "Founder Central",
-          accountUrl: "https://www.instagram.com/attentionmarketers/",
+          content:
+            "Use *younger creators* (college-aged, eco-conscious, maybe even micro-influencers) who reflect the target demo.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Keep it casual, first-person, iPhone-shot, ideally filmed in dorms, coffee shops, parks, etc.",
+          type: "list-item",
+        },
+        {
+          content: `Tap into creator styles Gen Z trusts: *"day in the life," "things I wish I knew sooner," "random app that actually helps"*`,
+          type: "list-item",
+        },
+        {
+          content:
+            "Tone: Chill, conversational, lightly chaotic (in a good way), authentic.",
+          type: "paragraph",
+        },
+        {
+          content: "Execution Ideas:",
+          type: "heading",
+        },
+        {
+          content:
+            "POV: you're trying to save the planet but also have class at 9am",
+          type: "list-item",
+        },
+        {
+          content:
+            "TikTok made me get this app where my steps plant trees… here's what happened",
+          type: "list-item",
+        },
+        {
+          content: `UGC from real users: "Here's how many trees I planted last month just from walking to campus"`,
+          type: "list-item",
+        },
+        {
+          content: "Best-in-class examples",
+          type: "heading",
+        },
+        {
+          content: "Duolingo’s collabs with chaotic creators",
+          type: "list-item",
+        },
+        {
+          content: "Finch app's cozy mental health content",
+          type: "list-item",
+        },
+        {
+          content: `Too Good To Go’s Gen Z-friendly “food rescue” TikToks`,
+          type: "list-item",
         },
       ],
     },
+
     {
       id: 3,
-      title: "Satisfying Work with voice over story",
+      title: "TreeCard Educational (BOF)",
       description: [
         {
           content:
-            "ASMR/Satisfying videos of blue collar work is a sub-genre of content that we can naturally use. These videos are inherently viral thanks to the long retention rates and it fits perfectly into our brand. The idea here is to source videos we can use in the background and overlay with engaging story voice overs.",
+            "**Concept:** Teach people *how TreeCard works* and *why it’s different*—but in a way that’s not boring or overly salesy.",
           type: "paragraph",
         },
-      ],
-      videos: [
         {
-          videoUrl: "/bcc/bcc7.mp4",
-          accountLabel: "Plumber John",
-          accountUrl: "https://www.youtube.com/@Plumberjohn/shorts",
+          content: "Core Messages:",
+          type: "heading",
         },
         {
-          videoUrl: "/bcc/bcc8.mp4",
-          accountLabel: "NYC Hvac",
-          accountUrl: "https://www.youtube.com/@NYCHvac/shorts",
+          content:
+            "How your steps, spending, or referrals turn into planted trees.",
+          type: "list-item",
+        },
+        {
+          content:
+            "What makes TreeCard different from a debit card or fitness tracker.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Visual, easy-to-understand walkthroughs (less “app tutorial,” more “here’s what happened when I…”)",
+          type: "list-item",
+        },
+        {
+          content:
+            "Tone: Lightly explainer-style, but still fast, visual, and casual. Think storytime meets a product demo.",
+          type: "paragraph",
+        },
+        {
+          content: "Execution Ideas:",
+          type: "heading",
+        },
+        {
+          content:
+            "“This app literally plants trees when you walk to class — here’s how it works”",
+          type: "list-item",
+        },
+        {
+          content:
+            "Animation or overlay showing: 5,000 steps = 1 tree (with visuals of forests growing)",
+          type: "list-item",
+        },
+        {
+          content: `App walkthrough: “I just bought coffee and now I’ve planted a tree?”`,
+          type: "list-item",
+        },
+        {
+          content: "Best-in-class examples:",
+          type: "heading",
+        },
+        {
+          content: "Headspace app’s playful walkthroughs",
+          type: "list-item",
+        },
+        {
+          content: "Lemonade Insurance's fun, short-form explainer content",
+          type: "list-item",
+        },
+        {
+          content: "Linktree’s “here’s how I use it” TikToks",
+          type: "list-item",
         },
       ],
     },
     {
       id: 4,
-      title: "Blue collar bloopers / memes ",
+      title: "Behind the scenes (BOF)",
       description: [
         {
           content:
-            "Add some humor with short, lighthearted content that captures funny moments and bloopers from the blue-collar world. Designed to be relatable and bring a wider audience to boost view count.",
+            "**Concept:** Show raw, authentic footage of **real trees being planted**—help people visualize their impact.",
           type: "paragraph",
         },
-      ],
-      videos: [
         {
-          videoUrl: "/bcc/bcc9.mp4",
-          accountLabel: "Blue Collar Rebellion",
-          accountUrl: "https://www.instagram.com/bluecollarrebellion/",
+          content: "**Core Themes:**",
+          type: "heading",
         },
         {
-          videoUrl: "/bcc/bcc10.mp4",
-          accountLabel: "Blue Collar Rebellion",
-          accountUrl: "https://www.instagram.com/bluecollarrebellion/",
+          content:
+            "Highlight **tree planting partners, locations, and progress over time** to build emotional connection and credibility.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Keep it **fast-paced, phone-filmed, and lightly edited** to feel native to TikTok and Instagram Reels.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Layer with text like *“This is where your tree is growing 🌱”* or *“What your steps actually did today.”*",
+          type: "list-item",
+        },
+        {
+          content:
+            "Create ongoing story arcs: *“We planted here 6 months ago—here’s what it looks like now.”*",
+          type: "list-item",
+        },
+        {
+          content: "**Best in class:**",
+          type: "heading",
+        },
+        {
+          content: "Patagonia’s behind-the-scenes work with activists",
+          type: "list-item",
+        },
+        {
+          content: "Ecosia’s raw dispatches from the field",
+          type: "list-item",
+        },
+        {
+          content: "Frank Water’s reforestation video diaries",
+          type: "list-item",
         },
       ],
     },
+
     {
       id: 5,
-      title: "Crazy stories",
+      title: "Nature lover content (TOF)",
       description: [
         {
           content:
-            "Take the audience behind the scenes with crazy, larger-than-life blue-collar stories. These will be scripted but crafted to feel authentic, bringing a raw and real element to the content. ",
+            "**Concept:** Continue the **current nature-focused series** (calming, beautiful visuals, nature facts)—don’t make a sudden pivot that shocks the current audience.",
           type: "paragraph",
         },
-      ],
-      videos: [
         {
-          videoUrl: "/bcc/bcc11.mp4",
-          accountLabel: "Morty app",
-          accountUrl: "https://www.youtube.com/@mortyapp/shorts",
+          content: "**Core Themes:**",
+          type: "heading",
         },
         {
-          videoUrl: "/bcc/bcc12.mp4",
-          accountLabel: "Renzo Fortini",
-          accountUrl: "https://www.tiktok.com/@renzo.fortini",
+          content:
+            "Use this content as **soft entry points** for Gen Z to connect emotionally with nature and the mission.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Increase **volume + frequency** to maintain momentum while BOF content ramps up.",
+          type: "list-item",
+        },
+        {
+          content:
+            "Add occasional subtle mentions of the app (e.g. *“You could help protect this forest just by walking today.”*)",
+          type: "list-item",
+        },
+        {
+          content: "**Best in class:**",
+          type: "heading",
+        },
+        {
+          content: "National Park Service’s aesthetic, low-key nature reels",
+          type: "list-item",
+        },
+        {
+          content:
+            "Earth by Lil Dicky (for aspirational/environmental TOF tone)",
+          type: "list-item",
+        },
+        {
+          content:
+            "Nature Is Metal (for edge/captivating hooks that could skew younger if tweaked)",
+          type: "list-item",
         },
       ],
     },
   ];
-
   return (
     <div className="flex gap-2 flex-col  w-fit">
       <h2 className="text-2xl font-bold mt-10 flex items-center gap-2 text-[#0A5153]">
         <Clapperboard className="w-5 h-5" />
         Short Form Series Concepts
       </h2>
+      <p>
+        Each series includes a specific purpose and strategic angle. We suggest
+        testing multiple series at once to see what sticks, then iterating fast.
+      </p>
       <div className="grid  max-w-[1000px] gap-4">
         <div className=" flex flex-col gap-2 rounded-md h-fit border-black/10  order-2 md:order-1">
           {series.map((series) => {
@@ -311,23 +406,25 @@ export const SeriesIdeas = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="flex  flex-col">
-                      <h1 className="text-sm text-[#00AE70] font-bold mt-4">
-                        Examples
-                      </h1>
-                      <div className="flex gap-4 w-fit ">
-                        <Arrow1 className="w-[50px] h-[50px] hidden md:block -rotate-[10deg] ml-10 fill-[#00AE70] scale-x-[-1] " />
-                        {series.videos.map((video) => (
-                          <Video
-                            accountUrl={video.accountUrl}
-                            accountLabel={video.accountLabel}
-                            key={video.videoUrl}
-                            src={video.videoUrl}
-                            isOpen={selectedSeries === series.id}
-                          />
-                        ))}
+                    {series.videos && (
+                      <div className="flex  flex-col">
+                        <h1 className="text-sm text-[#00AE70] font-bold mt-4">
+                          Examples
+                        </h1>
+                        <div className="flex gap-4 w-fit ">
+                          <Arrow1 className="w-[50px] h-[50px] hidden md:block -rotate-[10deg] ml-10 fill-[#00AE70] scale-x-[-1] " />
+                          {series.videos.map((video) => (
+                            <Video
+                              accountUrl={video.accountUrl}
+                              accountLabel={video.accountLabel}
+                              key={video.videoUrl}
+                              src={video.videoUrl}
+                              isOpen={selectedSeries === series.id}
+                            />
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                     {series.videos2 && (
                       <div className="flex gap-1  flex-col">
                         <h1 className="text-sm text-[#00AE70] font-bold mt-4">
@@ -487,7 +584,7 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
               ...commonMarkdownComponents,
               h2: ({node, children, ...props}: any) => (
                 <h2
-                  className="text-md text-[#233461] font-bold mt-4"
+                  className="text-md text-[#0D5153] font-bold  mt-4"
                   {...props}
                 >
                   {children}
@@ -495,7 +592,7 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
               ),
             }}
           >
-            {content}
+            {`## ${content}`}
           </ReactMarkdown>
         </div>
       );
@@ -505,7 +602,7 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
           components={{
             ...commonMarkdownComponents,
             p: ({node, children, ...props}: any) => (
-              <div className="text-[#00AE70] relative z-30" {...props}>
+              <div className="text-[#00AE70] relative z-30 " {...props}>
                 {children}
               </div>
             ),
@@ -542,3 +639,60 @@ const StyledMarkdown = ({content, type, href}: DescriptionItem) => {
       return null;
   }
 };
+
+// ### TreeCard Educational (BOF)
+
+// **Concept:** Teach people *how TreeCard works* and *why it's different*—but in a way that's not boring or overly salesy.
+
+// **Core Messages:**
+
+// - How your steps, spending, or referrals turn into planted trees.
+// - What makes TreeCard different from a debit card or fitness tracker.
+// - Visual, easy-to-understand walkthroughs (less "app tutorial," more "here's what happened when I…")
+
+// **Tone:** Lightly explainer-style, but still fast, visual, and casual. Think storytime meets a product demo.
+
+// **Execution Ideas:**
+
+// - "This app literally plants trees when you walk to class — here's how it works"
+// - Animation or overlay showing: 5,000 steps = 1 tree (with visuals of forests growing)
+// - App walkthrough: "I just bought coffee and now I've planted a tree?"
+
+// **Best-in-class examples:**
+
+// - Headspace app's playful walkthroughs
+// - Lemonade Insurance's fun, short-form explainer content
+// - Linktree's "here's how I use it" TikToks
+
+// ### Behind the scenes (BOF)
+
+// **Concept:** Show raw, authentic footage of **real trees being planted**—help people visualize their impact.
+
+// **Core Themes:**
+
+// - Highlight **tree planting partners, locations, and progress over time** to build emotional connection and credibility.
+// - Keep it **fast-paced, phone-filmed, and lightly edited** to feel native to TikTok and Instagram Reels.
+// - Layer with text like *"This is where your tree is growing 🌱"* or *"What your steps actually did today."*
+// - Create ongoing story arcs: *"We planted here 6 months ago—here's what it looks like now."*
+
+// **Best in class:**
+
+// - Patagonia's behind-the-scenes work with activists
+// - Ecosia's raw dispatches from the field
+// - Frank Water's reforestation video diaries
+
+// ### Nature lover content  (TOF)
+
+// **Concept:** Continue the **current nature-focused series** (calming, beautiful visuals, nature facts)—don't make a sudden pivot that shocks the current audience.
+
+// **Core Themes:**
+
+// - Use this content as **soft entry points** for Gen Z to connect emotionally with nature and the mission.
+// - Increase **volume + frequency** to maintain momentum while BOF content ramps up.
+// - Add occasional subtle mentions of the app (e.g. *"You could help protect this forest just by walking today."*)
+
+// **Best in class:**
+
+// - National Park Service's aesthetic, low-key nature reels
+// - Earth by Lil Dicky (for aspirational/environmental TOF tone)
+// - Nature Is Metal (for edge/captivating hooks that could skew younger if tweaked)
