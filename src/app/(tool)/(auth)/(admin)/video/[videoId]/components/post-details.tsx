@@ -12,6 +12,7 @@ import {Badge} from "@/components/ui/badge";
 import {Calendar} from "@/components/ui/calendar";
 import {Textarea} from "@/components/ui/textarea";
 import {Icons} from "@/components/icons";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,7 +56,7 @@ import {
 } from "@/components/ui/dialog";
 import Link from "next/link";
 import {useAuth} from "@/context/user-auth";
-
+import VideoPlayer from "@/components/ui/video-player";
 export const PostDetails = () => {
   const {video} = useVideo()!;
 
@@ -753,11 +754,12 @@ function VideoDisplay({
         <div className="w-full  bg-foreground rounded-md  grid grid-cols-[309px_1fr] gap-2 flex-grow h-full">
           <div className=" z-10  h-[550px] w-[309px]  aspect-[9/16] overflow-hidden relative">
             {post && post?.videoURL ? (
-              <video
-                controls
-                className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20"
-                src={post?.videoURL}
-              />
+              // <video
+              //   controls
+              //   className="w-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-20"
+              //   src={post?.videoURL}
+              // />
+              <VideoPlayer videoUrl={post?.videoURL} />
             ) : (
               <div className="h-full w-full flex flex-col items-center justify-center bg-muted">
                 <Icons.video className="h-12 w-12 text-primary" />

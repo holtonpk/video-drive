@@ -57,7 +57,7 @@ import {
 } from "@/components/ui/dialog";
 import {statuses as videoStatuses} from "@/config/data";
 import {ScrollArea} from "@/components/ui/scroll-area";
-
+import VideoPlayer from "@/components/ui/video-player";
 const statuses = ["script done", "video uploaded", "video needs revision"];
 
 type ReviewData = {
@@ -1343,12 +1343,15 @@ const UploadedVideoReview = ({
             <div className="flex w-full s">
               <div className="flex flex-col w-fit ">
                 <div className="h-[550px] aspect-[9/16] relative rounded-md rounded-br-none overflow-hidden bg-foreground/40 p-4 ">
-                  <video
+                  {/* <video
                     autoPlay
                     src={selectedVideo && selectedVideo.videoURL}
                     className="w-full h-full object-cover rounded-md"
                     controls
-                  />
+                  /> */}
+                  {selectedVideo && selectedVideo.videoURL && (
+                    <VideoPlayer videoUrl={selectedVideo.videoURL} />
+                  )}
                 </div>
               </div>
               <div className="flex flex-col w-full gap-4  items-center">
@@ -1568,11 +1571,12 @@ const PostDisplay = ({post}: {post: Post}) => {
       <div className="">
         {post.videoURL ? (
           <div className="h-[250px] aspect-[9/16] relative mx-auto rounded-md overflow-hidden">
-            <video
+            {/* <video
               src={post.videoURL}
               className="w-full h-full object-cover"
               controls
-            />
+            /> */}
+            <VideoPlayer videoUrl={post.videoURL} />
           </div>
         ) : (
           <div className="h-[250px] aspect-[9/16] relative mx-auto rounded-md overflow-hidden flex justify-center items-center bg-muted text-center">

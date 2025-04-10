@@ -1,6 +1,7 @@
 "use client";
 
 import React, {useEffect} from "react";
+import VideoPlayer from "@/components/ui/video-player";
 import {
   ADMIN_USERS,
   EDITORS,
@@ -490,12 +491,15 @@ const UploadedVideoReview = ({
             <div className="flex  w-full s">
               <div className="flex flex-col w-fit ">
                 <div className="h-[450px] aspect-[9/16] relative rounded-l-md rounded-br-none overflow-hidden bg-foreground/40  ">
-                  <video
+                  {/* <video
                     autoPlay
                     src={selectedVideo && selectedVideo.videoURL}
                     className="w-full h-full object-cover rounded-l-md"
                     controls
-                  />
+                  /> */}
+                  {selectedVideo && (
+                    <VideoPlayer videoUrl={selectedVideo?.videoURL} />
+                  )}
                 </div>
               </div>
               <div className="flex flex-col w-full gap-4  items-center">
