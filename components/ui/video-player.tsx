@@ -518,6 +518,7 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
   };
 
   const handleDownload = async () => {
+    setIsDownloading(true);
     const video = videoRef.current;
     if (video) {
       try {
@@ -531,7 +532,7 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
         const downloadUrl = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = downloadUrl;
-        a.download = title;
+        a.download = title + ".mp4";
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(downloadUrl);
@@ -542,6 +543,7 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
         window.open(videoUrl, "_blank");
       }
     }
+    setIsDownloading(false);
   };
 
   const handleFullScreen = () => {
@@ -643,6 +645,8 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
       window.removeEventListener("keydown", handleArrowKeys);
     };
   }, []);
+
+  const [isDownloading, setIsDownloading] = useState(false);
 
   return (
     <motion.div
@@ -771,7 +775,11 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
                     className="text-white hover:bg-[#111111d1] hover:text-white"
                     onClick={handleDownload}
                   >
-                    <DownloadIcon className="w-4 h-4" />
+                    {isDownloading ? (
+                      <Loader className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <DownloadIcon className="w-4 h-4" />
+                    )}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">Download Video</TooltipContent>
