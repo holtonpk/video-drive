@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap");
+@config "../../tailwind.marketing.config.ts";
+
+#report {
+  @apply text-primary;
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+}
+
+@media (min-width: 768px) {
+  #report h1 {
+    @apply text-5xl;
+    font-weight: 800;
+    color: #34f4af;
+  }
+  #report h2 {
+    @apply text-4xl;
+    font-weight: 800;
+    color: #34f4af;
+
+    /* color: #1963f0; */
+  }
+  #report h3 {
+    @apply text-2xl;
+    font-weight: 800;
+    /* color: #f51085; */
+  }
+  #report h4 {
+    @apply text-xl;
+  }
+  #report h5 {
+    @apply text-xl;
+  }
+  #report h6 {
+    @apply text-xl;
+  }
+  #report p {
+    @apply text-xl;
+  }
+  #report ul {
+    margin-left: 1.5em;
+  }
+  #report li {
+    padding: 5.5px 0 5.5px 3px;
+    @apply text-xl;
+
+    /* margin-left: 1.5em; */
+    /* line-height: 1.6em; */
+    list-style-type: circle;
+  }
+}
+
+#report h1 {
+  @apply text-3xl;
+  font-weight: 800;
+  color: #34f4af;
+}
+#report h2 {
+  @apply text-2xl;
+  font-weight: 800;
+  /* color: #1963f0; */
+}
+#report h3 {
+  @apply text-xl;
+  font-weight: 800;
+  /* color: #f51085; */
+}
+#report h4 {
+  @apply text-lg;
+}
+#report h5 {
+  @apply text-base;
+}
+#report h6 {
+  @apply text-base;
+}
+#report p {
+  @apply text-base;
+  color: white;
+}
+#report ul {
+  margin-left: 1.5em;
+  color: white;
+}
+#report li {
+  padding: 5.5px 0 5.5px 3px;
+  @apply text-base;
+  color: white;
+
+  /* margin-left: 1.5em; */
+  /* line-height: 1.6em; */
+  list-style-type: circle;
+}
+
+#report a {
+  @apply text-blue-500;
+  @apply underline;
+}
+
+#report a:hover {
+  @apply text-blue-400;
+}
