@@ -295,6 +295,29 @@ type status = {
 
 export type Platforms = "youtube" | "instagram" | "tiktok" | "all";
 
+export type ClientVideoData = {
+  videoNumber: string;
+  title: string;
+  videoURL?: string;
+  postDate: Timestamp;
+  hasAccess: boolean;
+  views: number;
+  likes: number;
+  comments: number;
+  tiktok?: SocialLink;
+  instagram?: SocialLink;
+  facebook?: SocialLink;
+  x?: SocialLink;
+  linkedin?: SocialLink;
+  youtube?: SocialLink;
+  thumbnail: string;
+};
+
+type SocialLink = {
+  id: string;
+  link: string;
+};
+
 export type Post = {
   id: string;
   title: string;
@@ -349,7 +372,7 @@ export type AssetFile = {
   uploadedAt: Timestamp;
   uploadedBy: string;
   title: string;
-  url: string;
+  videoURL: string;
   type: "img" | "video";
   notes?: string;
   chat?: Chat[];
