@@ -36,7 +36,7 @@ export const SeriesIdeas = () => {
   const series: Series[] = [
     {
       id: 1,
-      title: "Emotional inspired by Opal (BOF)",
+      title: "Emotional PSAs (BOF)",
       description: [
         {
           content:
