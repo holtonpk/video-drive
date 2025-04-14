@@ -383,7 +383,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
             {clientInfo?.icon && (
               <clientInfo.icon className="h-8 w-8 ring-[2px] rounded-[8px] ring-white/10 ring-offset-[#0F1116] ring-offset-[4px] " />
             )}
-            <h1 className="text-4xl font-bold">{clientInfo?.label}</h1>
+            <h1 className="text-2xl md:text-4xl font-bold">
+              {clientInfo?.label}
+            </h1>
           </div>
           <div className="flex gap-1 items-center">
             {/* <Button variant="ghost">
@@ -630,7 +632,7 @@ const VideoTab = ({
           </div>
         </div>
         <div className="grid md:grid-cols-[300px_1fr] gap-4">
-          <div className="w-full aspect-[9/16] relative ">
+          <div className="w-full aspect-[9/16] relative hidden md:block">
             <VideoPlayer
               videoUrl={selectedVideo?.videoURL || ""}
               title={selectedVideo?.title || ""}
@@ -714,7 +716,7 @@ const VideoTab = ({
                       key={platform}
                       className="group"
                     >
-                      <div className="flex justify-between gap-2 text-white border border-white/10 p-2 rounded-md group-hover:border-[rgba(52,244,175)] transition-all duration-300">
+                      <div className="flex md:flex-row flex-col justify-between gap-2 text-white border border-white/10 p-2 rounded-md group-hover:border-[rgba(52,244,175)] transition-all duration-300">
                         <div className="flex gap-2 items-center">
                           <Icon className="h-5 w-5 fill-white" />
                           <h1 className="text-lg font-bold">

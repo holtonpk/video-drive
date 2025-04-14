@@ -58,6 +58,8 @@
 #report h2 {
   @apply text-2xl;
   font-weight: 800;
+  color: #34f4af;
+
   /* color: #1963f0; */
 }
 #report h3 {
