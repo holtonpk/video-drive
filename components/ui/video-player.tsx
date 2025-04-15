@@ -453,12 +453,20 @@ const CustomSlider = ({
   );
 };
 
-const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
+const VideoPlayer = ({
+  videoUrl,
+  title,
+  className,
+}: {
+  videoUrl: string;
+  title: string;
+  className?: string;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
-  const [progress, setProgress] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const [showControls, setShowControls] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -650,7 +658,10 @@ const VideoPlayer = ({videoUrl, title}: {videoUrl: string; title: string}) => {
 
   return (
     <motion.div
-      className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden bg-[#11111198] shadow-[0_0_20px_rgba(0,0,0,0.2)] backdrop-blur-sm"
+      className={cn(
+        "relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden bg-[#11111198] shadow-[0_0_20px_rgba(0,0,0,0.2)] backdrop-blur-sm",
+        className
+      )}
       initial={{opacity: 0, y: 20}}
       animate={{opacity: 1, y: 0}}
       transition={{duration: 0.5}}

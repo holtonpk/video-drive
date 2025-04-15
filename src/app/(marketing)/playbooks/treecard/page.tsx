@@ -17,6 +17,8 @@ import {SeriesIdeas} from "./series-ideas";
 import InstagramData from "./instagram/instagram";
 import TiktokData from "./tiktok/tiktok";
 import SocialAudit from "./social-audit";
+import VideoShowcase from "./video-showcase";
+
 export const metadata = constructMetadata({
   title: "Treecard Playbook",
   description: "A playbook for Treecard",
@@ -164,6 +166,7 @@ const Page = () => {
           <p>• Month to Month contract (cancel anytime)</p>
         </div>
       </div>
+      <VideoShowcase />
     </div>
   );
 };
