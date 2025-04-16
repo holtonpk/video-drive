@@ -240,7 +240,7 @@ const VideoShowcase = () => {
             </p>
             <Button onClick={handleDemoRequest} className="relative">
               {requestedDemo
-                ? "We&apos;ll create your demo video soon! 🎬"
+                ? "We'll create your demo video soon! 🎬"
                 : "Request free demo video"}
               {requestedDemo && (
                 <motion.div
