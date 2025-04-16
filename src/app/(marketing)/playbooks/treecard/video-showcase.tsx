@@ -94,7 +94,7 @@ const VideoShowcase = () => {
       id: 2,
       icon: LearnXYZLogo,
       title: "Learn XYZ",
-      info: "This video was created for Learn XYZ. A consumer app that help people learn about the world. This particular video is a BOF video that has done over 5 million organic views",
+      info: "This video was created for Learn XYZ. A consumer app that help people learn about the world. This particular video is a BOF video that has done over 2 million organic views",
       url: "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%204005.mp4%20%20%2B%20%22.%22%20%2B%20mp4?alt=media&token=ead99631-5380-44af-b17a-9bc3997b66b5",
     },
   ];
