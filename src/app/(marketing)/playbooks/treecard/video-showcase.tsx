@@ -20,7 +20,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 
-// Helper function to get user's IP address
+// Helper function to get user&apos;s IP address
 const getUserIP = async () => {
   try {
     const response = await fetch("https://api.ipify.org?format=json");
@@ -87,7 +87,7 @@ const VideoShowcase = () => {
       id: 1,
       title: "Morty",
       icon: MortyLogo,
-      info: "This video was produced for the Morty app, a platform that helps users discover escape rooms and immersive experiences. It's a top-of-funnel video that has generated over 5 million organic views to date.",
+      info: "This video was produced for the Morty app, a platform that helps users discover escape rooms and immersive experiences. It&apos;s a top-of-funnel video that has generated over 5 million organic views to date.",
       url: "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F0415.mov?alt=media&token=a469b248-2e71-42d4-979f-15bcbd35388f",
     },
     {
@@ -199,9 +199,10 @@ const VideoShowcase = () => {
           Example work
         </h2>
         <p className="text-black">
-          Here are a couple of videos we've created for other consumer products.
-          While both are heavily animated, they showcase our storytelling
-          capabilities rather than the exact style we'll use for Treecard.
+          Here are a couple of videos we&apos;ve created for other consumer
+          products. While both are heavily animated, they showcase our
+          storytelling capabilities rather than the exact style we&apos;ll use
+          for Treecard.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
           {videos.map((video) => (
@@ -239,7 +240,7 @@ const VideoShowcase = () => {
             </p>
             <Button onClick={handleDemoRequest} className="relative">
               {requestedDemo
-                ? "We'll create your demo video soon! 🎬"
+                ? "We&apos;ll create your demo video soon! 🎬"
                 : "Request free demo video"}
               {requestedDemo && (
                 <motion.div
