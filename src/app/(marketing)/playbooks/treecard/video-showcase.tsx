@@ -87,7 +87,7 @@ const VideoShowcase = () => {
       id: 1,
       title: "Morty",
       icon: MortyLogo,
-      info: "This video was produced for the Morty app, a platform that helps users discover escape rooms and immersive experiences. It&apos;s a top-of-funnel video that has generated over 5 million organic views to date.",
+      info: "This video was produced for the Morty app, a platform that helps users discover escape rooms and immersive experiences. It's a top-of-funnel video that has generated over 5 million organic views to date.",
       url: "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F0415.mov?alt=media&token=a469b248-2e71-42d4-979f-15bcbd35388f",
     },
     {
