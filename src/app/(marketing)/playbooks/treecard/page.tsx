@@ -27,6 +27,8 @@ export const metadata = constructMetadata({
 const Page = () => {
   return (
     <div className="flex flex-col items-center px-4 bg-white w-screen  mdscontainer mx-auto gap-8 py-6">
+      {/* animatee this so it bounces up and down */}
+
       {/* <Link
         href="https://calendly.com/holtonpk/30min"
         target="_blank"
