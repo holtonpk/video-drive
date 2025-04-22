@@ -29,6 +29,7 @@ import {
 import {formatNumber} from "@/components/ui/chart";
 import Background from "@/src/app/(marketing)/components/background";
 import ReportBody from "./report-body";
+import {Button} from "@/components/ui/button";
 
 const getId = (data: any, platformId: string) => {
   return platformId === "facebook"
@@ -107,21 +108,60 @@ const getFollowers = (post: any, platform: string) => {
 };
 
 const ReportPage = ({params}: {params: {clientId: string}}) => {
-  const reportDate = "4-13-2025";
+  type Report = {
+    label: string;
+    date: string;
+    reportDate: string;
+    body: string;
+  };
+
+  const reports: Report[] = [
+    {
+      label: "Week 1 Report",
+      date: "4-03-2025 - 4-13-2025",
+      reportDate: "4-13-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+`,
+    },
+    {
+      label: "Week 2 Report",
+      date: "4-13-2025 - 4-20-2025",
+      reportDate: "4-20-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+`,
+    },
+  ];
+
+  const [selectedReport, setSelectedReport] = useState<Report | null>(
+    reports[1]
+  );
+
   const tiktokData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
   const youtubeData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
   const instagramData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
   const facebookData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
       (post: FacebookPost) => post?.isVideo === true
     ) as FacebookPost[];
   const linkedinData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
   const xData =
-    require(`@/public/reports/${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
+    require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
 
   const Platforms = {
     tiktok: {
@@ -374,6 +414,26 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
     });
   }, [clientInfo]);
 
+  const handleReportChange = (report: Report) => {
+    setSelectedReport(report);
+  };
+
+  const isNextReport = () => {
+    const index = reports.findIndex((r) => r.date === selectedReport?.date);
+    if (index === reports.length - 1) {
+      return reports[0];
+    }
+    return reports[index + 1];
+  };
+
+  const isPreviousReport = () => {
+    const index = reports.findIndex((r) => r.date === selectedReport?.date);
+    if (index === 0) {
+      return reports[reports.length - 1];
+    }
+    return reports[index - 1];
+  };
+
   return (
     <>
       <Background />
@@ -388,24 +448,32 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
             </h1>
           </div>
           <div className="flex gap-1 items-center">
-            {/* <Button variant="ghost">
+            <Button
+              variant="ghost"
+              onClick={() => handleReportChange(isPreviousReport())}
+            >
               <Icons.chevronLeft className="h-5 w-5" />
-            </Button> */}
+            </Button>
+
             <h1 className="text-lg md:text-2xl whitespace-nowrap font-bold flex items-center gap-2">
-              Week 1 Report
+              {selectedReport?.label}
               <span className="text-sm text-white/40">
-                (4-03-2025 - 4-13-2025)
+                ({selectedReport?.date})
               </span>
             </h1>
-            {/* <Button variant="ghost">
+
+            <Button
+              variant="ghost"
+              onClick={() => handleReportChange(isNextReport())}
+            >
               <Icons.chevronRight className="h-5 w-5" />
-            </Button> */}
+            </Button>
           </div>
 
           {/* <SettingsButtons /> */}
         </div>
 
-        <ReportBody />
+        {selectedReport && <ReportBody selectedReport={selectedReport} />}
 
         <div className="flex flex-col gap-2 mt-6">
           <h1 className="text-2xl font-bold mb-2">Stats</h1>
