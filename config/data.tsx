@@ -24,6 +24,7 @@ export const ADMIN_USERS = [
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
   "x9h3UepduwQHoCkwUh7bPGqEeTj2",
   "KWfkeozhuHhq95XIkuhUhLYmSci1",
+  "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
 ];
 
 export const EDITORS = [
@@ -221,13 +222,13 @@ export const clients = [
     icon: BlueCollarKeysLogo,
     description: "Blue Collar Keys is a company that sells keys.",
   },
-  // {
-  //   id: "4",
-  //   value: "learnXYZ",
-  //   label: "Learn XYZ",
-  //   icon: LearnXYZLogo,
-  //   description: "Explore bite-sized Learning with the magic of AI",
-  // },
+  {
+    id: "4",
+    value: "learnXYZ",
+    label: "Learn XYZ",
+    icon: LearnXYZLogo,
+    description: "Explore bite-sized Learning with the magic of AI",
+  },
   // {
   //   id: "8762",
   //   value: "mindy",
