@@ -142,10 +142,23 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
     },
+    {
+      label: "Week 3 Report",
+      date: "4-20-2025 - 4-27-2025",
+      reportDate: "4-27-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+`,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[1]
+    reports[2]
   );
 
   const tiktokData =
@@ -447,28 +460,6 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
               {clientInfo?.label}
             </h1>
           </div>
-          <div className="flex gap-1 items-center">
-            <Button
-              variant="ghost"
-              onClick={() => handleReportChange(isPreviousReport())}
-            >
-              <Icons.chevronLeft className="h-5 w-5" />
-            </Button>
-
-            <h1 className="text-lg md:text-2xl whitespace-nowrap font-bold flex items-center gap-2">
-              {selectedReport?.label}
-              <span className="text-sm text-white/40">
-                ({selectedReport?.date})
-              </span>
-            </h1>
-
-            <Button
-              variant="ghost"
-              onClick={() => handleReportChange(isNextReport())}
-            >
-              <Icons.chevronRight className="h-5 w-5" />
-            </Button>
-          </div>
 
           {/* <SettingsButtons /> */}
         </div>
@@ -476,7 +467,31 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
 
         <div className="flex flex-col gap-2 mt-6">
-          <h1 className="text-2xl font-bold mb-2">Stats</h1>
+          <div className="flex flex-col md:flex-row justify-between w-full">
+            <h1 className="text-2xl font-bold mb-2">Stats</h1>
+            <div className="flex gap-1 items-center">
+              <Button
+                variant="ghost"
+                onClick={() => handleReportChange(isPreviousReport())}
+              >
+                <Icons.chevronLeft className="h-5 w-5" />
+              </Button>
+
+              <h1 className="text-lg md:text-2xl whitespace-nowrap font-bold flex items-center gap-2">
+                {selectedReport?.label}
+                <span className="text-sm text-white/40">
+                  ({selectedReport?.date})
+                </span>
+              </h1>
+
+              <Button
+                variant="ghost"
+                onClick={() => handleReportChange(isNextReport())}
+              >
+                <Icons.chevronRight className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             <div className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center">
               <h1 className="text-2xl ">Total Engagement</h1>
