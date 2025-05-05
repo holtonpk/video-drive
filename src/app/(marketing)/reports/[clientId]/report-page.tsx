@@ -30,6 +30,7 @@ import {formatNumber} from "@/components/ui/chart";
 import Background from "@/src/app/(marketing)/components/background";
 import ReportBody from "./report-body";
 import {Button} from "@/components/ui/button";
+import {Chart} from "./chart";
 
 const getId = (data: any, platformId: string) => {
   return platformId === "facebook"
@@ -113,11 +114,293 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
     date: string;
     reportDate: string;
     body: string;
+    totalEngagement: number;
+    totalFollowers: number;
+    totalPosts: number;
+  };
+
+  const getDataFromWeek = (reportDate: string) => {
+    const tiktokDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+    const youtubeDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+    const instagramDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+    const facebookDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
+        (post: FacebookPost) => post?.isVideo === true
+      ) as FacebookPost[];
+    const linkedinDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+    const xDataLocal =
+      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
+
+    const cleanedData = {
+      tiktok: {
+        value: "tiktok",
+        data: tiktokDataLocal,
+        icon: TiktokLogo,
+        name: "TikTok",
+        followers: Number(getFollowers(tiktokDataLocal[0], "tiktok")),
+        posts: tiktokDataLocal.length,
+        totalViews: Number(
+          tiktokDataLocal.reduce(
+            (acc, video) => acc + getViews(video, "tiktok"),
+            0
+          )
+        ),
+        totalLikes: Number(
+          tiktokDataLocal.reduce(
+            (acc, video) => acc + getLikes(video, "tiktok"),
+            0
+          )
+        ),
+        totalComments: Number(
+          tiktokDataLocal.reduce(
+            (acc, video) => acc + getComments(video, "tiktok"),
+            0
+          )
+        ),
+        totalShares: Number(
+          tiktokDataLocal.reduce(
+            (acc, video) => acc + getShares(video, "tiktok"),
+            0
+          )
+        ),
+      },
+      youtube: {
+        value: "youtube",
+        data: youtubeDataLocal,
+        icon: YoutubeLogo,
+        name: "YouTube",
+        followers: Number(getFollowers(youtubeDataLocal[0], "youtube")),
+        posts: youtubeDataLocal.length,
+        totalViews:
+          Number(
+            youtubeDataLocal.reduce(
+              (acc, video) => acc + getViews(video, "youtube"),
+              0
+            )
+          ) || 0,
+        totalLikes:
+          Number(
+            youtubeDataLocal.reduce(
+              (acc, video) => acc + getLikes(video, "youtube"),
+              0
+            )
+          ) || 0,
+        totalComments:
+          Number(
+            youtubeDataLocal.reduce(
+              (acc, video) => acc + getComments(video, "youtube"),
+              0
+            )
+          ) || 0,
+        totalShares:
+          Number(
+            youtubeDataLocal.reduce(
+              (acc, video) => acc + getShares(video, "youtube"),
+              0
+            )
+          ) || 0,
+      },
+      instagram: {
+        value: "instagram",
+        data: instagramDataLocal,
+        icon: InstagramLogo,
+        name: "Instagram",
+        followers: 18,
+        posts: instagramDataLocal.length,
+        totalViews:
+          Number(
+            instagramDataLocal.reduce(
+              (acc, video) => acc + getViews(video, "instagram"),
+              0
+            )
+          ) || 0,
+        totalLikes:
+          Number(
+            instagramDataLocal.reduce(
+              (acc, video) => acc + getLikes(video, "instagram"),
+              0
+            )
+          ) || 0,
+        totalComments:
+          Number(
+            instagramDataLocal.reduce(
+              (acc, video) => acc + getComments(video, "instagram"),
+              0
+            )
+          ) || 0,
+        totalShares:
+          Number(
+            instagramDataLocal.reduce(
+              (acc, video) => acc + getShares(video, "instagram"),
+              0
+            )
+          ) || 0,
+      },
+      facebook: {
+        value: "facebook",
+        data: facebookDataLocal,
+        icon: FaceBookLogo,
+        name: "Facebook",
+        followers: 3,
+        posts: facebookDataLocal.length,
+        totalViews:
+          Number(
+            facebookDataLocal.reduce(
+              (acc, video) => acc + getViews(video, "facebook"),
+              0
+            )
+          ) || 0,
+        totalLikes:
+          Number(
+            facebookDataLocal.reduce(
+              (acc, video) => acc + getLikes(video, "facebook"),
+              0
+            )
+          ) || 0,
+        totalComments:
+          Number(
+            facebookDataLocal.reduce(
+              (acc, video) => acc + getComments(video, "facebook"),
+              0
+            )
+          ) || 0,
+        totalShares:
+          Number(
+            facebookDataLocal.reduce(
+              (acc, video) => acc + getShares(video, "facebook"),
+              0
+            )
+          ) || 0,
+      },
+      linkedin: {
+        value: "linkedin",
+        data: linkedinDataLocal,
+        icon: LinkedInLogo,
+        name: "LinkedIn",
+        followers: Number(getFollowers(linkedinDataLocal[0], "linkedin")),
+        posts: linkedinDataLocal.length,
+        totalViews:
+          Number(
+            linkedinDataLocal.reduce(
+              (acc, video) => acc + getViews(video, "linkedin"),
+              0
+            )
+          ) || 0,
+        totalLikes:
+          Number(
+            linkedinDataLocal.reduce(
+              (acc, video) => acc + getLikes(video, "linkedin"),
+              0
+            )
+          ) || 0,
+        totalComments:
+          Number(
+            linkedinDataLocal.reduce(
+              (acc, video) => acc + getComments(video, "linkedin"),
+              0
+            )
+          ) || 0,
+        totalShares:
+          Number(
+            linkedinDataLocal.reduce(
+              (acc, video) => acc + getShares(video, "linkedin"),
+              0
+            )
+          ) || 0,
+      },
+      x: {
+        value: "x",
+        data: xDataLocal,
+        icon: XLogo,
+        name: "Twitter",
+        followers: Number(getFollowers(xDataLocal[0], "x")),
+        posts: xDataLocal.length,
+        totalViews:
+          Number(
+            xDataLocal.reduce((acc, post) => acc + getViews(post, "x"), 0)
+          ) || 0,
+        totalLikes:
+          Number(
+            xDataLocal.reduce((acc, post) => acc + getLikes(post, "x"), 0)
+          ) || 0,
+        totalComments:
+          Number(
+            xDataLocal.reduce((acc, post) => acc + getComments(post, "x"), 0)
+          ) || 0,
+        totalShares:
+          Number(
+            xDataLocal.reduce((acc, post) => acc + getShares(post, "x"), 0)
+          ) || 0,
+      },
+    };
+
+    const totalViews =
+      cleanedData.tiktok.totalViews +
+      cleanedData.youtube.totalViews +
+      cleanedData.instagram.totalViews +
+      cleanedData.facebook.totalViews +
+      cleanedData.linkedin.totalViews +
+      cleanedData.x.totalViews;
+    const totalLikes =
+      cleanedData.tiktok.totalLikes +
+      cleanedData.youtube.totalLikes +
+      cleanedData.instagram.totalLikes +
+      cleanedData.facebook.totalLikes +
+      cleanedData.linkedin.totalLikes +
+      cleanedData.x.totalLikes;
+    const totalComments =
+      cleanedData.tiktok.totalComments +
+      cleanedData.youtube.totalComments +
+      cleanedData.instagram.totalComments +
+      cleanedData.facebook.totalComments +
+      cleanedData.linkedin.totalComments +
+      cleanedData.x.totalComments;
+
+    const totalShares =
+      cleanedData.tiktok.totalShares +
+      cleanedData.youtube.totalShares +
+      cleanedData.instagram.totalShares +
+      cleanedData.facebook.totalShares +
+      cleanedData.linkedin.totalShares +
+      cleanedData.x.totalShares;
+
+    const totalFollowers =
+      cleanedData.tiktok.followers +
+      cleanedData.youtube.followers +
+      cleanedData.instagram.followers +
+      cleanedData.facebook.followers +
+      cleanedData.linkedin.followers +
+      cleanedData.x.followers;
+
+    const totalPosts =
+      cleanedData.tiktok.posts +
+      cleanedData.youtube.posts +
+      cleanedData.instagram.posts +
+      cleanedData.facebook.posts +
+      cleanedData.linkedin.posts +
+      cleanedData.x.posts;
+
+    const totalEngagement =
+      totalViews + totalLikes + totalComments + totalShares;
+
+    return {
+      totalViews,
+      totalLikes,
+      totalComments,
+      totalFollowers,
+      totalShares,
+      totalEngagement,
+      totalPosts,
+    };
   };
 
   const reports: Report[] = [
     {
-      label: "Week 1 Report",
+      label: "Week 1",
       date: "4-03-2025 - 4-13-2025",
       reportDate: "4-13-2025",
       body: `## Content Performance & Strategy Update 
@@ -128,9 +411,12 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
+      totalEngagement: getDataFromWeek("4-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-13-2025").totalPosts,
     },
     {
-      label: "Week 2 Report",
+      label: "Week 2",
       date: "4-13-2025 - 4-20-2025",
       reportDate: "4-20-2025",
       body: `## Content Performance & Strategy Update 
@@ -141,9 +427,12 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
+      totalEngagement: getDataFromWeek("4-20-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-20-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-20-2025").totalPosts,
     },
     {
-      label: "Week 3 Report",
+      label: "Week 3",
       date: "4-20-2025 - 4-27-2025",
       reportDate: "4-27-2025",
       body: `## Content Performance & Strategy Update 
@@ -154,9 +443,12 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
+      totalEngagement: getDataFromWeek("4-27-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-27-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-27-2025").totalPosts,
     },
     {
-      label: "Week 4 Report",
+      label: "Week 4",
       date: "4-27-2025 - 5-04-2025",
       reportDate: "5-4-2025",
       body: `## Content Performance & Strategy Update 
@@ -167,6 +459,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
+      totalEngagement: getDataFromWeek("5-4-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-4-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-4-2025").totalPosts,
     },
   ];
 
@@ -375,43 +670,6 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 
   const clientInfo = clients.find((c: any) => c.value === params.clientId);
 
-  const totalViews =
-    Platforms.tiktok.totalViews +
-    Platforms.youtube.totalViews +
-    Platforms.instagram.totalViews +
-    Platforms.facebook.totalViews +
-    Platforms.linkedin.totalViews +
-    Platforms.x.totalViews;
-  const totalLikes =
-    Platforms.tiktok.totalLikes +
-    Platforms.youtube.totalLikes +
-    Platforms.instagram.totalLikes +
-    Platforms.facebook.totalLikes +
-    Platforms.linkedin.totalLikes +
-    Platforms.x.totalLikes;
-  const totalComments =
-    Platforms.tiktok.totalComments +
-    Platforms.youtube.totalComments +
-    Platforms.instagram.totalComments +
-    Platforms.facebook.totalComments +
-    Platforms.linkedin.totalComments +
-    Platforms.x.totalComments;
-  const totalShares =
-    Platforms.tiktok.totalShares +
-    Platforms.youtube.totalShares +
-    Platforms.instagram.totalShares +
-    Platforms.facebook.totalShares +
-    Platforms.linkedin.totalShares +
-    Platforms.x.totalShares;
-
-  const totalFollowers =
-    Platforms.tiktok.followers +
-    Platforms.youtube.followers +
-    Platforms.instagram.followers +
-    Platforms.facebook.followers +
-    Platforms.linkedin.followers +
-    Platforms.x.followers;
-
   const [clientViewData, setClientViewData] = useState<ClientVideoData[]>([]);
 
   useEffect(() => {
@@ -460,6 +718,21 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
     return reports[index - 1];
   };
 
+  const chartDataEngagement = reports.map((week) => ({
+    week: week.label,
+    data: week.totalEngagement,
+  }));
+
+  const chartDataFollowers = reports.map((week) => ({
+    week: week.label,
+    data: week.totalFollowers,
+  }));
+
+  const chartDataPosts = reports.map((week) => ({
+    week: week.label,
+    data: week.totalPosts,
+  }));
+
   return (
     <>
       <Background />
@@ -478,7 +751,26 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
         </div>
 
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
-
+        <div className="grid md:grid-cols-3 gap-4">
+          <Chart
+            chartData={chartDataEngagement}
+            title="Engagement"
+            description="Combined Engagement by week"
+            label="Engagement"
+          />
+          <Chart
+            chartData={chartDataFollowers}
+            title="Followers"
+            description="Combined Followers by week"
+            label="Followers"
+          />
+          <Chart
+            chartData={chartDataPosts}
+            title="Posts"
+            description="Combined Post volume by week"
+            label="Posts"
+          />
+        </div>
         <div className="flex flex-col gap-2 mt-6">
           <div className="flex flex-col md:flex-row justify-between w-full">
             <h1 className="text-2xl font-bold mb-2">Stats</h1>
@@ -509,22 +801,29 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
             <div className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center">
               <h1 className="text-2xl ">Total Engagement</h1>
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                {formatNumber(
-                  totalViews + totalLikes + totalComments + totalShares
-                )}
+                {selectedReport &&
+                  formatNumber(
+                    getDataFromWeek(selectedReport.reportDate).totalEngagement
+                  )}
               </h1>
             </div>
             <div className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center">
               <h1 className="text-2xl ">Total Followers</h1>
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                {formatNumber(totalFollowers)}
+                {selectedReport &&
+                  formatNumber(
+                    getDataFromWeek(selectedReport.reportDate).totalFollowers
+                  )}
               </h1>
             </div>
 
             <div className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center">
-              <h1 className="text-2xl ">Videos Posted</h1>
+              <h1 className="text-2xl ">Total Posts</h1>
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                {clientViewData.length}
+                {selectedReport &&
+                  formatNumber(
+                    getDataFromWeek(selectedReport.reportDate).totalPosts
+                  )}
               </h1>
             </div>
           </div>
@@ -571,19 +870,19 @@ const PlatformView = ({
                 <h3 className="font-semibold ">{platform.name}</h3>
               </div>
               <div className=" text-sm text-white grid grid-cols-3 gap-2">
-                <p className="flex gap-2 items-center justify-center">
+                <p className="flex gap-1 items-center justify-center">
                   Followers:{" "}
                   <span className="font-bold text-[rgba(52,244,175)]">
                     {formatNumber(platform.followers)}
                   </span>
                 </p>
-                <p className="flex gap-2 items-center justify-center">
+                <p className="flex gap-1 items-center justify-center">
                   Posts:{" "}
                   <span className="font-bold text-[rgba(52,244,175)]">
                     {formatNumber(platform.posts)}
                   </span>
                 </p>
-                <p className="flex gap-2 items-center justify-center">
+                <p className="flex gap-1 items-center justify-center">
                   Views:{" "}
                   <span className="font-bold text-[rgba(52,244,175)]">
                     {formatNumber(platform.totalViews)}
