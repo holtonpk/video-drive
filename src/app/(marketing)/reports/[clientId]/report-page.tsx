@@ -155,10 +155,23 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
 `,
     },
+    {
+      label: "Week 4 Report",
+      date: "4-27-2025 - 5-04-2025",
+      reportDate: "5-4-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+`,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[2]
+    reports[3]
   );
 
   const tiktokData =
