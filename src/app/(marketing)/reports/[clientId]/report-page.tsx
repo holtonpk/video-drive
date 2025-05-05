@@ -33,67 +33,67 @@ import {Button} from "@/components/ui/button";
 
 const getId = (data: any, platformId: string) => {
   return platformId === "facebook"
-    ? data.postId
+    ? data.postId || 0
     : platformId === "linkedin"
-    ? data?.linkedinVideo?.videoPlayMetadata?.trackingId
+    ? data?.linkedinVideo?.videoPlayMetadata?.trackingId || 0
     : data.id;
 };
 
 const getViews = (post: any, platform: string) => {
   return platform === "tiktok"
-    ? post?.playCount
+    ? post?.playCount || 0
     : platform === "youtube"
-    ? post?.viewCount
+    ? post?.viewCount || 0
     : platform === "instagram"
-    ? post?.videoPlayCount
+    ? post?.videoPlayCount || 0
     : platform === "x"
-    ? post?.viewCount
+    ? post?.viewCount || 0
     : platform === "facebook"
-    ? post?.viewsCount
+    ? post?.viewsCount || 0
     : platform === "linkedin"
-    ? post?.numLikes
+    ? post?.numLikes || 0
     : "unavailable";
 };
 
 const getLikes = (post: any, platform: string) => {
   return platform === "tiktok"
-    ? post?.diggCount
+    ? post?.diggCount || 0
     : platform === "youtube"
-    ? post?.likes
+    ? post?.likes || 0
     : platform === "instagram"
-    ? post?.likesCount
+    ? post?.likesCount || 0
     : platform === "x"
-    ? post?.likeCount
+    ? post?.likeCount || 0
     : platform === "facebook"
-    ? post?.likes
+    ? post?.likes || 0
     : platform === "linkedin"
-    ? post?.numLikes
+    ? post?.numLikes || 0
     : "unavailable";
 };
 
 const getComments = (post: any, platform: string) => {
   return platform === "tiktok"
-    ? post?.commentCount
+    ? post?.commentCount || 0
     : platform === "youtube"
-    ? post?.commentsCount
+    ? post?.commentsCount || 0
     : platform === "instagram"
-    ? post?.commentsCount
+    ? post?.commentsCount || 0
     : platform === "x"
-    ? post?.replyCount
+    ? post?.replyCount || 0
     : platform === "facebook"
-    ? post?.topReactionsCount
+    ? post?.topReactionsCount || 0
     : platform === "linkedin"
-    ? post?.numComments
+    ? post?.numComments || 0
     : "unavailable";
 };
 
 const getShares = (post: any, platform: string) => {
   return platform === "tiktok"
-    ? post?.shareCount
+    ? post?.shareCount || 0
     : platform === "facebook"
-    ? post?.shares
+    ? post?.shares || 0
     : platform === "linkedin"
-    ? post?.numShares
+    ? post?.numShares || 0
     : "unavailable";
 };
 
