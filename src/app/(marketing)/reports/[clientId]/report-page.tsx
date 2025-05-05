@@ -31,6 +31,13 @@ import Background from "@/src/app/(marketing)/components/background";
 import ReportBody from "./report-body";
 import {Button} from "@/components/ui/button";
 import {Chart} from "./chart";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+} from "@/components/ui/dropdown-menu";
 
 const getId = (data: any, platformId: string) => {
   return platformId === "facebook"
@@ -409,7 +416,7 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Interview Clips**: Continuing to test different animation styles and hook strategies.
 - **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
-- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
       totalEngagement: getDataFromWeek("4-13-2025").totalEngagement,
       totalFollowers: getDataFromWeek("4-13-2025").totalFollowers,
@@ -425,7 +432,7 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Interview Clips**: Continuing to test different animation styles and hook strategies.
 - **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
-- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
       totalEngagement: getDataFromWeek("4-20-2025").totalEngagement,
       totalFollowers: getDataFromWeek("4-20-2025").totalFollowers,
@@ -441,7 +448,7 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Interview Clips**: Continuing to test different animation styles and hook strategies.
 - **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
-- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
       totalEngagement: getDataFromWeek("4-27-2025").totalEngagement,
       totalFollowers: getDataFromWeek("4-27-2025").totalFollowers,
@@ -457,7 +464,7 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **Interview Clips**: Continuing to test different animation styles and hook strategies.
 - **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
-- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we’ll consider launching a new series specifically optimized for Facebook.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
       totalEngagement: getDataFromWeek("5-4-2025").totalEngagement,
       totalFollowers: getDataFromWeek("5-4-2025").totalFollowers,
@@ -733,11 +740,88 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
     data: week.totalPosts,
   }));
 
+  const exportAsCSV = () => {
+    // Create CSV header
+    const headers = [
+      "Platform",
+      "Followers",
+      "Posts",
+      "Views",
+      "Likes",
+      "Comments",
+      "Shares",
+    ];
+
+    // Create CSV rows for each platform
+    const rows = Object.values(Platforms).map((platform) => [
+      platform.name,
+      platform.followers,
+      platform.posts,
+      platform.totalViews,
+      platform.totalLikes,
+      platform.totalComments,
+      platform.totalShares,
+    ]);
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.join(",")),
+    ].join("\n");
+
+    // Create and trigger download
+    const blob = new Blob([csvContent], {type: "text/csv;charset=utf-8;"});
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `${clientInfo?.label}_report_${selectedReport?.reportDate}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportAsJSON = () => {
+    // Create JSON data structure
+    const jsonData = {
+      client: clientInfo?.label,
+      reportDate: selectedReport?.reportDate,
+      platforms: Object.values(Platforms).map((platform) => ({
+        name: platform.name,
+        followers: platform.followers,
+        posts: platform.posts,
+        totalViews: platform.totalViews,
+        totalLikes: platform.totalLikes,
+        totalComments: platform.totalComments,
+        totalShares: platform.totalShares,
+      })),
+    };
+
+    // Create and trigger download
+    const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+      type: "application/json",
+    });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `${clientInfo?.label}_report_${selectedReport?.reportDate}.json`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <Background />
       <div className="px-4 md:container pb-6">
-        <div className="md:flex-row flex-col flex gap-4 items-center  justify-between p-4 top-0 left-0   w-full  z-20">
+        <div className="md:flex-row flex-col flex gap-4 items-center  justify-between p-4 px-0 top-0 left-0   w-full  z-20">
           <div className="flex gap-4 items-center">
             {clientInfo?.icon && (
               <clientInfo.icon className="h-8 w-8 ring-[2px] rounded-[8px] ring-white/10 ring-offset-[#0F1116] ring-offset-[4px] " />
@@ -746,7 +830,19 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
               {clientInfo?.label}
             </h1>
           </div>
-
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-white/15 hover:bg-white/5 gap-2">
+                Export Data
+                <Icons.download2 className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="bg-white/10 blurBack text-white border-white/10">
+              <DropdownMenuLabel>Export as</DropdownMenuLabel>
+              <DropdownMenuItem onClick={exportAsCSV}>CSV</DropdownMenuItem>
+              <DropdownMenuItem onClick={exportAsJSON}>JSON</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           {/* <SettingsButtons /> */}
         </div>
 

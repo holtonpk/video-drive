@@ -37,7 +37,7 @@ export function Chart({
   } satisfies ChartConfig;
 
   return (
-    <Card className="bg-white/5 border-0 p-0  mt-4">
+    <Card className="bg-white/5 border border-white/10 p-0  mt-4">
       <CardHeader className="p-4">
         <CardTitle className="text-[rgba(52,244,175)]">{title}</CardTitle>
         <CardDescription className="text-white">{description}</CardDescription>
