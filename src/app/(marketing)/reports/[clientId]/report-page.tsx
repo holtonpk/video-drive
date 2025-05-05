@@ -832,7 +832,7 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-white/15 hover:bg-white/5 gap-2">
+              <Button className="bg-white/15 hover:bg-white/15 gap-2 border border-white/10 hover:border-[rgba(52,244,175)] transition-all duration-300  focus-visible:ring-0 ring-0 focus-visible:ring-offset-0 ring-offset-0 ">
                 Export Data
                 <Icons.download2 className="h-4 w-4" />
               </Button>
