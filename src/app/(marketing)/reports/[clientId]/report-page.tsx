@@ -1098,28 +1098,33 @@ const VideoTab = ({
 
       <div className="flex flex-col gap-2  ">
         <div className="max-w-full bg-white/5 p-2 rounded-md overflow-x-auto w-full md:w-fit">
-          <div className="grid grid-cols-5  md:flex h-fit gap-2 ">
-            {clientViewData.map((video) => (
-              <div key={video.videoNumber} className="w-[50px] aspect-[9/16] ">
-                <button
-                  onClick={() => setSelectedVideo(video)}
-                  className={`w-full aspect-[9/16] rounded-sm overflow-hidden  transition-all duration-300 ${
-                    selectedVideo?.videoNumber === video.videoNumber
-                      ? "border-2 border-[rgba(52,244,175)]"
-                      : "hover:scale-105 border-2 border-white/10"
-                  }`}
+          <div className=" max-w-full overflow-x-auto h-[200px] md:h-fit gap-2 ">
+            <div className="grid grid-cols-5 md:flex gap-2 w-full md:w-fit">
+              {[...clientViewData].reverse().map((video) => (
+                <div
+                  key={video.videoNumber}
+                  className="w-full md:min-w-[80px]  aspect-[9/16] "
                 >
-                  <Image
-                    alt={video.title || "Video thumbnail"}
-                    src={video.thumbnail || ""}
-                    title={video.title || ""}
-                    className="w-full h-full object-cover "
-                    width={50}
-                    height={50}
-                  />
-                </button>
-              </div>
-            ))}
+                  <button
+                    onClick={() => setSelectedVideo(video)}
+                    className={`w-full aspect-[9/16] rounded-sm overflow-hidden  transition-all duration-300 ${
+                      selectedVideo?.videoNumber === video.videoNumber
+                        ? "border-2 border-[rgba(52,244,175)]"
+                        : "hover:scale-105 border-2 border-white/10"
+                    }`}
+                  >
+                    <Image
+                      alt={video.title || "Video thumbnail"}
+                      src={video.thumbnail || ""}
+                      title={video.title || ""}
+                      className="w-full h-full object-cover "
+                      width={50}
+                      height={50}
+                    />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <div className="grid md:grid-cols-[300px_1fr] gap-4">
