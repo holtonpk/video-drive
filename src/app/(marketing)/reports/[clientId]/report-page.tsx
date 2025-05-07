@@ -1007,7 +1007,7 @@ const VideoTab = ({
   );
 
   useEffect(() => {
-    setSelectedVideo(clientViewData[0]);
+    setSelectedVideo(clientViewData[clientViewData.length - 1]);
   }, [clientViewData]);
 
   console.log("clientViewData", clientViewData[0], selectedVideo);
