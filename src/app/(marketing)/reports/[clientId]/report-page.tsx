@@ -1003,7 +1003,7 @@ const VideoTab = ({
   clientViewData: ClientVideoData[];
 }) => {
   const [selectedVideo, setSelectedVideo] = useState<ClientVideoData | null>(
-    clientViewData[0]
+    clientViewData[clientViewData.length - 1]
   );
 
   useEffect(() => {
