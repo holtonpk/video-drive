@@ -470,10 +470,26 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
       totalFollowers: getDataFromWeek("5-4-2025").totalFollowers,
       totalPosts: getDataFromWeek("5-4-2025").totalPosts,
     },
+    {
+      label: "Week 5",
+      date: "5-04-2025 - 5-11-2025",
+      reportDate: "5-11-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
+`,
+      totalEngagement: getDataFromWeek("5-11-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-11-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-11-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[3]
+    reports[4]
   );
 
   const tiktokData =
