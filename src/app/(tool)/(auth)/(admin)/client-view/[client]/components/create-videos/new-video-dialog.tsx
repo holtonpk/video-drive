@@ -232,6 +232,7 @@ export const NewVideoDialog = ({
                 newVideos.length > 0 &&
                 newVideos.map((video) => (
                   <button
+                    key={video.videoNumber}
                     className={`px-2 py-1 text-primary rounded-md h-fit flex items-center justify-between gap-1 group
                     ${
                       video.videoNumber === displayedVideo

@@ -27,6 +27,18 @@ export const ADMIN_USERS = [
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
 ];
 
+export const EDITOR_USERS = [
+  "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+  "Mi4yipMXrlckU117edbYNiwrmI92",
+  "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+];
+
+export const MANAGER_USERS = [
+  "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
+  "Mi4yipMXrlckU117edbYNiwrmI92",
+  "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+];
+
 export const EDITORS = [
   // "orxFlEC5v8euefk1OSJVTVXgilE2",
   {
@@ -329,6 +341,25 @@ export type Post = {
   caption?: string;
   postDate: Timestamp;
   uploaded?: boolean;
+  captions?: ResponseFormatType;
+  scrapedVideoText?: string;
+};
+
+export type Platform =
+  | "instagram"
+  | "tiktok"
+  | "youtube"
+  | "linkedin"
+  | "twitter"
+  | "facebook";
+
+export type ResponseFormatType = {
+  [key in Platform]: {
+    caption: string;
+    hashtags: string[];
+    keywords: string[];
+    title: string;
+  };
 };
 
 export type UpdatedAt = {
@@ -366,6 +397,7 @@ export type VideoData = {
   messages?: videoMessage[];
   files?: AssetFile[];
   manager?: string;
+  scrapedVideoText?: string;
 };
 
 export type AssetFile = {
