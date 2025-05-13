@@ -43,7 +43,9 @@ export const WeeksDisplay = ({
 }: {
   clientInfo: any;
   setTotalVideos: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentVideoNumber: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentVideoNumber: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
   displayedVideo: VideoData | undefined;
   setDisplayedVideo: React.Dispatch<
     React.SetStateAction<VideoData | undefined>
@@ -70,6 +72,8 @@ export const WeeksDisplay = ({
     });
     return () => unsubscribe();
   }, [clientInfo, setTotalVideos]);
+
+  console.log("clientData", ClientData);
 
   const [userData, setUsersData] = React.useState<UserData[]>();
 
@@ -256,25 +260,25 @@ const VideoColumn = ({
 }) => {
   const status = statuses.find((status) => status.value === post.status);
 
-  const [loadingCaption, setLoadingCaption] = React.useState<boolean>(false);
-  const [hasCaption, setHasCaption] = React.useState<boolean>(false);
+  // const [loadingCaption, setLoadingCaption] = React.useState<boolean>(false);
+  // const [hasCaption, setHasCaption] = React.useState<boolean>(false);
 
-  useEffect(() => {
-    setLoadingCaption(true);
-    if (post?.postIds) {
-      post?.postIds.forEach(async (postId) => {
-        const docRef = doc(db, "posts", postId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const post = docSnap.data();
-          if (post?.caption && post.caption.split(" ").length > 0) {
-            setHasCaption(true);
-          }
-        }
-      });
-    }
-    setLoadingCaption(false);
-  }, [post]);
+  // useEffect(() => {
+  //   setLoadingCaption(true);
+  //   if (post?.postIds) {
+  //     post?.postIds.forEach(async (postId) => {
+  //       const docRef = doc(db, "posts", postId);
+  //       const docSnap = await getDoc(docRef);
+  //       if (docSnap.exists()) {
+  //         const post = docSnap.data();
+  //         // if (post?.caption && post.caption.split(" ").length > 0) {
+  //         //   setHasCaption(true);
+  //         // }
+  //       }
+  //     });
+  //   }
+  //   setLoadingCaption(false);
+  // }, [post]);
 
   // video is already posted
   const videoAlreadyPosted = post.postDate.seconds * 1000 < Date.now();

@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {clients} from "@/config/data";
 import {ADMIN_USERS, EDITORS, Post, VideoData} from "@/config/data";
 
-import {CreateVideo} from "./components/create-videos";
+import {CreateVideo} from "./components/create-videos/create-videos";
 import {WeeksDisplay} from "./components/weeks-display2";
 import {
   VideoProvider,
@@ -20,15 +20,13 @@ const ClientPage = ({client}: {client: string}) => {
   const clientInfo = clients.find((c: any) => c.value === client);
   const [totalVideos, setTotalVideos] = React.useState<number>(1);
 
-  const [currentVideoNumber, setCurrentVideoNumber] = React.useState<number>(0);
+  const [currentVideoNumber, setCurrentVideoNumber] = React.useState<
+    number | undefined
+  >(undefined);
 
   const [displayedVideo, setDisplayedVideo] = React.useState<
     VideoData | undefined
   >();
-
-  console.log("clientInfo", clientInfo);
-
-  console.log("totalVideos", totalVideos);
 
   return (
     <>
@@ -57,10 +55,12 @@ const ClientPage = ({client}: {client: string}) => {
               </div>
               <VectorizeData clientInfo={clientInfo} />
               <ExportData clientInfo={clientInfo} />
-              <CreateVideo
-                clientInfo={clientInfo}
-                currentVideoNumber={currentVideoNumber}
-              />
+              {currentVideoNumber && (
+                <CreateVideo
+                  clientInfo={clientInfo}
+                  currentVideoNumber={currentVideoNumber}
+                />
+              )}
             </div>
             <WeeksDisplay
               clientInfo={clientInfo}
