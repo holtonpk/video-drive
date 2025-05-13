@@ -2,19 +2,11 @@
 
 import React, {useEffect} from "react";
 import VideoPlayer from "@/components/ui/video-player";
-import {
-  ADMIN_USERS,
-  EDITORS,
-  Post,
-  VideoData,
-  clients,
-  UploadedVideo,
-  statuses,
-} from "@/config/data";
+import {VideoData, clients, UploadedVideo} from "@/config/data";
 import Link from "next/link";
 import {Button} from "@/components/ui/button";
 import {Icons} from "@/components/icons";
-import {VideoDetails} from "./video-details";
+import {VideoDetails} from "@/src/app/(tool)/(auth)/(admin)/client-view/[client]/components/video-details";
 import {Editor} from "@/src/app/(tool)/(auth)/(admin)/video-review/script/script-edit";
 import {EditorJsRender} from "@/src/app/(tool)/(auth)/(admin)/video-review/video-review";
 import {ScrollArea} from "@/components/ui/scroll-area";
@@ -22,32 +14,16 @@ import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
 import {db} from "@/config/firebase";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+
+import {doc, getDoc, setDoc, Timestamp, updateDoc} from "firebase/firestore";
 import {
   VideoProvider,
   useVideo,
 } from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/data/video-context";
 import {useAuth} from "@/context/user-auth";
 
-import {VideoDataWithPosts, REVIEW_USERS_DATA} from "@/config/data";
-import {formatDaynameMonthDay, formatAsUSD} from "@/lib/utils";
-import {statuses as videoStatuses} from "@/config/data";
 import {OutputData} from "@editorjs/editorjs";
+import {Input} from "@/components/ui/input";
 
 type ReviewData = {
   reviewType: "script" | "video" | "payout";
@@ -122,53 +98,12 @@ export const VideoDisplay = ({
             #{video.videoNumber} - {video.title}
           </Link>
         </div>
-        {/* <div className="grid gap-2 px-4">
 
-          <Select
-            defaultValue={status}
-            onValueChange={(value) => {
-              setStatus(value);
-              updateField("status", value);
-            }}
-          >
-            <SelectTrigger id="status" className="  truncate ">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {statuses.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className="flex flex-nowrap"
-                >
-                  <div className="flex items-center">
-                    {option.icon && (
-                      <option.icon
-                        className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
-                    ${
-                      option.value === "done"
-                        ? "stroke-green-500 "
-                        : option.value === "todo"
-                        ? "stroke-blue-500"
-                        : option.value === "draft"
-                        ? "stroke-yellow-500"
-                        : "stroke-red-500"
-                    }
-                    `}
-                      />
-                    )}
-                    <span>{option.label}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div> */}
         <ScrollArea className="h-[calc(100vh-128px)]">
           <Tabs defaultValue="details" className="w-full  px-4">
             <TabsList
               className={`bg-muted grid
-                ${video.uploadedVideos ? " grid-cols-3" : "grid-cols-2"}
+                ${video.uploadedVideos ? " grid-cols-4" : "grid-cols-3"}
             `}
             >
               <TabsTrigger value="details">Details</TabsTrigger>
@@ -176,9 +111,10 @@ export const VideoDisplay = ({
                 <TabsTrigger value="video">Video</TabsTrigger>
               )}
               <TabsTrigger value="script">Script</TabsTrigger>
+              <TabsTrigger value="clientView">Client View</TabsTrigger>
             </TabsList>
             <TabsContent value="details">
-              <VideoDetails />
+              <VideoDetails setDisplayedVideo={setDisplayedVideo} />
             </TabsContent>
             {video.uploadedVideos && (
               <TabsContent value="video">
@@ -190,6 +126,9 @@ export const VideoDisplay = ({
             )}
             <TabsContent value="script">
               <VideoScript />
+            </TabsContent>
+            <TabsContent value="clientView">
+              <ClientView video={video} />
             </TabsContent>
           </Tabs>
         </ScrollArea>
@@ -680,5 +619,286 @@ const VideoScript = () => {
         {edit ? "Save" : "Edit"} script
       </Button>
     </>
+  );
+};
+
+type ClientVideoData = {
+  videoNumber: string;
+  title: string;
+  videoURL?: string;
+  postDate: Timestamp;
+  hasAccess: boolean;
+  views: number;
+  likes: number;
+  comments: number;
+  tiktok?: string;
+  instagram?: string;
+  facebook?: string;
+  x?: string;
+  linkedin?: string;
+  youtube?: string;
+};
+
+const ClientView = ({video}: {video: VideoData}) => {
+  const [clientHasAccess, setClientHasAccess] = React.useState(false);
+  const [clientVideoData, setClientVideoData] = React.useState<
+    ClientVideoData | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const checkClientAccess = async () => {
+      const clientRef = doc(
+        db,
+        `client-access/${video.clientId}/videos`,
+        video.videoNumber
+      );
+      const clientSnap = await getDoc(clientRef);
+      if (clientSnap.exists() && clientSnap.data()?.hasAccess) {
+        const clientData = clientSnap.data();
+        setClientHasAccess(clientData.hasAccess);
+        setClientVideoData(clientData as ClientVideoData);
+        setTiktokLink(clientData?.tiktok);
+        setInstagramLink(clientData?.instagram);
+        setFacebookLink(clientData?.facebook);
+        setXLink(clientData?.x);
+        setLinkedinLink(clientData?.linkedin);
+        setYoutubeLink(clientData?.youtube);
+      } else {
+        setClientVideoData(undefined);
+        setClientHasAccess(false);
+        setTiktokLink(undefined);
+        setInstagramLink(undefined);
+        setFacebookLink(undefined);
+        setXLink(undefined);
+        setLinkedinLink(undefined);
+        setYoutubeLink(undefined);
+      }
+    };
+    checkClientAccess();
+  }, [video.clientId, video.videoNumber]);
+
+  const [isGrantingAccess, setIsGrantingAccess] = React.useState(false);
+  const grantAccess = async () => {
+    setIsGrantingAccess(true);
+    const clientRef = doc(
+      db,
+      `client-access/${video.clientId}/videos`,
+      video.videoNumber
+    );
+    await setDoc(clientRef, {
+      videoNumber: video.videoNumber,
+      title: video.title,
+      postDate: video.postDate,
+      hasAccess: true,
+    });
+    setClientHasAccess(true);
+    setIsGrantingAccess(false);
+  };
+
+  const onFieldChange = async (field: string, value: string) => {
+    // update the video
+    await updateDoc(
+      doc(db, `client-access/${video.clientId}/videos`, video.videoNumber),
+      {
+        [field]: value,
+      }
+    );
+  };
+
+  const addVideoUrl = async (videoURL: string) => {
+    const clientRef = doc(
+      db,
+      `client-access/${video.clientId}/videos`,
+      video.videoNumber
+    );
+    await updateDoc(clientRef, {
+      videoURL: videoURL,
+    });
+    setClientVideoData({
+      ...clientVideoData,
+      videoURL: videoURL,
+    } as ClientVideoData);
+  };
+
+  console.log("cvd", clientVideoData);
+
+  const OpenFeed = async (
+    platform: "tiktok" | "instagram" | "facebook" | "x" | "linkedin" | "youtube"
+  ) => {
+    const clientRef = doc(db, `client-access/${video.clientId}/info/links`);
+    const clientSnap = await getDoc(clientRef);
+    if (clientSnap.exists()) {
+      const links = clientSnap.data();
+      console.log("clientData", links);
+      if (links[platform]) {
+        window.open(links[platform], "_blank");
+      }
+    }
+  };
+
+  const [tiktokLink, setTiktokLink] = React.useState(clientVideoData?.tiktok);
+  const [instagramLink, setInstagramLink] = React.useState(
+    clientVideoData?.instagram
+  );
+  const [facebookLink, setFacebookLink] = React.useState(
+    clientVideoData?.facebook
+  );
+  const [xLink, setXLink] = React.useState(clientVideoData?.x);
+  const [linkedinLink, setLinkedinLink] = React.useState(
+    clientVideoData?.linkedin
+  );
+  const [youtubeLink, setYoutubeLink] = React.useState(
+    clientVideoData?.youtube
+  );
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex flex-col gap-4">
+        <div className="grid gap-1">
+          <h1 className="text-2xl font-bold">Client View</h1>
+          <p className="text-sm text-muted-foreground">
+            This is the client view for the video {video.videoNumber}
+          </p>
+        </div>
+        {clientHasAccess ? (
+          <>
+            <div className="grid grid-cols-[auto_1fr] gap-2">
+              {clientVideoData?.videoURL ? (
+                <div className="h-[400px] aspect-[9/16]  relative">
+                  <VideoPlayer
+                    videoUrl={clientVideoData.videoURL}
+                    title={clientVideoData.title}
+                  />
+                </div>
+              ) : (
+                <div className="h-[400px] aspect-[9/16]  relative bg-muted rounded-md">
+                  video not set
+                </div>
+              )}
+              <div className="flex border rounded-md  flex-col">
+                {video.uploadedVideos?.map((uploadedVideo) => (
+                  <button
+                    onClick={() => addVideoUrl(uploadedVideo.videoURL)}
+                    key={uploadedVideo.videoURL}
+                    className="h-fit relative border hover:opacity-80 flex items-center p-2"
+                  >
+                    {uploadedVideo.title}
+                    {uploadedVideo.videoURL === clientVideoData?.videoURL && (
+                      <div className="ml-auto text-green-500">
+                        <Icons.check className="h-4 w-4" />
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* create and input for the links  */}
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="tiktok">TikTok Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  value={tiktokLink}
+                  id="tiktok"
+                  onChange={(e) => {
+                    setTiktokLink(e.target.value);
+                    onFieldChange("tiktok", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("tiktok")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="instagram">Instagram Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  id="instagram"
+                  value={instagramLink}
+                  onChange={(e) => {
+                    setInstagramLink(e.target.value);
+                    onFieldChange("instagram", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("instagram")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="facebook">Facebook Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  id="facebook"
+                  value={facebookLink}
+                  onChange={(e) => {
+                    setFacebookLink(e.target.value);
+                    onFieldChange("facebook", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("facebook")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="x">X Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  id="x"
+                  value={xLink}
+                  onChange={(e) => {
+                    setXLink(e.target.value);
+                    onFieldChange("x", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("x")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="linkedin">LinkedIn Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  id="linkedin"
+                  value={linkedinLink}
+                  onChange={(e) => {
+                    setLinkedinLink(e.target.value);
+                    onFieldChange("linkedin", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("linkedin")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="youtube">YouTube Link</Label>
+              <div className="grid grid-cols-[1fr_auto] gap-2">
+                <Input
+                  id="youtube"
+                  value={youtubeLink}
+                  onChange={(e) => {
+                    setYoutubeLink(e.target.value);
+                    onFieldChange("youtube", e.target.value);
+                  }}
+                />
+                <Button onClick={() => OpenFeed("youtube")}>
+                  <Icons.link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <Button onClick={grantAccess} disabled={isGrantingAccess}>
+              {isGrantingAccess ? "Granting access..." : "Grant Access"}
+            </Button>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
