@@ -224,7 +224,7 @@ export const NewVideoDialog = ({
   return (
     <Dialog open={openVideoCreator} onOpenChange={setOpenVideoCreator}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="max-w-[1200px] max-h-[800px]  bg-muted/20 blurBack p-0">
+      <DialogContent className="max-w-[1200px] max-h-[800px] bg-card dark:bg-muted/20 blurBack p-0">
         <div className="grid grid-cols-[200px_1fr] ">
           <div className=" bg-primary/5 rounded-r-md  p-2 gap-1 grid grid-rows-[1fr_80px]">
             <div className="flex flex-col h-[300px] overflow-y-auto">
@@ -302,7 +302,10 @@ export const NewVideoDialog = ({
         </div>
 
         <div className="absolute -bottom-4 w-full translate-y-full flex flex-col gap-1 items-center ">
-          <Button className="w-full" onClick={saveVideos}>
+          <Button
+            className="w-full dark:bg-primary bg-white text-black hover:bg-white/90"
+            onClick={saveVideos}
+          >
             {saving ? (
               <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
             ) : (
@@ -312,7 +315,10 @@ export const NewVideoDialog = ({
           </Button>
           <AlertDialog open={openResetDialog} onOpenChange={setOpenResetDialog}>
             <AlertDialogTrigger>
-              <Button variant={"ghost"} className="w-full text-primary">
+              <Button
+                variant={"ghost"}
+                className="w-full dark:text-white dark:hover:text-white dark:hover:bg-white/60 text-card hover:bg-card/70 hover:text-card"
+              >
                 Reset
               </Button>
             </AlertDialogTrigger>
@@ -326,6 +332,15 @@ export const NewVideoDialog = ({
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
+                <Button
+                  variant={"outline"}
+                  className="text-primary"
+                  onClick={() => {
+                    setOpenResetDialog(false);
+                  }}
+                >
+                  Cancel
+                </Button>
                 <Button
                   variant={"destructive"}
                   onClick={() => {

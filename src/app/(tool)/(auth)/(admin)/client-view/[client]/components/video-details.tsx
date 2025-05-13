@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {statuses, clients, REVIEW_USERS_DATA, MANAGERS} from "@/config/data";
+import {VideoData, clients, REVIEW_USERS_DATA, MANAGERS} from "@/config/data";
 import Link from "next/link";
 
 import {Calendar as CalendarIcon} from "lucide-react";
@@ -26,7 +26,7 @@ import {
   VideoProvider,
   useVideo,
 } from "@/src/app/(tool)/(auth)/(admin)/video/[videoId]/data/video-context";
-import {setDoc, getDoc, doc} from "firebase/firestore";
+import {setDoc, getDoc, doc, deleteDoc} from "firebase/firestore";
 import {db} from "@/config/firebase";
 import {convertTimestampToDate} from "@/lib/utils";
 import {EDITORS} from "@/config/data";
@@ -34,8 +34,23 @@ import {UserData} from "@/context/user-auth";
 import {useAuth} from "@/context/user-auth";
 import {Switch} from "@/components/ui/switch";
 import DatePickerWithRange2 from "./date-picker-hour";
+import {
+  AlertDialog,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogContent,
+  AlertDialogTrigger,
+  AlertDialogHeader,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
 
-export const VideoDetails = () => {
+export const VideoDetails = ({
+  setDisplayedVideo,
+}: {
+  setDisplayedVideo: React.Dispatch<
+    React.SetStateAction<VideoData | undefined>
+  >;
+}) => {
   const {currentUser} = useAuth()!;
   const {video} = useVideo()!;
 
@@ -72,24 +87,6 @@ export const VideoDetails = () => {
       }
     );
   }
-
-  //   const [status, setStatus] = React.useState(video.status);
-
-  //   useEffect(() => {
-  //     async function changeStatus(status: string) {
-  //       await setDoc(
-  //         doc(db, "videos", video.videoNumber.toString()),
-  //         {
-  //           status: status,
-  //           updatedAt: {date: new Date(), user: currentUser?.firstName},
-  //         },
-  //         {
-  //           merge: true,
-  //         }
-  //       );
-  //     }
-  //     changeStatus(status);
-  //   }, [status, video.videoNumber, currentUser]);
 
   const [posted, setPosted] = React.useState<boolean>(video.posted || false);
 
@@ -140,16 +137,24 @@ export const VideoDetails = () => {
     ]);
   };
 
+  const [showDeleteDialog, setShowDeleteDialog] =
+    React.useState<boolean>(false);
+
+  const deleteVideo = async () => {
+    setDeleting(true);
+    await deleteDoc(doc(db, "videos", video.videoNumber.toString()));
+    setDeleting(false);
+    setDisplayedVideo(undefined);
+  };
+
+  const [deleting, setDeleting] = React.useState<boolean>(false);
+
   return (
     <div
       className={`h-fit  w-full relative flex flex-col gap-2 rounded-md  z-[90]
 
     `}
     >
-      {/* <CardDescription>
-            View and edit the details of the video.
-          </CardDescription> */}
-
       <div className="grid  bg-foreground/40 p-4 rounded-b-md gap-2">
         <div className="grid grid-cols-2 gap-6 ">
           <div className="grid gap-2">
@@ -178,18 +183,6 @@ export const VideoDetails = () => {
               selectedEditor={video.editor}
             />
           </div>
-          {/* <div className="grid gap-2">
-            <Label htmlFor="client">Client</Label>
-            <div
-              id="client"
-              className="w-full  p-2 flex items-center rounded-md"
-            >
-              {client.icon && (
-                <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
-              )}
-              <span>{client.label}</span>
-            </div>
-          </div> */}
 
           <div className="grid gap-2">
             <Label htmlFor="due-date">Post Date</Label>
@@ -211,15 +204,6 @@ export const VideoDetails = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                {/* <Calendar
-                  mode="single"
-                  selected={postDate}
-                  onSelect={(value) => {
-                    setPostDate(value);
-                    updateField("postDate", value);
-                  }}
-                  initialFocus
-                /> */}
                 <DatePickerWithRange2
                   date={postDate}
                   setDate={setPostDate}
@@ -248,15 +232,6 @@ export const VideoDetails = () => {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                {/* <Calendar
-                  mode="single"
-                  selected={dueDate}
-                  onSelect={(value) => {
-                    setDueDate(value);
-                    updateField("dueDate", value);
-                  }}
-                  initialFocus
-                /> */}
                 <DatePickerWithRange2
                   date={dueDate}
                   setDate={setDueDate}
@@ -292,64 +267,7 @@ export const VideoDetails = () => {
             </div>
           </div>
         </div>
-
-        {/* <div className="grid gap-2 w-full">
-          <Label htmlFor="notes">Notes</Label>
-          <Textarea
-            id="notes"
-            value={notes}
-            onChange={(e) => {
-              setNotes(e.target.value);
-              updateField("notes", e.target.value);
-            }}
-            className="w-full border p-2 flex items-center rounded-md text-sm"
-          />
-        </div> */}
-
-        {/* <div className="grid gap-2">
-          <Label htmlFor="status">Status</Label>
-          <Select
-            defaultValue={status}
-            onValueChange={(value) => {
-              setStatus(value);
-              updateField("status", value);
-            }}
-          >
-            <SelectTrigger id="status" className="  truncate ">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {statuses.map((option) => (
-                <SelectItem
-                  key={option.value}
-                  value={option.value}
-                  className="flex flex-nowrap"
-                >
-                  <div className="flex items-center">
-                    {option.icon && (
-                      <option.icon
-                        className={`mr-2 h-4 w-4 text-muted-foreground rounded-sm
-                    ${
-                      option.value === "done"
-                        ? "stroke-green-500 "
-                        : option.value === "todo"
-                        ? "stroke-blue-500"
-                        : option.value === "draft"
-                        ? "stroke-yellow-500"
-                        : "stroke-red-500"
-                    }
-                    `}
-                      />
-                    )}
-                    <span>{option.label}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div> */}
       </div>
-      {/* if scriptReviewed doesnt include both ids from REVIEW_USERS_DATA then show the button */}
       {video.scriptReviewed?.length !== REVIEW_USERS_DATA.length && (
         <Button
           onClick={shareWithEditor}
@@ -359,6 +277,45 @@ export const VideoDetails = () => {
           Share with editor
         </Button>
       )}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogTrigger asChild>
+          <Button variant={"destructive"} className="w-full">
+            Delete Video
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-primary">
+              {`Delete Video #${video.videoNumber}?`}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This action will delete the video from the database. All data
+              associated with the video will be lost.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button
+              variant={"outline"}
+              className="text-primary"
+              onClick={() => {
+                setShowDeleteDialog(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant={"destructive"}
+              onClick={() => {
+                deleteVideo();
+                setShowDeleteDialog(false);
+              }}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
