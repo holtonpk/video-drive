@@ -486,10 +486,26 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
       totalFollowers: getDataFromWeek("5-11-2025").totalFollowers,
       totalPosts: getDataFromWeek("5-11-2025").totalPosts,
     },
+    {
+      label: "Week 6",
+      date: "5-11-2025 - 5-18-2025",
+      reportDate: "5-18-2025",
+      body: `## Content Performance & Strategy Update 
+
+- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
+- **Interview Clips**: Continuing to test different animation styles and hook strategies.
+- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
+- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
+- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
+`,
+      totalEngagement: getDataFromWeek("5-18-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-18-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-18-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[4]
+    reports[5]
   );
 
   const tiktokData =
@@ -636,6 +652,24 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
           )
         ) || 0,
     },
+
+    x: {
+      value: "x",
+      data: xData,
+      icon: XLogo,
+      name: "Twitter",
+      followers: Number(getFollowers(xData[0], "x")),
+      posts: xData.length,
+      totalViews:
+        Number(xData.reduce((acc, post) => acc + getViews(post, "x"), 0)) || 0,
+      totalLikes:
+        Number(xData.reduce((acc, post) => acc + getLikes(post, "x"), 0)) || 0,
+      totalComments:
+        Number(xData.reduce((acc, post) => acc + getComments(post, "x"), 0)) ||
+        0,
+      totalShares:
+        Number(xData.reduce((acc, post) => acc + getShares(post, "x"), 0)) || 0,
+    },
     linkedin: {
       value: "linkedin",
       data: linkedinData,
@@ -671,23 +705,6 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
             0
           )
         ) || 0,
-    },
-    x: {
-      value: "x",
-      data: xData,
-      icon: XLogo,
-      name: "Twitter",
-      followers: Number(getFollowers(xData[0], "x")),
-      posts: xData.length,
-      totalViews:
-        Number(xData.reduce((acc, post) => acc + getViews(post, "x"), 0)) || 0,
-      totalLikes:
-        Number(xData.reduce((acc, post) => acc + getLikes(post, "x"), 0)) || 0,
-      totalComments:
-        Number(xData.reduce((acc, post) => acc + getComments(post, "x"), 0)) ||
-        0,
-      totalShares:
-        Number(xData.reduce((acc, post) => acc + getShares(post, "x"), 0)) || 0,
     },
   };
 
