@@ -302,7 +302,7 @@ export const NewVideoDialog = ({
         </div>
 
         <div className="absolute -bottom-4 w-full translate-y-full flex flex-col gap-1 items-center ">
-          <Button
+          {/* <Button
             className="w-full dark:bg-primary bg-white text-black hover:bg-white/90"
             onClick={saveVideos}
           >
@@ -312,7 +312,7 @@ export const NewVideoDialog = ({
               <Icons.uploadCloud className="h-5 w-5 mr-2" />
             )}
             Save all ({newVideos?.length || 0})
-          </Button>
+          </Button> */}
           <AlertDialog open={openResetDialog} onOpenChange={setOpenResetDialog}>
             <AlertDialogTrigger>
               <Button
