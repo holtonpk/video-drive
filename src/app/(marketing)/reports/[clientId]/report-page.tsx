@@ -492,11 +492,12 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
       reportDate: "5-18-2025",
       body: `## Content Performance & Strategy Update 
 
-- **TikTok**: Seeing great engagement with the *Crazy Story* series, especially on TikTok.
-- **Interview Clips**: Continuing to test different animation styles and hook strategies.
-- **Blue Collar Bloopers / Memes**: Strong performance in terms of views and shares.
-- **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
-- **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
+- **Facebook**: Since our last call, we’ve shifted our Facebook strategy from crossposting to uploading videos directly to the platform. We'll be tracking performance over the next few weeks. Alongside higher-quality content, we're planning secondary activations tailored for Facebook—like engaging with niche accounts, posting shorter videos more frequently, sharing stories, and eventually adding written content.
+- **Interview Clips**: We are running low on footage so when ever you are able to get new footage please send it to us.
+- **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
+- **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
+
+
 `,
       totalEngagement: getDataFromWeek("5-18-2025").totalEngagement,
       totalFollowers: getDataFromWeek("5-18-2025").totalFollowers,
