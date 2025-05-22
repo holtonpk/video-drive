@@ -70,6 +70,7 @@ export const BulkSchedule = ({
           return {
             title: "video - #" + videoNumber.toString(),
             videoNumber: videoNumber,
+            id: Math.random().toString(36).substring(2, 15),
             clientId: clientInfo.value,
             status: "draft",
             dueDate: subDays(day.date, SUBDAYS_VIDEO_DUE),

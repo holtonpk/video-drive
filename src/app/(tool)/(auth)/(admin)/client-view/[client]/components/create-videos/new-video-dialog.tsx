@@ -16,6 +16,8 @@ import {VideoProvider} from "./create-videos";
 import {Span} from "next/dist/trace";
 import {UserData} from "@/context/user-auth";
 import {BulkSchedule} from "./bulk-video-dialog";
+import {useToast} from "@/components/ui/use-toast";
+
 import {
   AlertDialog,
   AlertDialogContent,
@@ -64,12 +66,12 @@ export const NewVideoDialog = ({
   const [openVideoCreator, setOpenVideoCreator] =
     React.useState<boolean>(false);
 
-  console.log("currentVideoNumber", currentVideoNumber);
-
   const GenerateBlankVideo = (newVideosLength: number): NewVideo => {
     return {
       title: "",
-      videoNumber: Number(currentVideoNumber + newVideosLength + 1).toString(),
+      id: Math.random().toString(36).substring(2, 15),
+      // videoNumber: "8001",
+      videoNumber: "new video " + Number(newVideosLength + 1).toString(),
       clientId: clientInfo.value,
       status: "draft",
       dueDate: undefined,
@@ -86,23 +88,32 @@ export const NewVideoDialog = ({
     };
   };
 
-  const [newVideos, setNewVideos] = React.useState<NewVideo[] | null>(null);
+  const [newVideos, setNewVideos] = React.useState<NewVideo[] | undefined>(
+    localStorage.getItem(`video_creator_${clientInfo.value}`)
+      ? JSON.parse(
+          localStorage.getItem(`video_creator_${clientInfo.value}`) || "[]"
+        )
+      : undefined
+  );
+
   const [displayedVideo, setDisplayedVideo] = React.useState<
     string | undefined
   >(undefined);
 
   // Initialize from localStorage
   useEffect(() => {
-    const storedVideos = localStorage.getItem(`newVideos_${clientInfo.value}`);
+    const storedVideos = localStorage.getItem(
+      `video_creator_${clientInfo.value}`
+    );
     if (storedVideos) {
       const parsedVideos = JSON.parse(storedVideos);
       setNewVideos(parsedVideos);
       if (parsedVideos.length > 0) {
-        setDisplayedVideo(parsedVideos[0].videoNumber);
+        setDisplayedVideo(parsedVideos[0].id);
       }
     } else {
       setNewVideos([GenerateBlankVideo(0)]);
-      setDisplayedVideo(GenerateBlankVideo(0).videoNumber);
+      setDisplayedVideo(GenerateBlankVideo(0).id);
     }
   }, [clientInfo.value]);
 
@@ -110,7 +121,7 @@ export const NewVideoDialog = ({
   useEffect(() => {
     if (newVideos) {
       localStorage.setItem(
-        `newVideos_${clientInfo.value}`,
+        `video_creator_${clientInfo.value}`,
         JSON.stringify(newVideos)
       );
     }
@@ -118,16 +129,16 @@ export const NewVideoDialog = ({
 
   useEffect(() => {
     if (newVideos?.length == 1) {
-      setDisplayedVideo(newVideos?.[0]?.videoNumber || undefined);
+      setDisplayedVideo(newVideos?.[0]?.id || undefined);
     }
   }, [newVideos]);
 
   const addVideo = () => {
     const newVideo = GenerateBlankVideo(
-      (newVideos?.length && newVideos?.length + 1) || 0
+      (newVideos?.length && newVideos?.length) || 0
     );
     setNewVideos([...(newVideos || []), newVideo]);
-    setDisplayedVideo(newVideo.videoNumber);
+    setDisplayedVideo(newVideo.id);
   };
 
   const [saving, setSaving] = React.useState<boolean>(false);
@@ -135,58 +146,96 @@ export const NewVideoDialog = ({
   const [openResetDialog, setOpenResetDialog] = React.useState<boolean>(false);
 
   const resetVideos = () => {
-    localStorage.removeItem(`newVideos_${clientInfo.value}`);
+    localStorage.removeItem(`video_creator_${clientInfo.value}`);
     setNewVideos([GenerateBlankVideo(0)]);
-    setDisplayedVideo(GenerateBlankVideo(0).videoNumber);
+    setDisplayedVideo(GenerateBlankVideo(0).id);
   };
+
+  const {toast} = useToast();
 
   const saveVideos = async () => {
     if (newVideos) {
       setSaving(true);
       let allSaved = true;
-      const updatedVideos = [...newVideos];
+      let updatedVideos = [...newVideos];
       let firstErrorVideo: string | undefined;
+      let totalVideosSaved = 0;
 
+      let newVideoNumber = currentVideoNumber + 1;
       for (const video of newVideos) {
         const videoErrors = ValidateVideo(video);
         if (videoErrors.length > 0) {
-          const videoIndex = updatedVideos.findIndex(
-            (v) => v.videoNumber === video.videoNumber
-          );
+          const videoIndex = updatedVideos?.findIndex((v) => v.id === video.id);
           if (videoIndex !== -1) {
+            console.log("errors founds", videoIndex);
             updatedVideos[videoIndex] = {...video, errors: videoErrors};
             if (!firstErrorVideo) {
-              firstErrorVideo = video.videoNumber;
+              firstErrorVideo = video.id;
             }
           }
           allSaved = false;
+
           continue;
+        } else {
+          // remove video from updatedVideos
+          updatedVideos = updatedVideos.filter((v) => v.id !== video.id);
         }
 
         try {
-          const videoRef = doc(db, "videos", video.videoNumber.toString());
-          await setDoc(videoRef, video, {merge: true});
-          console.log("saved video:", video.videoNumber);
-          const videoIndex = updatedVideos.findIndex(
-            (v) => v.videoNumber === video.videoNumber
+          const videoRef = doc(db, "videos", newVideoNumber.toString());
+          await setDoc(
+            videoRef,
+            {
+              ...video,
+              videoNumber: newVideoNumber.toString(),
+              postDate: video.postDate ? new Date(video.postDate) : undefined,
+              scriptDueDate: video.scriptDueDate
+                ? new Date(video.scriptDueDate)
+                : undefined,
+              dueDate: video.dueDate ? new Date(video.dueDate) : undefined,
+            },
+            {merge: true}
           );
+          totalVideosSaved++;
+          newVideoNumber++;
+          const videoIndex = updatedVideos.findIndex((v) => v.id === video.id);
           if (videoIndex !== -1) {
             updatedVideos[videoIndex] = {...video, isSaved: true, errors: []};
           }
         } catch (error) {
-          console.error("Error saving video:", video.videoNumber, error);
+          console.error("Error saving video:", video.id, error);
           allSaved = false;
         }
       }
 
-      setNewVideos(updatedVideos);
       if (firstErrorVideo) {
         setDisplayedVideo(firstErrorVideo);
+        setNewVideos(updatedVideos);
+        toast({
+          variant: "destructive",
+          title: "Error saving video",
+          description: "Please check the video and try again",
+        });
+      }
+      if (allSaved) {
+        toast({
+          title: `${newVideos.length} new videos saved`,
+          description: `You can now view them on the client view`,
+        });
+        setOpenVideoCreator(false);
+        setNewVideos(undefined);
+        localStorage.removeItem(`video_creator_${clientInfo.value}`);
+      }
+
+      if (totalVideosSaved > 0) {
+        toast({
+          title: `${totalVideosSaved} new video${
+            totalVideosSaved > 1 ? "s" : ""
+          } saved`,
+          description: `You can now view them on the client view`,
+        });
       }
       setSaving(false);
-      if (allSaved) {
-        setOpenVideoCreator(false);
-      }
     }
   };
 
@@ -221,98 +270,129 @@ export const NewVideoDialog = ({
     fetchPeople();
   }, []);
 
+  useEffect(() => {
+    if (!newVideos) {
+      setNewVideos([GenerateBlankVideo(0)]);
+      setDisplayedVideo(GenerateBlankVideo(0).id);
+    }
+  }, [newVideos]);
+
   return (
     <Dialog open={openVideoCreator} onOpenChange={setOpenVideoCreator}>
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="max-w-[1200px] max-h-[800px] bg-card dark:bg-muted/20 blurBack p-0">
-        <div className="grid grid-cols-[200px_1fr] ">
-          <div className=" bg-primary/5 rounded-r-md  p-2 gap-1 grid grid-rows-[1fr_80px]">
-            <div className="flex flex-col h-[300px] overflow-y-auto">
-              {newVideos &&
-                newVideos.length > 0 &&
-                newVideos.map((video) => (
-                  <button
-                    key={video.videoNumber}
-                    className={`px-2 py-1 text-primary rounded-md h-fit flex items-center justify-between gap-1 group
+        {newVideos && newVideos.length > 0 ? (
+          <div className="grid grid-cols-[200px_1fr] ">
+            <div className=" bg-primary/5 rounded-r-md  p-2 gap-1 grid grid-rows-[1fr_80px]">
+              <div className="flex flex-col h-[300px] overflow-y-auto">
+                {newVideos &&
+                  newVideos.length > 0 &&
+                  newVideos.map((video) => (
+                    <button
+                      key={video.id}
+                      className={`px-2 py-1 text-primary rounded-md h-fit flex items-center justify-between gap-1 group relative
                     ${
-                      video.videoNumber === displayedVideo
+                      video.id === displayedVideo
                         ? "bg-primary/10"
                         : "hover:bg-primary/5"
                     }
                     `}
-                    onClick={() => setDisplayedVideo(video.videoNumber)}
-                  >
-                    <div className="flex items-center gap-1 text-primary">
-                      #{video.videoNumber}
-                      {video.isSaved ? (
-                        <span className="text-green-500 text-[12px]">
-                          (saved)
+                      onClick={() => setDisplayedVideo(video.id)}
+                    >
+                      <div className="flex items-center gap-1 text-primary">
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis max-w-[80px]">
+                          {video.title || "untitled"}
                         </span>
-                      ) : video.errors.length > 0 ? (
-                        <span className="text-red-500 text-[12px]">
-                          (missing fields)
-                        </span>
-                      ) : (
-                        <span className="text-red-500 text-[12px]">
-                          (unsaved)
-                        </span>
-                      )}
-                    </div>
+                        {video.isSaved ? (
+                          <span className="text-green-500 text-[12px]">
+                            (saved)
+                          </span>
+                        ) : video.errors.length > 0 ? (
+                          <span className="text-red-500 text-[12px] whitespace-nowrap">
+                            (missing fields)
+                          </span>
+                        ) : (
+                          <span className="text-red-500 text-[12px] whitespace-nowrap">
+                            (unsaved)
+                          </span>
+                        )}
+                      </div>
 
-                    <Icons.chevronRight className="h-5 w-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </button>
-                ))}
+                      <Icons.chevronRight className="h-5 w-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute right-2" />
+                    </button>
+                  ))}
+              </div>
+              <div className="flex flex-col gap-2 h-[80px] ">
+                <Button
+                  onClick={addVideo}
+                  className="mx-auto  w-full  "
+                  size={"sm"}
+                >
+                  <Icons.add className="h-5 w-5 mr-1" />
+                  New video
+                </Button>
+                <BulkSchedule
+                  clientInfo={clientInfo}
+                  // this should be the biggest video number in the newVideos array
+                  currentVideoNumber={newVideos?.length}
+                  setNewVideos={setNewVideos}
+                  newVideosFull={newVideos || []}
+                />
+              </div>
             </div>
-            <div className="flex flex-col gap-2 h-[80px] ">
-              <Button
-                onClick={addVideo}
-                className="mx-auto  w-full  "
-                size={"sm"}
-              >
-                <Icons.add className="h-5 w-5 mr-1" />
-                New video
-              </Button>
-              <BulkSchedule
-                clientInfo={clientInfo}
-                // this should be the biggest video number in the newVideos array
-                currentVideoNumber={
-                  newVideos?.length
-                    ? Math.max(...newVideos.map((v) => Number(v.videoNumber)))
-                    : 0
+
+            {displayedVideo && newVideos && (
+              <NewVideoForm
+                video={
+                  newVideos.find((v) => v.id === displayedVideo) || newVideos[0]
                 }
+                newVideos={newVideos}
                 setNewVideos={setNewVideos}
-                newVideosFull={newVideos || []}
+                setDisplayedVideo={setDisplayedVideo}
+                key={displayedVideo}
+                peopleData={peopleData}
+                currentVideoNumber={currentVideoNumber}
+                setOpenVideoCreator={setOpenVideoCreator}
               />
-            </div>
-          </div>
-
-          {displayedVideo && newVideos && (
-            <NewVideoForm
-              video={
-                newVideos.find((v) => v.videoNumber === displayedVideo) ||
-                newVideos[0]
-              }
-              newVideos={newVideos}
-              setNewVideos={setNewVideos}
-              setDisplayedVideo={setDisplayedVideo}
-              key={displayedVideo}
-              peopleData={peopleData}
-            />
-          )}
-        </div>
-
-        <div className="absolute -bottom-4 w-full translate-y-full flex flex-col gap-1 items-center ">
-          {/* <Button
-            className="w-full dark:bg-primary bg-white text-black hover:bg-white/90"
-            onClick={saveVideos}
-          >
-            {saving ? (
-              <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
-            ) : (
-              <Icons.uploadCloud className="h-5 w-5 mr-2" />
             )}
-            Save all ({newVideos?.length || 0})
-          </Button> */}
+          </div>
+        ) : (
+          <div className="w-[300px] flex flex-col gap-2 mx-auto h-[300px] items-center justify-center">
+            <Button
+              onClick={addVideo}
+              className="mx-auto  w-full  "
+              size={"sm"}
+            >
+              <Icons.add className="h-5 w-5 mr-1" />
+              New video
+            </Button>
+            <BulkSchedule
+              clientInfo={clientInfo}
+              // this should be the biggest video number in the newVideos array
+              currentVideoNumber={
+                newVideos?.length
+                  ? Math.max(...newVideos.map((v) => Number(v.id)))
+                  : 0
+              }
+              setNewVideos={setNewVideos}
+              newVideosFull={newVideos || []}
+            />
+          </div>
+        )}
+        <div className="absolute -bottom-4 w-full translate-y-full flex flex-col gap-1 items-center ">
+          {newVideos && newVideos.length > 1 && (
+            <Button
+              className="w-full dark:bg-primary bg-white text-black hover:bg-white/90"
+              onClick={saveVideos}
+            >
+              {saving ? (
+                <Icons.spinner className="h-5 w-5 animate-spin mr-2" />
+              ) : (
+                <Icons.uploadCloud className="h-5 w-5 mr-2" />
+              )}
+              Save all ({newVideos?.length || 0})
+            </Button>
+          )}
           <AlertDialog open={openResetDialog} onOpenChange={setOpenResetDialog}>
             <AlertDialogTrigger>
               <Button
@@ -365,26 +445,31 @@ const NewVideoForm = ({
   setNewVideos,
   setDisplayedVideo,
   peopleData,
+  currentVideoNumber,
+  setOpenVideoCreator,
 }: {
   video: NewVideo;
   newVideos: NewVideo[];
-  setNewVideos: (newVideos: NewVideo[]) => void;
+  setNewVideos: (newVideos: NewVideo[] | undefined) => void;
   setDisplayedVideo: (videoNumber: string) => void;
   peopleData: UserData[] | undefined;
+  currentVideoNumber: number;
+  setOpenVideoCreator: (open: boolean) => void;
 }) => {
   const [title, setTitle] = React.useState<string>(video.title);
   const [notes, setNotes] = React.useState<string>(video.notes);
-  const [priceUSD, setPriceUSD] = React.useState<number>(video.priceUSD || 0);
+  const [priceUSD, setPriceUSD] = React.useState<number | undefined>(
+    video.priceUSD
+  );
 
   const [saving, setSaving] = React.useState<boolean>(false);
 
-  const errors =
-    newVideos.find((v) => v.videoNumber === video.videoNumber)?.errors || [];
+  const errors = newVideos.find((v) => v.id === video.id)?.errors || [];
 
   const setErrors = (errors: string[]) => {
     setNewVideos(
       newVideos.map((v) => {
-        if (v.videoNumber === video.videoNumber) {
+        if (v.id === video.id) {
           return {...v, errors};
         }
         return v;
@@ -392,29 +477,52 @@ const NewVideoForm = ({
     );
   };
 
+  const {toast} = useToast();
+
   const saveVideo = async () => {
     setSaving(true);
     const errors = ValidateVideo(video);
     if (errors.length > 0) {
       setErrors(errors);
       setSaving(false);
+      toast({
+        variant: "destructive",
+        title: "Error saving video",
+        description: "Please check the video and try again",
+      });
       return;
     }
-    const videoRef = doc(db, "videos", video.videoNumber.toString());
-    const videoData = newVideos.find(
-      (v) => v.videoNumber === video.videoNumber
-    );
-    await setDoc(videoRef, videoData);
-    setSaving(false);
+    const newVideoNumber = currentVideoNumber + 1;
 
-    setNewVideos(
-      newVideos.map((v) => {
-        if (v.videoNumber === video.videoNumber) {
-          return {...v, isSaved: true};
-        }
-        return v;
-      })
-    );
+    const videoRef = doc(db, "videos", newVideoNumber.toString());
+    const videoData = newVideos.find((v) => v.id === video.id);
+    await setDoc(videoRef, {
+      ...videoData,
+      videoNumber: newVideoNumber.toString(),
+      // convert the dates from a string to a timestamp from "2025-05-22T05:00:00.000Z" to a timestamp
+      postDate: video.postDate ? new Date(video.postDate) : undefined,
+      scriptDueDate: video.scriptDueDate
+        ? new Date(video.scriptDueDate)
+        : undefined,
+      dueDate: video.dueDate ? new Date(video.dueDate) : undefined,
+    });
+    setSaving(false);
+    toast({
+      title: "Video saved",
+      description: "You can now view it on the client view",
+    });
+
+    // remove the video from the newVideos array
+
+    const newVideosFiltered =
+      newVideos.filter((v) => v.id !== video.id).length == 0
+        ? undefined
+        : newVideos.filter((v) => v.id !== video.id);
+
+    setNewVideos(newVideosFiltered);
+    if (!newVideosFiltered) {
+      setOpenVideoCreator(false);
+    }
   };
 
   const duplicateVideo = () => {
@@ -422,36 +530,33 @@ const NewVideoForm = ({
       ...newVideos,
       {
         ...video,
-        videoNumber: (Number(video.videoNumber) + 1).toString(),
+        id: Math.random().toString(36).substring(2, 15),
+        videoNumber: "new video " + (newVideos.length + 1).toString(),
         isSaved: false,
         title: video.title + " (copy)",
       },
     ];
     setNewVideos(updatedNewVideos);
-    setDisplayedVideo(
-      updatedNewVideos?.[updatedNewVideos.length - 1]?.videoNumber
-    );
+    setDisplayedVideo(updatedNewVideos?.[updatedNewVideos.length - 1]?.id);
   };
 
   const deleteVideo = () => {
-    const currentIndex = newVideos.findIndex(
-      (v) => v.videoNumber === video.videoNumber
-    );
-    const updatedNewVideos = newVideos.filter(
-      (v) => v.videoNumber !== video.videoNumber
-    );
+    const currentIndex = newVideos.findIndex((v) => v.id === video.id);
+    const updatedNewVideos = newVideos.filter((v) => v.id !== video.id);
     setNewVideos(updatedNewVideos);
     setDisplayedVideo(
-      updatedNewVideos?.[currentIndex === 0 ? 0 : currentIndex - 1]?.videoNumber
+      updatedNewVideos?.[currentIndex === 0 ? 0 : currentIndex - 1]?.id
     );
   };
 
   return (
     <Card className="w-full  border-none  bg-transparent relative ">
       <div className=" w-full pt-2 px-4  flex items-center justify-between gap-4">
-        <CardTitle className="font-bold">Video #{video.videoNumber}</CardTitle>
+        {/* <CardTitle className="font-bold">
+          Id <span className="text-blue-500">{video.id}</span>
+        </CardTitle> */}
 
-        <div className="gap-4 flex   w-fit">
+        <div className="gap-4 flex   w-full">
           <Button onClick={duplicateVideo} variant={"outline"}>
             <Icons.copy className="h-5 w-5 mr-2" />
             Duplicate
@@ -509,7 +614,7 @@ const NewVideoForm = ({
                     : [...errors, "title"];
                   setNewVideos(
                     newVideos.map((v) => {
-                      if (v.videoNumber === video.videoNumber) {
+                      if (v.id === video.id) {
                         return {
                           ...v,
                           title: newTitle,
@@ -539,7 +644,7 @@ const NewVideoForm = ({
                   setNotes(newNotes);
                   setNewVideos(
                     newVideos.map((v) => {
-                      if (v.videoNumber === video.videoNumber) {
+                      if (v.id === video.id) {
                         return {
                           ...v,
                           notes: newNotes,
@@ -579,7 +684,7 @@ const NewVideoForm = ({
                       : [...errors, "postDate"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             postDate: value ? new Date(value) : undefined,
@@ -615,7 +720,7 @@ const NewVideoForm = ({
                       : [...errors, "scriptDueDate"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             scriptDueDate: value ? new Date(value) : undefined,
@@ -651,7 +756,7 @@ const NewVideoForm = ({
                       : [...errors, "dueDate"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             dueDate: value ? new Date(value) : undefined,
@@ -695,7 +800,7 @@ const NewVideoForm = ({
                       : [...errors, "manager"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             manager: value,
@@ -737,7 +842,7 @@ const NewVideoForm = ({
                       : [...errors, "editor"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             editor: value,
@@ -774,7 +879,7 @@ const NewVideoForm = ({
                       : [...errors, "priceUSD"];
                     setNewVideos(
                       newVideos.map((v) => {
-                        if (v.videoNumber === video.videoNumber) {
+                        if (v.id === video.id) {
                           return {
                             ...v,
                             priceUSD: newPrice,
