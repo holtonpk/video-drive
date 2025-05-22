@@ -13,6 +13,7 @@ import {getDoc} from "firebase/firestore";
 
 export type NewVideo = {
   title: string;
+  id: string;
   videoNumber: string;
   clientId: string;
   status: string;
