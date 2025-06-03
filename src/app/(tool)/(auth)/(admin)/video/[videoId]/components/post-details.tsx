@@ -4,7 +4,7 @@ import {Button, buttonVariants} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import {Label} from "@/components/ui/label";
-import {Calendar as CalendarIcon} from "lucide-react";
+import {Calendar as CalendarIcon, Loader2} from "lucide-react";
 import {cn} from "@/lib/utils";
 import {format, set} from "date-fns";
 import {Separator} from "@/components/ui/separator";
@@ -19,10 +19,24 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {platforms, Post, VideoData} from "@/config/data";
+import {
+  Platform,
+  platforms,
+  Post,
+  ResponseFormatType,
+  VideoData,
+  clients,
+} from "@/config/data";
 
 import {VideoProvider, useVideo} from "../data/video-context";
-import {setDoc, doc, collection, getDoc, deleteDoc} from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  collection,
+  getDoc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {
   uploadBytesResumable,
@@ -57,6 +71,54 @@ import {
 import Link from "next/link";
 import {useAuth} from "@/context/user-auth";
 import VideoPlayer from "@/components/ui/video-player";
+import {Tabs, TabsList, TabsTrigger, TabsContent} from "@/components/ui/tabs";
+import {
+  Select,
+  SelectValue,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
+} from "@/components/ui/select";
+
+const ResponseFormat: ResponseFormatType = {
+  instagram: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+  tiktok: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+  youtube: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+  linkedin: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+  twitter: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+  facebook: {
+    caption: "The caption from the audio file",
+    hashtags: ["#hashtag1", "#hashtag2", "#hashtag3"],
+    keywords: ["keyword1", "keyword2", "keyword3"],
+    title: "The title from the audio file",
+  },
+};
+
 export const PostDetails = () => {
   const {video} = useVideo()!;
 
@@ -274,6 +336,18 @@ export function PostInfo({post}: {post: Post}) {
   const [copiedURL, setCopiedURL] = React.useState(false);
   const {currentUser} = useAuth()!;
 
+  const {video} = useVideo()!;
+
+  const [responseFormat, setResponseFormat] = React.useState<
+    ResponseFormatType | undefined
+  >(post?.captions);
+
+  useEffect(() => {
+    setResponseFormat(post?.captions);
+  }, [post]);
+
+  console.log("responseFormat", responseFormat);
+
   const copyVideoURL = () => {
     setCopiedURL(true);
     navigator.clipboard.writeText(post?.videoURL || "");
@@ -301,7 +375,9 @@ export function PostInfo({post}: {post: Post}) {
   );
 
   const [postDate, setPostDate] = React.useState<Date | undefined>(
-    post?.postDate ? convertTimestampToDate(post.postDate) : undefined
+    post?.postDate
+      ? convertTimestampToDate(post.postDate) || undefined
+      : undefined
   );
 
   const [versionName, setVersionName] = React.useState(post.title);
@@ -309,10 +385,14 @@ export function PostInfo({post}: {post: Post}) {
   const [notes, setNotes] = React.useState(post?.notes || "");
 
   const [caption, setCaption] = React.useState(post.caption || "");
-  const [copied, setCopied] = React.useState(false);
+  const [scrapedVideoText, setScrapedVideoText] = React.useState(
+    post.scrapedVideoText || ""
+  );
+  const [copied, setCopied] = React.useState({});
 
   const copyCaption = () => {
     setCopied(true);
+
     navigator.clipboard.writeText(caption);
     setTimeout(() => {
       setCopied(false);
@@ -536,20 +616,179 @@ export function PostInfo({post}: {post: Post}) {
             )}
           </Button>
         </div>
+
         <Label htmlFor="caption">Caption</Label>
-        <Textarea
-          value={caption}
-          onChange={(e) => {
-            setCaption(e.target.value);
-            updateField("caption", e.target.value);
-          }}
-          id="caption"
-          className="min-h-[200px] w-full p-6"
-          placeholder="The caption for the video goes here..."
-        />
+
+        {/* these should be tabs */}
+        {responseFormat && (
+          <Tabs
+            defaultValue={Object.keys(responseFormat)[0] as Platform}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-6">
+              {(Object.keys(responseFormat) as Platform[]).map((platform) => (
+                <TabsTrigger key={platform} value={platform}>
+                  {platform}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+            {(Object.keys(responseFormat) as Platform[]).map((platform) => (
+              <TabsContent key={platform} value={platform}>
+                <div className="grid gap-2 max-h-fit overflow-y-auto pb-10">
+                  <div className="border p-2 grid gap-2">
+                    <div className="flex justify-between items-center col-span-2">
+                      <Label>Title</Label>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            responseFormat[platform].title
+                          );
+                          setCopied({...copied, [platform]: "title"});
+                          setTimeout(() => {
+                            setCopied({...copied, [platform]: ""});
+                          }, 3000);
+                        }}
+                        className="text-sm text-muted-foreground hover:text-primary"
+                      >
+                        {copied[platform as keyof typeof copied] === "title"
+                          ? "Copied!"
+                          : "Copy"}
+                      </button>
+                    </div>
+                    <Input
+                      value={responseFormat[platform].title}
+                      onChange={(e) => {
+                        setResponseFormat({
+                          ...responseFormat,
+                          [platform]: {
+                            ...responseFormat[platform],
+                            title: e.target.value,
+                          },
+                        });
+                        updateField("captions", responseFormat);
+                      }}
+                      className="col-span-2 "
+                    />
+                  </div>
+
+                  <div className="border p-2 grid gap-2  w-full">
+                    <div className="flex justify-between items-center col-span-2">
+                      <Label>Caption</Label>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            responseFormat[platform].caption
+                          );
+                          setCopied({...copied, [platform]: "caption"});
+                          setTimeout(() => {
+                            setCopied({...copied, [platform]: ""});
+                          }, 3000);
+                        }}
+                        className="text-sm text-muted-foreground hover:text-primary"
+                      >
+                        {copied[platform as keyof typeof copied] === "caption"
+                          ? "Copied!"
+                          : "Copy"}
+                      </button>
+                    </div>
+                  </div>
+                  <Textarea
+                    className="min-h-[200px] pb-20"
+                    value={responseFormat[platform].caption}
+                    onChange={(e) => {
+                      setResponseFormat({
+                        ...responseFormat,
+                        [platform]: {
+                          ...responseFormat[platform],
+                          caption: e.target.value,
+                        },
+                      });
+                      updateField("captions", responseFormat);
+                    }}
+                  />
+
+                  <div className="border p-2 grid gap-2">
+                    <div className="flex justify-between items-center">
+                      <Label>Hashtags</Label>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            responseFormat[platform].hashtags.join(" ")
+                          );
+                          setCopied({...copied, [platform]: "hashtags"});
+                          setTimeout(() => {
+                            setCopied({...copied, [platform]: ""});
+                          }, 3000);
+                        }}
+                        className="text-sm text-muted-foreground hover:text-primary"
+                      >
+                        {copied[platform as keyof typeof copied] === "hashtags"
+                          ? "Copied!"
+                          : "Copy"}
+                      </button>
+                    </div>
+                    <Textarea
+                      className="min-h-[200px] pb-20"
+                      value={responseFormat[platform].hashtags.join(", ")}
+                      onChange={(e) => {
+                        setResponseFormat({
+                          ...responseFormat,
+                          [platform]: {
+                            ...responseFormat[platform],
+                            hashtags: e.target.value
+                              .split(" ")
+                              .map((tag) => tag.trim()),
+                          },
+                        });
+                        updateField("captions", responseFormat);
+                      }}
+                    />
+                  </div>
+                  <div className="border p-2 grid gap-2">
+                    <div className="flex justify-between items-center">
+                      <Label>Keywords</Label>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            responseFormat[platform].keywords.join(", ")
+                          );
+                          setCopied({...copied, [platform]: "keywords"});
+                          setTimeout(() => {
+                            setCopied({...copied, [platform]: ""});
+                          }, 3000);
+                        }}
+                        className="text-sm text-muted-foreground hover:text-primary"
+                      >
+                        {copied[platform as keyof typeof copied] === "keywords"
+                          ? "Copied!"
+                          : "Copy"}
+                      </button>
+                    </div>
+                    <Textarea
+                      className="min-h-[200px] pb-20"
+                      value={responseFormat[platform].keywords.join(", ")}
+                      onChange={(e) => {
+                        setResponseFormat({
+                          ...responseFormat,
+                          [platform]: {
+                            ...responseFormat[platform],
+                            keywords: e.target.value
+                              .split(",")
+                              .map((keyword) => keyword.trim()),
+                          },
+                        });
+                        updateField("captions", responseFormat);
+                      }}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        )}
       </div>
 
-      <div className="grid gap-2">
+      {/* <div className="grid gap-2">
         <Label>Notes</Label>
         <Textarea
           value={notes}
@@ -558,7 +797,7 @@ export function PostInfo({post}: {post: Post}) {
             updateField("notes", e.target.value);
           }}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -714,15 +953,6 @@ function VideoDisplay({
         merge: true,
       }
     );
-    // setVideo(
-    //   (prev) =>
-    //     ({
-    //       ...prev,
-    //       uploadedVideos: video.uploadedVideos?.filter(
-    //         (video) => video.id !== uploadedVideoId
-    //       ),
-    //     } as VideoData)
-    // );
   };
 
   return (
@@ -879,9 +1109,7 @@ export const AiCaption = ({
   setCaption: React.Dispatch<React.SetStateAction<string>>;
   videoURL: string | undefined;
 }) => {
-  const [prompt, setPrompt] = React.useState(
-    "Create short video description (instagram, tiktok, youtube style) for the following video script. The video description should start with a clickbait style sentence about the video followed by a description. The description should  use relevant keywords, phrases and hashtags. hashtags should be lowercase. don't use emojis or unicode characters."
-  );
+  const [prompt, setPrompt] = React.useState(clients[0].value);
 
   const clientDetails = "";
 
@@ -890,8 +1118,8 @@ export const AiCaption = ({
   useEffect(() => {
     setVideoScript(
       typeof video.script !== "string"
-        ? video.script.blocks.map((block) => block.data.text).join(" ") ||
-            video.script.blocks.map((block) => block.data.items).join(" ")
+        ? video.script?.blocks.map((block) => block.data.text).join(" ") ||
+            video.script?.blocks.map((block) => block.data.items).join(" ")
         : video.script
     );
     setScrapedVideoText(undefined);
@@ -901,28 +1129,38 @@ export const AiCaption = ({
 
   const [videoScript, setVideoScript] = React.useState(
     typeof video.script !== "string"
-      ? video.script.blocks.map((block) => block.data.text).join(" ") ||
-          video.script.blocks.map((block) => block.data.items).join(" ")
+      ? video.script?.blocks.map((block) => block.data.text).join(" ") ||
+          video.script?.blocks.map((block) => block.data.items).join(" ")
       : video.script
   );
 
   const [scrapedVideoText, setScrapedVideoText] = React.useState<
     string | undefined
-  >(undefined);
+  >(video.scrapedVideoText);
 
-  const [response, setResponse] = React.useState("");
+  useEffect(() => {
+    setScrapedVideoText(video.scrapedVideoText);
+  }, [video]);
+
+  const [response, setResponse] = React.useState<ResponseFormatType | string>(
+    ""
+  );
 
   const getAiCaption = async () => {
     setLoadingResponse(true);
-
-    const response = await fetch("/api/openai", {
+    console.log(
+      "brand info ======",
+      clients.find((client) => client.value === prompt)?.brandInfo
+    );
+    const response = await fetch("/api/open-router", {
       method: "POST",
       body: JSON.stringify({
-        directions: prompt,
+        brandInfo: clients.find((client) => client.value === prompt)?.brandInfo,
         videoScript: scrapedVideoText ? scrapedVideoText : videoScript,
       }),
     });
     const data = await response.json();
+    console.log("Data received:", data.response);
     setResponse(data.response);
     setLoadingResponse(false);
   };
@@ -931,43 +1169,42 @@ export const AiCaption = ({
 
   const [isScraping, setIsScraping] = React.useState(false);
 
-  const scrapeVideoText = async () => {
+  const {currentUser} = useAuth()!;
+
+  const [isLoadingVideoText, setIsLoadingVideoText] = React.useState(false);
+
+  async function updateVideoField(field: string, value: any) {
+    if (!video) return;
+    await setDoc(
+      doc(db, "videos", video?.videoNumber.toString()),
+      {
+        [field]: value,
+        updatedAt: {date: new Date(), user: currentUser?.firstName},
+      },
+      {
+        merge: true,
+      }
+    );
+  }
+  const getVideoText = async () => {
+    setIsLoadingVideoText(true);
     if (!videoURL) return;
-    setIsScraping(true);
-    try {
-      console.log("Scraping video text", videoURL);
+    const url = new URL(videoURL);
+    const pathParts = url.pathname.split("/");
+    const fileName = pathParts[pathParts.length - 1];
+    console.log("fileName", fileName);
+    const response = await fetch("/api/transcribe-whisper-1", {
+      method: "POST",
+      body: JSON.stringify({
+        fileName: fileName,
+      }),
+    });
+    const data = await response.json();
+    console.log("++++++++++++++s", data.response);
+    setScrapedVideoText(data.response);
+    updateVideoField("scrapedVideoText", data.response);
 
-      // Extract and decode the fileName from videoURL
-      const url = new URL(videoURL); // Parse the URL
-      const encodedFileName = url.pathname.split("/").pop(); // Get the last part of the path
-
-      if (!encodedFileName) {
-        throw new Error("Invalid video URL or missing file name.");
-      }
-
-      const fileName = decodeURIComponent(encodedFileName); // Decode the file name
-      console.log("Extracted and decoded file name:", fileName);
-
-      // Make the API call with the fileName
-      const response = await fetch("/api/convert-video-to-text", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({fileName}),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to convert video to text.");
-      }
-
-      const data = await response.json();
-      console.log("Data received:", data);
-
-      setScrapedVideoText(data.text); // Update the prompt with the received text
-    } catch (error) {
-      console.error("Error during video text scraping:", error);
-    } finally {
-      setIsScraping(false);
-    }
+    setIsLoadingVideoText(false);
   };
 
   return (
@@ -983,15 +1220,38 @@ export const AiCaption = ({
           </DialogDescription>
         </DialogHeader>
         <Label htmlFor="prompt">Prompt</Label>
+        <Select
+          value={prompt}
+          onValueChange={(value) => {
+            setPrompt(value);
+          }}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select a prompt" />
+          </SelectTrigger>
+          <SelectContent>
+            {clients.map((client) => {
+              const Icon = client.icon;
+              return (
+                <SelectItem key={client.value} value={client.value}>
+                  <div className="flex items-center gap-2">
+                    <Icon className="w-6 h-6 " />
+                    <span className="text-md">{client.label}</span>
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
         <Textarea
           placeholder="prompt"
           className="h-[100px]"
-          value={prompt}
+          value={clients.find((client) => client.value === prompt)?.brandInfo}
           onChange={(e) => {
             setPrompt(e.target.value);
           }}
         />
-        {scrapedVideoText && (
+        {/* {scrapedVideoText && (
           <>
             <Label htmlFor="prompt">Scraped Video Text</Label>
             <Textarea
@@ -1003,12 +1263,23 @@ export const AiCaption = ({
               }}
             />
           </>
-        )}
+        )} */}
+        <Textarea
+          value={scrapedVideoText}
+          onChange={(e) => {
+            setScrapedVideoText(e.target.value);
+            updateVideoField("scrapedVideoText", e.target.value);
+          }}
+          id="caption"
+          className="min-h-[200px] w-full p-4 pb-10"
+          placeholder="Video text goes here..."
+        />
+
         {response && (
           <div className="grid gap-2">
             <Label>Response</Label>
             <Textarea
-              value={response}
+              value={JSON.stringify(response, null, 2)}
               onChange={(e) => {
                 setResponse(e.target.value);
               }}
@@ -1017,11 +1288,16 @@ export const AiCaption = ({
           </div>
         )}
         <DialogFooter>
-          <Button onClick={scrapeVideoText}>
-            {isScraping && (
-              <Icons.spinner className="animate-spin h-5 w-5 mr-2" />
+          <Button
+            onClick={() => {
+              getVideoText();
+            }}
+          >
+            {isLoadingVideoText ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              "Get Video Text"
             )}
-            {scrapedVideoText ? "Re-scrape Video" : "Scrape Video"}
           </Button>
           <Button onClick={getAiCaption}>
             {loadingResponse && (
@@ -1032,8 +1308,8 @@ export const AiCaption = ({
           {response && (
             <Button
               onClick={() => {
-                updateField("caption", response);
-                setCaption(response);
+                updateField("captions", response);
+                setCaption(response as string);
                 setOpen(false);
               }}
             >
