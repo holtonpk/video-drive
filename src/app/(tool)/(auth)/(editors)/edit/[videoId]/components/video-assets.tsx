@@ -49,9 +49,9 @@ export const VideoAssets = () => {
       console.error("Error downloading the file:", error);
     }
   };
-
+  saveFileToFirebase;
   const downloadAllAssets = () => {
-    for (const asset of video.assets) {
+    for (const asset of video.assets ?? []) {
       downloadFile(asset);
     }
   };
