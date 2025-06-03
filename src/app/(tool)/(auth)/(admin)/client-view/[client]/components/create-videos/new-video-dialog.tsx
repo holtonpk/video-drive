@@ -48,7 +48,7 @@ const ValidateVideo = (video: NewVideo) => {
   if (!video.dueDate) {
     errors.push("dueDate");
   }
-  if (!video.priceUSD) {
+  if (video.priceUSD === undefined) {
     errors.push("priceUSD");
   }
   return errors;
@@ -867,30 +867,40 @@ const NewVideoForm = ({
                 </Label>
                 <Input
                   placeholder="$"
-                  value={priceUSD}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    const newPrice = value === "" ? undefined : Number(value);
+
+                    if (
+                      value === "" ||
+                      (newPrice !== undefined && !isNaN(newPrice))
+                    ) {
+                      setPriceUSD(newPrice);
+                      const newErrors =
+                        value === "" ||
+                        (typeof newPrice === "number" && !isNaN(newPrice))
+                          ? errors.filter((e) => e !== "priceUSD")
+                          : [...errors, "priceUSD"];
+                      setNewVideos(
+                        newVideos.map((v) => {
+                          if (v.id === video.id) {
+                            return {
+                              ...v,
+                              priceUSD: newPrice,
+                              isSaved: false,
+                              errors: newErrors,
+                            };
+                          }
+                          return v;
+                        })
+                      );
+                    }
+                  }}
+                  value={priceUSD?.toString() ?? ""}
                   className={`${
                     errors.find((e) => e === "priceUSD") && "border-red-500"
                   } `}
-                  onChange={(e) => {
-                    const newPrice = Number(e.target.value);
-                    setPriceUSD(newPrice);
-                    const newErrors = newPrice
-                      ? errors.filter((e) => e !== "priceUSD")
-                      : [...errors, "priceUSD"];
-                    setNewVideos(
-                      newVideos.map((v) => {
-                        if (v.id === video.id) {
-                          return {
-                            ...v,
-                            priceUSD: newPrice,
-                            isSaved: false,
-                            errors: newErrors,
-                          };
-                        }
-                        return v;
-                      })
-                    );
-                  }}
+                  min="0"
                 />
               </div>
             </div>

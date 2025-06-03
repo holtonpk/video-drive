@@ -68,12 +68,16 @@ export const WeeksDisplay = ({
         ...clientDataLocal.map((post: any) => post.videoNumber)
       );
       setTotalVideos(clientDataLocal.length);
-      setCurrentVideoNumber(largestVideoNumber);
+
+      if (largestVideoNumber === -Infinity) {
+        console.log("largestVideoNumber", Number(clientInfo.id + "000"));
+        setCurrentVideoNumber(Number(clientInfo.id + "000"));
+      } else {
+        setCurrentVideoNumber(largestVideoNumber);
+      }
     });
     return () => unsubscribe();
   }, [clientInfo, setTotalVideos]);
-
-  console.log("clientData", ClientData);
 
   const [userData, setUsersData] = React.useState<UserData[]>();
 

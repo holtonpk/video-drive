@@ -14,6 +14,7 @@ import {
   MindyLogo,
   FrizzleLogo,
   BlueCollarKeysLogo,
+  ScamRxLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -23,7 +24,7 @@ export const ADMIN_USERS = [
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
   "x9h3UepduwQHoCkwUh7bPGqEeTj2",
-  "KWfkeozhuHhq95XIkuhUhLYmSci1",
+
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
 ];
 
@@ -31,12 +32,14 @@ export const EDITOR_USERS = [
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+  "x9h3UepduwQHoCkwUh7bPGqEeTj2",
 ];
 
 export const MANAGER_USERS = [
   "y9VhFCzIuRW33vjKhmVrpqH4ajx2",
   "Mi4yipMXrlckU117edbYNiwrmI92",
   "3tUbkjbrK9gZ86byUxpbdGsdWyj1",
+  "x9h3UepduwQHoCkwUh7bPGqEeTj2",
 ];
 
 export const EDITORS = [
@@ -211,6 +214,7 @@ export const clients = [
     icon: BlazeLogo,
     description:
       "Say goodbye to ordinary marketing. Embrace ai-driven success with our cutting-edge tools. The largest AI models don't know what works for your brand and product.",
+    brandInfo: "",
   },
   {
     id: "2",
@@ -218,6 +222,17 @@ export const clients = [
     label: "Morty",
     icon: MortyLogo,
     description: "Blaze is a company that sells candles.",
+    brandInfo: `
+Here is some information about Morty app:
+About Morty
+Morty is a free app to find, track, and review every immersive attraction on earth.
+ 
+ 
+Our mission
+Building “the biggest theme park in the universe”
+In recent years, the technology to create Disney Imagineering-caliber immersive attractions has been democratized. Creative individuals have been empowered and are  building mind-blowing experiences in strip malls and warehouses around the world.
+Morty unifies this new global theme park, and gets people together, reducing collective loneliness. Come join our quest! 
+`,
   },
   {
     id: "3",
@@ -226,6 +241,7 @@ export const clients = [
     icon: FcLogo,
     description:
       "Viral Factory create viral short video that are perfect for social media.",
+    brandInfo: "",
   },
   {
     id: "6",
@@ -233,14 +249,50 @@ export const clients = [
     label: "Blue Collar Keys",
     icon: BlueCollarKeysLogo,
     description: "Blue Collar Keys is a company that sells keys.",
+    brandInfo: `
+Here is some information about blue collar keys:
+
+Hey, we see you—the ones who build, fix, and power America.
+
+At Blue Collar Keys, we want to tell your stories, loud and proud because you deserve to be heard, recognized, and celebrated. Welcome to a community that finally puts you in the spotlight.
+
+
+Blue collar workers have stayed in the background, even though you're the ones keeping America running. This is what lead us to creating Blue Collar Keys. We want to fundamentally change that.
+
+We want to help tell your story—unfiltered, unapologetic, and on your own terms. This is more than a brand to us; it's a movement. We want to give you a platform to showcase your work, expertise, and pride in a job well done. Whether you're a technician, plumber, electrician, roofer, or builder, we see you, and we've got your back.
+
+Join us to celebrate the backbone of this amazing country and let the world know how vital your hands really are.
+
+
+**What is Blue Collar Keys?**
+
+You're like me, skipping straight to the point. We're here to spotlight the skilled hands that build, fix, and keep America running. Your work matters, and your story deserves to be told **your way**.
+
+**Who is this for?**
+
+If you work with your hands—plumbers, electricians, mechanics, welders, HVAC techs, truckers, builders, and more—this is for **you**. If you own a business and have key employees who deserve recognition, we want to hear about them too. **We're starting a movement here.**
+
+**Why does this matter?**
+
+Because blue-collar workers **don't** get the recognition they deserve. The world runs on your skills, but too often, the spotlight is elsewhere. **We're gonna to change that.**
+
+**How can I share my story?**
+
+Super easy. Reach out to us below, and we'll work with you to highlight your journey—whether that's through a short interview, a feature story, or just a simple shoutout. **You've got a story worth telling. Let's tell it right.**
+
+**How can I get involved?**
+
+Follow us, share your story, tag someone who deserves the spotlight, or just spread the word. The more people who see and support this, the bigger the movement grows. **And yeah, make sure you grab some swag.**
+`,
   },
-  {
-    id: "4",
-    value: "learnXYZ",
-    label: "Learn XYZ",
-    icon: LearnXYZLogo,
-    description: "Explore bite-sized Learning with the magic of AI",
-  },
+  // {
+  //   id: "4",
+  //   value: "learnXYZ",
+  //   label: "Learn XYZ",
+  //   icon: LearnXYZLogo,
+  //   description: "Explore bite-sized Learning with the magic of AI",
+  //   brandInfo: "",
+  // },
   // {
   //   id: "8762",
   //   value: "mindy",
@@ -257,6 +309,21 @@ export const clients = [
   //   description:
   //     "Turn anything into a presentation. Frizzle AI is a presentation tool that uses AI to turn your ideas into beautiful slides.",
   // },
+  // {
+  //   id: "8",
+  //   value: "test_client",
+  //   label: "Test Client",
+  //   icon: FrizzleLogo,
+  //   description:
+  //     "Turn anything into a presentation. Frizzle AI is a presentation tool that uses AI to turn your ideas into beautiful slides.",
+  // },
+  {
+    id: "9",
+    value: "scam_rx",
+    label: "Scam Rx",
+    icon: ScamRxLogo,
+    description: "Educate yourself about scams and protect yourself from them.",
+  },
 ];
 
 export const priorities = [
@@ -377,11 +444,11 @@ export type VideoData = {
   dueDate: Timestamp;
   clientId: string;
   status: string;
-  assets: VideoAsset[];
-  voiceOver: VideoAsset[];
-  notes: string;
+  assets?: VideoAsset[];
+  voiceOver?: VideoAsset[];
+  notes?: string;
   // script: ScriptData | string;
-  script: OutputData | string;
+  script?: OutputData | string;
   caption?: string;
   postDate: Timestamp;
   uploadedVideos?: UploadedVideo[];
