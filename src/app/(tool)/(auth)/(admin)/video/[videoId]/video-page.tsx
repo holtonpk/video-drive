@@ -23,6 +23,8 @@ import {useAuth} from "@/context/user-auth";
 export default function VideoPage({videoId}: {videoId: string}) {
   const [video, setVideo] = React.useState<VideoData | null>(null);
 
+  console.log("video", video);
+
   useEffect(() => {
     const videoRef = doc(db, "videos", videoId);
 
@@ -95,7 +97,7 @@ const MobileVideoView = () => {
 
   const {currentUser} = useAuth()!;
 
-  const [notes, setNotes] = React.useState<string>(video.notes);
+  const [notes, setNotes] = React.useState<string>(video.notes ?? "");
   const [status, setStatus] = React.useState<string>(video.status);
 
   async function updateField(field: string, value: any) {
