@@ -907,7 +907,9 @@ const ScriptReview = ({
                   {video.videoData.script}
                 </div>
               ) : (
-                <EditorJsRender script={video.videoData.script} />
+                <EditorJsRender
+                  script={video.videoData.script ?? {blocks: []}}
+                />
               )}
             </>
           )}
@@ -1056,7 +1058,7 @@ const UploadedVideoReview = ({
         videoData.videoReviewed?.includes(currentUser?.uid)) ||
         false
     );
-    setNotes(videoData.notes);
+    setNotes(videoData.notes ?? "");
     setNeedsRevision(videoData.status == "needs revision");
     setVideoStatus(videoData.status);
   }, [videoData]);
@@ -1650,8 +1652,8 @@ export const AiCaption = ({
         directions: prompt,
         videoScript:
           typeof video.script !== "string"
-            ? video.script.blocks.map((block) => block.data.text).join(" ") ||
-              video.script.blocks.map((block) => block.data.items).join(" ")
+            ? video.script?.blocks.map((block) => block.data.text).join(" ") ||
+              video.script?.blocks.map((block) => block.data.items).join(" ")
             : video.script,
       }),
     });
