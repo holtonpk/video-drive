@@ -191,7 +191,8 @@ const UploadedVideoReview = ({
         videoData.videoReviewed?.includes(currentUser?.uid)) ||
         false
     );
-    setNotes(videoData.notes);
+    setNotes(videoData.notes ?? "");
+
     setNeedsRevision(videoData.status == "needs revision");
     setVideoStatus(videoData.status);
   }, [videoData]);
