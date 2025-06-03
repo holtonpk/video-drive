@@ -51,7 +51,7 @@ export const VideoAssets = () => {
   };
 
   const downloadAllAssets = () => {
-    for (const asset of video.assets) {
+    for (const asset of video.assets ?? []) {
       downloadFile(asset);
     }
   };
