@@ -491,22 +491,64 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
       date: "5-11-2025 - 5-18-2025",
       reportDate: "5-18-2025",
       body: `## Content Performance & Strategy Update 
-
 - **Facebook**: Since our last call, we’ve shifted our Facebook strategy from crossposting to uploading videos directly to the platform. We'll be tracking performance over the next few weeks. Alongside higher-quality content, we're planning secondary activations tailored for Facebook—like engaging with niche accounts, posting shorter videos more frequently, sharing stories, and eventually adding written content.
 - **Interview Clips**: We are running low on footage so when ever you are able to get new footage please send it to us.
 - **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
 - **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
-
-
 `,
       totalEngagement: getDataFromWeek("5-18-2025").totalEngagement,
       totalFollowers: getDataFromWeek("5-18-2025").totalFollowers,
       totalPosts: getDataFromWeek("5-18-2025").totalPosts,
     },
+    {
+      label: "Week 7",
+      date: "5-18-2025 - 5-25-2025",
+      reportDate: "5-25-2025",
+      body: `## Content Performance & Strategy Update 
+- **Facebook**: Since our last call, we’ve shifted our Facebook strategy from crossposting to uploading videos directly to the platform. We'll be tracking performance over the next few weeks. Alongside higher-quality content, we're planning secondary activations tailored for Facebook—like engaging with niche accounts, posting shorter videos more frequently, sharing stories, and eventually adding written content.
+- **Interview Clips**: We are running low on footage so when ever you are able to get new footage please send it to us.
+- **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
+- **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
+`,
+      totalEngagement: getDataFromWeek("5-25-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-25-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-25-2025").totalPosts,
+    },
+    {
+      label: "Week 8",
+      date: "5-25-2025 - 6-01-2025",
+      reportDate: "6-1-2025",
+      body: `## Content Performance & Strategy Update 
+
+
+- **New Interview Clips**: We’ve updated the animation and hook style for interview clips. The new format is performing much better than older versions.
+
+- **Written content**:
+Launched two new written series to diversify content. These are designed to drive engagement and reach across platforms.
+
+- **Account activity**:
+We’ve been actively engaging with other accounts in our niche. This has helped boost visibility and engagement, especially on Instagram.
+
+- **Instagram**:
+Starting to see traction with our content. We recently hit our first 10k+ views on a video.
+
+- **Facebook**:
+Written content is expected to help grow our presence here. As Instagram picks up, we anticipate Facebook will follow.
+
+- **YouTube**:
+Animated story content is consistently performing well. Videos are averaging over 3k views.
+
+- **TikTok**:
+Content is regularly going viral. We’re seeing strong consistency in reach and shares.
+`,
+      totalEngagement: getDataFromWeek("6-1-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("6-1-2025").totalFollowers,
+      totalPosts: getDataFromWeek("6-1-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[5]
+    reports[7]
   );
 
   const tiktokData =
