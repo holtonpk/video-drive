@@ -25,6 +25,8 @@ import {useAuth} from "@/context/user-auth";
 import {OutputData} from "@editorjs/editorjs";
 import {Input} from "@/components/ui/input";
 
+import {useToast} from "@/components/ui/use-toast";
+
 type ReviewData = {
   reviewType: "script" | "video" | "payout";
   videoData: VideoData;
@@ -571,33 +573,54 @@ const UploadedVideoReview = ({
 };
 
 const VideoScript = () => {
-  const {video} = useVideo()!;
+  const {video, setVideo} = useVideo()!;
   const [edit, setEdit] = React.useState(false);
 
   const [script, setScript] = React.useState(video.script);
   const [scriptValue, setScriptValue] = React.useState(video.script);
+
+  // useEffect(() => {
+  //   console.log("video.script", video.script);
+  //   setScriptValue(video.script);
+  // }, [video.script]);
+
+  const {toast} = useToast();
 
   useEffect(() => {
     setScript(video.script);
     setScriptValue(video.script);
   }, [video]);
 
+  const [isSaving, setIsSaving] = React.useState(false);
   const saveScript = async () => {
     if (!video) return;
     setScriptValue(script);
-    await setDoc(
-      doc(db, "videos", video.videoNumber),
-      {
-        script: script,
-      },
-      {merge: true}
-    );
-    console.log("Script saved", script);
+    setIsSaving(true);
+    try {
+      await setDoc(
+        doc(db, "videos", video.videoNumber),
+        {
+          script: script,
+        },
+        {merge: true}
+      );
+      setVideo({...video, script: script});
+      console.log("Script saved", script);
+    } catch (error) {
+      console.error("Error saving script:", error);
+      toast({
+        title: "Error saving script",
+        description: "Please try again",
+      });
+    } finally {
+      setIsSaving(false);
+      setEdit(false);
+    }
   };
 
   return (
     <>
-      {edit ? (
+      {edit || scriptValue === "" ? (
         <Editor post={scriptValue} setScript={setScript} />
       ) : (
         <>
@@ -613,11 +636,11 @@ const VideoScript = () => {
       <Button
         className="w-full mt-3"
         onClick={() => {
-          if (edit) saveScript();
+          if (edit || scriptValue === "") saveScript();
           setEdit(!edit);
         }}
       >
-        {edit ? "Save" : "Edit"} script
+        {edit || scriptValue === "" ? "Save" : "Edit"} script
       </Button>
     </>
   );

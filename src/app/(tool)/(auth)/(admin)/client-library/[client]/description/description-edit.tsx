@@ -29,11 +29,12 @@ type Post = {
 interface EditorProps {
   post: any;
   setScript: (script: any) => void;
+  placeholder?: string;
 }
 
 type FormData = z.infer<typeof postPatchSchema>;
 
-export function Editor({post, setScript}: EditorProps) {
+export function Editor({post, setScript, placeholder}: EditorProps) {
   // console.log("post", post);
 
   const {register, handleSubmit} = useForm<FormData>({
@@ -60,7 +61,7 @@ export function Editor({post, setScript}: EditorProps) {
         },
         data: post as any,
         inlineToolbar: true,
-        placeholder: "Type the idea here...",
+        placeholder: placeholder || "Type the idea here...",
         tools: {
           header: Header,
           list: {
