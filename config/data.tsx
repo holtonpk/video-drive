@@ -100,6 +100,10 @@ export const MANAGERS = [
       "frizzle",
     ],
   },
+  {
+    id: "x9h3UepduwQHoCkwUh7bPGqEeTj2",
+    clients: ["scam_rx"],
+  },
 ];
 
 export const ALL_USERS = [
