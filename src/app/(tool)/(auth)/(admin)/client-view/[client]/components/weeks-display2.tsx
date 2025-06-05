@@ -177,7 +177,7 @@ export const WeeksDisplay = ({
                 return (
                   <div
                     key={i}
-                    className="border bg-card  shadow-lg rounded-md pt-3"
+                    className="border bg-card dark:bg-card/40  shadow-lg rounded-md pt-3"
                   >
                     <span className="p-3 text-primary ">
                       <span className="font-bold text-lg ">
@@ -349,8 +349,8 @@ const VideoColumn = ({
         className={`absolute w-full h-full top-0 left-0 z-10 cursor-pointer  transition-colors duration-200 
         ${
           displayedVideo?.videoNumber == post.videoNumber
-            ? "bg-primary/15 dark:bg-muted/60"
-            : "hover:bg-primary/10 hover:dark:bg-muted/40"
+            ? "bg-primary/15 dark:bg-card"
+            : "hover:bg-primary/10 hover:dark:bg-card/90"
         }
           `}
       ></button>
