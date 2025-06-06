@@ -165,7 +165,7 @@ export const WeeksDisplay = ({
   return (
     <>
       {ClientData ? (
-        <div className="flex flex-col gap-6 z-10 relative container ">
+        <div className="flex  flex-col gap-6 z-10 relative mx-auto max-w-[1400px] w-full px-8  ">
           {videosByWeek &&
             Object.keys(videosByWeek)
               .reverse()
@@ -176,78 +176,94 @@ export const WeeksDisplay = ({
 
                 return (
                   <div
-                    key={i}
-                    className="border bg-card dark:bg-card/40  shadow-lg rounded-md pt-3"
+                    className={`h-fit  overflow-auto
+                  ${
+                    displayedVideo
+                      ? "w-full"
+                      : "max-w-[1338px] w-[calc(100vw-64px)]"
+                  }
+                  `}
                   >
-                    <span className="p-3 text-primary ">
-                      <span className="font-bold text-lg ">
-                        Week {weekNumber}
-                      </span>{" "}
-                      (
-                      {startDate.toLocaleDateString("en-US", {
-                        weekday: "long",
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })}{" "}
-                      -{" "}
-                      {endDate.toLocaleDateString("en-US", {
-                        weekday: "long",
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                      )
-                    </span>
-                    <div className="w-full p-2 bg-primary/5  dark:bg-muted/60 gap-4 justify-between flex border-y font-bold mt-3 text-primary text-sm">
-                      {displayedVideo ? (
-                        <>
-                          <span className="w-[80px]">Video #</span>
+                    <div
+                      key={i}
+                      className={`border bg-card dark:bg-card/40  overflow-auto shadow-lg rounded-md pt-3
+                      ${displayedVideo ? "w-full" : "w-[1336px]"}
+                      `}
+                    >
+                      <span className="p-3 text-primary ">
+                        <span className="font-bold text-lg ">
+                          Week {weekNumber}{" "}
+                        </span>
+                        (
+                        {startDate.toLocaleDateString("en-US", {
+                          weekday: "long",
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}{" "}
+                        -{" "}
+                        {endDate.toLocaleDateString("en-US", {
+                          weekday: "long",
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                        )
+                      </span>
+                      <div className="w-full p-2 bg-primary/5  dark:bg-muted/60 gap-4 justify-between flex border-y font-bold mt-3 text-primary text-sm">
+                        {displayedVideo ? (
+                          <>
+                            <span className="w-[80px]">Video #</span>
 
-                          <span className=" w-[250px]">Title</span>
-                          <span className="w-[100px] text-center">Manager</span>
-                          <span className="w-[150px] ">Status</span>
+                            <span className=" w-[250px]">Title</span>
+                            <span className="w-[100px] text-center">
+                              Manager
+                            </span>
+                            <span className="w-[150px] ">Status</span>
 
-                          <span className="w-[80px] ">Posted</span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="w-[80px]">Video #</span>
-                          <span className=" w-[250px]">Title</span>
+                            <span className="w-[80px] ">Posted</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-[80px]">Video #</span>
+                            <span className=" w-[250px]">Title</span>
 
-                          <span className="w-[60px]">Price</span>
+                            <span className="w-[60px]">Price</span>
 
-                          <span className="w-[100px] text-center">Manager</span>
+                            <span className="w-[100px] text-center">
+                              Manager
+                            </span>
 
-                          <span className="w-[80px]">Script Due</span>
+                            <span className="w-[80px]">Script Due</span>
 
-                          <span className="w-[100px] text-center">
-                            Script Done
-                          </span>
+                            <span className="w-[100px] text-center">
+                              Script Done
+                            </span>
 
-                          <span className="w-[80px]">Editing Due</span>
+                            <span className="w-[80px]">Editing Due</span>
 
-                          <span className="w-[150px] ">Edit Status</span>
+                            <span className="w-[150px] ">Edit Status</span>
 
-                          <span className="w-[80px]">Post Date</span>
+                            <span className="w-[80px]">Post Date</span>
 
-                          <span className="w-[80px] ">Posted</span>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex flex-col  dark:bg-transparent">
-                      {weekRange
-                        .sort((a: any, b: any) => a.postDate - b.postDate)
-                        .map((post: VideoData, index) => (
-                          <VideoColumn
-                            key={index}
-                            post={post}
-                            index={index}
-                            userData={userData}
-                            displayedVideo={displayedVideo}
-                            setDisplayedVideo={setDisplayedVideo}
-                          />
-                        ))}
+                            <span className="w-[80px] ">Posted</span>
+                          </>
+                        )}
+                      </div>
+                      <div className="flex flex-col  dark:bg-transparent">
+                        {weekRange
+                          .sort((a: any, b: any) => a.postDate - b.postDate)
+                          .map((post: VideoData, index) => (
+                            <VideoColumn
+                              key={index}
+                              post={post}
+                              index={index}
+                              userData={userData}
+                              displayedVideo={displayedVideo}
+                              setDisplayedVideo={setDisplayedVideo}
+                            />
+                          ))}
+                      </div>
                     </div>
                   </div>
                 );
