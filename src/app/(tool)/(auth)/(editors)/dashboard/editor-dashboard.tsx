@@ -364,7 +364,7 @@ const VideoSheet = ({
                           className="w-full border bg-foreground/80 blurBack shadow-lg dark:shadow-none p-4 rounded-md hover:bg-foreground  cursor-pointer grid gap-2 items-center  md:flex  justify-between"
                         >
                           <div className="flex items-center gap-2">
-                            {client.icon && (
+                            {client?.icon && (
                               <client.icon className=" h-8 w-8 text-muted-foreground rounded-sm" />
                             )}
                             <span className="text-primary max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis">
