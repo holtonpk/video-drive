@@ -12,10 +12,19 @@ import {EditorJsRender} from "@/src/app/(tool)/(auth)/(admin)/video-review/video
 import {ScrollArea} from "@/components/ui/scroll-area";
 import {Textarea} from "@/components/ui/textarea";
 import {Label} from "@/components/ui/label";
-import {db} from "@/config/firebase";
+import {db, app} from "@/config/firebase";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
+import Image from "next/image";
 
-import {doc, getDoc, setDoc, Timestamp, updateDoc} from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import {
   VideoProvider,
   useVideo,
@@ -406,40 +415,10 @@ const UploadedVideoReview = ({
         className="min-w-full w-[200px] h-full rounded-md flex flex-col   text-primary gap-4  relative"
       >
         <div className="h-full flex flex-col max-w-full overflow-hidden gap-4 ">
-          {/* <div className="flex gap-4 justify-between">
-            <div className="flex flex-col ">
-              <h1 className="font-bold text-lg">Reviewed by</h1>
-              <div className="gap-4 flex text-base">
-                {REVIEW_USERS_DATA.map((user) => (
-                  <div key={user.id} className="">
-                    {currentUser?.uid == user.id ? (
-                      <div className="w-full justify-between items-center flex">
-                        {isReviewed ? " ✅ " : "❌ "}
-                        You
-                      </div>
-                    ) : (
-                      <div className="w-full justify-between items-center flex">
-                        {video.videoReviewed?.includes(user.id)
-                          ? " ✅ "
-                          : "❌ "}
-                        {user.name}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div> */}
-          <div className="flex flex-col gap-4 ">
-            <div className="flex  w-full s">
+          <div className="flex flex-col gap-4  ">
+            <div className="flex  w-full">
               <div className="flex flex-col w-fit ">
                 <div className="h-[450px] aspect-[9/16] relative rounded-l-md rounded-br-none overflow-hidden bg-foreground/40  ">
-                  {/* <video
-                    autoPlay
-                    src={selectedVideo && selectedVideo.videoURL}
-                    className="w-full h-full object-cover rounded-l-md"
-                    controls
-                  /> */}
                   {selectedVideo && (
                     <VideoPlayer
                       videoUrl={selectedVideo?.videoURL}
@@ -448,22 +427,10 @@ const UploadedVideoReview = ({
                   )}
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-4  items-center">
+              <div className="flex flex-col w-full gap-4 items-center">
                 <div className=" flex flex-col  gap-4  flex-grow border  rounded-r-md  w-full ">
                   {isReviewed && selectedVideo?.needsRevision && (
                     <div className="w-full  relative h-full  rounded-md  flex flex-col gap-1 p-2">
-                      {/* <div className="flex flex-col items-center w-full justify-between">
-                        <Label className="text-center my-2" htmlFor="notes">
-                          You marked this video as needs revision
-                        </Label>
-                        <Button
-                          onClick={markAsReadyToPost}
-                          size={"sm"}
-                          className="w-fit "
-                        >
-                          Mark as ready to post
-                        </Button>
-                      </div> */}
                       <span className="text-sm font-bold pl-2">
                         Revision notes:
                       </span>
@@ -518,6 +485,7 @@ const UploadedVideoReview = ({
                     </div>
                   )}
                 </div>
+                <ThumbnailManager videoData={video} />
               </div>
             </div>
 
@@ -923,6 +891,94 @@ const ClientView = ({video}: {video: VideoData}) => {
           </>
         )}
       </div>
+    </div>
+  );
+};
+
+const ThumbnailManager = ({videoData}: {videoData: VideoData}) => {
+  const [isAddingThumbnail, setIsAddingThumbnail] = React.useState(false);
+
+  const [video, setVideo] = React.useState(videoData);
+
+  useEffect(() => {
+    setVideo(videoData);
+  }, [videoData]);
+
+  const addThumbnail = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsAddingThumbnail(true);
+    const file = e.target.files?.[0];
+    if (file) {
+      const storage = getStorage(app);
+      const storageRef = ref(storage, `thumbnails/${file.name}`);
+      await uploadBytes(storageRef, file);
+      const fileUrl = await getDownloadURL(storageRef);
+      // add thumbnail to clientViewData and to firestore
+      const videoRef = doc(db, "videos", video.videoNumber);
+      await updateDoc(videoRef, {
+        thumbnail: fileUrl,
+      });
+      setVideo({...video, thumbnail: fileUrl});
+    }
+
+    setIsAddingThumbnail(false);
+  };
+
+  const deleteThumbnail = async () => {
+    const videoRef = doc(db, "videos", video.videoNumber);
+
+    await updateDoc(videoRef, {
+      thumbnail: deleteField(),
+    });
+    setVideo({...video, thumbnail: undefined});
+  };
+
+  return (
+    <div className=" p-2 flex w-full">
+      {video?.thumbnail ? (
+        <div className="flex flex-col gap-2 w-full">
+          <Label htmlFor="thumbnail">Thumbnail</Label>
+          <div className=" flex items-center w-full gap-2 relative z-20 border p-2">
+            <Image
+              src={video.thumbnail}
+              alt="thumbnail"
+              width={50}
+              height={50}
+            />
+            <div className="flex items-center gap-2 flex-col">
+              <Button
+                onClick={() => document.getElementById("thumbnail")?.click()}
+              >
+                Replace
+              </Button>
+
+              <button onClick={deleteThumbnail} className="text-red-500">
+                remove
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* file upload */}
+          <input
+            id="thumbnail"
+            type="file"
+            accept="image/*"
+            onChange={(e) => addThumbnail(e)}
+            className="hidden"
+          />
+          <Button
+            size="sm"
+            onClick={() => document.getElementById("thumbnail")?.click()}
+            className="w-full relative z-20"
+          >
+            <Icons.add className="h-4 w-4" />
+            <span className="text-xs">
+              {isAddingThumbnail ? "Adding..." : "Add Thumbnail"}
+            </span>
+          </Button>
+        </>
+      )}
     </div>
   );
 };

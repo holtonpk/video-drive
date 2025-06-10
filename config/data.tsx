@@ -469,6 +469,7 @@ export type VideoData = {
   files?: AssetFile[];
   manager?: string;
   scrapedVideoText?: string;
+  thumbnail?: string;
 };
 
 export type AssetFile = {
