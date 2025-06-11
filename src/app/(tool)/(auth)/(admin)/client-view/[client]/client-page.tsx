@@ -16,6 +16,7 @@ import ExportData from "./components/export";
 import VectorizeData from "./components/vectorize-data";
 import {Button} from "@/components/ui/button";
 import {FeedPreview} from "./components/feed-preview";
+import {UnPostedDisplay} from "./components/unPosted-display";
 
 const ClientPage = ({client}: {client: string}) => {
   const clientInfo = clients.find((c: any) => c.value === client);
@@ -29,7 +30,7 @@ const ClientPage = ({client}: {client: string}) => {
     VideoData | undefined
   >();
 
-  const [view, setView] = React.useState<"week" | "feed">("week");
+  const [view, setView] = React.useState<"week" | "feed" | "unPosted">("week");
 
   return (
     <>
@@ -79,6 +80,16 @@ const ClientPage = ({client}: {client: string}) => {
                 >
                   Feed Preview
                 </button>
+                <button
+                  onClick={() => setView("unPosted")}
+                  className={`text-primary px-4 py-1 rounded-md h-fit ${
+                    view === "unPosted"
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-primary/10"
+                  }`}
+                >
+                  Ready to Post
+                </button>
               </div>
               {currentVideoNumber && (
                 <CreateVideo
@@ -87,6 +98,15 @@ const ClientPage = ({client}: {client: string}) => {
                 />
               )}
             </div>
+            {view === "unPosted" && (
+              <UnPostedDisplay
+                clientInfo={clientInfo}
+                setTotalVideos={setTotalVideos}
+                setCurrentVideoNumber={setCurrentVideoNumber}
+                setDisplayedVideo={setDisplayedVideo}
+                displayedVideo={displayedVideo}
+              />
+            )}
 
             {view === "week" && (
               <WeeksDisplay
