@@ -323,6 +323,7 @@ export const MediaManager = ({
                   <div className="md:hidden flex flex-col gap-4 mt-2 ">
                     {video.uploadedVideos?.map((file) => (
                       <MediaPlayer
+                        key={file.id}
                         file={
                           (video.uploadedVideos?.find(
                             (file) => file.id === selectedFile

@@ -200,8 +200,8 @@ export const AssetDetails = ({
                 Are you sure?
               </AlertDialogTitle>
               <AlertDialogDescription>
-                This will permanently delete "{editedTitle}". This action cannot
-                be undone.
+                This will permanently delete &quot;{editedTitle}&quot;. This
+                action cannot be undone.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
