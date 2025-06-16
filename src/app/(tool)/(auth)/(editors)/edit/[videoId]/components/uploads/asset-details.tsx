@@ -138,6 +138,13 @@ export const AssetDetails = ({
           </AlertDialog>
         </div> */}
       <div className="flex flex-col gap-4 p-4 pt-0 h-full ">
+        {file.needsRevision && (
+          <div className="flex items-center gap-2 bg-red-500/10 p-2 rounded-md">
+            <h1 className="text-primary/50 text-[12px] text-red-500">
+              Revision Notes: {file.revisionNotes}
+            </h1>
+          </div>
+        )}
         <div className="grid gap-1 h-fit ">
           <h1>File Name</h1>
           <div className="flex justify-between items-center w-full">

@@ -336,22 +336,22 @@ export const VideoDetails = () => {
       s
       <div className="grid gap-6 p-8 ">
         <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-4 ">
-          <h1 className="text-primary text-2xl font-bold bg bg-muted rounded-tl-[30px] p-4 rounded-br-[30px]">
+          <h1 className="text-primary text-xl md:text-2xl font-bold bg bg-muted rounded-tl-[30px] p-4 rounded-br-[30px]">
             Video #{video.videoNumber}
           </h1>
           <div className="flex gap-2 items-center bg-muted absolute top-0 right-0 p-4 rounded-bl-[30px]">
             <div className="">
               {client.icon && (
-                <client.icon className=" h-8 w-8 text-muted-foreground rounded-full shadow-md border " />
+                <client.icon className=" h-6 md:h-8 w-6 md:w-8 text-muted-foreground rounded-full shadow-md border " />
               )}
             </div>
-            <h1 className="text-primary text-2xl font-bold capitalize">
+            <h1 className="text-primary text-xl md:text-2xl font-bold capitalize">
               {client.label}
             </h1>
           </div>
         </div>
         <div className="flex flex-col gap-8 mt-8">
-          <div className="grid grid-cols-3  gap-6 ">
+          <div className="grid md:grid-cols-3  gap-6 ">
             <div className="grid gap-2 c">
               <div className="flex items-end">
                 <Icons.bookmark className="mr-1 h-4 w-4" />
