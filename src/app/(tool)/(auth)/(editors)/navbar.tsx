@@ -30,8 +30,8 @@ const Navbar = () => {
   return (
     <div className="flex w-full md:flex-row flex-col h-16   p-4 items-center px-8">
       <Link href={"/dashboard"} className="flex items-center">
-        <Logo className="fill-primary h-8  md:h-8 mb-1" />
-        <h1 className="text-3xl text-primary font-bold whitespace-nowrap  font1 ml-2">
+        <Logo className="h-8 md:h-8 mb-1 dark:fill-[#34F4AF] fill-primary" />
+        <h1 className="text-3xl text-primary font-bold whitespace-nowrap  font1 ">
           Ripple Media
         </h1>
       </Link>

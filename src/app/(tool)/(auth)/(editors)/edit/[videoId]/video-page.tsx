@@ -11,27 +11,12 @@ import {
   ALL_USERS,
   videoMessage,
 } from "@/config/data";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {motion, AnimatePresence} from "framer-motion";
-
 import {Icons} from "@/components/icons";
 import {VideoProvider, useVideo} from "./data/video-context";
 import {VideoDetails} from "./components/video-details";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
-import Requirements from "./components/requirements";
-import {Logo} from "@/components/icons";
-import AuthModal from "@/components/auth/auth-modal";
 import {useAuth, UserData} from "@/context/user-auth";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
-import Uploads from "./components/uploads";
 import Link from "next/link";
 import {formatTimeDifference2} from "@/lib/utils";
 
@@ -87,35 +72,15 @@ export default function VideoPage({videoId}: {videoId: string}) {
             <Icons.chevronLeft className="h-8 w-8 text-primary" />
             back to dashboard
           </Link>
-          <div className=" grid gap-6 md:gap-0 md:grid-cols-[50%_1fr] container   overflow-hidden p-6   w-screen h-fit  bg-transparent  pb-10">
-            <div className="w-full  md:pr-3">
-              <VideoDetails />
-            </div>
-            <Tabs defaultValue="uploads" className="w-full">
-              <TabsList className="grid grid-cols-2">
-                <TabsTrigger value="uploads">Upload</TabsTrigger>
-                <TabsTrigger value="chat" className="relative">
-                  {hasUnreadMessages && (
-                    <motion.div
-                      initial={{scale: 0}}
-                      animate={{scale: 1}}
-                      exit={{scale: 0}}
-                      transition={{duration: 0.2}}
-                      className="w-2 h-2 rounded-full bg-blue-600 mr-1"
-                    />
-                  )}
-                  Chat
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="chat">
-                {/* <ChatBox video={video} /> */}
-                <p>coming soon</p>
-              </TabsContent>
-              <TabsContent value="uploads">
-                <Uploads />
-              </TabsContent>
-            </Tabs>
-          </div>
+
+          <motion.div
+            initial={{y: 200, opacity: 1}}
+            animate={{y: 0, opacity: 1}}
+            transition={{duration: 0.5}}
+            className=" flex flex-col gap-4 mt-4 items-center relative  container   overflow-hidden  z-50  w-screen h-fit  bg-transparent "
+          >
+            <VideoDetails />
+          </motion.div>
         </VideoProvider>
       ) : (
         <div

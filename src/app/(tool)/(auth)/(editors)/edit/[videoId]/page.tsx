@@ -20,7 +20,7 @@ export const generateMetadata = ({
 
 const Page = ({params}: {params: {videoId: string}}) => {
   return (
-    <div className=" bg-background overflow-scroll">
+    <div className=" bg-background overflow-scroll ">
       <VideoPage videoId={params.videoId} />
     </div>
   );

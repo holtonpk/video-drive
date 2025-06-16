@@ -159,6 +159,7 @@ const Uploads = () => {
         } as VideoData)
     );
   };
+
   return (
     <div className="w-full  min-h-fit h-fit flex flex-col gap-2 relative z-20 ">
       {/* <h1 className="text-primary text-2xl font-bold ">Completed Videos</h1> */}

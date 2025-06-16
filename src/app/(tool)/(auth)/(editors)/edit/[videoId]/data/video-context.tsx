@@ -22,6 +22,10 @@ interface VideoContextType {
 export const VideoProvider = ({children, videoData}: Props) => {
   const [video, setVideo] = useState<VideoData>(videoData);
 
+  useEffect(() => {
+    setVideo(videoData);
+  }, [videoData]);
+
   const values = {
     video,
     setVideo,

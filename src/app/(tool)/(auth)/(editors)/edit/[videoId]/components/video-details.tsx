@@ -42,6 +42,7 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import {DialogTitle, DialogTrigger} from "@radix-ui/react-dialog";
+import {MediaManager} from "./uploads/file-manager";
 
 export const VideoDetails = () => {
   const {video, setVideo} = useVideo()!;
@@ -318,17 +319,39 @@ export const VideoDetails = () => {
     convertDateToLocalTimeZone(convertTimestampToDate(video.dueDate))
   );
 
+  const [isDragging, setIsDragging] = React.useState(false);
+
   return (
-    <div className="flex flex-col gap-2 relative z-20">
-      <Card
-        className={` shadow-sm w-full relative border h-full bg-foreground/40 blurBack pt-4 
+    <div
+      className={`relative z-30 shadow-sm w-full  border mb-10  h-full pb-4  bg-foreground/60  p-0 overflow-hidden  flex flex-col    text-primary rounded-[30px]
+      ${
+        video.status === "done"
+          ? "border-green-500"
+          : video.status === "needs revision"
+          ? "border-red-500"
+          : "border-border"
+      }
         `}
-      >
-        <CardContent className="grid gap-6 ">
-          <div className="grid grid-cols-2 items-start gap-6 ">
-            <h1 className="text-primary text-2xl font-bold ">
-              Video #{video.videoNumber}
+    >
+      s
+      <div className="grid gap-6 p-8 ">
+        <div className="absolute top-0 left-0 w-full flex items-center justify-between gap-4 ">
+          <h1 className="text-primary text-2xl font-bold bg bg-muted rounded-tl-[30px] p-4 rounded-br-[30px]">
+            Video #{video.videoNumber}
+          </h1>
+          <div className="flex gap-2 items-center bg-muted absolute top-0 right-0 p-4 rounded-bl-[30px]">
+            <div className="">
+              {client.icon && (
+                <client.icon className=" h-8 w-8 text-muted-foreground rounded-full shadow-md border " />
+              )}
+            </div>
+            <h1 className="text-primary text-2xl font-bold capitalize">
+              {client.label}
             </h1>
+          </div>
+        </div>
+        <div className="flex flex-col gap-8 mt-8">
+          <div className="grid grid-cols-3  gap-6 ">
             <div className="grid gap-2 c">
               <div className="flex items-end">
                 <Icons.bookmark className="mr-1 h-4 w-4" />
@@ -336,40 +359,6 @@ export const VideoDetails = () => {
               </div>
               <div id="title" className="font-bold">
                 {title}
-              </div>
-            </div>
-
-            <div className="grid gap-2">
-              <div className="flex items-end">
-                <Icons.profile className="mr-2 h-4 w-4" />
-                <Label htmlFor="client">Client</Label>
-              </div>
-              <div id="client" className="w-full  flex items-center rounded-md">
-                {client.icon && (
-                  <client.icon className="mr-2 h-6 w-6 text-muted-foreground rounded-sm" />
-                )}
-                <span>{client.label}</span>
-              </div>
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-end">
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                <Label htmlFor="due-date">Due Date</Label>
-              </div>
-              <div
-                className={cn(
-                  "w-full justify-start text-left  flex  items-center font-bold ",
-                  !video.dueDate && "text-muted-foreground"
-                )}
-              >
-                {dueDate ? (
-                  // Display the date in the user's local timezone
-                  convertDateToLocalTimeZone(
-                    convertTimestampToDate(video.dueDate)
-                  )
-                ) : (
-                  <span>Due Date</span>
-                )}
               </div>
             </div>
             <div className="grid gap-2">
@@ -457,31 +446,52 @@ export const VideoDetails = () => {
                 </DialogContent>
               </Dialog>
             </div>
+
             <div className="grid gap-2">
               <div className="flex items-end">
-                <Icons.clock className="mr-2 h-4 w-4" />
-                <Label htmlFor="due-date">Duration</Label>
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                <Label htmlFor="due-date">Due Date</Label>
               </div>
-              <div className="w-full justify-start text-left font-bold flex  items-center mx-auto  ">
-                30-60s
+              <div
+                className={cn(
+                  "w-full justify-start text-left  flex  items-center font-bold ",
+                  !video.dueDate && "text-muted-foreground"
+                )}
+              >
+                {dueDate ? (
+                  // Display the date in the user's local timezone
+                  convertDateToLocalTimeZone(
+                    convertTimestampToDate(video.dueDate)
+                  )
+                ) : (
+                  <span>Due Date</span>
+                )}
               </div>
             </div>
           </div>
-          {video.notes && (
-            <div className="grid gap-2 w-full">
-              <div className="flex items-end">
-                <Icons.info className="mr-2 h-4 w-4" />
-                <Label htmlFor="notes">Notes</Label>
-              </div>
-              <span className="w-full  flex items-center rounded-md text-sm">
-                {video.notes}
-              </span>
-            </div>
-          )}
 
           <Requirements />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+      <MediaManager setIsDragging={setIsDragging} isDragging={isDragging} />
+      {/* {video.uploadedVideos && video.uploadedVideos.length > 0 ? (
+      ) : (
+        <EmptyMediaManager
+          setIsDragging={setIsDragging}
+          isDragging={isDragging}
+        />
+      )} */}
+      {isDragging && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 backdrop-blur-sm pointer-events-none">
+          <div className="border-4 border-dashed border-[#34F4AF] rounded-lg p-12 text-center max-w-2xl mx-4">
+            <Icons.upload className="w-16 h-16 mx-auto mb-4 text-[#34F4AF]" />
+            <h2 className="text-3xl font-bold mb-2 text-white">
+              Drop your media files here
+            </h2>
+            <p className="text-lg text-white/80">Release to upload a file</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
