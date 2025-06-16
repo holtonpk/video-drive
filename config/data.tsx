@@ -517,6 +517,7 @@ export type UploadedVideo = {
   revisionNotes?: string;
   needsRevision?: boolean;
   isReadyToPost?: boolean;
+  size?: number;
 };
 
 export type VideoDataWithPosts = {
