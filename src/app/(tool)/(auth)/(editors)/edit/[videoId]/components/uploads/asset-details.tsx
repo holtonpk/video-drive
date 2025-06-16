@@ -1,41 +1,19 @@
 "use client";
 
 import {useState, useCallback, useRef, useEffect, Fragment} from "react";
-import Image from "next/image";
+
 import {Input} from "@/components/ui/input";
-import JSZip from "jszip";
+
 import {Button} from "@/components/ui/button";
 import {Icons} from "@/components/icons";
-import {Textarea} from "@/components/ui/textarea";
-import {useDropzone} from "react-dropzone";
+
 import {doc, setDoc, Timestamp} from "firebase/firestore";
 import {VideoData, AssetFile, Chat, UploadedVideo} from "@/config/data";
-import {motion} from "framer-motion";
 
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalTrigger,
-} from "@/components/ui/animated-modal";
-import {
-  ChatBubble,
-  ChatBubbleAvatar,
-  ChatBubbleMessage,
-} from "@/components/ui/chat-bubble";
-import VideoPlayer from "@/components/ui/video-player";
 import {db} from "@/config/firebase";
 import {useAuth} from "@/context/user-auth";
 import {useVideo} from "../../data/video-context";
-import {
-  getStorage,
-  uploadBytesResumable,
-  ref,
-  getDownloadURL,
-} from "firebase/storage";
-import {app} from "@/config/firebase";
-import {Progress} from "@/components/ui/progress";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,8 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {Camera, Video} from "lucide-react";
-import {Gauge} from "@/components/ui/gauge";
+import {Camera} from "lucide-react";
 
 export const AssetDetails = ({
   file,
