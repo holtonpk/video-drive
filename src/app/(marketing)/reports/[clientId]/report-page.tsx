@@ -545,11 +545,27 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("6-1-2025").totalFollowers,
       totalPosts: getDataFromWeek("6-1-2025").totalPosts,
     },
+    {
+      label: "Week 9",
+      date: "6-08-2025 - 6-14-2025",
+      reportDate: "6-14-2025",
+      body: `## Content Performance & Strategy Update 
+- **Facebook**: First written posts have gone out. We are looking to increase volume here as well as adding images to the mix.
+- **Interview Clips**: Based off 3 posts with the new style it's underperforming. We will create a new shooting outline for next round of content.
+- **BOF vs TOF**: Will be posting more of the meme / worksite ugc to get more eyes on the higher value content.
+- **Written stories**: Performing great on youtube and tiktok. We will continue with 3 of these a week.
+`,
+      totalEngagement: getDataFromWeek("6-14-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("6-14-2025").totalFollowers,
+      totalPosts: getDataFromWeek("6-14-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[7]
+    reports[8]
   );
+
+  console.log("selectedReport", selectedReport);
 
   const tiktokData =
     require(`@/public/reports/${params.clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
