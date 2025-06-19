@@ -43,7 +43,9 @@ export const MediaManager = ({
   const [activeUploads, setActiveUploads] = useState<ActiveUpload[]>([]);
 
   const isEmpty =
-    video.uploadedVideos?.length === 0 && activeUploads.length === 0;
+    (video.uploadedVideos?.length === 0 ||
+      video.uploadedVideos?.length === undefined) &&
+    activeUploads.length === 0;
 
   async function onFileChange(files: File[]) {
     const newUploads: ActiveUpload[] = files.map((file) => ({
@@ -209,6 +211,8 @@ export const MediaManager = ({
   };
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  console.log("isEmpty", isEmpty);
 
   return (
     <div className="flex flex-col gap-4 w-full container relative z-50 h-full">
