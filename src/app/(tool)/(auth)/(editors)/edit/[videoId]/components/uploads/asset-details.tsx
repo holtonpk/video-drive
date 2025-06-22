@@ -158,7 +158,7 @@ export const AssetDetails = ({
             />
           </div>
         </div>
-        <div className="grid gap-1 h-fit col-span-2 ">
+        {/* <div className="grid gap-1 h-fit col-span-2 ">
           <h1>Thumbnail</h1>
           <div className="grid grid-cols-2 gap-4">
             <Button variant={"outline"} size={"sm"}>
@@ -170,7 +170,7 @@ export const AssetDetails = ({
               Capture Current Frame
             </Button>
           </div>
-        </div>
+        </div> */}
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant={"destructive"} size={"sm"} className="w-full">

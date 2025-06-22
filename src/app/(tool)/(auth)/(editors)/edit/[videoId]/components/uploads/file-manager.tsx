@@ -212,8 +212,6 @@ export const MediaManager = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  console.log("isEmpty", isEmpty);
-
   return (
     <div className="flex flex-col gap-4 w-full container relative z-50 h-full">
       <UploadArea onUpload={onFileChange} setIsDragging={setIsDragging} />
@@ -241,7 +239,7 @@ export const MediaManager = ({
               <UploadButton onUpload={onFileChange} />
             </div>
           )}
-          {video.uploadedVideos && !isEmpty && (
+          {!isEmpty && (
             <div className="flex flex-col gap-2 mt-3  h-[350px] ">
               <div className="flex flex-col gap-2 pt-0 p-2 h-full overflow-y-auto max-h-[350px]">
                 {video.uploadedVideos?.map((file: UploadedVideo) => (
