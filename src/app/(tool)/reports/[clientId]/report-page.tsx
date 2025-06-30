@@ -562,7 +562,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[5]
+    reports[8]
   );
 
   console.log("selectedReport", selectedReport);
