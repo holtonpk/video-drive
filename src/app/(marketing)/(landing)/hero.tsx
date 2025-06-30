@@ -104,14 +104,13 @@ export const Hero = () => {
 
 const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
   const videos = [
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Money%20(Hero%20video).webm?alt=media&token=c7167aab-2156-4210-b1cf-9ee19c289fde",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCSG%20(Hero%20vidoe).webm?alt=media&token=6d8c1b97-4c96-47ea-ba2b-85d581a44a86",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/xyz%20(Hero%20video).webm?alt=media&token=2310a171-14b8-4641-9bf2-6332118d99ce",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Nikil%20(HeroVideo).webm?alt=media&token=6eca82a8-e3f4-412b-8794-2da34a3a0fea",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Morty%20(Hero%20Video).webm?alt=media&token=71ce8af2-e312-4f3c-b500-c70ee8a305eb",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCKAn%20(Hero%20video).webm?alt=media&token=61535221-f888-47b1-8045-549afe3dc0c9",
   ];
-
   useEffect(() => {
     const videoElements = document.querySelectorAll(".hero-video");
 
@@ -451,12 +450,12 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
   // ];
 
   const videos = [
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Money%20(Hero%20video).webm?alt=media&token=c7167aab-2156-4210-b1cf-9ee19c289fde",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCSG%20(Hero%20vidoe).webm?alt=media&token=6d8c1b97-4c96-47ea-ba2b-85d581a44a86",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/xyz%20(Hero%20video).webm?alt=media&token=2310a171-14b8-4641-9bf2-6332118d99ce",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Nikil%20(HeroVideo).webm?alt=media&token=6eca82a8-e3f4-412b-8794-2da34a3a0fea",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Morty%20(Hero%20Video).webm?alt=media&token=71ce8af2-e312-4f3c-b500-c70ee8a305eb",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCKAn%20(Hero%20video).webm?alt=media&token=61535221-f888-47b1-8045-549afe3dc0c9",
   ];
 
   useEffect(() => {
