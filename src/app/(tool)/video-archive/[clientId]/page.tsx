@@ -4,7 +4,7 @@ import {Metadata} from "next";
 import VideoArchive from "./video-archive2";
 import {clients} from "@/config/data";
 
-import Background from "@/src/app/(marketing)/components/background";
+import Background from "@/src/app/(tool)/(auth)/(admin)/components/background";
 
 export const generateMetadata = ({
   params,
