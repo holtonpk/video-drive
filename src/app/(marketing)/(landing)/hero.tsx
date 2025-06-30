@@ -77,6 +77,7 @@ export const Hero = () => {
     </div>
   );
 };
+
 const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
   const videos = [
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
@@ -459,7 +460,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.1,
+                  delay: 5,
                   y: {
                     duration: 4,
                     repeat: Infinity,
