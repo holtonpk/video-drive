@@ -146,11 +146,13 @@ import {
   Linkedin,
   MicVocal,
   FileStack,
+  Minus,
 } from "lucide-react";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  minus: Minus,
   fileStack: FileStack,
   mic: MicVocal,
   phone: Phone,
