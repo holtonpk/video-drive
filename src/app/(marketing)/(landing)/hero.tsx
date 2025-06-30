@@ -147,13 +147,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[1]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
@@ -196,13 +196,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[125px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[0]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
@@ -245,13 +245,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[2]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
       </div>
@@ -297,13 +297,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[4]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
@@ -346,13 +346,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[125px] md:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[3]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
@@ -395,13 +395,13 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background "
           >
-            <video
+            {/* <video
               src={videos[5]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
       </div>
@@ -477,13 +477,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          <video
+          {/* <video
             src={videos[0]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          />
+          /> */}
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0, y: "-50%"}}
@@ -524,13 +524,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          <video
+          {/* <video
             src={videos[1]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          />
+          /> */}
         </motion.div>
         <div className="w-full  relative h-full flex items-center justify-center">
           <motion.div
@@ -572,13 +572,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            <video
+            {/* <video
               src={videos[2]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            />
+            /> */}
           </motion.div>
         </div>
       </div>
@@ -623,13 +623,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          <video
+          {/* <video
             src={videos[3]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          />
+          /> */}
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0, y: "-50%"}}
@@ -670,13 +670,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          <video
+          {/* <video
             src={videos[4]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          />
+          /> */}
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0}}
@@ -717,13 +717,13 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          <video
+          {/* <video
             src={videos[5]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          />
+          /> */}
         </motion.div>
       </div>
     </div>
