@@ -4,6 +4,7 @@ import {LucideProps, Menu, X} from "lucide-react";
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {useLockBody} from "@/lib/hooks";
+import {motion, AnimatePresence} from "framer-motion";
 
 export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [isFixed, setIsFixed] = useState(false);
@@ -161,15 +162,29 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
           </div>
         </div>
       )}
-      {showContact && (
-        <Link
-          href={"/contact"}
-          className="fixed z-[99] group bottom-0 right-0 bg-theme-color1 rounded-tl-full w-[125px] h-[125px] flex items-center justify-center text-background leading-[30px] big-text-bold pl-6 pt-6 text-4xl"
-        >
-          Let&apos;s <br /> Talk
-          <ChatIcon className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 group-hover:rotate-[10deg] origin-bottom-right transition-transform duration-200" />
-        </Link>
-      )}
+      <AnimatePresence>
+        {showContact && (
+          <motion.div
+            initial={{bottom: -100, right: -100}}
+            animate={{bottom: 0, right: 0}}
+            exit={{bottom: -100, right: -100}}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 25,
+              duration: 5,
+            }}
+            className="fixed z-[99]  group bottom-0 right-0 translate-x-4 translate-y-4  bg-theme-color1 rounded-tl-full w-[140px] h-[140px] flex items-center justify-center text-background leading-[30px] big-text-bold pl-6 pt-6 text-4xl"
+          >
+            <Link href={"/contact"}>
+              Let&apos;s <br /> Talk
+              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
+                <ChatIcon />
+              </div>
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {openMobileMenu && <MobileNav onClose={() => setOpenMobileMenu(false)} />}
     </div>
   );
