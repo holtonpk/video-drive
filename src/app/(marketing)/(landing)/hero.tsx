@@ -88,21 +88,21 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
   ];
 
-  // useEffect(() => {
-  //   const videoElements = document.querySelectorAll(".hero-video");
+  useEffect(() => {
+    const videoElements = document.querySelectorAll(".hero-video");
 
-  //   videoElements.forEach((video) => {
-  //     const videoElement = video as HTMLVideoElement;
-  //     if (pauseVideos) {
-  //       videoElement.pause();
-  //     } else {
-  //       videoElement.play().catch((error: Error) => {
-  //         // Handle autoplay restrictions
-  //         console.log("Autoplay prevented:", error);
-  //       });
-  //     }
-  //   });
-  // }, [pauseVideos]);
+    videoElements.forEach((video) => {
+      const videoElement = video as HTMLVideoElement;
+      if (pauseVideos) {
+        videoElement.pause();
+      } else {
+        videoElement.play().catch((error: Error) => {
+          // Handle autoplay restrictions
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    });
+  }, [pauseVideos]);
 
   return (
     <div className="grid sm:hidden absolute top-0  grid-rows-[1fr_360px_1fr]  w-full h-full">
@@ -154,6 +154,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -203,6 +204,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -252,6 +254,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -304,6 +307,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -353,6 +357,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -402,6 +407,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               loop
               muted
               className="w-full h-full object-cover hero-video"
+              playsInline
             /> */}
           </motion.div>
         </div>
@@ -420,21 +426,21 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
   ];
 
-  // useEffect(() => {
-  //   const videoElements = document.querySelectorAll(".hero-video");
+  useEffect(() => {
+    const videoElements = document.querySelectorAll(".hero-video");
 
-  //   videoElements.forEach((video) => {
-  //     const videoElement = video as HTMLVideoElement;
-  //     if (pauseVideos) {
-  //       videoElement.pause();
-  //     } else {
-  //       videoElement.play().catch((error: Error) => {
-  //         // Handle autoplay restrictions
-  //         console.log("Autoplay prevented:", error);
-  //       });
-  //     }
-  //   });
-  // }, [pauseVideos]);
+    videoElements.forEach((video) => {
+      const videoElement = video as HTMLVideoElement;
+      if (pauseVideos) {
+        videoElement.pause();
+      } else {
+        videoElement.play().catch((error: Error) => {
+          // Handle autoplay restrictions
+          console.log("Autoplay prevented:", error);
+        });
+      }
+    });
+  }, [pauseVideos]);
 
   return (
     <div className="sm:grid hidden absolute  grid-cols-[1fr_300px_1fr] lg:grid-cols-[1fr_500px_1fr] gap-4 lg:gap-8 w-full h-full">
@@ -478,13 +484,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          {/* <video
+          <video
             src={videos[0]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          /> */}
+            playsInline
+          />
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0, y: "-50%"}}
@@ -525,13 +532,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          {/* <video
+          <video
             src={videos[1]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          /> */}
+            playsInline
+          />
         </motion.div>
         <div className="w-full  relative h-full flex items-center justify-center">
           <motion.div
@@ -573,13 +581,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             }
             className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
-            {/* <video
+            <video
               src={videos[2]}
               autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
-            /> */}
+              playsInline
+            />
           </motion.div>
         </div>
       </div>
@@ -624,13 +633,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          {/* <video
+          <video
             src={videos[3]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          /> */}
+            playsInline
+          />
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0, y: "-50%"}}
@@ -671,13 +681,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          {/* <video
+          <video
             src={videos[4]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          /> */}
+            playsInline
+          />
         </motion.div>
         <motion.div
           initial={{scale: 0, opacity: 0}}
@@ -718,13 +729,14 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
-          {/* <video
+          <video
             src={videos[5]}
             autoPlay
             loop
             muted
             className="w-full h-full object-cover hero-video"
-          /> */}
+            playsInline
+          />
         </motion.div>
       </div>
     </div>
