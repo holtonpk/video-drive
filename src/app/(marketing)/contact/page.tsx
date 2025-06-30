@@ -12,18 +12,18 @@ export const metadata = constructMetadata({
 
 const Page = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark">
       <NavBar />
       <div className="container grid md:grid-cols-2 gap-10 py-16 min-h-screen">
         <div className="flex flex-col gap-4">
           <div className="p-2 border-2 border-theme-color1 rounded-[8px] big-text-bold w-fit text-3xl -rotate-6">
             Contact
           </div>
-          <h1 className="text-10xl font-bold big-text-bold">
+          <h1 className="text-8xl md:text-10xl font-bold big-text-bold">
             Let&apos;s Work{" "}
             <span className=" text-theme-color3 flex items-center">
               Together
-              <Smile className="w-28 h-28 fill-theme-color1 hover:rotate-12 transition-all duration-300 ml-4" />
+              <Smile className="w-28 h-28 fill-theme-color1 hover:rotate-12 transition-all duration-300 md:ml-4 sm:ml2 " />
             </span>
           </h1>
           <p className="text-lg small-text text-primary/70">

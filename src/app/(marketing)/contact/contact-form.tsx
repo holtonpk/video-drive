@@ -139,7 +139,7 @@ export const ContactForm = () => {
         <div>
           <label
             htmlFor="user_name"
-            className="block text-sm font-medium text-primary mb-2"
+            className="block text-sm font-medium text-white mb-2"
           >
             Full Name
           </label>
