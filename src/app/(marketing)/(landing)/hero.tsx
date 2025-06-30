@@ -459,7 +459,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.1,
+                  delay: 2.1,
                   y: {
                     duration: 4,
                     repeat: Infinity,
@@ -506,7 +506,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.3,
+                  delay: 2.3,
                   y: {
                     duration: 5,
                     repeat: Infinity,
@@ -554,7 +554,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               !pauseVideos
                 ? {
                     duration: 0.6,
-                    delay: 0.6,
+                    delay: 2.6,
                     y: {
                       duration: 3.5,
                       repeat: Infinity,
@@ -605,7 +605,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.2,
+                  delay: 2.2,
                   y: {
                     duration: 4.5,
                     repeat: Infinity,
@@ -652,7 +652,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.4,
+                  delay: 2.4,
                   y: {
                     duration: 5.5,
                     repeat: Infinity,
@@ -699,7 +699,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
             !pauseVideos
               ? {
                   duration: 0.6,
-                  delay: 0.6,
+                  delay: 2.6,
                   y: {
                     duration: 3.5,
                     repeat: Infinity,
