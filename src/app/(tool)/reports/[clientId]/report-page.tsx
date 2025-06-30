@@ -128,19 +128,19 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 
   const getDataFromWeek = (reportDate: string) => {
     const tiktokDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
     const youtubeDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+      require(`./${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
     const instagramDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
     const facebookDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
+      require(`./${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
         (post: FacebookPost) => post?.isVideo === true
       ) as FacebookPost[];
     const linkedinDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
     const xDataLocal =
-      require(`@/public/reports/${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
 
     const cleanedData = {
       tiktok: {

@@ -1,0 +1,2529 @@
+[{
+  "type": "tweet",
+  "id": "1935174085387939852",
+  "url": "https://x.com/bluecollarkeys/status/1935174085387939852",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1935174085387939852",
+  "text": "The Extra Mile: What Really Makes a Tradesperson Exceptional https://t.co/aglUxKFUy6",
+  "fullText": "The Extra Mile: What Really Makes a Tradesperson Exceptional https://t.co/aglUxKFUy6",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 2,
+  "createdAt": "Wed Jun 18 03:13:50 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1935174085387939852",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/aglUxKFUy6",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1935174085387939852/video/1",
+        "id_str": "1935174015535976448",
+        "indices": [
+          61,
+          84
+        ],
+        "media_key": "13_1935174015535976448",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1935174015535976448/img/7yUNSbXUwpNtAtkN.jpg",
+        "type": "video",
+        "url": "https://t.co/aglUxKFUy6",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 25416,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/pl/co8I4xTHrgBhm_D2.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/320x568/_gh7dhFPj_1qt6Cy.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/480x852/gVlZNiNypyu3Hky2.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/720x1280/09-nSOxYkWC_oAVW.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1935174015535976448"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/aglUxKFUy6",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1935174085387939852/video/1",
+        "id_str": "1935174015535976448",
+        "indices": [
+          61,
+          84
+        ],
+        "media_key": "13_1935174015535976448",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1935174015535976448/img/7yUNSbXUwpNtAtkN.jpg",
+        "type": "video",
+        "url": "https://t.co/aglUxKFUy6",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 25416,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/pl/co8I4xTHrgBhm_D2.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/320x568/_gh7dhFPj_1qt6Cy.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/480x852/gVlZNiNypyu3Hky2.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1935174015535976448/vid/avc1/720x1280/09-nSOxYkWC_oAVW.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1935174015535976448"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1935174015535976448/img/7yUNSbXUwpNtAtkN.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1934765621616759001",
+  "url": "https://x.com/bluecollarkeys/status/1934765621616759001",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1934765621616759001",
+  "text": "The ONE Thing Every New Tradesperson Needs https://t.co/RHkb0ZgKgU",
+  "fullText": "The ONE Thing Every New Tradesperson Needs https://t.co/RHkb0ZgKgU",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 4,
+  "createdAt": "Tue Jun 17 00:10:45 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1934765621616759001",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/RHkb0ZgKgU",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1934765621616759001/video/1",
+        "id_str": "1934765543388835840",
+        "indices": [
+          43,
+          66
+        ],
+        "media_key": "13_1934765543388835840",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1934765543388835840/img/DPX-42zV2eOJ3I90.jpg",
+        "type": "video",
+        "url": "https://t.co/RHkb0ZgKgU",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 32250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/pl/y-AKcXLZgeV2APRn.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/320x568/ShNX1uErkvQ-Ykkq.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/480x852/QZ-Ihdf46AT0OXlj.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/720x1280/6-Lxe0lrYNIxNQ6b.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1934765543388835840"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/RHkb0ZgKgU",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1934765621616759001/video/1",
+        "id_str": "1934765543388835840",
+        "indices": [
+          43,
+          66
+        ],
+        "media_key": "13_1934765543388835840",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1934765543388835840/img/DPX-42zV2eOJ3I90.jpg",
+        "type": "video",
+        "url": "https://t.co/RHkb0ZgKgU",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 32250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/pl/y-AKcXLZgeV2APRn.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/320x568/ShNX1uErkvQ-Ykkq.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/480x852/QZ-Ihdf46AT0OXlj.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934765543388835840/vid/avc1/720x1280/6-Lxe0lrYNIxNQ6b.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1934765543388835840"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1934765543388835840/img/DPX-42zV2eOJ3I90.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1934007532965728403",
+  "url": "https://x.com/bluecollarkeys/status/1934007532965728403",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1934007532965728403",
+  "text": "From Classroom Struggles to Trade Success https://t.co/dVASKco2Xi",
+  "fullText": "From Classroom Struggles to Trade Success https://t.co/dVASKco2Xi",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 1,
+  "createdAt": "Sat Jun 14 21:58:22 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1934007532965728403",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/dVASKco2Xi",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1934007532965728403/video/1",
+        "id_str": "1934007468385841152",
+        "indices": [
+          42,
+          65
+        ],
+        "media_key": "13_1934007468385841152",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1934007468385841152/img/Rm2WXwIQu36eBy3y.jpg",
+        "type": "video",
+        "url": "https://t.co/dVASKco2Xi",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 20708,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/pl/vj-puVLA2wNqzhlU.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/320x568/Hm36JXo9gm2ON9aA.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/480x852/OXW5D7l-MBkYHKuT.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/720x1280/lqgQh6ySMDjmirbW.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1934007468385841152"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/dVASKco2Xi",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1934007532965728403/video/1",
+        "id_str": "1934007468385841152",
+        "indices": [
+          42,
+          65
+        ],
+        "media_key": "13_1934007468385841152",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1934007468385841152/img/Rm2WXwIQu36eBy3y.jpg",
+        "type": "video",
+        "url": "https://t.co/dVASKco2Xi",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 20708,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/pl/vj-puVLA2wNqzhlU.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/320x568/Hm36JXo9gm2ON9aA.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/480x852/OXW5D7l-MBkYHKuT.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1934007468385841152/vid/avc1/720x1280/lqgQh6ySMDjmirbW.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1934007468385841152"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1934007468385841152/img/Rm2WXwIQu36eBy3y.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1933732806720417888",
+  "url": "https://x.com/bluecollarkeys/status/1933732806720417888",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1933732806720417888",
+  "text": "The Weirdest Job We've Ever Done: The Door vs. The Roomba https://t.co/aYw6T8WLIU",
+  "fullText": "The Weirdest Job We've Ever Done: The Door vs. The Roomba https://t.co/aYw6T8WLIU",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "createdAt": "Sat Jun 14 03:46:42 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1933732806720417888",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/aYw6T8WLIU",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1933732806720417888/video/1",
+        "id_str": "1933732724461731840",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1933732724461731840",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1933732724461731840/img/qScdF4VJWafW-2aX.jpg",
+        "type": "video",
+        "url": "https://t.co/aYw6T8WLIU",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 36250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/pl/uDigQC50twTYUYgE.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/320x568/sXFUN2rsx5jrVvIp.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/480x852/cAseJ8aElLAkNeed.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/720x1280/-MaLGdcfCegHwmjp.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1933732724461731840"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/aYw6T8WLIU",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1933732806720417888/video/1",
+        "id_str": "1933732724461731840",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1933732724461731840",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1933732724461731840/img/qScdF4VJWafW-2aX.jpg",
+        "type": "video",
+        "url": "https://t.co/aYw6T8WLIU",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 36250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/pl/uDigQC50twTYUYgE.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/320x568/sXFUN2rsx5jrVvIp.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/480x852/cAseJ8aElLAkNeed.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1933732724461731840/vid/avc1/720x1280/-MaLGdcfCegHwmjp.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1933732724461731840"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1933732724461731840/img/qScdF4VJWafW-2aX.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1932274145271935375",
+  "url": "https://x.com/bluecollarkeys/status/1932274145271935375",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1932274145271935375",
+  "text": "The Day Ricky Became Slugface: A Job Site Cautionary Tale https://t.co/1A9WqsWOq8",
+  "fullText": "The Day Ricky Became Slugface: A Job Site Cautionary Tale https://t.co/1A9WqsWOq8",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 1,
+  "createdAt": "Tue Jun 10 03:10:30 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1932274145271935375",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/1A9WqsWOq8",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1932274145271935375/video/1",
+        "id_str": "1932274069145067520",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1932274069145067520",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1932274069145067520/img/JT0lIVv311-Lsw_2.jpg",
+        "type": "video",
+        "url": "https://t.co/1A9WqsWOq8",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 40750,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/pl/EGJhdfzDhg8gICuk.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/320x568/5zcYDVTCHbRgJbEl.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/480x852/3X1ALqleRrP3yihr.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/720x1280/GOlX2kCPcQj9J_kb.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1932274069145067520"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/1A9WqsWOq8",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1932274145271935375/video/1",
+        "id_str": "1932274069145067520",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1932274069145067520",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1932274069145067520/img/JT0lIVv311-Lsw_2.jpg",
+        "type": "video",
+        "url": "https://t.co/1A9WqsWOq8",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 40750,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/pl/EGJhdfzDhg8gICuk.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/320x568/5zcYDVTCHbRgJbEl.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/480x852/3X1ALqleRrP3yihr.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1932274069145067520/vid/avc1/720x1280/GOlX2kCPcQj9J_kb.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1932274069145067520"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1932274069145067520/img/JT0lIVv311-Lsw_2.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1930815938275774831",
+  "url": "https://x.com/bluecollarkeys/status/1930815938275774831",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1930815938275774831",
+  "text": "This job site fail is exactly why we mark EVERYTHING! Has a neighbor ever 'borrowed' your equipment without asking? Drop your wildest story below! https://t.co/i8z1juSiyI",
+  "fullText": "This job site fail is exactly why we mark EVERYTHING! Has a neighbor ever 'borrowed' your equipment without asking? Drop your wildest story below! https://t.co/i8z1juSiyI",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 8,
+  "createdAt": "Fri Jun 06 02:36:07 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1930815938275774831",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/i8z1juSiyI",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930815938275774831/video/1",
+        "id_str": "1930815856285487104",
+        "indices": [
+          147,
+          170
+        ],
+        "media_key": "13_1930815856285487104",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930815856285487104/img/dTzhRBhN3zSGNJ6c.jpg",
+        "type": "video",
+        "url": "https://t.co/i8z1juSiyI",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 46958,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/pl/Be0upozpC5nHimi6.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/320x568/OJtYxJIAnGW2xCvG.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/480x852/ykgGgrlqY0zg1LXh.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/720x1280/dD3Hkp_UE5qFKzne.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930815856285487104"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/i8z1juSiyI",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930815938275774831/video/1",
+        "id_str": "1930815856285487104",
+        "indices": [
+          147,
+          170
+        ],
+        "media_key": "13_1930815856285487104",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930815856285487104/img/dTzhRBhN3zSGNJ6c.jpg",
+        "type": "video",
+        "url": "https://t.co/i8z1juSiyI",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 46958,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/pl/Be0upozpC5nHimi6.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/320x568/OJtYxJIAnGW2xCvG.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/480x852/ykgGgrlqY0zg1LXh.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930815856285487104/vid/avc1/720x1280/dD3Hkp_UE5qFKzne.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930815856285487104"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1930815856285487104/img/dTzhRBhN3zSGNJ6c.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1930449990742143235",
+  "url": "https://x.com/bluecollarkeys/status/1930449990742143235",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1930449990742143235",
+  "text": "When Your Supervisor Has Four Paws and a Mask https://t.co/Yj92FrXlaO",
+  "fullText": "When Your Supervisor Has Four Paws and a Mask https://t.co/Yj92FrXlaO",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 2,
+  "createdAt": "Thu Jun 05 02:21:58 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1930449990742143235",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/Yj92FrXlaO",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930449990742143235/video/1",
+        "id_str": "1930449910119256064",
+        "indices": [
+          46,
+          69
+        ],
+        "media_key": "13_1930449910119256064",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930449910119256064/img/RHFsiZL96JvK_FMJ.jpg",
+        "type": "video",
+        "url": "https://t.co/Yj92FrXlaO",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 49250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/pl/7eupXRtmTzl96UJT.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/320x568/8oclgQxfsmIE9yiA.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/480x852/IFwGNX3OK2Bam6by.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/720x1280/eghlJjemx-KGbFfQ.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930449910119256064"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/Yj92FrXlaO",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930449990742143235/video/1",
+        "id_str": "1930449910119256064",
+        "indices": [
+          46,
+          69
+        ],
+        "media_key": "13_1930449910119256064",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930449910119256064/img/RHFsiZL96JvK_FMJ.jpg",
+        "type": "video",
+        "url": "https://t.co/Yj92FrXlaO",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 49250,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/pl/7eupXRtmTzl96UJT.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/320x568/8oclgQxfsmIE9yiA.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/480x852/IFwGNX3OK2Bam6by.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930449910119256064/vid/avc1/720x1280/eghlJjemx-KGbFfQ.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930449910119256064"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1930449910119256064/img/RHFsiZL96JvK_FMJ.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1930088445189468648",
+  "url": "https://x.com/bluecollarkeys/status/1930088445189468648",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1930088445189468648",
+  "text": "Ever had a client decide to 'help' on a jobsite? 😂 https://t.co/ISOwN3B1xE",
+  "fullText": "Ever had a client decide to 'help' on a jobsite? 😂 https://t.co/ISOwN3B1xE",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 6,
+  "createdAt": "Wed Jun 04 02:25:19 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1930088445189468648",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/ISOwN3B1xE",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930088445189468648/video/1",
+        "id_str": "1930088356098289664",
+        "indices": [
+          51,
+          74
+        ],
+        "media_key": "13_1930088356098289664",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930088356098289664/img/R_YYOYzWCNPPew-0.jpg",
+        "type": "video",
+        "url": "https://t.co/ISOwN3B1xE",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 47166,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/pl/iY50NbrA1rN5hPSP.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/320x568/VboYaPa4mtRZII9P.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/480x852/k_9jy8Qo4YMXIU2u.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/720x1280/c4SBd1grzV7Qmsux.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930088356098289664"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/ISOwN3B1xE",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1930088445189468648/video/1",
+        "id_str": "1930088356098289664",
+        "indices": [
+          51,
+          74
+        ],
+        "media_key": "13_1930088356098289664",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1930088356098289664/img/R_YYOYzWCNPPew-0.jpg",
+        "type": "video",
+        "url": "https://t.co/ISOwN3B1xE",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 47166,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/pl/iY50NbrA1rN5hPSP.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/320x568/VboYaPa4mtRZII9P.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/480x852/k_9jy8Qo4YMXIU2u.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1930088356098289664/vid/avc1/720x1280/c4SBd1grzV7Qmsux.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1930088356098289664"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1930088356098289664/img/R_YYOYzWCNPPew-0.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1929597480318259453",
+  "url": "https://x.com/bluecollarkeys/status/1929597480318259453",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1929597480318259453",
+  "text": "When the building inspector shows up with a magnifying glass and treats your job site like a crime scene https://t.co/7fAyj6xLlw",
+  "fullText": "When the building inspector shows up with a magnifying glass and treats your job site like a crime scene https://t.co/7fAyj6xLlw",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 2,
+  "createdAt": "Mon Jun 02 17:54:24 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1929597480318259453",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/7fAyj6xLlw",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1929597480318259453/video/1",
+        "id_str": "1929597415017033728",
+        "indices": [
+          105,
+          128
+        ],
+        "media_key": "13_1929597415017033728",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1929597415017033728/img/fLdsSHe-JdX4AYcz.jpg",
+        "type": "video",
+        "url": "https://t.co/7fAyj6xLlw",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 17933,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/pl/Y2OTIxlvvWJXv5Pp.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/320x568/qLBmbEifhL29QA-N.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/480x852/CUZnoUglbkOVSXsS.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/720x1280/tGE1D-7N_lK3274T.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1929597415017033728"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/7fAyj6xLlw",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1929597480318259453/video/1",
+        "id_str": "1929597415017033728",
+        "indices": [
+          105,
+          128
+        ],
+        "media_key": "13_1929597415017033728",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1929597415017033728/img/fLdsSHe-JdX4AYcz.jpg",
+        "type": "video",
+        "url": "https://t.co/7fAyj6xLlw",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 17933,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/pl/Y2OTIxlvvWJXv5Pp.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/320x568/qLBmbEifhL29QA-N.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/480x852/CUZnoUglbkOVSXsS.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1929597415017033728/vid/avc1/720x1280/tGE1D-7N_lK3274T.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1929597415017033728"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1929597415017033728/img/fLdsSHe-JdX4AYcz.jpg"
+  ],
+  "isConversationControlled": false
+},
+{
+  "type": "tweet",
+  "id": "1928309785159684386",
+  "url": "https://x.com/bluecollarkeys/status/1928309785159684386",
+  "twitterUrl": "https://twitter.com/bluecollarkeys/status/1928309785159684386",
+  "text": "Found more than just missing shingles on this inspection. https://t.co/YwnUzkTqMa",
+  "fullText": "Found more than just missing shingles on this inspection. https://t.co/YwnUzkTqMa",
+  "source": "Twitter for iPhone",
+  "retweetCount": 0,
+  "replyCount": 0,
+  "likeCount": 0,
+  "quoteCount": 0,
+  "viewCount": 7,
+  "createdAt": "Fri May 30 04:37:33 +0000 2025",
+  "lang": "en",
+  "bookmarkCount": 0,
+  "isReply": false,
+  "conversationId": "1928309785159684386",
+  "possiblySensitive": false,
+  "isPinned": false,
+  "author": {
+    "type": "user",
+    "userName": "bluecollarkeys",
+    "url": "https://x.com/bluecollarkeys",
+    "twitterUrl": "https://twitter.com/bluecollarkeys",
+    "id": "1853855659286278144",
+    "name": "Blue Collar Keys",
+    "isVerified": false,
+    "isBlueVerified": false,
+    "profilePicture": "https://pbs.twimg.com/profile_images/1853855790098231296/HeSUYGm8_normal.jpg",
+    "description": "We're on a mission to shine a light on the hands that build America. Join Us!",
+    "location": "",
+    "followers": 2,
+    "following": 0,
+    "status": "",
+    "canDm": false,
+    "canMediaTag": true,
+    "createdAt": "Tue Nov 05 17:43:37 +0000 2024",
+    "entities": {
+      "description": {
+        "urls": []
+      },
+      "url": {
+        "urls": [
+          {
+            "display_url": "bluecollarkeys.com",
+            "expanded_url": "https://www.bluecollarkeys.com/",
+            "url": "https://t.co/GgXm2dtDza",
+            "indices": [
+              0,
+              23
+            ]
+          }
+        ]
+      }
+    },
+    "fastFollowersCount": 0,
+    "favouritesCount": 0,
+    "hasCustomTimelines": false,
+    "isTranslator": false,
+    "mediaCount": 46,
+    "statusesCount": 46,
+    "withheldInCountries": [],
+    "affiliatesHighlightedLabel": {},
+    "possiblySensitive": false,
+    "pinnedTweetIds": []
+  },
+  "extendedEntities": {
+    "media": [
+      {
+        "display_url": "pic.x.com/YwnUzkTqMa",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1928309785159684386/video/1",
+        "id_str": "1928309721070702592",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1928309721070702592",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1928309721070702592/img/70Yvz4d97IzC364c.jpg",
+        "type": "video",
+        "url": "https://t.co/YwnUzkTqMa",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 14166,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/pl/KybvyjuGG2BfTcRi.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/320x568/x7RcH7E3lQTzK0_y.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/480x852/Hzt40Ztc6eMduc5E.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/720x1280/Z_RUxjbrh9WkSg5n.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1928309721070702592"
+          }
+        }
+      }
+    ]
+  },
+  "card": {},
+  "place": {},
+  "entities": {
+    "hashtags": [],
+    "media": [
+      {
+        "display_url": "pic.x.com/YwnUzkTqMa",
+        "expanded_url": "https://x.com/bluecollarkeys/status/1928309785159684386/video/1",
+        "id_str": "1928309721070702592",
+        "indices": [
+          58,
+          81
+        ],
+        "media_key": "13_1928309721070702592",
+        "media_url_https": "https://pbs.twimg.com/amplify_video_thumb/1928309721070702592/img/70Yvz4d97IzC364c.jpg",
+        "type": "video",
+        "url": "https://t.co/YwnUzkTqMa",
+        "additional_media_info": {
+          "monetizable": false
+        },
+        "ext_media_availability": {
+          "status": "Available"
+        },
+        "sizes": {
+          "large": {
+            "h": 1280,
+            "w": 720,
+            "resize": "fit"
+          },
+          "medium": {
+            "h": 1200,
+            "w": 675,
+            "resize": "fit"
+          },
+          "small": {
+            "h": 680,
+            "w": 383,
+            "resize": "fit"
+          },
+          "thumb": {
+            "h": 150,
+            "w": 150,
+            "resize": "crop"
+          }
+        },
+        "original_info": {
+          "height": 1280,
+          "width": 720,
+          "focus_rects": []
+        },
+        "allow_download_status": {
+          "allow_download": true
+        },
+        "video_info": {
+          "aspect_ratio": [
+            9,
+            16
+          ],
+          "duration_millis": 14166,
+          "variants": [
+            {
+              "content_type": "application/x-mpegURL",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/pl/KybvyjuGG2BfTcRi.m3u8?tag=21"
+            },
+            {
+              "bitrate": 632000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/320x568/x7RcH7E3lQTzK0_y.mp4?tag=21"
+            },
+            {
+              "bitrate": 950000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/480x852/Hzt40Ztc6eMduc5E.mp4?tag=21"
+            },
+            {
+              "bitrate": 2176000,
+              "content_type": "video/mp4",
+              "url": "https://video.twimg.com/amplify_video/1928309721070702592/vid/avc1/720x1280/Z_RUxjbrh9WkSg5n.mp4?tag=21"
+            }
+          ]
+        },
+        "media_results": {
+          "result": {
+            "media_key": "13_1928309721070702592"
+          }
+        }
+      }
+    ],
+    "symbols": [],
+    "timestamps": [],
+    "urls": [],
+    "user_mentions": []
+  },
+  "isRetweet": false,
+  "isQuote": false,
+  "media": [
+    "https://pbs.twimg.com/amplify_video_thumb/1928309721070702592/img/70Yvz4d97IzC364c.jpg"
+  ],
+  "isConversationControlled": false
+}]

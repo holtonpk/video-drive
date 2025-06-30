@@ -1,6 +1,6 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-// import "./report-style.css";
+import "./report-style.css";
 
 type Report = {
   label: string;
