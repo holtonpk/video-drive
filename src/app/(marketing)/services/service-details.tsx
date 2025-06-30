@@ -25,7 +25,7 @@ export const ServiceDetails = ({
       </div>
       <div className="grid grid-cols-3 gap-10">
         {details.map((detail) => (
-          <div className="flex flex-col gap-2">
+          <div key={detail.title} className="flex flex-col gap-2">
             <div className="flex items-end gap-2">
               <div
                 className=" rounded-[12px] flex h-[50px] w-[50px] items-center justify-center"
