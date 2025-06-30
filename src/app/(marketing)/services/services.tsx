@@ -1,5 +1,5 @@
 import React from "react";
-import {Process} from "../landing2/process";
+import {Process} from "../(landing)/process";
 import {Slash} from "../icons";
 
 export const Services = () => {

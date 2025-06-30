@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/dialog";
 import {Editor} from "../../../client-library/[client]/description/description-edit";
 import {EditorJsRender} from "../../../video-review/video-review";
-import {Button} from "@/src/app/(marketing)/components/ui/button";
+import {Button} from "@/src/app/(tool)/(auth)/(admin)/components/ui/button";
 import {toast, useToast} from "@/components/ui/use-toast";
 import {Switch} from "@/components/ui/switch";
 type ClientDataByWeek = {

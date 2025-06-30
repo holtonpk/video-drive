@@ -1,5 +1,5 @@
 import React from "react";
-import {Team as TeamComponent} from "../landing2/team";
+import {Team as TeamComponent} from "../(landing)/team";
 
 export const Team = () => {
   return (
