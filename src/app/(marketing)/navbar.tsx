@@ -63,8 +63,8 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
             }`}
           >
             <div className="flex md:grid md:grid-cols-3 items-center w-full ">
-              <Link href="/" className="flex gap-1  items-center">
-                <Logo className="w-10 h-10 dark:fill-theme-color1 fill-primary" />
+              <Link href="/" className="flex  items-center">
+                <Logo className="w-[35px] h-[35px] dark:fill-theme-color1 fill-primary" />
                 <span className="text-3xl h-8 font-bold whitespace-nowrap dark:text-theme-color1 text-primary big-text-bold">
                   Ripple Media
                 </span>
@@ -111,8 +111,8 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
       ) : (
         <div className="flex flex-col w-full px-6 py-4 md:py-8 ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
-            <Link href="/" className="flex gap-1  items-center">
-              <Logo className="w-10 h-10 dark:fill-theme-color1 fill-primary" />
+            <Link href="/" className="flex   items-center">
+              <Logo className="w-[35px] h-[35px] dark:fill-theme-color1 fill-primary" />
               <span className="text-3xl h-8 font-bold whitespace-nowrap dark:text-theme-color1 text-primary big-text-bold">
                 Ripple Media
               </span>
