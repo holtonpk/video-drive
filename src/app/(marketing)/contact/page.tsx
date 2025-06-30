@@ -20,16 +20,16 @@ const Page = () => {
             Contact
           </div>
           <h1 className="text-10xl font-bold big-text-bold">
-            Let's Work{" "}
+            Let&apos;s Work{" "}
             <span className=" text-theme-color3 flex items-center">
               Together
               <Smile className="w-28 h-28 fill-theme-color1 hover:rotate-12 transition-all duration-300 ml-4" />
             </span>
           </h1>
           <p className="text-lg small-text text-primary/70">
-            We're here to help you with any questions or concerns you may have.
-            Please fill out the form below and we'll get back to you as soon as
-            possible.
+            We&apos;re here to help you with any questions or concerns you may
+            have. Please fill out the form below and we&apos;ll get back to you
+            as soon as possible.
           </p>
         </div>
         <ContactForm />

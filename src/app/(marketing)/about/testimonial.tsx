@@ -10,13 +10,13 @@ export const Testimonial = () => {
           Creativity and curiosity drive everything we build
         </h1>
         <p className="text-center small-text">
-          "At Ripple Media, our edge comes from blending creativity with
+          &quot;At Ripple Media, our edge comes from blending creativity with
           precision—and moving fast without sacrificing quality. I&apos;ve seen
           how our team&apos;s energy, cultural fluency, and obsession with
           results turn simple ideas into content that cuts through the noise.
           It&apos;s inspiring to work with a crew that truly understands
           today&apos;s digital landscape, and I&apos;m proud of the impact we
-          make for our clients every day."
+          make for our clients every day.&quot;
         </p>
         <h2 className="text-center small-text">
           - Patrick Holton, CO Founder / Creative Director
