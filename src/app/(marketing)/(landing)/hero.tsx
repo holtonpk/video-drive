@@ -87,8 +87,9 @@ export const Hero = () => {
           </h1>
         </div>
         <p className="sm:max-w-[300px] lg:max-w-[500px] text-center small-text text-primary/70">
-          Driving growth for leading brands and organizations through
-          high-performing websites and results-driven digital marketing.
+          We specialize in creating viral, short-form content for fast-growing
+          brands—helping them capture attention, spark engagement, and connect
+          with audiences at scale.
         </p>
 
         {/* Conditionally render only the appropriate video display */}
