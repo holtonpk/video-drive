@@ -1,6 +1,6 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Ripple Media",
+  "short_name": "Ripple",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#34f4af",
-  "background_color": "#1a191e",
+  "theme_color": "#c9f291",
+  "background_color": "#e0e0e0",
   "display": "standalone"
 }
