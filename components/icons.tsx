@@ -144,11 +144,15 @@ import {
   BellRing,
   Download,
   Linkedin,
+  MicVocal,
+  FileStack,
 } from "lucide-react";
 
 //   export type XIcon = LucideIcon;
 
 export const Icons = {
+  fileStack: FileStack,
+  mic: MicVocal,
   phone: Phone,
   linkedin: Linkedin,
   download2: Download,

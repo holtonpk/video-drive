@@ -21,12 +21,9 @@ const config = {
     extend: {
       colors: {
         theme: {
-          red: "hsl(var(--red))",
-          orange: "hsl(var(--orange))",
-          yellow: "hsl(var(--yellow))",
-          green: "hsl(var(--green))",
-          blue: "hsl(var(--blue))",
-          purple: "hsl(var(--purple))",
+          color1: "hsl(var(--color1))",
+          color2: "hsl(var(--color2))",
+          color3: "hsl(var(--color3))",
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
