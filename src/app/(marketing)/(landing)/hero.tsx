@@ -5,7 +5,7 @@ import {animationControls, motion} from "framer-motion";
 import {Smile} from "../icons";
 
 export const Hero = () => {
-  const [isInView, setIsInView] = useState(false);
+  const [isInView, setIsInView] = useState(true);
 
   // if #hero is in view isInView is true
   useEffect(() => {
@@ -53,7 +53,7 @@ export const Hero = () => {
                   translateY: "-50%",
                   translateX: "75%",
                 }}
-                transition={{duration: 0.75, delay: 1.5, ease: "easeInOut"}}
+                transition={{duration: 0.75, delay: 3.5, ease: "easeInOut"}}
                 className="absolute top-1/2 -translate-y-1/2 right-0 z-10"
               >
                 <Smile className=" w-[60px] h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
@@ -114,13 +114,14 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
               !pauseVideos
                 ? {
                     scale: 1,
+
                     opacity: 1,
                     y: [0, -8, 0],
                     x: [0, 5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -143,7 +144,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 0.9,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -168,8 +169,8 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, 5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -192,7 +193,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 0.7,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0} // no movement if paused
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[125px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -217,8 +218,8 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, 5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -241,7 +242,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 1.1,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -269,8 +270,8 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, 5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -293,7 +294,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 1.0,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -318,8 +319,8 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, -4, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -342,7 +343,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 0.8,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[125px] md:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -367,8 +368,8 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, -5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -391,7 +392,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 1.2,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background "
           >
@@ -449,8 +450,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   x: [0, 5, 0],
                 }
               : {
-                  scale: 0,
-                  opacity: 0,
+                  scale: 1,
+                  opacity: 1,
                   y: 0,
                   x: 0,
                 }
@@ -473,7 +474,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     delay: 0.7,
                   },
                 }
-              : {duration: 0.3}
+              : {duration: 0} // no movement if paused
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
@@ -496,8 +497,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   x: [0, -6, 0],
                 }
               : {
-                  scale: 0,
-                  opacity: 0,
+                  scale: 1,
+                  opacity: 1,
                   y: 0,
                   x: 0,
                 }
@@ -520,7 +521,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     delay: 0.9,
                   },
                 }
-              : {duration: 0.3}
+              : {duration: 0}
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
@@ -544,8 +545,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     x: [0, -5, 0],
                   }
                 : {
-                    scale: 0,
-                    opacity: 0,
+                    scale: 1,
+                    opacity: 1,
                     y: 0,
                     x: 0,
                   }
@@ -568,7 +569,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                       delay: 1.2,
                     },
                   }
-                : {duration: 0.3}
+                : {duration: 0}
             }
             className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
           >
@@ -595,8 +596,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   x: [0, -4, 0],
                 }
               : {
-                  scale: 0,
-                  opacity: 0,
+                  scale: 1,
+                  opacity: 1,
                   y: 0,
                   x: 0,
                 }
@@ -619,7 +620,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     delay: 0.8,
                   },
                 }
-              : {duration: 0.3}
+              : {duration: 0}
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
@@ -642,8 +643,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   x: [0, 7, 0],
                 }
               : {
-                  scale: 0,
-                  opacity: 0,
+                  scale: 1,
+                  opacity: 1,
                   y: 0,
                   x: 0,
                 }
@@ -666,7 +667,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     delay: 1.0,
                   },
                 }
-              : {duration: 0.3}
+              : {duration: 0}
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
@@ -689,8 +690,8 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   x: [0, -5, 0],
                 }
               : {
-                  scale: 0,
-                  opacity: 0,
+                  scale: 1,
+                  opacity: 1,
                   y: 0,
                   x: 0,
                 }
@@ -713,7 +714,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                     delay: 1.2,
                   },
                 }
-              : {duration: 0.3}
+              : {duration: 0}
           }
           className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
         >
