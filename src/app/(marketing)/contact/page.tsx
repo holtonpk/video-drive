@@ -1,7 +1,6 @@
 import React from "react";
 import {ContactForm} from "./contact-form";
 import {NavBar} from "../navbar";
-import {Footer} from "../footer";
 import {Smile} from "../icons";
 import {constructMetadata} from "@/lib/utils";
 
