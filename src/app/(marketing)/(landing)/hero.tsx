@@ -79,13 +79,22 @@ export const Hero = () => {
 };
 
 const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
+  // const videos = [
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
+  // ];
+
   const videos = [
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
   ];
 
   useEffect(() => {
@@ -417,13 +426,22 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
 };
 
 const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
+  // const videos = [
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
+  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
+  // ];
+
   const videos = [
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
-    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
+    "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1000183285.webm?alt=media&token=9368c63e-e955-4fba-ad8a-e0bf92c7f922",
   ];
 
   useEffect(() => {
