@@ -48,7 +48,7 @@ export const Reviews = () => {
     },
     {
       stars: 5,
-      body: "“The Eyekiller team were fantastic to work with. Their passion and skill shines through in ”",
+      body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in ”",
       name: "John Doe",
       title: "CEO",
       company: "ABC Inc.",
@@ -56,7 +56,7 @@ export const Reviews = () => {
     },
     {
       stars: 5,
-      body: "“The Eyekiller team were fantastic to work with. Their passion and skill shines through in each interaction and their dedication to our project ensured that the final product went beyond expectation. We are delighted with our new website and the feedback from our customers has been brilliant!”",
+      body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in each interaction and their dedication to our project ensured that the final product went beyond expectation. We are delighted with the results and the feedback from our customers has been brilliant!”",
       name: "John Doe",
       title: "CEO",
       company: "ABC Inc.",
