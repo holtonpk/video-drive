@@ -1,5 +1,6 @@
 "use client";
 import {LucideProps} from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import {Diamond, Eyes} from "../icons";
 import {motion, useInView} from "framer-motion";
@@ -107,11 +108,12 @@ export const Team = ({
           </div>
         ))}
       </div>
-      <button
+      <Link
+        href="/about"
         className={`bg-background text-3xl rounded-full uppercase border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background ${h2Font.className}`}
       >
         About Us
-      </button>
+      </Link>
     </div>
   );
 };
