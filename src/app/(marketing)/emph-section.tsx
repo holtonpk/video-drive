@@ -29,7 +29,7 @@ export const EmphSection = ({
   const isIcon2InView = useInView(Icon2Ref, {once: true});
 
   return (
-    <div className="bg-background dark py-40">
+    <div className="bg-background dark py-20 sm:py-40">
       <div className="px-10 md:px-0 container mx-auto  gap-10 bg-background dark">
         <div className="flex flex-col gap-4  max-w-[600px] lg:max-w-[800px] text-center mx-auto relative py-4 ">
           <div

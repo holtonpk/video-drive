@@ -29,7 +29,7 @@ const Page = () => {
       <div className="relative z-20 ">
         <Hero />
         <EmphSection
-          title={`We Make Scroll-Stopping Videos That Drive Real Results`}
+          title={`Scroll-Stopping Videos That Drive Real Results`}
           description="Every post, comment, and strategy is crafted to amplify your voice, grow your community, and position your brand exactly where it needs to be—front and center."
           Icon1={
             <Bolt className="h-[50px] w-[50px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
