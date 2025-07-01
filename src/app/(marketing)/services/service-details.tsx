@@ -41,7 +41,7 @@ export const ServiceDetails = ({
           {description}
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
         {details.map((detail) => (
           <div key={detail.title} className="flex flex-col gap-2">
             <div className="flex items-end gap-2">

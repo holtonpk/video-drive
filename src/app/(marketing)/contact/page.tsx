@@ -31,12 +31,12 @@ const Page = () => {
             Contact
           </div>
           <h1
-            className={`text-8xl md:text-10xl font-bold big-text-bold ${h1Font.className}`}
+            className={`text-7xl sm:text-8xl md:text-10xl font-bold big-text-bold ${h1Font.className}`}
           >
             Let&apos;s Work{" "}
             <span className=" text-theme-color3 flex items-center">
               Together
-              <Smile className="w-28 h-28 fill-theme-color1 hover:rotate-12 transition-all duration-300 md:ml-4 sm:ml2 " />
+              <Smile className="w-20 h-20 sm:w-28 sm:h-28 fill-theme-color1 hover:rotate-12 transition-all duration-300 md:ml-4 sm:ml2 " />
             </span>
           </h1>
           <p className={`text-lg text-primary/70 ${bodyFont.className}`}>

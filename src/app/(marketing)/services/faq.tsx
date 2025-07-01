@@ -27,9 +27,9 @@ export const FAQ = ({data}: {data: FAQData}) => {
 
   return (
     <div className="bg-background text-primary py-40">
-      <div className="container mx-auto grid grid-cols-2 gap-20">
+      <div className="container mx-auto grid md:grid-cols-2 gap-20">
         <div className="flex flex-col gap-4">
-          <h1 className={`text-8xl uppercase ${h1Font.className}`}>
+          <h1 className={`text-7xl sm:text-8xl uppercase ${h1Font.className}`}>
             Frequently Asked Questions
           </h1>
           <p className={`text-xl ${bodyFont.className}`}>

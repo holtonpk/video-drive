@@ -44,10 +44,10 @@ const Page = () => {
         title="We don't just manage your social media, we build your brand"
         description="Every post, comment, and strategy is crafted to amplify your voice, grow your community, and position your brand exactly where it needs to be—front and center."
         Icon1={
-          <Rocket className="h-[80px] w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
+          <Rocket className="h-[60px] w-[60px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
         }
         Icon2={
-          <Eyes className="h-[60px] w-[60px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
+          <Eyes className="h-[50px] w-[50px] md:h-[80px] md:w-[80px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
         }
       />
       <Process data={SocialManagementProcessData} />

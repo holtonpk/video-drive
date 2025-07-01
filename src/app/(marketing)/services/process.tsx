@@ -23,7 +23,7 @@ export const Process = ({data}: {data: ProcessData}) => {
       <div className="container mx-auto flex flex-col gap-20">
         <div className="flex flex-col items-center text-center gap-4 max-w-[700px] mx-auto">
           <h1
-            className={`relative text-8xl text-primary uppercase ${h1Font.className}`}
+            className={`relative text-7xl sm:text-8xl text-primary uppercase ${h1Font.className}`}
           >
             {data.title}
           </h1>

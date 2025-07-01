@@ -19,6 +19,14 @@ const h2Font = localFont({
   src: "./fonts/HeadingNowTrial-55Medium.ttf",
 });
 
+const bodyBold = localFont({
+  src: "./fonts/proximanova_bold.otf",
+});
+
+const bodyLight = localFont({
+  src: "./fonts/proximanova_light.otf",
+});
+
 export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [isFixed, setIsFixed] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -195,7 +203,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
           >
             <Link href={"/contact"}>
               Let&apos;s <br /> Talk
-              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
+              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 sm:group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
                 <ChatIcon />
               </div>
             </Link>
@@ -234,9 +242,11 @@ const MobileNav = ({onClose}: {onClose: () => void}) => {
       <div className="relative h-full w-full">
         <div className="flex flex-col gap-8 p-6 pt-4 items-start ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
-            <Link href="/" className="flex gap-1  items-center">
-              <Logo className="w-10 h-10 dark:fill-theme-color1 fill-primary" />
-              <span className="text-3xl h-8 font-bold whitespace-nowrap dark:text-theme-color1 text-primary big-text-bold">
+            <Link href="/" className="flex  items-center">
+              <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
+              <span
+                className={`text-3xl  uppercase font-bold whitespace-nowrap dark:text-theme-color1 text-primary ${h1Font.className}`}
+              >
                 Ripple Media
               </span>
             </Link>
@@ -246,25 +256,25 @@ const MobileNav = ({onClose}: {onClose: () => void}) => {
           </div>
           <LinkButton
             href="/blog"
-            className="mt-10 text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-6xl text-left"
+            className={`mt-10 text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase text-6xl text-left ${h1Font.className}`}
           >
             Blog
           </LinkButton>
           <LinkButton
             href="/about"
-            className="text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-6xl text-left"
+            className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase text-6xl text-left ${h1Font.className}`}
           >
             About
           </LinkButton>
           <LinkButton
             href="/services"
-            className="text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-6xl text-left"
+            className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase text-6xl text-left ${h1Font.className}`}
           >
             Services
           </LinkButton>
           <Link
             href="/contact"
-            className="mt-2 w-fit flex gap-4 items-center bg-theme-color1 text-background hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background py-2 px-6 rounded-full big-text text-3xl"
+            className={`mt-2 w-fit flex gap-4 items-center bg-theme-color1 text-background hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background py-2 px-6 rounded-full text-3xl ${h1Font.className}`}
           >
             <div className="flex">
               <div className="p-[2px] rounded-full bg-white relative h-10 w-10 -ml-2">
@@ -292,10 +302,10 @@ const MobileNav = ({onClose}: {onClose: () => void}) => {
             Let&apos;s talk
           </Link>
           <div className="flex flex-col">
-            <h1 className="text-2xl big-text-bold">Say Hello</h1>
+            <h1 className={`text-2xl ${bodyBold.className}`}>Say Hello</h1>
             <a
               href="mailto:team@ripple-media.co"
-              className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+              className={`text-primary/70 text-xl ${bodyLight.className} underline`}
             >
               team@ripple-media.co
             </a>

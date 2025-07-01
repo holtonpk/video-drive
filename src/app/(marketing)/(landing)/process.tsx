@@ -66,7 +66,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
       >
         <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
-            className={`absolute bg-theme-color3 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+            className={`absolute bg-theme-color3 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Content Creation
           </div>
@@ -95,7 +95,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
         </div>
         <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
-            className={`absolute bg-theme-color2 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+            className={`absolute bg-theme-color2 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Social Management
           </div>
@@ -124,7 +124,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
         </div>
         <div className="w-full  lg:max-w-[400px]  bg-[#1A1A1A] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
-            className={`absolute bg-theme-color1 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+            className={`absolute bg-theme-color1 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Paid Media
           </div>

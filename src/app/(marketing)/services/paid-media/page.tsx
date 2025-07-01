@@ -44,10 +44,10 @@ const Page = () => {
         title="Managed for Maximum Impact"
         description="From planning to optimization, our paid media services are built for full-funnel performance. We handle everything—targeting, creative, tracking, and testing—so you get results that scale, fast."
         Icon1={
-          <Rocket className="h-[80px] w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
+          <Rocket className="h-[60px] w-[60px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
         }
         Icon2={
-          <Eyes className="h-[60px] w-[60px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
+          <Eyes className="h-[50px] w-[50px] md:h-[80px] md:w-[80px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
         }
       />
       <Process data={PaidMediaProcessData} />

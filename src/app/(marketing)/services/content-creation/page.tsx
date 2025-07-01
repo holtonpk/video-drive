@@ -45,10 +45,10 @@ const Page = () => {
         title="Content Optimized for every platform"
         description="From TikTok and Instagram Reels to YouTube Shorts and LinkedIn, we craft platform-native content that performs. Our team knows what each algorithm favors—and how to grab attention fast. With sharp writing, fast editing, and trend-savvy execution, we deliver high-quality content built to win the scroll, no matter where it lives."
         Icon1={
-          <Bolt className="h-[80px] w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
+          <Bolt className="h-[60px] w-[60px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color2" />
         }
         Icon2={
-          <Eyes className="h-[60px] w-[60px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
+          <Eyes className="h-[50px] w-[50px] md:h-[80px] md:w-[80px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
         }
       />
       <Process data={ContentCreationProcessData} />

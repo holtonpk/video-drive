@@ -26,7 +26,7 @@ export const ServiceHero = ({
   return (
     <div className=" text-primary" style={{background: color}}>
       <NavBar bgColor={color} />
-      <div className="container grid md:grid-cols-2 gap-10 py-16 min-h-screen">
+      <div className="container grid md:grid-cols-2 gap-10 py-16 md:min-h-screen">
         <div className="flex flex-col gap-4">
           <div
             className={`p-2  bg-white rounded-[8px] w-fit text-3xl -rotate-6 ${h1Font.className}`}
@@ -74,7 +74,7 @@ export const ServiceHero = ({
             Let&apos;s talk
           </Link>
         </div>
-        {children}
+        <div className="hidden md:flex">{children}</div>
       </div>
     </div>
   );

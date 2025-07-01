@@ -33,7 +33,7 @@ export const EmphSection = ({
       <div className="px-10 md:px-0 container mx-auto  gap-10 bg-background dark">
         <div className="flex flex-col gap-4  max-w-[600px] lg:max-w-[800px] text-center mx-auto relative py-4 ">
           <div
-            className={`text-5xl sm:text-6xl md:text-7xl uppercase text-primary relative ${h1Font.className}`}
+            className={`text-4xl sm:text-6xl md:text-7xl uppercase text-primary relative ${h1Font.className}`}
           >
             <span className="relative z-20">{title}</span>
             <motion.div
@@ -59,7 +59,7 @@ export const EmphSection = ({
                   : {opacity: 0, scale: 0, rotate: -180}
               }
               transition={{duration: 1, delay: 0.8, ease: "easeInOut"}}
-              className="absolute bottom-0 sm:bottom-10 lg:bottom-20 left-0 sm:-left-10"
+              className="absolute bottom-0 sm:bottom-10 lg:bottom-20 -left-0 sm:-left-10"
             >
               {Icon2}
             </motion.div>
