@@ -1,5 +1,14 @@
 import Link from "next/link";
 import {NavBar} from "../navbar";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 
 export const ServiceHero = ({
   label,
@@ -19,14 +28,20 @@ export const ServiceHero = ({
       <NavBar bgColor={color} />
       <div className="container grid md:grid-cols-2 gap-10 py-16 min-h-screen">
         <div className="flex flex-col gap-4">
-          <div className="p-2  bg-white rounded-[8px] big-text-bold w-fit text-3xl -rotate-6">
+          <div
+            className={`p-2  bg-white rounded-[8px] w-fit text-3xl -rotate-6 ${h1Font.className}`}
+          >
             {label}
           </div>
-          <h1 className="text-9xl font-bold big-text-bold">{heading}</h1>
-          <p className="text-lg small-text text-primary/70">{body}</p>
+          <h1 className={`text-8xl font-bold  ${h1Font.className}`}>
+            {heading}
+          </h1>
+          <p className={`text-lg  text-primary/70 ${bodyFont.className}`}>
+            {body}
+          </p>
           <Link
             href="/contact"
-            className="w-fit flex gap-4 items-center bg-primary text-background hover:ring-2 hover:ring-primary ring-offset-4  py-2 px-6 rounded-full big-text text-3xl"
+            className={`w-fit flex gap-4 items-center bg-primary text-background hover:ring-2 hover:ring-primary ring-offset-4  py-2 px-6 rounded-full  text-2xl ${h1Font.className}`}
             style={
               color
                 ? ({"--tw-ring-offset-color": color} as React.CSSProperties)

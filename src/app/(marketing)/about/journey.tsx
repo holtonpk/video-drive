@@ -4,6 +4,15 @@ import {NavBar} from "../navbar";
 import {Arrow, Smile, Star, Rocket} from "../icons";
 
 import {motion, useInView} from "framer-motion";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 
 export const Journey = () => {
   const ref = React.useRef(null);
@@ -14,8 +23,8 @@ export const Journey = () => {
   return (
     <div className="container mx-auto py-40 flex flex-col gap-16 items-center dark  bg-background text-primary">
       <div className="flex flex-col items-center text-center gap-4 max-w-[800px] relative">
-        <div className="relative big-text-bold text-8xl text-primary">
-          <span className="relative z-20">The Journey so Far</span>
+        <div className={`relative text-8xl text-primary ${h1Font.className}`}>
+          <span className="relative z-20 uppercase">The Journey so Far</span>
           <motion.div
             ref={ref}
             initial={{opacity: 0, scale: 0, rotate: 180}}
@@ -44,7 +53,9 @@ export const Journey = () => {
             <Star className="h-[60px] w-[60px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
           </motion.div>
         </div>
-        <p className="text-primary/70 small-text relative z-20">
+        <p
+          className={`text-primary/70 small-text text-xl relative z-20 ${bodyFont.className}`}
+        >
           What started small has evolved into a remote-first team that blends
           speed, creativity, and execution. We&apos;ve partnered with businesses
           across industries startups to enterprise crafting content that not

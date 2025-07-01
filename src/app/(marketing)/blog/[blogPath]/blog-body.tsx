@@ -6,6 +6,23 @@ import {LinkButton} from "@/components/ui/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Link from "next/link";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFontLight = localFont({
+  src: "../../fonts/proximanova_light.otf",
+});
+
+const bodyFont = localFont({
+  src: "../../fonts/proximanova_regular.ttf",
+});
+
+const bodyBold = localFont({
+  src: "../../fonts/proximanova_bold.otf",
+});
 
 import "./blog-style.css";
 
@@ -48,13 +65,19 @@ const BlogBody = ({post}: {post: BlogPost}) => {
         <p className="text-sm md:text-lg text-muted-foreground font1 ">
           {post.description}
         </p> */}
-        <div className="bg-theme-color1 p-2 rounded-[8px] big-text-bold text-primary w-fit text-5xl -rotate-6">
+        <div
+          className={`bg-theme-color1 p-2 rounded-[8px] text-primary w-fit text-5xl uppercase -rotate-6 ${h1Font.className}`}
+        >
           blog
         </div>
-        <h1 className="text-8xl md:text-9xl big-text-bold text-primary text-center">
+        <h1
+          className={`text-8xl md:text-9xl text-primary text-center ${h1Font.className}`}
+        >
           {post.title}
         </h1>
-        <p className="text-primary/70 small-text text-center">
+        <p
+          className={`mt-4 text-primary/70 text-center text-xl ${bodyFont.className}`}
+        >
           {post.description}
         </p>
         <div className="w-full h-1 border-t border-[#C1C1C1] border-dashed my-8"></div>
@@ -69,14 +92,16 @@ const BlogBody = ({post}: {post: BlogPost}) => {
             />
           )}
           <div className="flex  items-center gap-4 text-2xl">
-            <p className="text-primary big-text-bold text-2xl">
-              {post.author.name}
-              <span className=" big-text text-[#444444]">
+            <p className={`text-primary text-xl ${bodyFont.className}`}>
+              <span className={` ${bodyBold.className}`}>
+                {post.author.name}
+              </span>
+              <span className=" text-[#444444]">
                 , Co Founder @ Ripple Media
               </span>
             </p>
             <div className="h-6 w-[1px] bg-[#BBBBBB]"></div>
-            <p className="text-[#444444]  leading-[14px] big-text">
+            <p className={`text-[#444444]   text-xl ${bodyFont.className}`}>
               {formatMonthDayYear(post.createdAt)}
             </p>
           </div>

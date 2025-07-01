@@ -3,6 +3,19 @@ import {LucideProps} from "lucide-react";
 import React from "react";
 import {Diamond, Eyes} from "../icons";
 import {motion, useInView} from "framer-motion";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const h2Font = localFont({
+  src: "../fonts/HeadingNowTrial-55Medium.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 
 export const Team = ({
   title,
@@ -42,7 +55,9 @@ export const Team = ({
   return (
     <div className="container mx-auto  flex flex-col gap-16 items-center py-16  ">
       <div className="flex flex-col items-center text-center gap-4 max-w-[300px] sm:max-w-[400px] md:max-w-[500px]">
-        <h1 className="relative big-text-bold text-6xl sm:text-7xl md:text-8xl">
+        <h1
+          className={`relative text-6xl sm:text-7xl md:text-8xl uppercase ${h1Font.className}`}
+        >
           <span className="relative z-20">{title}</span>
           <Caption className="absolute -top-4 sm:top-0 -translate-y-3/4  right-4 h-[40px] w-[150px] z-10 rotate-12" />
           <motion.div
@@ -72,7 +87,9 @@ export const Team = ({
             <Eyes className="h-[60px] w-[60px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
           </motion.div>
         </h1>
-        <p className="text-primary/70 small-text">{description}</p>
+        <p className={`text-primary/70 text-xl ${bodyFont.className}`}>
+          {description}
+        </p>
       </div>
       <div className=" grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-primary/40 lg:divide-dashed gap-6 lg:gap-4">
         {Flexes.map((flex, index) => (
@@ -81,12 +98,18 @@ export const Team = ({
             className="flex flex-col gap-4 items-center text-center lg:p-4"
           >
             <Check className="h-[34px] w-[34px] " />
-            <h2 className="text-2xl font-bold big-text">{flex.title}</h2>
-            <p className="text-primary/70 small-text">{flex.description}</p>
+            <h2 className={`text-2xl uppercase font-bold ${h2Font.className}`}>
+              {flex.title}
+            </h2>
+            <p className={`text-primary/70 text-xl ${bodyFont.className}`}>
+              {flex.description}
+            </p>
           </div>
         ))}
       </div>
-      <button className="bg-background big-text-bold text-3xl rounded-full border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background">
+      <button
+        className={`bg-background text-3xl rounded-full uppercase border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background ${h2Font.className}`}
+      >
         About Us
       </button>
     </div>

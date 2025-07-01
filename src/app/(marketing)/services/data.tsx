@@ -62,32 +62,32 @@ export const ContentCreationProcessData: ProcessDataType = {
 
   highlights: [
     {
-      title: "1. Discovery & Strategy",
+      title: "Discovery & Strategy",
       description:
         "We start by learning your goals, audience, and market dynamics—building a strategic roadmap that aligns with your business objectives.",
     },
     {
-      title: "2. Series Development",
+      title: "Series Development",
       description:
         "We craft a content series plan, outlining key themes, audience segments, and distribution strategies to guide production and engagement.",
     },
     {
-      title: "3. Video Production",
+      title: "Video Production",
       description:
         "Our in-house team produces high-quality, on-brand videos that are custom-built for your audience and optimized for performance.",
     },
     {
-      title: "4. Distribution",
+      title: "Distribution",
       description:
         "We deploy your content across the right channels—strategically timed and platform-optimized to maximize reach, engagement, and impact.",
     },
     {
-      title: "5. Data Reporting",
+      title: "Data Reporting",
       description:
         "Performance is tracked through weekly updates in your custom client dashboard. We report on KPIs, engagement, and growth metrics to keep you informed and in control.",
     },
     {
-      title: "6. Ongoing Optimization",
+      title: "Ongoing Optimization",
       description:
         "We use real-time data to refine content, adjust targeting, and tweak distribution—ensuring your strategy evolves and improves over time.",
     },
@@ -197,32 +197,32 @@ export const SocialManagementProcessData: ProcessDataType = {
 
   highlights: [
     {
-      title: "1. Onboarding & Strategy",
+      title: "Onboarding & Strategy",
       description:
         "We start by understanding your brand, goals, and audience. Then, we craft a platform-specific strategy that aligns with your voice and objectives.",
     },
     {
-      title: "2. Content Calendar Creation",
+      title: "Content Calendar Creation",
       description:
         "We build a custom monthly content calendar outlining post topics, captions, visuals, and scheduling to keep your social presence consistent and strategic.",
     },
     {
-      title: "3. Content Production",
+      title: "Content Production",
       description:
         "Our team creates high-quality, on-brand content—from graphics and short-form videos to stories and captions—tailored to each platform's strengths.",
     },
     {
-      title: "4. Publishing & Management",
+      title: "Publishing & Management",
       description:
         "We handle daily posting, scheduling, and optimization across all selected platforms, ensuring consistent visibility and audience engagement.",
     },
     {
-      title: "5. Community Engagement",
+      title: "Community Engagement",
       description:
         "We actively monitor comments, mentions, and DMs (if included), responding in your brand’s tone to keep your audience engaged and supported.",
     },
     {
-      title: "6. Reporting & Optimization",
+      title: "Reporting & Optimization",
       description:
         "You’ll receive regular performance reports with insights on reach, engagement, and growth. We use that data to adjust strategy and maximize results.",
     },

@@ -10,6 +10,27 @@ import {set} from "date-fns";
 import {Input} from "@/components/ui/input";
 import {Icons} from "@/components/icons";
 import {LucideProps} from "lucide-react";
+import localFont from "next/font/local";
+
+const bigFont = localFont({
+  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const h1Font = localFont({
+  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../../fonts/proximanova_regular.ttf",
+});
+
+const bodyBold = localFont({
+  src: "../../fonts/proximanova_bold.otf",
+});
+
+const h2Font = localFont({
+  src: "../../fonts/HeadingNowTrial-55Medium.ttf",
+});
 
 const colors = ["#F51085", "#971EF7", "#1963F0", "#53E8B3"];
 
@@ -42,13 +63,19 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
   return (
     <div className="mx-auto md:container mt-10 w-full pb-10  flex flex-col gap-4 ">
       <div className="flex flex-col gap-4 max-w-[800px] mx-auto items-center  p-10 rounded-[20px]">
-        <div className="bg-theme-color1 p-2 rounded-[8px] big-text-bold text-primary w-fit text-5xl -rotate-6">
+        <div
+          className={`bg-theme-color1 p-2 rounded-[8px] uppercase text-primary w-fit text-5xl -rotate-6 ${bigFont.className}`}
+        >
           blog
         </div>
-        <h1 className="text-8xl md:text-9xl big-text-bold text-primary text-center">
+        <h1
+          className={`text-8xl md:text-9xl text-primary text-center uppercase ${bigFont.className}`}
+        >
           The Content Lab
         </h1>
-        <p className="text-primary/70 small-text text-center">
+        <p
+          className={`text-primary/70 text-center text-xl ${bodyFont.className}`}
+        >
           We break down what’s working in the world of content, short-form
           video, and digital growth. From viral trends to platform algorithms,
           we share insights, experiments, and actionable tips to help brands,
@@ -73,7 +100,7 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
             privacy policy
           </Link>
         </p>
-        <button className="bg-primary text-background big-text-bold text-4xl rounded-full py-4 w-fit mx-auto px-8">
+        <button className="bg-primary text-background  text-4xl rounded-full py-4 w-fit mx-auto px-8">
           Sign Up
         </button> */}
       </div>
@@ -81,12 +108,13 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
         <div className="w-full max-w-full flex-wrap flex items-center gap-4 order-3 md:order-1">
           <button
             onClick={() => setFilter("all")}
-            className={`px-6 py-2 text-primary  big-text-bold text-3xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background
-          ${
-            filter === "all"
-              ? "bg-theme-color1  border-theme-color1 "
-              : "border-[#EAEAEA] bg-transparent"
-          }
+            className={`px-6 py-2 text-primary   text-2xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
+              h2Font.className
+            } ${
+              filter === "all"
+                ? "bg-theme-color1  border-theme-color1 "
+                : "border-[#EAEAEA] bg-transparent"
+            }
           `}
           >
             All Posts
@@ -95,12 +123,13 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`px-6 py-2 text-primary  big-text-bold text-3xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background
-          ${
-            filter === category
-              ? "bg-theme-color1  border-theme-color1 "
-              : "border-[#EAEAEA] bg-transparent"
-          }
+              className={`px-6 py-2 text-primary   text-2xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
+                h2Font.className
+              } ${
+                filter === category
+                  ? "bg-theme-color1  border-theme-color1 "
+                  : "border-[#EAEAEA] bg-transparent"
+              }
           `}
             >
               {category}
@@ -165,11 +194,16 @@ const PostCard = ({post}: {post: BlogPost}) => {
         />
       </div>
       <div className="p-4 gap-2 h-fit flex flex-col">
-        <h1 className="big-text-bold text-primary text-4xl group-hover:underline text-center">
+        <h1
+          className={` text-primary text-4xl group-hover:underline text-center ${bodyBold.className}`}
+        >
           {post.title}
         </h1>
         <div className="relative h-fit overflow-hidden ">
-          <p ref={desRef} className="text-muted-foreground text-sm text-center">
+          <p
+            ref={desRef}
+            className={`text-muted-foreground text-sm text-center ${bodyFont.className}`}
+          >
             {post.description}
           </p>
         </div>

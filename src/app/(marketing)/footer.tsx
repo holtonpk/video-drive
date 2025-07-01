@@ -1,6 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import {Smile} from "./icons";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "./fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "./fonts/proximanova_light.otf",
+});
 
 export const Footer = () => {
   return (
@@ -8,7 +17,9 @@ export const Footer = () => {
       <div className="w-full bg-[#1A1A1A] dark rounded-[12px] p-8 xl:p-16 flex flex-col">
         <div className="flex md:flex-row flex-col justify-between">
           <div className="flex flex-col">
-            <h1 className="text-7xl sm:text-8xl  xl:text-10xl big-text-bold flex flex-col">
+            <h1
+              className={`text-7xl sm:text-8xl  lg:text-8xl flex flex-col uppercase ${h1Font.className}`}
+            >
               Let&apos;s work <br />{" "}
               <span className="relative w-fit ">
                 together{" "}
@@ -17,7 +28,7 @@ export const Footer = () => {
             </h1>
             <Link
               href="/contact"
-              className="mt-6 w-fit flex gap-4 items-center bg-theme-color1 text-background hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background py-2 px-6 rounded-full big-text text-3xl"
+              className={`mt-6 w-fit flex gap-4 items-center bg-theme-color1 text-background hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background py-2 px-6 rounded-full text-2xl uppercase ${h1Font.className}`}
             >
               <div className="flex">
                 <div className="p-[2px] rounded-full bg-white relative h-10 w-10 -ml-2">
@@ -47,46 +58,50 @@ export const Footer = () => {
           </div>
           <div className="grid grid-cols-2 gap-10 mt-12 md:mt-0">
             <div className="flex flex-col gap-4">
-              <h1 className="text-2xl big-text-bold ">Explore</h1>
+              <h1 className={`text-2xl uppercase ${h1Font.className}`}>
+                Explore
+              </h1>
               <div className="flex flex-col gap-4">
-                <Link
+                {/* <Link
                   href="/"
-                  className=" text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   Work
-                </Link>
+                </Link> */}
                 <Link
-                  href="/"
-                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  href="/services"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   Services
                 </Link>
                 <Link
-                  href="/"
-                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  href="/blog"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   Blog
                 </Link>
                 <Link
-                  href="/"
-                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  href="/contact"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   Contact
                 </Link>
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              <h1 className="text-2xl big-text-bold">Say hello</h1>
+              <h1 className={`text-2xl uppercase ${h1Font.className}`}>
+                Say hello
+              </h1>
               <div className="flex flex-col gap-4">
                 <a
                   href="mailto:team@ripple-media.co"
-                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   team@ripple-media.co
                 </a>
                 <a
                   href="tel:+17206482708"
-                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
+                  className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl ${bodyFont.className}`}
                 >
                   +1 (720)-648-2708
                 </a>
@@ -96,20 +111,20 @@ export const Footer = () => {
         </div>
         <div className="w-full h-1 border-b border-[#BBBBBB] border-dashed my-8"></div>
         <div className="flex flex-col md:flex-row gap-4 md:gap-10">
-          <p className="text-[#BBBBBB] small-text">
+          <p className={`text-[#BBBBBB] small-text ${bodyFont.className}`}>
             © 2025 Ripple Media All rights reserved
           </p>
           {/* add privacy policy and terms of service */}
           <div className="flex gap-4">
             <Link
               href="/privacy"
-              className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary "
+              className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary ${bodyFont.className}`}
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary "
+              className={`text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary ${bodyFont.className}`}
             >
               Terms of Service
             </Link>

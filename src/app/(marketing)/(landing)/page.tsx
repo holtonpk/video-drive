@@ -7,6 +7,15 @@ import {Footer} from "../footer";
 import {constructMetadata} from "@/lib/utils";
 import {Bolt, Eyes, Slash} from "../icons";
 import {EmphSection} from "../emph-section";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 
 export const metadata = constructMetadata({
   title: "Ripple Media",
@@ -32,15 +41,19 @@ const Page = () => {
         <Process
           Heading={
             <div className="flex flex-col gap-4 ">
-              <h1 className="text-6xl sm:text-8xl  big-text-bold text-center relative">
+              <h1
+                className={`text-6xl sm:text-8xl  text-center uppercase relative ${h1Font.className}`}
+              >
                 Helping you <br />{" "}
                 <span className="relative ">
                   transform
-                  <Slash className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[110%] fill-theme-color3" />
+                  <Slash className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[110%] fill-theme-color3" />
                 </span>{" "}
                 your <br /> Marketing
               </h1>
-              <p className="text-center text-base md:text-lg xl:text-xl small-text text-primary/70  mx-auto max-w-[400px] sm:max-w-[600px]">
+              <p
+                className={`text-center text-base md:text-lg xl:text-xl text-primary/70  mx-auto max-w-[400px] sm:max-w-[600px] ${bodyFont.className}`}
+              >
                 We combine sharp storytelling, platform-native strategy, and
                 high-speed execution to create short-form content that grabs
                 attention, builds engagement, and fuels growth. Turning views

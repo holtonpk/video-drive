@@ -3,6 +3,15 @@ import React, {useEffect, useState} from "react";
 import {NavBar} from "../navbar";
 import {animationControls, motion} from "framer-motion";
 import {Smile} from "../icons";
+import localFont from "next/font/local";
+
+const headingFont = localFont({
+  src: "../fonts/HeadingNowTrial-57Extrabold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 
 // Custom hook to detect screen size
 const useScreenSize = () => {
@@ -56,9 +65,11 @@ export const Hero = () => {
   return (
     <div id="hero" className="flex flex-col lg:min-h-screen">
       <NavBar />
-      <div className="container mx-auto relative flex flex-col items-center sm:pt-16 sm:pb-0 py-[150px]  lg:gap-6  ">
+      <div className="container mx-auto relative flex flex-col items-center sm:pt-10 mt-20 sm:pb-0 py-[150px]  lg:gap-6  ">
         <div className="relative max-w-[500px]  ">
-          <h1 className="text-8xl leading-[80px] lg:text-9xl lg:leading-[100px]  text-center relative z-20  big-text">
+          <h1
+            className={`text-8xl leading-[80px] lg:text-9xl lg:leading-[100px] uppercase text-center relative z-20  ${headingFont.className}`}
+          >
             <span className="relative z-20">Content</span> <br />
             <span className="text-theme-color3 relative z-10 bg-background ">
               <span className="relative z-20 pointer-events-none ">
@@ -86,7 +97,9 @@ export const Hero = () => {
             <span className="relative z-20 whitespace-nowrap"> Made Easy </span>
           </h1>
         </div>
-        <p className="sm:max-w-[300px] lg:max-w-[500px] text-center small-text text-primary/70">
+        <p
+          className={`sm:max-w-[300px] lg:max-w-[500px] text-center text-xl text-primary/70 ${bodyFont.className}`}
+        >
           We specialize in creating viral, short-form content for fast-growing
           brands helping them capture attention, spark engagement, and connect
           with audiences at scale.

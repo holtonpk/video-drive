@@ -1,4 +1,21 @@
 import {Heart} from "../icons";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
+
+const h2Font = localFont({
+  src: "../fonts/HeadingNowTrial-55Medium.ttf",
+});
+
+const bodyBoldFont = localFont({
+  src: "../fonts/proximanova_bold.otf",
+});
 
 export const Reviews = () => {
   const reviews = [
@@ -57,7 +74,9 @@ export const Reviews = () => {
   return (
     <div className="container flex flex-col gap-8 items-center mx-auto  py-20">
       <div className="flex flex-col max-w-[550px] gap-4">
-        <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-center uppercase leading-none">
+        <div
+          className={`text-5xl md:text-6xl lg:text-7xl font-bold text-center uppercase leading-none ${h1Font.className}`}
+        >
           <div>See why our</div>
           <div className="flex items-center justify-center">
             <span>Clients</span>
@@ -65,7 +84,7 @@ export const Reviews = () => {
             <span>Us</span>
           </div>
         </div>
-        <p className="text-center text-lg small-text">
+        <p className={`text-center text-lg small-text ${bodyFont.className}`}>
           We&apos;re detail-obsessed, deadline-reliable, and always willing to
           go further. It&apos;s how we operate and why our clients keep coming
           back.
@@ -85,7 +104,9 @@ export const Reviews = () => {
                   </span>
                 ))}
               </div>
-              <p className="text-base text-primary/70 mb-8 small-text">
+              <p
+                className={`text-base text-primary/70 mb-8 small-text ${bodyFont.className}`}
+              >
                 {review.body}
               </p>
               <div className="flex items-center mt-auto">
@@ -95,8 +116,16 @@ export const Reviews = () => {
                   className="w-12 h-12 rounded-full mr-4 border-2 border-gray-700 object-cover"
                 />
                 <div>
-                  <div className="font-bold text-white">{review.name}</div>
-                  <div className="text-gray-400 text-sm">{review.company}</div>
+                  <div
+                    className={`font-bold text-white ${bodyBoldFont.className}`}
+                  >
+                    {review.name}
+                  </div>
+                  <div
+                    className={`text-gray-400 text-sm ${bodyFont.className}`}
+                  >
+                    {review.company}
+                  </div>
                 </div>
               </div>
             </div>
@@ -105,7 +134,9 @@ export const Reviews = () => {
         <div className="absolute w-full bottom-0   z-20 flex flex-col items-center">
           <div className=" bg-gradient-to-t from-background to-transparent h-28 w-full"></div>
           <div className="bg-background w-full py-4 flex items-center justify-center">
-            <button className="bg-background big-text-bold text-3xl rounded-full border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background">
+            <button
+              className={`bg-background text-3xl rounded-full uppercase border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background ${h2Font.className}`}
+            >
               See Our Success Stories
             </button>
           </div>

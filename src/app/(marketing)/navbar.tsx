@@ -5,6 +5,19 @@ import Link from "next/link";
 import {useEffect, useState} from "react";
 import {useLockBody} from "@/lib/hooks";
 import {motion, AnimatePresence} from "framer-motion";
+import localFont from "next/font/local";
+
+const bigFont = localFont({
+  src: "./fonts/HeadingNowTrial-57Extrabold.ttf",
+});
+
+const h1Font = localFont({
+  src: "./fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const h2Font = localFont({
+  src: "./fonts/HeadingNowTrial-55Medium.ttf",
+});
 
 export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [isFixed, setIsFixed] = useState(false);
@@ -64,8 +77,10 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
           >
             <div className="flex md:grid md:grid-cols-3 items-center w-full ">
               <Link href="/" className="flex  items-center">
-                <Logo className="w-[35px] h-[35px] dark:fill-theme-color1 fill-primary" />
-                <span className="text-3xl h-8 font-bold whitespace-nowrap dark:text-theme-color1 text-primary big-text-bold">
+                <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
+                <span
+                  className={`text-3xl  font-bold whitespace-nowrap dark:text-theme-color1 text-primary ${h1Font.className}`}
+                >
                   Ripple Media
                 </span>
               </Link>
@@ -78,26 +93,26 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
                 </LinkButton> */}
                 <LinkButton
                   href="/blog"
-                  className="text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                  className={`text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase text-lg ${h2Font.className}`}
                 >
                   Blog
                 </LinkButton>
                 <LinkButton
                   href="/about"
-                  className="text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                  className={`text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
                 >
                   About
                 </LinkButton>
                 <LinkButton
                   href="/services"
-                  className="text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                  className={`text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
                 >
                   Services
                 </LinkButton>
               </div>
               <Link
                 href="/contact"
-                className={` hidden md:flex bg-primary dark:bg-theme-color1 rounded-full text-background uppercase big-text text-2xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 dark:ring-offset-background ring-offset-white transition-all duration-300 w-fit ml-auto`}
+                className={` hidden md:flex bg-primary dark:bg-theme-color1 rounded-full text-background uppercase  text-xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 dark:ring-offset-background ring-offset-white transition-all duration-300 w-fit ml-auto ${h1Font.className}`}
               >
                 Let&apos;s Talk
               </Link>
@@ -112,8 +127,10 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
         <div className="flex flex-col w-full px-6 py-4 md:py-8 ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
             <Link href="/" className="flex   items-center">
-              <Logo className="w-[35px] h-[35px] dark:fill-theme-color1 fill-primary" />
-              <span className="text-3xl h-8 font-bold whitespace-nowrap dark:text-theme-color1 text-primary big-text-bold">
+              <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
+              <span
+                className={`text-3xl  uppercase font-bold whitespace-nowrap dark:text-theme-color1 text-primary ${h1Font.className}`}
+              >
                 Ripple Media
               </span>
             </Link>
@@ -126,19 +143,19 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
               </LinkButton> */}
               <LinkButton
                 href="/blog"
-                className="text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
               >
                 Blog
               </LinkButton>
               <LinkButton
                 href="/about"
-                className="text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
               >
                 About
               </LinkButton>
               <LinkButton
                 href="/services"
-                className="text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase big-text text-xl"
+                className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
               >
                 Services
               </LinkButton>
@@ -146,7 +163,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
 
             <Link
               href="/contact"
-              className={` hidden md:flex bg-primary dark:bg-theme-color1 rounded-full text-background uppercase big-text text-2xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 ring-offset-background  transition-all duration-300 w-fit ml-auto`}
+              className={` hidden md:flex bg-primary dark:bg-theme-color1 rounded-full text-background uppercase  text-xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 ring-offset-background  transition-all duration-300 w-fit ml-auto ${h1Font.className}`}
               style={
                 bgColor
                   ? ({"--tw-ring-offset-color": bgColor} as React.CSSProperties)
@@ -174,7 +191,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
               damping: 25,
               duration: 5,
             }}
-            className="fixed z-[99]  group bottom-0 right-0 translate-x-4 translate-y-4  bg-theme-color1 rounded-tl-full w-[140px] h-[140px] flex items-center justify-center text-background leading-[30px] big-text-bold pl-6 pt-6 text-4xl"
+            className={`dark fixed z-[99]  group bottom-0 right-0 translate-x-4 translate-y-4  bg-theme-color1 rounded-tl-full w-[140px] h-[150px] flex items-center justify-center text-background pb-4  pl-6 pt-6 text-4xl ${bigFont.className}`}
           >
             <Link href={"/contact"}>
               Let&apos;s <br /> Talk

@@ -1,5 +1,18 @@
 import React from "react";
 import {Quote, LucideProps} from "lucide-react";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
+
+const bodyBoldFont = localFont({
+  src: "../fonts/proximanova_bold.otf",
+});
 
 export const Testimonial = () => {
   return (
@@ -9,7 +22,7 @@ export const Testimonial = () => {
         <h1 className="text-6xl  text-center relative z-20  big-text text-theme-color1">
           Creativity and curiosity drive everything we build
         </h1>
-        <p className="text-center small-text">
+        <p className={`text-center small-text text-xl ${bodyFont.className}`}>
           &quot;At Ripple Media, our edge comes from blending creativity with
           precision—and moving fast without sacrificing quality. I&apos;ve seen
           how our team&apos;s energy, cultural fluency, and obsession with
@@ -18,7 +31,9 @@ export const Testimonial = () => {
           today&apos;s digital landscape, and I&apos;m proud of the impact we
           make for our clients every day.&quot;
         </p>
-        <h2 className="text-center small-text">
+        <h2
+          className={`text-center small-text text-xl ${bodyBoldFont.className}`}
+        >
           - Patrick Holton, CO Founder / Creative Director
         </h2>
         {/* <Peace className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2" /> */}

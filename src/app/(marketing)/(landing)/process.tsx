@@ -1,7 +1,19 @@
 "use client";
 import React, {useEffect, useState, useRef} from "react";
 import Link from "next/link";
+import localFont from "next/font/local";
 
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const h2Font = localFont({
+  src: "../fonts/HeadingNowTrial-55Medium.ttf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
 // heading should be an element
 export const Process = ({Heading}: {Heading: React.ReactNode}) => {
   const [isInView, setIsInView] = useState(false);
@@ -53,7 +65,9 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
         className="flex flex-col lg:grid lg:grid-cols-3 gap-20 xl:gap-10 mt-24"
       >
         <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
-          <div className="absolute bg-theme-color3 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 big-text-bold text-4xl xl:text-5xl p-2 text-background ">
+          <div
+            className={`absolute bg-theme-color3 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+          >
             Content Creation
           </div>
           <video
@@ -64,21 +78,25 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             playsInline
           />
           <div className="flex flex-col gap-4 p-4 pt-0 sm:items-start sm:justify-center ">
-            <p className=" text-primary text-xl text-center sm:text-left lg:text-center ">
+            <p
+              className={` text-primary text-xl text-center sm:text-left lg:text-center ${bodyFont.className}`}
+            >
               We craft purpose-driven content that stops the scroll. With 10+
               years of viral success, our team knows how to spark engagement and
               get your brand seen.
             </p>
             <Link
               href="/services/content-creation"
-              className="text-xl w-full big-text text-center border-2 border-white rounded-full px-6 py-2 hover:border-theme-color3 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color3"
+              className={`text-xl w-full text-center border-2 border-white rounded-full px-6 py-2 hover:border-theme-color3 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color3 ${h2Font.className}`}
             >
               Learn More
             </Link>
           </div>
         </div>
         <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
-          <div className="absolute bg-theme-color2 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 big-text-bold text-4xl xl:text-5xl p-2 text-background ">
+          <div
+            className={`absolute bg-theme-color2 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+          >
             Social Management
           </div>
           <video
@@ -89,21 +107,25 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             playsInline
           />
           <div className="flex flex-col gap-4 p-4 pt-0 sm:items-start sm:justify-center ">
-            <p className=" text-primary text-xl text-center sm:text-left lg:text-center ">
+            <p
+              className={` text-primary text-xl text-center sm:text-left lg:text-center ${bodyFont.className}`}
+            >
               From posting to engagement, we handle your entire social
               presence—building awareness, growing your audience, and keeping
               your brand top of mind.
             </p>
             <Link
               href="/services/social-management"
-              className="text-xl w-full big-text text-center border-2 border-white rounded-full px-6 py-2 hover:border-theme-color2 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color2"
+              className={`text-xl w-full text-center border-2 border-white rounded-full px-6 py-2 hover:border-theme-color2 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color2 ${h2Font.className}`}
             >
               Learn More
             </Link>
           </div>
         </div>
         <div className="w-full  lg:max-w-[400px]  bg-[#1A1A1A] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
-          <div className="absolute bg-theme-color1 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 big-text-bold text-4xl xl:text-5xl p-2 text-background ">
+          <div
+            className={`absolute bg-theme-color1 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-4xl  p-2 text-background uppercase ${h1Font.className}`}
+          >
             Paid Media
           </div>
           <video
@@ -115,7 +137,9 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
           />
 
           <div className="flex flex-col gap-4 p-4 pt-0 sm:items-start sm:justify-center ">
-            <p className=" text-primary text-xl text-center sm:text-left lg:text-center ">
+            <p
+              className={` text-primary text-xl text-center sm:text-left lg:text-center ${bodyFont.className}`}
+            >
               We run targeted ad campaigns built to perform. Backed by data, we
               drive clicks, conversions, and real ROI tailored to your goals.
               <br />
@@ -123,7 +147,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             </p>
             <Link
               href="/services/paid-media"
-              className="text-xl w-full big-text text-center border-2 border-white rounded-full px-6 py-2  hover:border-theme-color1 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color1"
+              className={`text-xl w-full uppercase text-center border-2 border-white rounded-full px-6 py-2  hover:border-theme-color1 hover:ring-2 ring-offset-2 ring-offset-background ring-theme-color1 ${h2Font.className}`}
             >
               Learn More
             </Link>

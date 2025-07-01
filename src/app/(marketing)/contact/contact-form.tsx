@@ -15,6 +15,23 @@ import {Checkbox} from "@/components/ui/checkbox";
 import axios from "axios";
 import {Loader} from "lucide-react";
 import {useToast} from "@/components/ui/use-toast";
+import localFont from "next/font/local";
+
+const h1Font = localFont({
+  src: "../fonts/HeadingNowTrial-56Bold.ttf",
+});
+
+const bodyFontBold = localFont({
+  src: "../fonts/proximanova_bold.otf",
+});
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_light.otf",
+});
+
+const h2Font = localFont({
+  src: "../fonts/HeadingNowTrial-55Medium.ttf",
+});
 
 export const ContactForm = () => {
   const {toast} = useToast();
@@ -133,13 +150,13 @@ export const ContactForm = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="big-text-bold text-5xl">Get in touch</h1>
+      <h1 className={`text-5xl uppercase ${h1Font.className}`}>Get in touch</h1>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         <div>
           <label
             htmlFor="user_name"
-            className="block text-sm font-medium text-primar mb-2"
+            className={`block text-sm font-medium text-primary mb-2 ${bodyFontBold.className}`}
           >
             Full Name
           </label>
@@ -149,9 +166,9 @@ export const ContactForm = () => {
             name="user_name"
             value={formData.user_name}
             onChange={handleInputChange}
-            className={`w-full px-4 py-3 border rounded-[8px] focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10  ${
-              errors.user_name ? "border-theme-color3" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-3 border  focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10 text-base ${
+              bodyFontBold.className
+            } ${errors.user_name ? "border-theme-color3" : "border-gray-300"}`}
             placeholder="Enter your full name"
           />
           {errors.user_name && (
@@ -162,7 +179,7 @@ export const ContactForm = () => {
         <div>
           <label
             htmlFor="user_email"
-            className="block text-sm font-medium text-primary mb-2"
+            className={`block text-sm font-medium text-primary mb-2 ${bodyFontBold.className}`}
           >
             Email Address
           </label>
@@ -172,9 +189,9 @@ export const ContactForm = () => {
             name="user_email"
             value={formData.user_email}
             onChange={handleInputChange}
-            className={`w-full px-4 py-3 border rounded-[8px] focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10  ${
-              errors.user_email ? "border-theme-color3" : "border-gray-300"
-            }`}
+            className={`w-full px-4 py-3 border  focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10 text-base ${
+              bodyFontBold.className
+            } ${errors.user_email ? "border-theme-color3" : "border-gray-300"}`}
             placeholder="Enter your email address"
           />
           {errors.user_email && (
@@ -187,7 +204,7 @@ export const ContactForm = () => {
         <div>
           <label
             htmlFor="user_phone"
-            className="block text-sm font-medium text-primary mb-2"
+            className={`block text-sm font-medium text-primary mb-2 ${bodyFontBold.className}`}
           >
             Phone Number <span className="text-gray-500">(Optional)</span>
           </label>
@@ -197,7 +214,7 @@ export const ContactForm = () => {
             name="user_phone"
             value={formData.user_phone}
             onChange={handleInputChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-[8px] focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10"
+            className={`w-full px-4 py-3 border border-gray-300 focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10 text-base ${bodyFontBold.className}`}
             placeholder="Enter your phone number"
           />
         </div>
@@ -205,7 +222,7 @@ export const ContactForm = () => {
         <div>
           <label
             htmlFor="user_hear_about_us"
-            className="block text-sm font-medium text-primary mb-2"
+            className={`block text-sm font-medium text-primary mb-2 ${bodyFontBold.className}`}
           >
             How did you hear about us?
           </label>
@@ -220,7 +237,9 @@ export const ContactForm = () => {
             }}
           >
             <SelectTrigger
-              className={`w-full px-4 py-3 border rounded-[8px] focus:ring-2 focus:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10  ${
+              className={`w-full px-4 py-3 border focus:ring-2 focus:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10 text-base ${
+                bodyFontBold.className
+              } ${
                 errors.user_hear_about_us
                   ? "border-theme-color3"
                   : "border-gray-300"
@@ -249,7 +268,7 @@ export const ContactForm = () => {
         <div className="col-span-2">
           <label
             htmlFor="howCanWeHelp"
-            className="block text-sm font-medium text-primary mb-2"
+            className={`block text-sm font-medium text-primary mb-2 ${bodyFontBold.className}`}
           >
             How can we help?
           </label>
@@ -259,7 +278,9 @@ export const ContactForm = () => {
             value={formData.user_message}
             onChange={handleInputChange}
             rows={4}
-            className={`w-full px-4 py-3 border rounded-[12px] focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10  ${
+            className={`w-full px-4 py-3 border focus:ring-2 focus-visible:ring-theme-color1 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-primary/10 text-base ${
+              bodyFontBold.className
+            } ${
               errors.user_message ? "border-theme-color3" : "border-gray-300"
             }`}
             placeholder="Tell us how we can help you..."
@@ -275,7 +296,10 @@ export const ContactForm = () => {
           {/* add email list opt in checkbox */}
           <div className="flex items-center gap-2 w-full text-primary/70">
             <Checkbox id="emailListOptIn" className="rounded-[4px]" />
-            <label htmlFor="emailListOptIn">
+            <label
+              htmlFor="emailListOptIn"
+              className={`text-base ${bodyFont.className}`}
+            >
               Subscribe for the latest news and insights delivered to your inbox
             </label>
           </div>
@@ -293,7 +317,9 @@ export const ContactForm = () => {
               "Send Message"
             )}
           </button>
-          <span className="text-sm text-primary/70 text-center mt-2 w-fit ">
+          <span
+            className={`text-sm text-primary/70 text-center mt-2 w-fit ${bodyFont.className}`}
+          >
             By submitting this form I accept the{" "}
             <Link href="/privacy" className="text-primary underline">
               Privacy Policy
