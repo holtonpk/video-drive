@@ -37,6 +37,15 @@ export const Reviews = () => {
       image:
         "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/1692796692924.jpeg?alt=media&token=093521dc-0ec1-4a6b-a24b-be6c723c1c78",
     },
+
+    {
+      stars: 5,
+      body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in ”",
+      name: "John Doe",
+      title: "CEO",
+      company: "ABC Inc.",
+      image: "https://via.placeholder.com/150",
+    },
     {
       stars: 5,
       body: "The Ripple team is absolutely dialed. They are a pleasure to work with and have delivered on every promise. I highly recommend them to anyone looking to grow on social media.",
@@ -48,7 +57,15 @@ export const Reviews = () => {
     },
     {
       stars: 5,
-      body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in ”",
+      body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in each interaction and their dedication to our project ensured that the final product went beyond expectation. We are delighted with the results and the feedback from our customers has been brilliant!”",
+      name: "John Doe",
+      title: "CEO",
+      company: "ABC Inc.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      stars: 5,
+      body: "These guys know shortform video like the back of their hand. From organic TOF content to paid ads, they've got it all covered. They are very professional and always deliver on time. The reports have been very useful.",
       name: "John Doe",
       title: "CEO",
       company: "ABC Inc.",
@@ -57,6 +74,14 @@ export const Reviews = () => {
     {
       stars: 5,
       body: "“The Ripple team were fantastic to work with. Their passion and skill shines through in each interaction and their dedication to our project ensured that the final product went beyond expectation. We are delighted with the results and the feedback from our customers has been brilliant!”",
+      name: "John Doe",
+      title: "CEO",
+      company: "ABC Inc.",
+      image: "https://via.placeholder.com/150",
+    },
+    {
+      stars: 5,
+      body: "These guys know shortform video like the back of their hand. From organic TOF content to paid ads, they've got it all covered. They are very professional and always deliver on time. The reports have been very useful.",
       name: "John Doe",
       title: "CEO",
       company: "ABC Inc.",

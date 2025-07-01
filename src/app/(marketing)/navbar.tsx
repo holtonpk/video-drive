@@ -77,7 +77,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
       {isFixed ? (
         <div className="w-full  fixed top-0 left-0 z-[99] pt-3">
           <div
-            className={`bg-[#F6F6F6] dark:bg-[#262626]/80 blurBack rounded-full max-w-[90%] md:w-[800px] px-10 mx-auto h-20 z-[99] flex items-center justify-center transition-transform duration-300  ${
+            className={`bg-[#F6F6F6] dark:bg-[#262626] blurBack rounded-full max-w-[90%] md:w-[800px] px-10 mx-auto h-20 z-[99] flex items-center justify-center transition-transform duration-300  ${
               isVisible
                 ? "translate-y-0 top-3"
                 : "-translate-y-full -top-3 hover:translate-y-0 hover:top-0"
