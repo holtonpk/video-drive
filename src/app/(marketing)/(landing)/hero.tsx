@@ -68,7 +68,7 @@ export const Hero = () => {
       <div className="container mx-auto relative flex flex-col items-center sm:pt-10 sm:mt-20 sm:pb-0 py-[150px] gap-4 lg:gap-6  ">
         <div className="relative max-w-[500px]  ">
           <h1
-            className={`text-8xl leading-[80px] lg:text-9xl lg:leading-[100px] uppercase text-center relative z-20  ${headingFont.className}`}
+            className={`text-7xl sm:text-8xl leading-[80px] lg:text-9xl lg:leading-[100px] uppercase text-center relative z-20  ${headingFont.className}`}
           >
             <span className="relative z-20">Content</span> <br />
             <span className="text-theme-color3 relative z-10 bg-background ">
