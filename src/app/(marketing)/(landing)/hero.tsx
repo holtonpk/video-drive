@@ -63,7 +63,9 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div id="hero" className="flex flex-col lg:min-h-screen">
+    <div id="hero" className="flex flex-col sm:h-screen sm:max-h-[800px]">
+      {/* <div className="fixed z-[999999] h-screen w-1 bg-red-600 top-0 left-1/2 -translate-x-1/2"></div> */}
+
       <NavBar />
       <div className="container mx-auto relative flex flex-col items-center sm:pt-10 sm:mt-20 sm:pb-0 py-[150px] gap-4 lg:gap-6  ">
         <div className="relative max-w-[500px]  ">
@@ -106,10 +108,15 @@ export const Hero = () => {
         </p>
 
         {/* Conditionally render only the appropriate video display */}
-        {isMobile ? (
+        {/* {isMobile ? (
           <MobileVideoDisplay pauseVideos={!isInView} />
         ) : (
           <VideoDisplay pauseVideos={!isInView} />
+        )} */}
+        {isMobile ? (
+          <MobileVideoDisplay pauseVideos={true} />
+        ) : (
+          <VideoDisplay pauseVideos={true} />
         )}
       </div>
     </div>
@@ -183,7 +190,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] aspect-[9/16]  ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[1]}
@@ -233,7 +240,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0} // no movement if paused
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[125px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className=" overflow-hidden bg-muted rounded-[8px] h-[125px]  aspect-[9/16]  ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[0]}
@@ -283,7 +290,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px]  aspect-[9/16]  ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className=" overflow-hidden bg-muted rounded-[8px] h-[100px]  aspect-[9/16]  ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[2]}
@@ -336,7 +343,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[4]}
@@ -386,7 +393,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[125px] md:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className=" overflow-hidden bg-muted rounded-[8px] h-[125px] md:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[3]}
@@ -436,7 +443,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background "
+            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background "
           >
             <video
               src={videos[5]}
@@ -528,7 +535,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                 }
               : {duration: 0} // no movement if paused
           }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
         >
           <video
             src={videos[0]}
@@ -576,7 +583,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                 }
               : {duration: 0}
           }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
         >
           <video
             src={videos[1]}
@@ -625,7 +632,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                   }
                 : {duration: 0}
             }
-            className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+            className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
           >
             <video
               src={videos[2]}
@@ -677,7 +684,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                 }
               : {duration: 0}
           }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
         >
           <video
             src={videos[3]}
@@ -725,7 +732,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                 }
               : {duration: 0}
           }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
         >
           <video
             src={videos[4]}
@@ -773,7 +780,7 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
                 }
               : {duration: 0}
           }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-primary/60 ring-offset-2 ring-offset-background"
+          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
         >
           <video
             src={videos[5]}

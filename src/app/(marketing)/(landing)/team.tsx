@@ -34,7 +34,7 @@ export const Team = ({
     {
       title: "Driven by Results",
       description:
-        "We create high-impact videos tailored to your brand’s goals—built to perform, not just look good.",
+        "We don’t chase vanity metrics. Our videos are built to convert turning attention into clicks, leads, and sales.",
     },
     {
       title: "All In-House, All-In",
@@ -47,7 +47,7 @@ export const Team = ({
         "We sweat the details. Every frame, cut, and caption goes through our hands-on quality process to make sure it’s done right.",
     },
     {
-      title: "Real Support, Real Relationships",
+      title: "Always Within Reach",
       description:
         "You’ll never get passed around. We keep it personal, providing one-on-one support and long-term partnership that grows with you.",
     },
@@ -102,7 +102,7 @@ export const Team = ({
             <h2 className={`text-2xl uppercase font-bold ${h2Font.className}`}>
               {flex.title}
             </h2>
-            <p className={`text-primary/70 text-xl ${bodyFont.className}`}>
+            <p className={`text-primary/70 text-lg ${bodyFont.className}`}>
               {flex.description}
             </p>
           </div>

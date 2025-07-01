@@ -160,7 +160,7 @@ export const Reviews = () => {
           <div className=" bg-gradient-to-t from-background to-transparent h-28 w-full"></div>
           <div className="bg-background w-full py-4 flex items-center justify-center">
             <button
-              className={`bg-background text-3xl rounded-full uppercase border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background ${h2Font.className}`}
+              className={`bg-background text-xl md:text-3xl rounded-full uppercase border-2 border-theme-color1 text-white px-8 py-2 hover:ring-2 hover:ring-white hover:border-white ring-offset-4 ring-offset-background ${h2Font.className}`}
             >
               See Our Success Stories
             </button>

@@ -143,7 +143,6 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
               We run targeted ad campaigns built to perform. Backed by data, we
               drive clicks, conversions, and real ROI tailored to your goals.
               <br />
-              <br />
             </p>
             <Link
               href="/services/paid-media"
