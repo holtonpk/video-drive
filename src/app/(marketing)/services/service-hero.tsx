@@ -29,11 +29,11 @@ export const ServiceHero = ({
       <div className="container grid md:grid-cols-2 gap-10 py-16 md:min-h-screen">
         <div className="flex flex-col gap-4">
           <div
-            className={`p-2  bg-white rounded-[8px] w-fit text-3xl -rotate-6 ${h1Font.className}`}
+            className={`p-2  bg-white rounded-[8px] w-fit text-2xl sm:text-3xl -rotate-3 ${h1Font.className}`}
           >
             {label}
           </div>
-          <h1 className={`text-8xl font-bold  ${h1Font.className}`}>
+          <h1 className={`text-7xl sm:text-8xl font-bold  ${h1Font.className}`}>
             {heading}
           </h1>
           <p className={`text-lg  text-primary/70 ${bodyFont.className}`}>

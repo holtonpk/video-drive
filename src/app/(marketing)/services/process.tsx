@@ -19,7 +19,7 @@ export type ProcessData = {
 
 export const Process = ({data}: {data: ProcessData}) => {
   return (
-    <div className="bg-white py-40">
+    <div className="bg-white py-20 sm:py-40">
       <div className="container mx-auto flex flex-col gap-20">
         <div className="flex flex-col items-center text-center gap-4 max-w-[700px] mx-auto">
           <h1

@@ -30,10 +30,10 @@ export const ServiceDetails = ({
   color: string;
 }) => {
   return (
-    <div className="container mx-auto py-40 flex flex-col gap-16 items-center   bg-white text-primary">
+    <div className="container mx-auto py-20 sm:py-40 flex flex-col gap-16 items-center   bg-white text-primary">
       <div className="flex flex-col items-center text-center gap-4 max-w-[500px]">
         <h1
-          className={`relative text-8xl text-primary uppercase ${h1Font.className}`}
+          className={`relative text-7xl sm:text-8xl text-primary uppercase ${h1Font.className}`}
         >
           {title}
         </h1>

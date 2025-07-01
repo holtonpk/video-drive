@@ -4,7 +4,7 @@ import {Slash} from "../icons";
 
 export const Services = () => {
   return (
-    <div className="bg-background dark py-40">
+    <div className="bg-background dark py-20 sm:py-40">
       <Process
         Heading={
           <>

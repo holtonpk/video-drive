@@ -10,7 +10,6 @@ const PolicyPage = () => {
   return (
     <div className="dark flex flex-col h-fit min-h-screen">
       <NavBar />
-
       <PolicyBody />
       <div className="mt-auto">
         <Footer />
