@@ -71,7 +71,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             Content Creation
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/social_ripple_media_httpss.mj.run1-JGTcfXcWw_Create_a_seamless_loop__a1513d2c-ed14-4011-91b6-382727edea07_0.mp4?alt=media&token=969e329f-cd9f-486b-b2dd-1a26c3269dd6"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/content-website.webm?alt=media&token=c9259ce9-9146-4042-b5d4-5005cc75380b"
             className="aspect-square w-full rounded-3xl process-video"
             muted
             loop
@@ -100,7 +100,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             Social Management
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/social_ripple_media_httpss.mj.runYhCUs5GnHsU_Create_a_seamless_loop__6a50952f-5226-4e9b-adbd-ecacd77f093a_0.mp4?alt=media&token=2dfdb1a7-1317-45d5-8ac7-32c91682709c"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/social-website.webm?alt=media&token=561eb8c0-e237-4220-8e7b-cc08db7cb07c"
             className="aspect-square w-full rounded-3xl process-video "
             muted
             loop
@@ -129,7 +129,7 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             Paid Media
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/social_ripple_media_httpss.mj.runpQy1I133QYk_Create_a_seamless_loop__1244c476-b91f-4a0b-9521-d6d0269e8629_2.mp4?alt=media&token=481aee2a-4312-40f4-9e24-66daaa99aa8c"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/paid-website.webm?alt=media&token=bd14bc7c-439a-43dc-8dc5-b78c95b07314"
             className="aspect-square w-full rounded-3xl process-video"
             muted
             loop
