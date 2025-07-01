@@ -33,7 +33,7 @@ export const EmphSection = ({
       <div className="px-10 md:px-0 container mx-auto  gap-10 bg-background dark">
         <div className="flex flex-col gap-4  max-w-[600px] lg:max-w-[800px] text-center mx-auto relative py-4 ">
           <div
-            className={`text-4xl sm:text-6xl md:text-7xl uppercase text-primary relative ${h1Font.className}`}
+            className={`w-fit mx-auto text-5xl sm:text-6xl md:text-7xl uppercase text-primary relative ${h1Font.className}`}
           >
             <span className="relative z-20">{title}</span>
             <motion.div
@@ -59,14 +59,15 @@ export const EmphSection = ({
                   : {opacity: 0, scale: 0, rotate: -180}
               }
               transition={{duration: 1, delay: 0.8, ease: "easeInOut"}}
-              className="absolute bottom-0 sm:bottom-10 lg:bottom-20 -left-0 sm:-left-10"
+              className="absolute bottom-0 left-0  md:-left-10"
             >
               {Icon2}
             </motion.div>
           </div>
-          <p className={`text-primary/70 text-xl ${bodyFont.className}`}>
-            {description}
-          </p>
+          <p
+            dangerouslySetInnerHTML={{__html: description}}
+            className={`text-primary/70 text-xl ${bodyFont.className}`}
+          />
           <Arrow className="absolute top-0 right-0 translate-x-1/2 md:translate-x-full -translate-y-full  h-[40px] w-[80px] md:h-[80px] md:w-[120px] " />
           <Arrow className="absolute top-0 left-0 -translate-x-1/2 md:-translate-x-full -translate-y-full  rotate-[250deg] h-[40px] w-[80px] md:h-[80px] md:w-[120px]" />
           <Arrow className="absolute bottom-0 right-0 translate-x-1/2 md:translate-x-full translate-y-full  rotate-[70deg] h-[40px] w-[80px] md:h-[80px] md:w-[120px]" />

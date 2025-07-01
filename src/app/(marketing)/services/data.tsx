@@ -240,7 +240,7 @@ export const SocialMediaFAQData: FAQDataType = [
     id: 2,
     question: "How often do you post on my behalf?",
     answer:
-      "Posting frequency depends on your package and goals, but most clients receive 1–2 posts per dat across all platforms.",
+      "Posting frequency depends on your package and goals, but most clients receive 1–2 posts per day across all platforms.",
   },
   {
     id: 3,

@@ -97,7 +97,7 @@ export const Reviews = () => {
     },
   ];
   return (
-    <div className="container flex flex-col gap-8 items-center mx-auto  py-20">
+    <div className="container flex flex-col gap-8 items-center mx-auto py-20">
       <div className="flex flex-col max-w-[550px] gap-4">
         <div
           className={`text-5xl md:text-6xl lg:text-7xl font-bold text-center uppercase leading-none ${h1Font.className}`}
@@ -109,7 +109,7 @@ export const Reviews = () => {
             <span>Us</span>
           </div>
         </div>
-        <p className={`text-center text-lg small-text ${bodyFont.className}`}>
+        <p className={`text-center text-lg  ${bodyFont.className}`}>
           We&apos;re detail-obsessed, deadline-reliable, and always willing to
           go further. It&apos;s how we operate and why our clients keep coming
           back.

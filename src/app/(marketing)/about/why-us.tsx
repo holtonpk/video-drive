@@ -56,10 +56,10 @@ export const WhyUs = () => {
   ];
 
   return (
-    <div className="container mx-auto py-40 flex flex-col gap-16 items-center dark  bg-background text-primary">
+    <div className="container mx-auto py-20 sm:py-40 flex flex-col gap-16 items-center dark  bg-background text-primary">
       <div className="flex flex-col items-center text-center gap-4 max-w-[500px]">
         <h1
-          className={`relative text-8xl text-primary uppercase ${h1Font.className}`}
+          className={`relative text-6xl sm:text-8xl text-primary uppercase ${h1Font.className}`}
         >
           What makes us different?
         </h1>
@@ -71,7 +71,7 @@ export const WhyUs = () => {
           lasting impact.
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-16">
+      <div className="grid md:grid-cols-3 gap-16">
         {Reasons.map((point, index) => (
           <div className="flex flex-col gap-4" key={index}>
             <div className="flex items-end gap-4">

@@ -5,6 +5,7 @@ import {Arrow, Smile, Star, Rocket} from "../icons";
 
 import {motion, useInView} from "framer-motion";
 import localFont from "next/font/local";
+import {EmphSection} from "../emph-section";
 
 const h1Font = localFont({
   src: "../fonts/HeadingNowTrial-56Bold.ttf",
@@ -15,6 +16,35 @@ const bodyFont = localFont({
 });
 
 export const Journey = () => {
+  return (
+    <EmphSection
+      title="The Journey so Far"
+      description=" What started small has evolved into a team that blends speed,
+          creativity, and execution. We've partnered with businesses across
+          industries startups to enterprise crafting content that not only looks
+          great, but drives results.
+          <br />
+          <br />
+          Our in-house team pulls in top talent from around the world.
+          We're young, driven, and digital-native—deeply tuned into how
+          modern marketing works. From Gen Z to niche online communities, we
+          understand what grabs attention and builds real engagement in
+          today's fast-moving digital world.
+<br />
+<br />
+          At our core is a mindset of constant learning. Every project is a
+          chance to improve, push boundaries, and deliver better than the last."
+      Icon1={
+        <Rocket className="h-[40px] w-[40px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color2" />
+      }
+      Icon2={
+        <Star className="h-[40px] w-[40px] md:h-[80px] md:w-[80px] z-10 hover:-rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color3" />
+      }
+    />
+  );
+};
+
+export const Journey2 = () => {
   const ref = React.useRef(null);
   const isInView = useInView(ref, {once: true});
   const eyesRef = React.useRef(null);
@@ -36,7 +66,7 @@ export const Journey = () => {
             transition={{duration: 1, delay: 0.5, ease: "easeInOut"}}
             className="absolute -top-10 -right-16 "
           >
-            <Rocket className=" h-[80px] w-[80px] z-10 hover:rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color2" />
+            <Rocket className=" h-[60px] w-[60px] md:h-[80px] md:w-[80px] z-10 hover:rotate-12 transition-all duration-300 scale-x-[-1] fill-theme-color2" />
           </motion.div>
           {/* flip eyes on the y axis */}
           <motion.div
@@ -56,10 +86,10 @@ export const Journey = () => {
         <p
           className={`text-primary/70 small-text text-xl relative z-20 ${bodyFont.className}`}
         >
-          What started small has evolved into a remote-first team that blends
-          speed, creativity, and execution. We&apos;ve partnered with businesses
-          across industries startups to enterprise crafting content that not
-          only looks great, but drives results.
+          What started small has evolved into a team that blends speed,
+          creativity, and execution. We&apos;ve partnered with businesses across
+          industries startups to enterprise crafting content that not only looks
+          great, but drives results.
           <br />
           <br />
           Our in-house team pulls in top talent from around the world.
