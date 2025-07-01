@@ -837,9 +837,8 @@ input:-webkit-autofill:active {
     display: inline-block;
     box-sizing: border-box;
   }
-
-  .text-10xl {
-    font-size: 150px;
-    line-height: 150px;
-  }
+}
+.text-10xl {
+  font-size: 150px;
+  line-height: 150px;
 }

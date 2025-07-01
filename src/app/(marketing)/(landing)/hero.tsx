@@ -88,7 +88,7 @@ export const Hero = () => {
         </div>
         <p className="sm:max-w-[300px] lg:max-w-[500px] text-center small-text text-primary/70">
           We specialize in creating viral, short-form content for fast-growing
-          brands—helping them capture attention, spark engagement, and connect
+          brands helping them capture attention, spark engagement, and connect
           with audiences at scale.
         </p>
 

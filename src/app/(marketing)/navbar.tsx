@@ -201,9 +201,9 @@ const MobileMenu = ({
     <div className="flex md:hidden ml-auto">
       <button onClick={() => setOpenMobileMenu(!openMobileMenu)}>
         {openMobileMenu ? (
-          <X className="w-6 h-6" />
+          <X className="w-6 h-6 text-primary" />
         ) : (
-          <Menu className="w-6 h-6" />
+          <Menu className="w-6 h-6 text-primary" />
         )}
       </button>
     </div>
@@ -213,7 +213,7 @@ const MobileMenu = ({
 const MobileNav = ({onClose}: {onClose: () => void}) => {
   useLockBody();
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen bg-background z-[99] ">
+    <div className="fixed dark top-0 left-0 w-screen h-screen bg-background z-[99] ">
       <div className="relative h-full w-full">
         <div className="flex flex-col gap-8 p-6 pt-4 items-start ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
@@ -224,7 +224,7 @@ const MobileNav = ({onClose}: {onClose: () => void}) => {
               </span>
             </Link>
             <button onClick={onClose} className="ml-auto">
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 text-primary" />
             </button>
           </div>
           <LinkButton

@@ -139,7 +139,7 @@ export const ContactForm = () => {
         <div>
           <label
             htmlFor="user_name"
-            className="block text-sm font-medium text-white mb-2"
+            className="block text-sm font-medium text-primar mb-2"
           >
             Full Name
           </label>
@@ -295,7 +295,7 @@ export const ContactForm = () => {
           </button>
           <span className="text-sm text-primary/70 text-center mt-2 w-fit ">
             By submitting this form I accept the{" "}
-            <Link href="/privacy-policy" className="text-primary underline">
+            <Link href="/privacy" className="text-primary underline">
               Privacy Policy
             </Link>{" "}
             of this site.

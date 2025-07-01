@@ -5,7 +5,7 @@ import {Smile} from "./icons";
 export const Footer = () => {
   return (
     <div className="w-screen p-2">
-      <div className="w-full bg-[#1A1A1A] rounded-[12px] p-8 xl:p-16 flex flex-col">
+      <div className="w-full bg-[#1A1A1A] dark rounded-[12px] p-8 xl:p-16 flex flex-col">
         <div className="flex md:flex-row flex-col justify-between">
           <div className="flex flex-col">
             <h1 className="text-7xl sm:text-8xl  xl:text-10xl big-text-bold flex flex-col">
@@ -47,29 +47,29 @@ export const Footer = () => {
           </div>
           <div className="grid grid-cols-2 gap-10 mt-12 md:mt-0">
             <div className="flex flex-col gap-4">
-              <h1 className="text-2xl big-text-bold">Explore</h1>
+              <h1 className="text-2xl big-text-bold ">Explore</h1>
               <div className="flex flex-col gap-4">
                 <Link
                   href="/"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className=" text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   Work
                 </Link>
                 <Link
                   href="/"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   Services
                 </Link>
                 <Link
                   href="/"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   Blog
                 </Link>
                 <Link
                   href="/"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   Contact
                 </Link>
@@ -80,13 +80,13 @@ export const Footer = () => {
               <div className="flex flex-col gap-4">
                 <a
                   href="mailto:team@ripple-media.co"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   team@ripple-media.co
                 </a>
                 <a
                   href="tel:+17206482708"
-                  className="text-primary/70 small-text underline hover:no-underline hover:text-primary text-xl"
+                  className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary text-xl"
                 >
                   +1 (720)-648-2708
                 </a>
@@ -94,22 +94,22 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-1 border-b border-primary/70 border-dashed my-8"></div>
+        <div className="w-full h-1 border-b border-[#BBBBBB] border-dashed my-8"></div>
         <div className="flex flex-col md:flex-row gap-4 md:gap-10">
-          <p className="text-primary/70 small-text">
+          <p className="text-[#BBBBBB] small-text">
             © 2025 Ripple Media All rights reserved
           </p>
           {/* add privacy policy and terms of service */}
           <div className="flex gap-4">
             <Link
-              href="/privacy-policy"
-              className="text-primary/70 small-text underline hover:no-underline hover:text-primary "
+              href="/privacy"
+              className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary "
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms-of-service"
-              className="text-primary/70 small-text underline hover:no-underline hover:text-primary "
+              href="/terms"
+              className="text-[#BBBBBB] small-text underline hover:no-underline hover:text-primary "
             >
               Terms of Service
             </Link>
