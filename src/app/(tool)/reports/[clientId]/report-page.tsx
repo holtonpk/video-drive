@@ -564,10 +564,11 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "6-22-2025 - 6-28-2025",
       reportDate: "6-28-2025",
       body: `## Content Performance & Strategy Update 
-- **Facebook**: First written posts have gone out. We are looking to increase volume here as well as adding images to the mix.
-- **Interview Clips**: Based off 3 posts with the new style it's underperforming. We will create a new shooting outline for next round of content.
-- **BOF vs TOF**: Will be posting more of the meme / worksite ugc to get more eyes on the higher value content.
-- **Written stories**: Performing great on youtube and tiktok. We will continue with 3 of these a week.
+- **Facebook & Instagram**: Views going up but still not as fast as we'd like. Let's look at verifying accounts and see if that helps. 1 more month and we will look at boosting/ collabs
+- **Interview Clips**: New interactive approach will do great on Instagram & Facebook.
+- **New series with character**: A new series to replicate the content made by American Blue Collar. Also using the humor from American Blue Collar and inject into meme content.
+- **Animated Series**: Hook including blue collar has been proven to work. Double down here. 
+- **Written content**: New series with visuals will go out this week. Contents been too vanilla going to take more chances.
 `,
       totalEngagement: getDataFromWeek("6-28-2025").totalEngagement,
       totalFollowers: getDataFromWeek("6-28-2025").totalFollowers,
