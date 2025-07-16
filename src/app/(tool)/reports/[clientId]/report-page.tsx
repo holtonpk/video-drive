@@ -574,6 +574,21 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("6-28-2025").totalFollowers,
       totalPosts: getDataFromWeek("6-28-2025").totalPosts,
     },
+    {
+      label: "Week 11",
+      date: "6-28-2025 - 7-13-2025",
+      reportDate: "7-13-2025",
+      body: `## Content Performance & Strategy Update 
+- **Facebook & Instagram**: Views going up but still not as fast as we'd like. Let's look at verifying accounts and see if that helps. 1 more month and we will look at boosting/ collabs
+- **Interview Clips**: New interactive approach will do great on Instagram & Facebook.
+- **New series with character**: A new series to replicate the content made by American Blue Collar. Also using the humor from American Blue Collar and inject into meme content.
+- **Animated Series**: Hook including blue collar has been proven to work. Double down here. 
+- **Written content**: New series with visuals will go out this week. Contents been too vanilla going to take more chances.
+`,
+      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
