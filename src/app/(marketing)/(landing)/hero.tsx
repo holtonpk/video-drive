@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {NavBar} from "../navbar";
 import {animationControls, motion} from "framer-motion";
 import {Smile} from "../icons";
@@ -33,6 +33,66 @@ const useScreenSize = () => {
   }, []);
 
   return isMobile;
+};
+
+// Custom hook for optimized video loading
+const useOptimizedVideoLoading = (videos: string[], isMobile: boolean) => {
+  const [loadedVideos, setLoadedVideos] = useState<Set<number>>(new Set());
+  const [videoErrors, setVideoErrors] = useState<Set<number>>(new Set());
+  const loadingRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (loadingRef.current) return;
+    loadingRef.current = true;
+
+    const loadVideosSequentially = async () => {
+      const maxConcurrent = isMobile ? 1 : 2; // Load fewer videos simultaneously on mobile
+      const loadDelay = isMobile ? 1000 : 500; // Longer delay on mobile
+
+      for (let i = 0; i < videos.length; i += maxConcurrent) {
+        const batch = videos.slice(i, i + maxConcurrent);
+
+        await Promise.allSettled(
+          batch.map(async (videoSrc, batchIndex) => {
+            const videoIndex = i + batchIndex;
+
+            try {
+              // Create a temporary video element to preload
+              const tempVideo = document.createElement("video");
+              tempVideo.muted = true;
+              tempVideo.preload = "metadata";
+
+              return new Promise<void>((resolve, reject) => {
+                tempVideo.onloadedmetadata = () => {
+                  setLoadedVideos((prev) => new Set([...prev, videoIndex]));
+                  resolve();
+                };
+
+                tempVideo.onerror = () => {
+                  setVideoErrors((prev) => new Set([...prev, videoIndex]));
+                  reject(new Error(`Failed to load video ${videoIndex}`));
+                };
+
+                tempVideo.src = videoSrc;
+              });
+            } catch (error) {
+              setVideoErrors((prev) => new Set([...prev, videoIndex]));
+              console.warn(`Failed to preload video ${videoIndex}:`, error);
+            }
+          })
+        );
+
+        // Wait before loading next batch
+        if (i + maxConcurrent < videos.length) {
+          await new Promise((resolve) => setTimeout(resolve, loadDelay));
+        }
+      }
+    };
+
+    loadVideosSequentially();
+  }, [videos, isMobile]);
+
+  return {loadedVideos, videoErrors};
 };
 
 export const Hero = () => {
@@ -128,328 +188,146 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Morty%20(Hero%20Video).webm?alt=media&token=71ce8af2-e312-4f3c-b500-c70ee8a305eb",
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCKAn%20(Hero%20video).webm?alt=media&token=61535221-f888-47b1-8045-549afe3dc0c9",
   ];
-  // useEffect(() => {
-  //   const videoElements = document.querySelectorAll(".hero-video");
 
-  //   videoElements.forEach((video) => {
-  //     const videoElement = video as HTMLVideoElement;
-  //     if (pauseVideos) {
-  //       videoElement.pause();
-  //     } else {
-  //       videoElement.play().catch((error: Error) => {
-  //         // Handle autoplay restrictions
-  //         console.log("Autoplay prevented:", error);
-  //       });
-  //     }
-  //   });
-  // }, [pauseVideos]);
+  const {loadedVideos, videoErrors} = useOptimizedVideoLoading(videos, true);
+  const [shouldPlayVideos, setShouldPlayVideos] = useState(false);
+
+  // Only start playing videos after they're loaded and component is ready
+  useEffect(() => {
+    if (loadedVideos.size >= Math.min(3, videos.length)) {
+      const timer = setTimeout(() => {
+        setShouldPlayVideos(true);
+      }, 500); // Small delay to ensure smooth transition
+
+      return () => clearTimeout(timer);
+    }
+  }, [loadedVideos, videos.length]);
+
+  // Optimized video control
+  useEffect(() => {
+    if (!shouldPlayVideos) return;
+
+    const videoElements = document.querySelectorAll(".hero-video");
+
+    videoElements.forEach((video) => {
+      const videoElement = video as HTMLVideoElement;
+      const videoIndex = parseInt(videoElement.dataset.videoIndex || "0");
+
+      // Only control videos that have loaded successfully
+      if (loadedVideos.has(videoIndex) && !videoErrors.has(videoIndex)) {
+        if (pauseVideos) {
+          videoElement.pause();
+        } else {
+          videoElement.play().catch((error: Error) => {
+            console.log("Autoplay prevented:", error);
+          });
+        }
+      }
+    });
+  }, [pauseVideos, shouldPlayVideos, loadedVideos, videoErrors]);
+
+  const renderVideo = (
+    videoIndex: number,
+    className: string,
+    ringColor: string
+  ) => {
+    const isLoaded = loadedVideos.has(videoIndex);
+    const hasError = videoErrors.has(videoIndex);
+
+    return (
+      <motion.div
+        initial={{scale: 0, opacity: 0, y: "0"}}
+        animate={
+          !pauseVideos && shouldPlayVideos
+            ? {
+                scale: 1,
+                opacity: 1,
+                y: [0, -8, 0],
+                x: [0, 5, 0],
+              }
+            : {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                x: 0,
+              }
+        }
+        transition={
+          !pauseVideos && shouldPlayVideos
+            ? {
+                duration: 0.6,
+                delay: 0.3,
+                y: {
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.9,
+                },
+                x: {
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.9,
+                },
+              }
+            : {duration: 0}
+        }
+        className={`overflow-hidden bg-muted rounded-[8px] ${className} ring-2 ${ringColor} ring-offset-2 ring-offset-background`}
+      >
+        {isLoaded && !hasError ? (
+          <video
+            src={videos[videoIndex]}
+            loop
+            muted
+            className="w-full h-full object-cover hero-video"
+            playsInline
+            data-video-index={videoIndex}
+            preload="metadata"
+          />
+        ) : (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-theme-color1 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+      </motion.div>
+    );
+  };
 
   return (
     <div className="grid sm:hidden absolute top-0  grid-rows-[1fr_380px_1fr]  w-full h-full">
       <div className="w-full  relative h-full grid grid-cols-3 items-center px-12">
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0, y: "0"}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-
-                    opacity: 1,
-                    y: [0, -8, 0],
-                    x: [0, 5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.3,
-                    y: {
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.9,
-                    },
-                    x: {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.9,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] aspect-[9/16]  ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[1]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(1, "h-[100px] aspect-[9/16]", "ring-theme-color1")}
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -8, 0],
-                    x: [0, 5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.1,
-                    y: {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.7,
-                    },
-                    x: {
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.7,
-                    },
-                  }
-                : {duration: 0} // no movement if paused
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[125px]  aspect-[9/16]  ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[0]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(0, "h-[125px] aspect-[9/16]", "ring-theme-color2")}
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -8, 0],
-                    x: [0, 5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.5,
-                    y: {
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.1,
-                    },
-                    x: {
-                      duration: 3.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.1,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px]  aspect-[9/16]  ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[2]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(2, "h-[100px] aspect-[9/16]", "ring-theme-color3")}
         </div>
       </div>
       <div className="w-full  h-full" />
       <div className="w-full  relative h-full grid grid-cols-3">
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0, y: "-50%"}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -8, 0],
-                    x: [0, 5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.4,
-                    y: {
-                      duration: 5.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.0,
-                    },
-                    x: {
-                      duration: 4.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.0,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[4]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(
+            4,
+            "h-[100px] md:h-[200px] aspect-[9/16]",
+            "ring-theme-color1"
+          )}
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -8, 0],
-                    x: [0, -4, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.2,
-                    y: {
-                      duration: 4.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.8,
-                    },
-                    x: {
-                      duration: 3.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 0.8,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[125px] md:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[3]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(
+            3,
+            "h-[125px] md:h-[250px] aspect-[9/16]",
+            "ring-theme-color2"
+          )}
         </div>
         <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -6, 0],
-                    x: [0, -5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 0.6,
-                    y: {
-                      duration: 3.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.2,
-                    },
-                    x: {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.2,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className=" overflow-hidden bg-muted rounded-[8px] h-[100px] md:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background "
-          >
-            <video
-              src={videos[5]}
-              // autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
+          {renderVideo(
+            5,
+            "h-[100px] md:h-[200px] aspect-[9/16]",
+            "ring-theme-color3"
+          )}
         </div>
       </div>
     </div>
@@ -457,15 +335,6 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
 };
 
 const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
-  // const videos = [
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2F1000183285.mp4?alt=media&token=568a0ab1-ba29-47b9-ab9f-ef81cd3e2dcc",
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FBCSG%20-%20Video%205%20-%20Brandon.mp4?alt=media&token=8091d920-4bd9-4e50-8ec3-6068f395717e",
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo1.mp4?alt=media&token=14488796-d78d-4363-82a5-10550fe4db62",
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo2.mp4?alt=media&token=3833f855-561f-4b74-93dc-4d68ab5f4fef",
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2Fdemo4.mp4?alt=media&token=aab44878-b996-4617-a8ec-7e3d00d3c99c",
-  //   "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/video%2FVideo%206003%20V2.mp4?alt=media&token=9410007c-3eac-40c3-8072-ff8201e8055f",
-  // ];
-
   const videos = [
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Money%20(Hero%20video).webm?alt=media&token=c7167aab-2156-4210-b1cf-9ee19c289fde",
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCSG%20(Hero%20vidoe).webm?alt=media&token=6d8c1b97-4c96-47ea-ba2b-85d581a44a86",
@@ -475,318 +344,140 @@ const VideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCKAn%20(Hero%20video).webm?alt=media&token=61535221-f888-47b1-8045-549afe3dc0c9",
   ];
 
+  const {loadedVideos, videoErrors} = useOptimizedVideoLoading(videos, false);
+
   useEffect(() => {
     const videoElements = document.querySelectorAll(".hero-video");
 
     videoElements.forEach((video) => {
       const videoElement = video as HTMLVideoElement;
-      if (pauseVideos) {
-        videoElement.pause();
-      } else {
-        videoElement.play().catch((error: Error) => {
-          // Handle autoplay restrictions
-          console.log("Autoplay prevented:", error);
-        });
+      const videoIndex = parseInt(videoElement.dataset.videoIndex || "0");
+
+      // Only control videos that have loaded successfully
+      if (loadedVideos.has(videoIndex) && !videoErrors.has(videoIndex)) {
+        if (pauseVideos) {
+          videoElement.pause();
+        } else {
+          videoElement.play().catch((error: Error) => {
+            // Handle autoplay restrictions
+            console.log("Autoplay prevented:", error);
+          });
+        }
       }
     });
-  }, [pauseVideos]);
+  }, [pauseVideos, loadedVideos, videoErrors]);
+
+  const renderVideo = (
+    videoIndex: number,
+    className: string,
+    ringColor: string,
+    animationDelay: number = 0
+  ) => {
+    const isLoaded = loadedVideos.has(videoIndex);
+    const hasError = videoErrors.has(videoIndex);
+
+    return (
+      <motion.div
+        initial={{scale: 0, opacity: 0}}
+        animate={
+          !pauseVideos
+            ? {
+                scale: 1,
+                opacity: 1,
+                y: [0, -10, 0],
+                x: [0, 5, 0],
+              }
+            : {
+                scale: 1,
+                opacity: 1,
+                y: 0,
+                x: 0,
+              }
+        }
+        transition={
+          !pauseVideos
+            ? {
+                duration: 0.6,
+                delay: 2.1 + animationDelay,
+                y: {
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.7,
+                },
+                x: {
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.7,
+                },
+              }
+            : {duration: 0}
+        }
+        className={`absolute overflow-hidden bg-muted rounded-[16px] ${className} ring-2 ${ringColor} ring-offset-2 ring-offset-background`}
+      >
+        {isLoaded && !hasError ? (
+          <video
+            src={videos[videoIndex]}
+            autoPlay
+            loop
+            muted
+            className="w-full h-full object-cover hero-video"
+            playsInline
+            data-video-index={videoIndex}
+            preload="metadata"
+          />
+        ) : (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-theme-color1 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+      </motion.div>
+    );
+  };
 
   return (
     <div className="sm:grid hidden absolute  grid-cols-[1fr_300px_1fr] lg:grid-cols-[1fr_500px_1fr] gap-4 lg:gap-8 w-full h-full">
       <div className="w-full  relative">
-        <motion.div
-          initial={{scale: 0, opacity: 0}}
-          animate={
-            !pauseVideos
-              ? {
-                  scale: 1,
-                  opacity: 1,
-                  y: [0, -10, 0],
-                  x: [0, 5, 0],
-                }
-              : {
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                }
-          }
-          transition={
-            !pauseVideos
-              ? {
-                  duration: 0.6,
-                  delay: 2.1,
-                  y: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.7,
-                  },
-                  x: {
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.7,
-                  },
-                }
-              : {duration: 0} // no movement if paused
-          }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
-        >
-          <video
-            src={videos[0]}
-            autoPlay
-            loop
-            muted
-            className="w-full h-full object-cover hero-video"
-            playsInline
-          />
-        </motion.div>
-        <motion.div
-          initial={{scale: 0, opacity: 0, y: "-50%"}}
-          animate={
-            !pauseVideos
-              ? {
-                  scale: 1,
-                  opacity: 1,
-                  y: [-50, -58, -50],
-                  x: [0, -6, 0],
-                }
-              : {
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                }
-          }
-          transition={
-            !pauseVideos
-              ? {
-                  duration: 0.6,
-                  delay: 2.3,
-                  y: {
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.9,
-                  },
-                  x: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.9,
-                  },
-                }
-              : {duration: 0}
-          }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
-        >
-          <video
-            src={videos[1]}
-            autoPlay
-            loop
-            muted
-            className="w-full h-full object-cover hero-video"
-            playsInline
-          />
-        </motion.div>
-        <div className="w-full  relative h-full flex items-center justify-center">
-          <motion.div
-            initial={{scale: 0, opacity: 0}}
-            animate={
-              !pauseVideos
-                ? {
-                    scale: 1,
-                    opacity: 1,
-                    y: [0, -6, 0],
-                    x: [0, -5, 0],
-                  }
-                : {
-                    scale: 1,
-                    opacity: 1,
-                    y: 0,
-                    x: 0,
-                  }
-            }
-            transition={
-              !pauseVideos
-                ? {
-                    duration: 0.6,
-                    delay: 2.6,
-                    y: {
-                      duration: 3.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.2,
-                    },
-                    x: {
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: 1.2,
-                    },
-                  }
-                : {duration: 0}
-            }
-            className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
-          >
-            <video
-              src={videos[2]}
-              autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover hero-video"
-              playsInline
-            />
-          </motion.div>
-        </div>
+        {renderVideo(
+          0,
+          "h-[200px] xl:h-[250px] aspect-[9/16] -top-10 right-[10%]",
+          "ring-theme-color1",
+          0
+        )}
+        {renderVideo(
+          1,
+          "h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 left-[10%]",
+          "ring-theme-color2",
+          0.2
+        )}
+        {renderVideo(
+          2,
+          "h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 right-[25%]",
+          "ring-theme-color3",
+          0.5
+        )}
       </div>
       <div className="w-full" />
       <div className="w-full  relative">
-        <motion.div
-          initial={{scale: 0, opacity: 0}}
-          animate={
-            !pauseVideos
-              ? {
-                  scale: 1,
-                  opacity: 1,
-                  y: [0, -8, 0],
-                  x: [0, -4, 0],
-                }
-              : {
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                }
-          }
-          transition={
-            !pauseVideos
-              ? {
-                  duration: 0.6,
-                  delay: 2.2,
-                  y: {
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.8,
-                  },
-                  x: {
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.8,
-                  },
-                }
-              : {duration: 0}
-          }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%] ring-2 ring-theme-color1 ring-offset-2 ring-offset-background"
-        >
-          <video
-            src={videos[3]}
-            autoPlay
-            loop
-            muted
-            className="w-full h-full object-cover hero-video"
-            playsInline
-          />
-        </motion.div>
-        <motion.div
-          initial={{scale: 0, opacity: 0, y: "-50%"}}
-          animate={
-            !pauseVideos
-              ? {
-                  scale: 1,
-                  opacity: 1,
-                  y: [-50, -60, -50],
-                  x: [0, 7, 0],
-                }
-              : {
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                }
-          }
-          transition={
-            !pauseVideos
-              ? {
-                  duration: 0.6,
-                  delay: 2.4,
-                  y: {
-                    duration: 5.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.0,
-                  },
-                  x: {
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.0,
-                  },
-                }
-              : {duration: 0}
-          }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%] ring-2 ring-theme-color2 ring-offset-2 ring-offset-background"
-        >
-          <video
-            src={videos[4]}
-            autoPlay
-            loop
-            muted
-            className="w-full h-full object-cover hero-video"
-            playsInline
-          />
-        </motion.div>
-        <motion.div
-          initial={{scale: 0, opacity: 0}}
-          animate={
-            !pauseVideos
-              ? {
-                  scale: 1,
-                  opacity: 1,
-                  y: [0, -6, 0],
-                  x: [0, -5, 0],
-                }
-              : {
-                  scale: 1,
-                  opacity: 1,
-                  y: 0,
-                  x: 0,
-                }
-          }
-          transition={
-            !pauseVideos
-              ? {
-                  duration: 0.6,
-                  delay: 2.6,
-                  y: {
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.2,
-                  },
-                  x: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.2,
-                  },
-                }
-              : {duration: 0}
-          }
-          className="absolute overflow-hidden bg-muted rounded-[16px] h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%] ring-2 ring-theme-color3 ring-offset-2 ring-offset-background"
-        >
-          <video
-            src={videos[5]}
-            autoPlay
-            loop
-            muted
-            className="w-full h-full object-cover hero-video"
-            playsInline
-          />
-        </motion.div>
+        {renderVideo(
+          3,
+          "h-[200px] xl:h-[250px] aspect-[9/16] -top-10 left-[10%]",
+          "ring-theme-color1",
+          0.1
+        )}
+        {renderVideo(
+          4,
+          "h-[150px] xl:h-[200px] aspect-[9/16] top-1/2 right-[10%]",
+          "ring-theme-color2",
+          0.3
+        )}
+        {renderVideo(
+          5,
+          "h-[150px] xl:h-[200px] aspect-[9/16] bottom-0 left-[25%]",
+          "ring-theme-color3",
+          0.5
+        )}
       </div>
     </div>
   );
