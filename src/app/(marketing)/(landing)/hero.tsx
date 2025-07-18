@@ -240,7 +240,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[0]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
@@ -290,7 +290,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[2]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
@@ -343,7 +343,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[4]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
@@ -393,7 +393,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[3]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
@@ -443,7 +443,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[5]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
