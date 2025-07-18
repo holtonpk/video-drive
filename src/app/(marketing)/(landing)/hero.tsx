@@ -109,8 +109,9 @@ export const Hero = () => {
 
         {/* Conditionally render only the appropriate video display */}
         {isMobile ? (
-          <MobileVideoDisplay pauseVideos={!isInView} />
+          <MobileVideoDisplay pauseVideos={true} />
         ) : (
+          // <MobileVideoDisplay pauseVideos={!isInView} />
           <VideoDisplay pauseVideos={!isInView} />
         )}
       </div>
