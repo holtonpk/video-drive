@@ -190,7 +190,7 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
           >
             <video
               src={videos[1]}
-              autoPlay
+              // autoPlay
               loop
               muted
               className="w-full h-full object-cover hero-video"
