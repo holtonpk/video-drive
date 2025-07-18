@@ -128,21 +128,21 @@ const MobileVideoDisplay = ({pauseVideos}: {pauseVideos: boolean}) => {
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/Morty%20(Hero%20Video).webm?alt=media&token=71ce8af2-e312-4f3c-b500-c70ee8a305eb",
     "https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/BCKAn%20(Hero%20video).webm?alt=media&token=61535221-f888-47b1-8045-549afe3dc0c9",
   ];
-  useEffect(() => {
-    const videoElements = document.querySelectorAll(".hero-video");
+  // useEffect(() => {
+  //   const videoElements = document.querySelectorAll(".hero-video");
 
-    videoElements.forEach((video) => {
-      const videoElement = video as HTMLVideoElement;
-      if (pauseVideos) {
-        videoElement.pause();
-      } else {
-        videoElement.play().catch((error: Error) => {
-          // Handle autoplay restrictions
-          console.log("Autoplay prevented:", error);
-        });
-      }
-    });
-  }, [pauseVideos]);
+  //   videoElements.forEach((video) => {
+  //     const videoElement = video as HTMLVideoElement;
+  //     if (pauseVideos) {
+  //       videoElement.pause();
+  //     } else {
+  //       videoElement.play().catch((error: Error) => {
+  //         // Handle autoplay restrictions
+  //         console.log("Autoplay prevented:", error);
+  //       });
+  //     }
+  //   });
+  // }, [pauseVideos]);
 
   return (
     <div className="grid sm:hidden absolute top-0  grid-rows-[1fr_380px_1fr]  w-full h-full">
