@@ -939,6 +939,28 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     document.body.removeChild(link);
   };
 
+  const updateReport = {
+    body: `## The future
+  - **Expectations**: Will be set and agreed upon on the call at the beginning of each month. They will live here on the report page.
+  - **6 month goals**: 10k followers across all platforms. Consistent and reliable reach.   
+  
+## Long term proposals:
+
+**Plan A**
+
+- Bundle of 3 months for $18k ($6k per month)
+
+- We will keep the quantity of the video the same (7-12 videos per week)
+
+**Plan B**
+
+- Bundle of 6 months for $30k ($5k per month)
+
+- We will keep the quantity of the video the same  (7-12 videos per week)
+  
+  `,
+  };
+
   return (
     <>
       <Background />
@@ -967,7 +989,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
           </DropdownMenu>
           {/* <SettingsButtons /> */}
         </div>
-
+        <div className="mb-4">
+          <ReportBody selectedReport={updateReport as Report} />
+        </div>
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
         <div className="grid md:grid-cols-3 gap-4">
           <Chart
