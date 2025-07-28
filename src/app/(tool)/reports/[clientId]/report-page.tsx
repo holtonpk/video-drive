@@ -940,37 +940,38 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   };
 
   const updateReport = {
-    body: `## The future
-  - **Expectations**: Will be set and agreed upon on the call at the beginning of each month. They will live here on the report page.
-  - **6 month goals**: 10k followers across all platforms. Consistent and reliable reach.   
-  
-## Long term proposals:
+    body: `## What does success look like in 3 months (End of October)?
 
-**Plan A**
+- Average reach of 5,000 on high-value videos (i.e., videos where we can plug or educate about Reins).
+- Consistent community engagement (e.g., blue-collar professionals actively commenting and engaging with high value content).
+- Clear awareness target signals (webinar signups, website visits, interest emails, or free resource requests).
 
-- Bundle of 3 months for $18k ($6k per month)
+## What does success look like in 6 months (End of January)?
+- Evidence that our content can generate new customers.
+- Lead consideration (Meeting schedules, Demo request or Email response)
+- To break even on the investment. With an estimated LTV of $10K–$20K, that means Reins has to land 3–6 new customers attributed to BCK within 10 months. (April 2025 to January 2026)
+- Calculate target based on expected conversion rate from demo to customer.
+- 10k Followers across the big 3 channels (More of a vanity metric but aligns with the goal growth rate and gives us social proof for leads)
 
-- We will keep the quantity of the video the same (7-12 videos per week)
+## What if we don’t get 3–6 customers within 6 months?
+- We’re fully committed to delivering a return on your investment. If we fall short, we’ll continue creating content at no cost until we hit that goal. 
+- In addition to these macro goals, we’ll set monthly micro-goals to ensure we’re tracking toward the bigger picture and can make real-time optimizations.
 
-**Plan B**
-
-- Bundle of 6 months for $30k ($5k per month)
-
-- We will keep the quantity of the video the same  (7-12 videos per week)
-  
+## New Pricing:
+- 3-month commitment at $6K, with a performance review and reevaluation at the end of the term.
   `,
   };
 
   return (
     <>
       <Background />
-      <div className="px-4 md:container pb-6">
+      <div className="px-4 md:container pb-6 text-white">
         <div className="md:flex-row flex-col flex gap-4 items-center  justify-between p-4 px-0 top-0 left-0   w-full  z-20">
           <div className="flex gap-4 items-center">
             {clientInfo?.icon && (
               <clientInfo.icon className="h-8 w-8 ring-[2px] rounded-[8px] ring-white/10 ring-offset-[#0F1116] ring-offset-[4px] " />
             )}
-            <h1 className="text-2xl md:text-4xl font-bold">
+            <h1 className="text-2xl md:text-4xl font-bold text-white">
               {clientInfo?.label}
             </h1>
           </div>
