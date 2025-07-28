@@ -812,32 +812,31 @@ input:-webkit-autofill:active {
     transform: translateY(0) rotate(0deg);
   }
 }
-@media (max-width: 768px) {
-  #review-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-}
-@media (min-width: 768px) {
-  #review-container {
-    margin: 0 auto;
-    height: fit-content;
-    width: 100%;
-    -moz-column-count: 3;
-    -webkit-column-count: 3;
-    column-count: 3;
-    -moz-column-gap: 16px;
-    -webkit-column-gap: 16px;
-    column-gap: 16px;
-  }
 
-  .review-box {
-    width: 100%;
-    display: inline-block;
-    box-sizing: border-box;
-  }
+#review-container-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
+#review-container-desktop {
+  margin: 0 auto;
+  height: 800px;
+  width: 100%;
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+  -moz-column-gap: 16px;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+}
+
+.review-box {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
 .text-10xl {
   font-size: 150px;
   line-height: 150px;
