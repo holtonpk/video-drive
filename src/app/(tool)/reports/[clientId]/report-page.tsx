@@ -589,10 +589,25 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
       totalPosts: getDataFromWeek("7-13-2025").totalPosts,
     },
+    {
+      label: "Week 12",
+      date: "7-13-2025 - 7-27-2025",
+      reportDate: "7-27-2025",
+      body: `## Content Performance & Strategy Update 
+- **Verification status**: Business name miss-match. Contacted meta support, will keep you updated
+- **Facebook & Instagram**: Still not seeing the growth we want on facebook. Will start to look at collabs and boosting.
+- **Youtube**: Animated series is seeing consistent numbers. ready to start adding CTA to videos.
+- **Follower goals**: Double instagram followers, 50 on facebook. More Meme low value content to maximize reach. Boosting will help reach  
+- **Content update**: 1 week of interview clips left. Ai series will replace this until we get more footage.   
+`,
+      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[10]
+    reports[11]
   );
 
   console.log("selectedReport", selectedReport);
@@ -674,7 +689,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       data: instagramData,
       icon: InstagramLogo,
       name: "Instagram",
-      followers: 40,
+      followers: 54,
       posts: instagramData.length,
       totalViews:
         Number(
@@ -849,17 +864,17 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 
   const chartDataEngagement = reports.map((week) => ({
     week: week.label,
-    data: week.totalEngagement,
+    data: getDataFromWeek(week.reportDate).totalEngagement,
   }));
 
   const chartDataFollowers = reports.map((week) => ({
     week: week.label,
-    data: week.totalFollowers,
+    data: getDataFromWeek(week.reportDate).totalFollowers,
   }));
 
   const chartDataPosts = reports.map((week) => ({
     week: week.label,
-    data: week.totalPosts,
+    data: getDataFromWeek(week.reportDate).totalPosts,
   }));
 
   const exportAsCSV = () => {
@@ -1041,7 +1056,10 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            <div className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center">
+            <div
+              id="total-engagement"
+              className="flex flex-col p-2 rounded-md border border-white/10 bg-white/5 w-full items-center"
+            >
               <h1 className="text-2xl ">Total Engagement</h1>
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
