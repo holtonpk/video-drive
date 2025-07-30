@@ -594,11 +594,8 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "7-13-2025 - 7-27-2025",
       reportDate: "7-27-2025",
       body: `## Content Performance & Strategy Update 
-- **Verification status**: Business name miss-match. Contacted meta support, will keep you updated
-- **Facebook & Instagram**: Still not seeing the growth we want on facebook. Will start to look at collabs and boosting.
-- **Youtube**: Animated series is seeing consistent numbers. ready to start adding CTA to videos.
-- **Follower goals**: Double instagram followers, 50 on facebook. More Meme low value content to maximize reach. Boosting will help reach  
-- **Content update**: 1 week of interview clips left. Ai series will replace this until we get more footage.   
+- **Instagram, Tiktok, and Youtube**: Seeing improved reach with TOF content.
+- **Facebook**: Boosted content is ready to be put out. Need control of payments on the platform.
 `,
       totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
       totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
