@@ -354,39 +354,39 @@ export const priorities = [
 export type PlatformData = {
   label: string;
   value: Platform;
-  icon: typeof Icons;
+  icon: React.ComponentType<{className?: string}>;
 };
 
 export const platforms: PlatformData[] = [
   {
     label: "Youtube",
     value: "youtube",
-    icon: YoutubeLogo as any,
+    icon: YoutubeLogo,
   },
   {
     label: "Instagram",
     value: "instagram",
-    icon: InstagramLogo as any,
+    icon: InstagramLogo,
   },
   {
     label: "Tiktok",
     value: "tiktok",
-    icon: TiktokLogo as any,
+    icon: TiktokLogo,
   },
   {
     label: "Facebook",
     value: "facebook",
-    icon: FaceBookLogo as any,
+    icon: FaceBookLogo,
   },
   {
     label: "Linkedin",
     value: "linkedin",
-    icon: LinkedInLogo as any,
+    icon: LinkedInLogo,
   },
   {
     label: "Twitter",
     value: "twitter",
-    icon: XLogo as any,
+    icon: XLogo,
   },
 ];
 
@@ -398,7 +398,7 @@ export type VideoAsset = {
 type status = {
   value: string;
   label: string;
-  icon: typeof Icons;
+  icon: React.ComponentType<{className?: string}>;
 };
 
 export type Platforms = "youtube" | "instagram" | "tiktok" | "all";
