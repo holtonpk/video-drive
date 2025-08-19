@@ -15,6 +15,9 @@ import {
   FrizzleLogo,
   BlueCollarKeysLogo,
   ScamRxLogo,
+  FaceBookLogo,
+  LinkedInLogo,
+  XLogo,
 } from "@/components/icons";
 import {Icons} from "@/components/icons";
 import {OutputData} from "@editorjs/editorjs";
@@ -348,21 +351,42 @@ export const priorities = [
   },
 ];
 
-export const platforms = [
+export type PlatformData = {
+  label: string;
+  value: Platform;
+  icon: typeof Icons;
+};
+
+export const platforms: PlatformData[] = [
   {
     label: "Youtube",
     value: "youtube",
-    icon: YoutubeLogo,
+    icon: YoutubeLogo as any,
   },
   {
     label: "Instagram",
     value: "instagram",
-    icon: InstagramLogo,
+    icon: InstagramLogo as any,
   },
   {
     label: "Tiktok",
     value: "tiktok",
-    icon: TiktokLogo,
+    icon: TiktokLogo as any,
+  },
+  {
+    label: "Facebook",
+    value: "facebook",
+    icon: FaceBookLogo as any,
+  },
+  {
+    label: "Linkedin",
+    value: "linkedin",
+    icon: LinkedInLogo as any,
+  },
+  {
+    label: "Twitter",
+    value: "twitter",
+    icon: XLogo as any,
   },
 ];
 
@@ -470,7 +494,48 @@ export type VideoData = {
   manager?: string;
   scrapedVideoText?: string;
   thumbnail?: string;
+  postData?: PostData[];
 };
+
+type PostData = {
+  platform: Platform;
+  icon: typeof Icons;
+  isPosted: boolean;
+  postDate: Timestamp;
+};
+
+// const PostData = {
+//   instagram:{
+//     icon: InstagramLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+//   tiktok:{
+//     icon: TiktokLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+//   youtube:{
+//     icon: YoutubeLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+//   facebook:{
+//     icon: FaceBookLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+//   linkedin:{
+//     icon: LinkedInLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+//   twitter:{
+//     icon: XLogo,
+//     isPosted: boolean;
+//     postDate: Timestamp;
+//   },
+// };
 
 export type AssetFile = {
   id: string;
