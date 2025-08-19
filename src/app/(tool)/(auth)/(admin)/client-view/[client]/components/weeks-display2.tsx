@@ -28,7 +28,7 @@ import {VideoData} from "@/config/data";
 import {Input} from "@/components/ui/input";
 import {GripVertical, Video} from "lucide-react";
 import {set} from "date-fns";
-import {REVIEW_USERS_DATA} from "@/config/data";
+import {REVIEW_USERS_DATA, Platform} from "@/config/data";
 import {
   Dialog,
   DialogTitle,
@@ -83,7 +83,6 @@ export const WeeksDisplay = ({
       setTotalVideos(clientDataLocal.length);
 
       if (largestVideoNumber === -Infinity) {
-        console.log("largestVideoNumber", Number(clientInfo.id + "000"));
         setCurrentVideoNumber(Number(clientInfo.id + "000"));
       } else {
         setCurrentVideoNumber(largestVideoNumber);
@@ -312,8 +311,6 @@ const VideoColumn = ({
         post.script.blocks.length > 0 &&
         post.script.blocks.length !== undefined;
 
-  console.log(post.title, hasScript, isOutputData(post.script), post.script);
-
   const {currentUser} = useAuth()!;
 
   const [isSendingToEditor, setIsSendingToEditor] = React.useState(false);
@@ -351,7 +348,13 @@ const VideoColumn = ({
     setPosted(!posted);
     await setDoc(
       doc(db, "videos", post.videoNumber),
-      {posted: !posted},
+      {
+        posted: !posted,
+        postData: post.postData?.map((post) => ({
+          ...post,
+          isPosted: !posted,
+        })),
+      },
       {merge: true}
     );
   };
@@ -421,7 +424,7 @@ const VideoColumn = ({
               : "Ready to edit"}
           </span>
           <span className="relative z-20 pointer-events-none w-[100px]  flex justify-center">
-            {post.posted ? (
+            {post.posted || post.postData?.every((post) => post.isPosted) ? (
               <Icons.check className="h-4 w-4 text-green-500 " />
             ) : (
               <Icons.close className=" h-4 w-4 text-red-500" />
@@ -490,7 +493,8 @@ const VideoColumn = ({
           ) : (
             <>
               <span className="relative z-20 pointer-events-none w-[100px]  flex justify-center">
-                {post.posted ? (
+                {post.posted ||
+                post.postData?.every((post) => post.isPosted) ? (
                   <Icons.check className="h-4 w-4 text-green-500 " />
                 ) : (
                   <span className="font-bold">
@@ -537,7 +541,12 @@ const VideoColumn = ({
                     {formatDayMonthDay(post.postDate)}
                   </span>
                   <span className="w-[80px] z-20  flex items-center justify-center ">
-                    <Switch checked={posted} onCheckedChange={changePosted} />
+                    <Switch
+                      checked={
+                        posted || post.postData?.every((post) => post.isPosted)
+                      }
+                      onCheckedChange={changePosted}
+                    />
                   </span>
                 </>
               ) : (
