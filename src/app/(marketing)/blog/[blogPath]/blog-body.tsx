@@ -71,7 +71,7 @@ const BlogBody = ({post}: {post: BlogPost}) => {
           blog
         </div>
         <h1
-          className={`text-8xl md:text-9xl text-primary text-center ${h1Font.className}`}
+          className={`text-6xl md:text-7xl text-primary text-center ${bodyBold.className}`}
         >
           {post.title}
         </h1>

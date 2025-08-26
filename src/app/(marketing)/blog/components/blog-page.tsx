@@ -16,6 +16,10 @@ const bigFont = localFont({
   src: "../../fonts/HeadingNowTrial-56Bold.ttf",
 });
 
+const extraBigFont = localFont({
+  src: "../../fonts/HeadingNowTrial-57Extrabold.ttf",
+});
+
 const h1Font = localFont({
   src: "../../fonts/HeadingNowTrial-56Bold.ttf",
 });
@@ -60,28 +64,31 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
     );
   });
 
+  const featuredPost = posts[posts.length - 1];
+
   return (
     <div className="mx-auto md:container mt-10 w-full pb-10  flex flex-col gap-4 ">
-      <div className="flex flex-col gap-4 max-w-[800px] mx-auto items-center  p-10 rounded-[20px]">
-        <div
-          className={`bg-theme-color1 p-2 rounded-[8px] uppercase text-primary w-fit text-5xl -rotate-6 ${bigFont.className}`}
-        >
-          blog
-        </div>
-        <h1
-          className={`text-8xl md:text-9xl text-primary text-center uppercase ${bigFont.className}`}
-        >
-          The Content Lab
-        </h1>
-        <p
-          className={`text-primary/70 text-center text-xl ${bodyFont.className}`}
-        >
-          We break down what’s working in the world of content, short-form
-          video, and digital growth. From viral trends to platform algorithms,
-          we share insights, experiments, and actionable tips to help brands,
-          creators, and marketers make content that performs.
-        </p>
-        {/* <div className="grid grid-cols-[1fr_36px_1fr] items-center gap-4">
+      <div className="grid grid-cols-2 gap-8">
+        <div className="flex flex-col gap-4 max-w-[800px] mx-auto items-center  p-10 rounded-[20px]">
+          <div
+            className={`bg-theme-color1 p-2 rounded-[8px] uppercase text-primary w-fit text-2xl -rotate-6 ${bigFont.className}`}
+          >
+            blog
+          </div>
+          <h1
+            className={`text-8xl md:text-[110px] text-primary text-center uppercase ${extraBigFont.className}`}
+          >
+            The Content Lab
+          </h1>
+          <p
+            className={`text-primary/70 text-center text-xl ${bodyFont.className}`}
+          >
+            We break down what’s working in the world of content, short-form
+            video, and digital growth. From viral trends to platform algorithms,
+            we share insights, experiments, and actionable tips to help brands,
+            creators, and marketers make content that performs.
+          </p>
+          {/* <div className="grid grid-cols-[1fr_36px_1fr] items-center gap-4">
           <div className="w-full h-1 border-t border-[#C1C1C1] border-dashed"></div>
           <MailIcon className="w-10 h-10 text-primary" />
           <div className="w-full h-1 border-t border-[#C1C1C1] border-dashed"></div>
@@ -103,12 +110,35 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
         <button className="bg-primary text-background  text-4xl rounded-full py-4 w-fit mx-auto px-8">
           Sign Up
         </button> */}
+        </div>
+        <Link
+          href={`blog/${featuredPost.path}`}
+          className="w-full relative rounded-[20px] overflow-hidden group"
+        >
+          <img
+            src={featuredPost.image}
+            alt="blog-page-image"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-background rounded-t-[20px] p-8 w-[80%] flex flex-col gap-2">
+            <h1
+              className={`text-primary text-2xl group-hover:underline text-center ${h2Font.className}`}
+            >
+              {featuredPost.title}
+            </h1>
+            <p
+              className={`text-muted-foreground text-sm text-center ${bodyFont.className}`}
+            >
+              {featuredPost.description}
+            </p>
+          </div>
+        </Link>
       </div>
       <div className="flex md:flex-row gap-4 flex-col w-fit justify-between mx-auto mt-8">
         <div className="w-full max-w-full flex-wrap flex items-center gap-4 order-3 md:order-1">
           <button
             onClick={() => setFilter("all")}
-            className={`px-6 py-2 text-primary   text-2xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
+            className={`px-6 py-2 text-primary   text-[20px]  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
               h2Font.className
             } ${
               filter === "all"
@@ -123,7 +153,7 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
             <button
               key={category}
               onClick={() => setFilter(category)}
-              className={`px-6 py-2 text-primary   text-2xl  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
+              className={`px-6 py-2 text-primary   text-[20px]  font1 border-2  rounded-full hover:border-theme-color1 hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background ${
                 h2Font.className
               } ${
                 filter === category
