@@ -699,7 +699,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       data: instagramData,
       icon: InstagramLogo,
       name: "Instagram",
-      followers: 54,
+      followers: 61,
       posts: instagramData.length,
       totalViews:
         Number(
