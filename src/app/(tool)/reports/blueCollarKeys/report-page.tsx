@@ -606,8 +606,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "7-27-2025 - 8-24-2025",
       reportDate: "8-24-2025",
       body: `## Content Performance & Strategy Update
-    - **Instagram, Tiktok, and Youtube**: Seeing improved reach with TOF content.
-    - **Facebook**: Boosted content is ready to be put out. Need control of payments on the platform.
+- **Tiktok, and Youtube**: Great traction here. Especially on tiktok.
+- **Instagram**: decent traction consistent views, waiting for first break out post.
+- **Facebook**: Continuing to iterate on written content.
     `,
       totalEngagement: getDataFromWeek("8-24-2025").totalEngagement,
       totalFollowers: getDataFromWeek("8-24-2025").totalFollowers,
@@ -964,25 +965,14 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   };
 
   const updateReport = {
-    body: `## What does success look like in 3 months (End of October)?
+    body: `## Strategic Directions to Test
+    Use content to generate awareness within the blue-collar demo and indirectly drive value via Reins. Here are the 4 tracks we’ll test:
+    - Organic Content as a Retention Tool: Highlight key employees of existing customers via BCKs content.
+    - Organic Content as a Conversion Tool: Highlight key employees of prospects. Creates a value-first reason to start conversations.
+    - Bottoms-Up Influence: Target key employees of ICP prospects to consume and share content, encouraging internal advocacy for alt equity.
+    - Direct Decision-Maker Engagement: Create content that speaks directly to business owners about alt equity and Reins.
 
-- Average reach of 5,000 on high-value videos (i.e., videos where we can plug or educate about Reins).
-- Consistent community engagement (e.g., blue-collar professionals actively commenting and engaging with high value content).
-- Clear awareness target signals (webinar signups, website visits, interest emails, or free resource requests).
-
-## What does success look like in 6 months (End of January)?
-- Evidence that our content can generate new customers.
-- Lead consideration (Meeting schedules, Demo request or Email response)
-- To break even on the investment. With an estimated LTV of $10K–$20K, that means Reins has to land 3–6 new customers attributed to BCK within 10 months. (April 2025 to January 2026)
-- Calculate target based on expected conversion rate from demo to customer.
-- 10k Followers across the big 3 channels (More of a vanity metric but aligns with the goal growth rate and gives us social proof for leads)
-
-## What if we don’t get 3–6 customers within 6 months?
-- We’re fully committed to delivering a return on your investment. If we fall short, we’ll continue creating content at no cost until we hit that goal. 
-- In addition to these macro goals, we’ll set monthly micro-goals to ensure we’re tracking toward the bigger picture and can make real-time optimizations.
-
-## New Pricing:
-- 3-month commitment at $6K, with a performance review and reevaluation at the end of the term.
+    *Tracks 3 & 4 are fully within our control and ready to execute. Tracks 1 & 2 require collaboration with your customer/prospect data.
   `,
   };
 
