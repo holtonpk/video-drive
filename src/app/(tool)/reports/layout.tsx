@@ -138,7 +138,7 @@ const Auth = ({children}: {children: React.ReactNode}) => {
       <Background />
       <div className="max-w-md w-full space-y-2 p-8 border border-white/10 rounded-lg bg-white/5 shadow-lg">
         <div className="flex items-center justify-center p-2 rounded-lg bg-[#1A191E] w-fit mx-auto">
-          <Logo className="w-10 h-10" />
+          <Logo className="w-10 h-10 fill-white" />
         </div>
         <div>
           <h2 className="mt-2 text-center text-3xl font-extrabold text-[rgba(52,244,175)]">
@@ -161,6 +161,7 @@ const Auth = ({children}: {children: React.ReactNode}) => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              className="text-white"
             />
           </div>
           <div>
