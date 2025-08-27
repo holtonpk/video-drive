@@ -8,10 +8,10 @@ export const generateMetadata = ({
 }: {
   params: {clientId: string};
 }): Metadata => {
-  const clientInfo = clients.find((c: any) => c.value === params.clientId);
+  // const clientInfo = clients.find((c: any) => c.value === params.clientId);
 
   return {
-    title: `${clientInfo?.label} | Report`,
+    title: `Blue Collar Keys | Report`,
     description: "Report",
     icons: {
       icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
@@ -21,7 +21,8 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {clientId: string}}) => {
+const Page = () => {
+  const params = {clientId: "blueCollarKeys"};
   return <ReportPage params={params} />;
 };
 

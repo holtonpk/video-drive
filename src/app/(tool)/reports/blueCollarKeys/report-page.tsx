@@ -601,10 +601,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
       totalPosts: getDataFromWeek("7-13-2025").totalPosts,
     },
+    {
+      label: "Week 13",
+      date: "7-27-2025 - 8-24-2025",
+      reportDate: "8-24-2025",
+      body: `## Content Performance & Strategy Update
+    - **Instagram, Tiktok, and Youtube**: Seeing improved reach with TOF content.
+    - **Facebook**: Boosted content is ready to be put out. Need control of payments on the platform.
+    `,
+      totalEngagement: getDataFromWeek("8-24-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("8-24-2025").totalFollowers,
+      totalPosts: getDataFromWeek("8-24-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[11]
+    reports[12]
   );
 
   console.log("selectedReport", selectedReport);
