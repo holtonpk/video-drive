@@ -965,14 +965,36 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   };
 
   const updateReport = {
-    body: `## Strategic Directions to Test
-    Use content to generate awareness within the blue-collar demo and indirectly drive value via Reins. Here are the 4 tracks we’ll test:
-    - Organic Content as a Retention Tool: Highlight key employees of existing customers via BCKs content.
-    - Organic Content as a Conversion Tool: Highlight key employees of prospects. Creates a value-first reason to start conversations.
-    - Bottoms-Up Influence: Target key employees of ICP prospects to consume and share content, encouraging internal advocacy for alt equity.
-    - Direct Decision-Maker Engagement: Create content that speaks directly to business owners about alt equity and Reins.
+    body: `## Podcast (BOF)
 
-    *Tracks 3 & 4 are fully within our control and ready to execute. Tracks 1 & 2 require collaboration with your customer/prospect data.
+- To build a magnet that can be used to approach leads  
+- Probably not as high of views, but more targeted and high-quality viewers  
+- Adds an element of respectability, trusted brand, and authority in the space  
+- Interactive interviews: **How can we make interview clips more engaging?**  
+
+
+
+## Interactive Street Interviews (TOF)
+
+**How can we make the street interviews more engaging?**
+
+
+### **Guessing Game ([Example](https://www.tiktok.com/t/ZT6TykQ4o/))**  
+  - Style: "For $20, can you guess what trade this person is in?"  
+ 
+ 
+### **Would You Rather: Blue Collar Edition**  
+  - Two bad scenarios related to the specific trade  
+  - Example: *Would you rather have a client that watches you while you work OR a boss that…*  
+
+ ### **Blue Collar Trivia**  ([Example](https://www.tiktok.com/t/ZT6TagkuD/), [Example](https://www.tiktok.com/t/ZT6Tabwf3/))
+  - Show image → Name the tool  
+  - "Price is Right" but for trade tools  
+
+ ### **Rapid Fire Questions ([Example](https://www.youtube.com/shorts/0bfo8WCSrtw))**  
+  - Pick between two options  
+  - The final one is the winner  
+
   `,
   };
 
