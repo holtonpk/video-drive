@@ -52,19 +52,23 @@ export default async function Page() {
 
 async function getPosts() {
   // Call an external API endpoint to get posts
-
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
       {
-        cache: "no-cache",
+        next: {revalidate: 3600}, // Cache for 1 hour
       }
     );
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch posts: ${res.status}`);
+    }
+
     const posts = await res.json();
 
     console.log("posts::===>", posts);
 
-    const postsData: BlogPost[] = posts.posts;
+    const postsData: BlogPost[] = posts.posts || [];
     return postsData;
   } catch (error) {
     console.error("Error fetching blog posts===:", error);
