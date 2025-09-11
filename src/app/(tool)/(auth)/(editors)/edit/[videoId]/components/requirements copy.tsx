@@ -319,8 +319,8 @@ const EditorJsRender = ({
         {selectedText && (
           <>
             <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium shadow-lg">
-              ✓ "{selectedText.substring(0, 20)}
-              {selectedText.length > 20 ? "..." : ""}" selected
+              ✓ &quot;{selectedText.substring(0, 20)}
+              {selectedText.length > 20 ? "..." : ""}&quot; selected
             </div>
             <Button
               size="sm"
