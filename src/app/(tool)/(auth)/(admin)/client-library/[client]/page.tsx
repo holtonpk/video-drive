@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 
 import {Metadata} from "next";
 import ClientPage from "./client-page";
 import {clients} from "@/config/data";
+import {useRouter} from "next/router";
 
 export const generateMetadata = ({
   params,
@@ -22,8 +25,10 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {client: string}}) => {
-  return <ClientPage client={params.client} />;
+const Page = () => {
+  const router = useRouter();
+  const {client} = router.query;
+  return <ClientPage client={client as string} />;
 };
 
 export default Page;
