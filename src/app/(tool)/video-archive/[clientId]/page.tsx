@@ -6,12 +6,13 @@ import {clients} from "@/config/data";
 
 import Background from "@/src/app/(tool)/(auth)/(admin)/components/background";
 
-export const generateMetadata = ({
+export const generateMetadata = async ({
   params,
 }: {
-  params: {clientId: string};
-}): Metadata => {
-  const clientInfo = clients.find((c: any) => c.value === params.clientId);
+  params: Promise<{clientId: string}>;
+}): Promise<Metadata> => {
+  const {clientId} = await params;
+  const clientInfo = clients.find((c: any) => c.value === clientId);
 
   return {
     title: `${clientInfo?.label} - Video Archive`,
@@ -24,11 +25,12 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {clientId: string}}) => {
+const Page = async ({params}: {params: Promise<{clientId: string}>}) => {
+  const {clientId} = await params;
   return (
     <div className="dark flex flex-col h-fit min-h-screen">
       <Background />
-      <VideoArchive clientId={params.clientId} />
+      <VideoArchive clientId={clientId} />
     </div>
   );
 };
