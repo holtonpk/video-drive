@@ -51,8 +51,15 @@ export function generateStaticParams(): {blogPath: string}[] {
 // }
 
 // ✅ Page props: plain object, not a Promise
-export default async function Page({params}: {params: {blogPath: string}}) {
-  const postData = await getPost(params.blogPath);
+export default async function Page({
+  params,
+}: {
+  params: Promise<{blogPath: string}>;
+}) {
+  const blogPath = await params;
+
+  const postData = await getPost(blogPath.blogPath);
+
   return (
     <div className="flex flex-col h-fit min-h-screen">
       <NavBar />
