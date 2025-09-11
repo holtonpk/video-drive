@@ -1,4 +1,5 @@
 import React from "react";
+import type {Metadata} from "next";
 import {NavBar} from "../../navbar";
 import {Footer} from "../../footer";
 
@@ -69,8 +70,17 @@ export async function generateStaticParams() {
   // }
 }
 
-export async function generateMetadata({params}: any) {
-  const post = await getPost(params.blogPath);
+export async function generateMetadata(props: {
+  params: {blogPath: string};
+}): Promise<Metadata>;
+export async function generateMetadata(props: {
+  params: Promise<{blogPath: string}>;
+}): Promise<Metadata>;
+export async function generateMetadata(props: any): Promise<Metadata> {
+  const resolvedParams = props?.params?.then
+    ? await props.params
+    : props.params;
+  const post = await getPost(resolvedParams.blogPath);
 
   return {
     title: `Ripple Media | ${post.title}`,
