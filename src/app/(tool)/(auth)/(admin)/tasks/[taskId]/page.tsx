@@ -1,7 +1,8 @@
+"use client";
 import {constructMetadata} from "@/lib/utils";
 import {Metadata} from "next";
 import Task from "./task";
-
+import {useRouter} from "next/router";
 export const generateMetadata = ({
   params,
 }: {
@@ -18,8 +19,10 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {taskId: string}}) => {
-  return <Task taskId={params.taskId} />;
+const Page = () => {
+  const router = useRouter();
+  const {taskId} = router.query;
+  return <Task taskId={taskId as string} />;
 };
 
 export default Page;
