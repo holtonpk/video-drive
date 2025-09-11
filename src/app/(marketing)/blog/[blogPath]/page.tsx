@@ -82,7 +82,11 @@ export async function generateMetadata(props: any): Promise<Metadata> {
   };
 }
 
-export default async function Page({params}: {params: {blogPath: any}}) {
+type PageProps = {
+  params: {blogPath: string}; // or string[] if it's a catch-all route [[...blogPath]]
+};
+
+export default async function Page({params}: PageProps) {
   console.log("params::", params);
   const postData = await getPost(params.blogPath);
 
