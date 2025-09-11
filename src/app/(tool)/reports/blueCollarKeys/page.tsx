@@ -3,11 +3,7 @@ import ReportPage from "./report-page";
 import {clients} from "@/config/data";
 import {Metadata} from "next";
 
-export const generateMetadata = ({
-  params,
-}: {
-  params: {clientId: string};
-}): Metadata => {
+export const generateMetadata = (): Metadata => {
   // const clientInfo = clients.find((c: any) => c.value === params.clientId);
 
   return {
