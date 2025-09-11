@@ -56,7 +56,7 @@ async function getPosts() {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
       {
-        next: {revalidate: 3600}, // Cache for 1 hour
+        cache: "no-cache",
       }
     );
 
