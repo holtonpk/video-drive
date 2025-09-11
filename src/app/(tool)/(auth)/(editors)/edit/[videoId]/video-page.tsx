@@ -14,6 +14,7 @@ import {
 import {motion, AnimatePresence} from "framer-motion";
 import {Icons} from "@/components/icons";
 import {VideoProvider, useVideo} from "./data/video-context";
+import {HighlightProvider} from "./data/highlight-context";
 import {VideoDetails} from "./components/video-details";
 import {Button} from "@/components/ui/button";
 import {useAuth, UserData} from "@/context/user-auth";
@@ -64,24 +65,26 @@ export default function VideoPage({videoId}: {videoId: string}) {
   return (
     <>
       {video ? (
-        <VideoProvider videoData={video}>
-          <Link
-            href="/dashboard"
-            className="flex flex-row items-center text-primary px-4 hover:opacity-80 w-fit"
-          >
-            <Icons.chevronLeft className="h-8 w-8 text-primary" />
-            back to dashboard
-          </Link>
+        <HighlightProvider>
+          <VideoProvider videoData={video}>
+            <Link
+              href="/dashboard"
+              className="flex flex-row items-center text-primary px-4 hover:opacity-80 w-fit"
+            >
+              <Icons.chevronLeft className="h-8 w-8 text-primary" />
+              back to dashboard
+            </Link>
 
-          <motion.div
-            initial={{y: 200, opacity: 1}}
-            animate={{y: 0, opacity: 1}}
-            transition={{duration: 0.5}}
-            className=" flex flex-col gap-4 mt-4 items-center relative  container   overflow-hidden  z-50  w-screen h-fit  bg-transparent "
-          >
-            <VideoDetails />
-          </motion.div>
-        </VideoProvider>
+            <motion.div
+              initial={{y: 200, opacity: 1}}
+              animate={{y: 0, opacity: 1}}
+              transition={{duration: 0.5}}
+              className=" flex flex-col gap-4 mt-4 items-center relative  container   overflow-hidden  z-50  w-screen h-fit  bg-transparent "
+            >
+              <VideoDetails />
+            </motion.div>
+          </VideoProvider>
+        </HighlightProvider>
       ) : (
         <div
           className="  w-[600px] max-w-screen h-[400px] 
