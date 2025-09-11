@@ -2,13 +2,14 @@ import {constructMetadata} from "@/lib/utils";
 import VideoPage from "./video-page";
 import {Metadata} from "next";
 
-export const generateMetadata = ({
+export const generateMetadata = async ({
   params,
 }: {
-  params: {videoId: string};
-}): Metadata => {
+  params: Promise<{videoId: string}>;
+}): Promise<Metadata> => {
+  const {videoId} = await params;
   return {
-    title: `Video - #${params.videoId}`,
+    title: `Video - #${videoId}`,
     description: "Agency Video Sheet",
     icons: {
       icon: "image/favicon.ico",
@@ -18,10 +19,11 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {videoId: string}}) => {
+const Page = async ({params}: {params: Promise<{videoId: string}>}) => {
+  const {videoId} = await params;
   return (
     <div className=" bg-background overflow-scroll ">
-      <VideoPage videoId={params.videoId} />
+      <VideoPage videoId={videoId} />
     </div>
   );
 };

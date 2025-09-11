@@ -1,15 +1,15 @@
-import {constructMetadata} from "@/lib/utils";
 import VideoPage from "./video-page";
 import {Metadata} from "next";
 import Background from "@/components/background";
 
-export const generateMetadata = ({
+export const generateMetadata = async ({
   params,
 }: {
-  params: {videoId: string};
-}): Metadata => {
+  params: Promise<{videoId: string}>;
+}): Promise<Metadata> => {
+  const {videoId} = await params;
   return {
-    title: `Video - #${params.videoId}`,
+    title: `Video - #${videoId}`,
     description: "Agency Video Sheet",
     icons: {
       icon: `${process.env.NEXT_PUBLIC_SITE_URL}/image/favicon.ico`,
@@ -19,12 +19,9 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {videoId: string}}) => {
-  return (
-    <>
-      <VideoPage videoId={params.videoId} />
-    </>
-  );
+const Page = async ({params}: {params: Promise<{videoId: string}>}) => {
+  const {videoId} = await params;
+  return <VideoPage videoId={videoId} />;
 };
 
 export default Page;
