@@ -70,12 +70,6 @@ export async function generateStaticParams() {
   // }
 }
 
-export async function generateMetadata(props: {
-  params: {blogPath: string};
-}): Promise<Metadata>;
-export async function generateMetadata(props: {
-  params: Promise<{blogPath: string}>;
-}): Promise<Metadata>;
 export async function generateMetadata(props: any): Promise<Metadata> {
   const resolvedParams = props?.params?.then
     ? await props.params
