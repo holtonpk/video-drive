@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import EditorLayout from "./editor-layout";
 import "./blog-style.css";
