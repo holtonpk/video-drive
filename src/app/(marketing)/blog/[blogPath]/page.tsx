@@ -23,19 +23,19 @@ async function getPost(path: string) {
   }
 }
 
-export function generateStaticParams(): {blogPath: string}[] {
-  return [
-    {
-      blogPath:
-        "the-ultimate-guide-to-crafting-a-winning-social-media-marketing-strategy",
-    },
-    {
-      blogPath:
-        "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
-    },
-    {blogPath: "the-start-of-a-10m-impression-marketing-agency"},
-  ];
-}
+// export function generateStaticParams(): {blogPath: string}[] {
+//   return [
+//     {
+//       blogPath:
+//         "the-ultimate-guide-to-crafting-a-winning-social-media-marketing-strategy",
+//     },
+//     {
+//       blogPath:
+//         "consumers-have-smaller-attention-spans-than-goldfish-how-to-win-at-marketing",
+//     },
+//     {blogPath: "the-start-of-a-10m-impression-marketing-agency"},
+//   ];
+// }
 
 // ✅ Properly type params; do NOT await it
 export async function generateMetadata({
@@ -51,7 +51,7 @@ export async function generateMetadata({
 }
 
 // ✅ Page props: plain object, not a Promise
-export default async function Page({params}: {params: {blogPath: string}}) {
+const Page = async ({params}: {params: {blogPath: string}}) => {
   const postData = await getPost(params.blogPath);
   return (
     <div className="flex flex-col h-fit min-h-screen">
@@ -64,4 +64,4 @@ export default async function Page({params}: {params: {blogPath: string}}) {
       </div>
     </div>
   );
-}
+};
