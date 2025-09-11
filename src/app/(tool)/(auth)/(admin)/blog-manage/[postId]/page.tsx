@@ -1,17 +1,15 @@
 import React from "react";
 import EditorLayout from "./editor-layout";
 import "./blog-style.css";
+import {useRouter} from "next/router";
 
 interface PageProps {
   params: {postId: string};
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{postId: string}>;
-}) {
-  const postId = await params;
+export default function Page() {
+  const router = useRouter();
+  const {postId} = router.query;
 
-  return <EditorLayout postId={postId.postId} />;
+  return <EditorLayout postId={postId as string} />;
 }
