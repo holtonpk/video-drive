@@ -4,12 +4,13 @@ import {Metadata} from "next";
 import ClientPage from "./client-page";
 import {clients} from "@/config/data";
 
-export const generateMetadata = ({
+export const generateMetadata = async ({
   params,
 }: {
-  params: {client: string};
-}): Metadata => {
-  const clientInfo = clients.find((c: any) => c.value === params.client);
+  params: Promise<{client: string}>;
+}): Promise<Metadata> => {
+  const {client} = await params;
+  const clientInfo = clients.find((c: any) => c.value === client);
 
   return {
     title: `${clientInfo?.label} | Library`,
