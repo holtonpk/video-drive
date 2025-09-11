@@ -2,10 +2,16 @@ import React from "react";
 import EditorLayout from "./editor-layout";
 import "./blog-style.css";
 
-interface EditorPageProps {
+interface PageProps {
   params: {postId: string};
 }
 
-export default function EditorPage({params}: EditorPageProps) {
-  return <EditorLayout postId={params.postId} />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{postId: string}>;
+}) {
+  const postId = await params;
+
+  return <EditorLayout postId={postId.postId} />;
 }
