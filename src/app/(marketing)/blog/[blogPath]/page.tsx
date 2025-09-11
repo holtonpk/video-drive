@@ -82,7 +82,7 @@ export async function generateMetadata(props: any): Promise<Metadata> {
   };
 }
 
-export default async function Page({params}: {params: {blogPath: string}}) {
+export default async function Page({params}: {params: {blogPath: any}}) {
   console.log("params::", params);
   const postData = await getPost(params.blogPath);
 
