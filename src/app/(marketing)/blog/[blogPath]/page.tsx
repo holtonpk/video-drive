@@ -65,3 +65,5 @@ const Page = async ({params}: {params: {blogPath: string}}) => {
     </div>
   );
 };
+
+export default Page;
