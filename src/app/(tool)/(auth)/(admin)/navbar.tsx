@@ -67,11 +67,7 @@ const Navbar = () => {
                 {clients.map((client) => {
                   return (
                     <li key={client.id} className="row-span-3">
-                      <Link
-                        href={`/client-view/${client.value}`}
-                        legacyBehavior
-                        passHref
-                      >
+                      <Link href={`/client-view/${client.value}`} passHref>
                         <NavigationMenuLink asChild>
                           <div
                             className={
@@ -91,7 +87,7 @@ const Navbar = () => {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem className="relative">
+          {/* <NavigationMenuItem className="relative">
             <NavigationMenuTrigger
               className={`p-0 text-base bg-transparent font-bold px-2
              ${
@@ -131,9 +127,10 @@ const Navbar = () => {
                 })}
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
             <NavigationMenuLink
+              href="/video-review"
               className={`font-bold
         ${
           segment === "video-review"
@@ -146,21 +143,34 @@ const Navbar = () => {
             </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/tasks" legacyBehavior passHref>
-              <NavigationMenuLink
-                className={`font-bold
+            <NavigationMenuLink
+              href="/tasks"
+              className={`font-bold
         ${
           segment === "tasks"
             ? "text-primary "
             : "text-muted-foreground hover:text-primary"
         }
         `}
-              >
-                Tasks
-              </NavigationMenuLink>
-            </Link>
+            >
+              Tasks
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
+            <NavigationMenuLink
+              href="/idea-library"
+              className={`font-bold
+        ${
+          segment === "idea-library"
+            ? "text-primary "
+            : "text-muted-foreground hover:text-primary"
+        }
+        `}
+            >
+              Idea Library
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <Link href="/invoices" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`font-bold
@@ -174,8 +184,8 @@ const Navbar = () => {
                 Invoices
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
+          </NavigationMenuItem> */}
+          {/* <NavigationMenuItem>
             <Link href="/posting" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`font-bold
@@ -204,7 +214,7 @@ const Navbar = () => {
                 Blog
               </NavigationMenuLink>
             </Link>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
         </NavigationMenuList>
       </NavigationMenu>
       {currentUser && (
@@ -278,8 +288,6 @@ const VideoReview = () => {
           const filteredVideos = await Promise.all(
             querySnapshot.docs.map(async (docRef) => {
               const docData = docRef.data();
-              console.log("docData", docData.videoNumber);
-
               const postData =
                 docData.postIds &&
                 Array.isArray(docData.postIds) &&
@@ -327,20 +335,6 @@ const VideoReview = () => {
   const itemsToReview = [...(scriptsToReview || []), ...(videosToReview || [])];
 
   return (
-    <NavigationMenuItem>
-      <Link href="/video-review" legacyBehavior passHref>
-        <NavigationMenuLink
-          className={`font-bold
-        ${
-          segment === "video-review"
-            ? "text-primary"
-            : "text-muted-foreground hover:text-primary"
-        }
-        `}
-        >
-          Video Review {itemsToReview.length > 0 && `(${itemsToReview.length})`}
-        </NavigationMenuLink>
-      </Link>
-    </NavigationMenuItem>
+    <>Video Review {itemsToReview.length > 0 && `(${itemsToReview.length})`}</>
   );
 };

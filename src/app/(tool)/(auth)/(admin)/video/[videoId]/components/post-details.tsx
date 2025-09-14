@@ -1209,7 +1209,7 @@ export const AiCaption = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button className="">Ai generated caption</Button>
       </DialogTrigger>
       <DialogContent className="text-primary">

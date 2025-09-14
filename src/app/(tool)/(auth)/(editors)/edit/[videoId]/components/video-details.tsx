@@ -371,7 +371,7 @@ export const VideoDetails = () => {
                 open={openPayoutChangeDialog}
                 onOpenChange={setOpenPayoutChangeDialog}
               >
-                <DialogTrigger>
+                <DialogTrigger asChild>
                   <button className="w-full justify-start text-left  flex mx-auto items-center font-bold underline hover:opacity-75">
                     {payoutChangeRequest
                       ? payoutChangeRequest.value == video.priceUSD

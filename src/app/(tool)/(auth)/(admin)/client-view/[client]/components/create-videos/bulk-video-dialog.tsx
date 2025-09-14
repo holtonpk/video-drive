@@ -97,7 +97,7 @@ export const BulkSchedule = ({
 
   return (
     <Dialog open={showModal} onOpenChange={setShowModal}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button
           className="w-full  bg-transparent border border-primary text-primary"
           variant={"outline"}
