@@ -21,7 +21,9 @@ import ClientPage from "./client-page";
 //   };
 // };
 
-const Page = ({params}: {params: {client: string}}) => {
-  return <ClientPage client={params.client} />;
+const Page = ({pageProps}: {pageProps: any}) => {
+  // return <ClientPage client={params.client} />;
+  console.log("ppp", pageProps);
+  return <div>This is a test </div>;
 };
 export default Page;
