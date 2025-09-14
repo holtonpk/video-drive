@@ -28,7 +28,7 @@ const ClientPage = ({client}: {client: string}) => {
       {clientInfo ? (
         <div className={displayedVideo ? `grid md:grid-cols-[60%_1fr]` : ""}>
           <ScrollArea className=" flex flex-col w-full gap-4  relative h-[calc(100vh-64px)]  overflow-scroll pt-20 ">
-            {/*  <div className="max-w-full w-full absolute top-0 h-16  z-20 flex justify-between container">
+            <div className="max-w-full w-full absolute top-0 h-16  z-20 flex justify-between container">
               <div className="flex flex-col">
                 <div className="flex items-center gap-4 text-primary  w-fit justify-center ">
                   {clientInfo.icon && (
@@ -87,6 +87,7 @@ const ClientPage = ({client}: {client: string}) => {
                 />
               )}
             </div>
+
             {view === "unPosted" && (
               <UnPostedDisplay
                 clientInfo={clientInfo}
@@ -112,16 +113,6 @@ const ClientPage = ({client}: {client: string}) => {
                 clientInfo={clientInfo}
                 displayedVideo={displayedVideo}
                 setDisplayedVideo={setDisplayedVideo}
-              />
-            )}
-               */}
-            {view === "week" && (
-              <WeeksDisplay
-                clientInfo={clientInfo}
-                setTotalVideos={setTotalVideos}
-                setCurrentVideoNumber={setCurrentVideoNumber}
-                setDisplayedVideo={setDisplayedVideo}
-                displayedVideo={displayedVideo}
               />
             )}
           </ScrollArea>
