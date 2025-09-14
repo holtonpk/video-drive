@@ -4,12 +4,12 @@ import {Metadata} from "next";
 import ClientPage from "./client-page";
 import {clients} from "@/config/data";
 
-export const generateMetadata = async ({
+export const generateMetadata = ({
   params,
 }: {
-  params: Promise<{client: string}>;
-}): Promise<Metadata> => {
-  const {client} = await params;
+  params: {client: string};
+}): Metadata => {
+  const {client} = params;
   const clientInfo = clients.find((c: any) => c.value === client);
 
   return {
@@ -23,9 +23,9 @@ export const generateMetadata = async ({
   };
 };
 
-const Page = async ({params}: {params: Promise<{client: string}>}) => {
+const Page = ({params}: {params: {client: string}}) => {
   console.log("client view page ======>");
-  const {client} = await params;
+  const {client} = params;
   return <ClientPage client={client} />;
 };
 
