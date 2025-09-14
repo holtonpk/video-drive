@@ -80,12 +80,12 @@ const ClientPage = ({client}: {client: string}) => {
                   Ready to Post
                 </button>
               </div>
-              {currentVideoNumber && (
+              {/* {currentVideoNumber && (
                 <CreateVideo
                   clientInfo={clientInfo}
                   currentVideoNumber={currentVideoNumber}
                 />
-              )}
+              )} */}
             </div>
 
             {view === "unPosted" && (
