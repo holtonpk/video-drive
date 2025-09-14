@@ -23,9 +23,9 @@ export const generateMetadata = ({
   };
 };
 
-const Page = ({params}: {params: {client: string}}) => {
+const Page = (pageProps: {client: string}) => {
   console.log("client view page ======>");
-  const {client} = params;
+  const {client} = pageProps;
   return <ClientPage client={client} />;
 };
 
