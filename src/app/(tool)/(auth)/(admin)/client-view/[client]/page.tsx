@@ -23,7 +23,7 @@ import ClientPage from "./client-page";
 const Page = async ({params}: {params: Promise<{client: string}>}) => {
   console.log("client view page ======>");
   const {client} = await params;
-  // return <ClientPage client={client} />;
-  return <div>This is a test {client}</div>;
+  return <ClientPage client={client || ""} />;
+  // return <div>This is a test {client}</div>;
 };
 export default Page;
