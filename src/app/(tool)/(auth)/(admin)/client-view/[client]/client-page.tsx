@@ -115,13 +115,22 @@ const ClientPage = ({client}: {client: string}) => {
               />
             )}
                */}
+            {view === "week" && (
+              <WeeksDisplay
+                clientInfo={clientInfo}
+                setTotalVideos={setTotalVideos}
+                setCurrentVideoNumber={setCurrentVideoNumber}
+                setDisplayedVideo={setDisplayedVideo}
+                displayedVideo={displayedVideo}
+              />
+            )}
           </ScrollArea>
-          {displayedVideo && (
+          {/* {displayedVideo && (
             <VideoDisplay
               video={displayedVideo}
               setDisplayedVideo={setDisplayedVideo}
             />
-          )}
+          )} */}
         </div>
       ) : (
         <>Not found</>
