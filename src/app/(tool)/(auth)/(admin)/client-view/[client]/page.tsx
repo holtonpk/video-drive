@@ -25,10 +25,10 @@ import {useRouter} from "next/router";
 // };
 
 const Page = () => {
-  // const router = useRouter();
-  // const client = router.query.client as string;
+  const router = useRouter();
+  const client = router.query.client as string;
   // return <ClientPage client={client} />;
-  return <>This is a teest</>;
+  return <>This is a teest {client}</>;
 };
 
 export default Page;
