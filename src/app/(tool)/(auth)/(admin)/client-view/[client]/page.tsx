@@ -24,6 +24,7 @@ export const generateMetadata = async ({
 };
 
 const Page = async ({params}: {params: Promise<{client: string}>}) => {
+  console.log("client view page ======>");
   const {client} = await params;
   return <ClientPage client={client} />;
 };
