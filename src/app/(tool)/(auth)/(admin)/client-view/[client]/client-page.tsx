@@ -25,9 +25,7 @@ const ClientPage = ({client}: {client: string}) => {
 
   return (
     <>
-      this is client page
-      {clientInfo?.label}
-      {/* {clientInfo ? (
+      {clientInfo ? (
         <div className={displayedVideo ? `grid md:grid-cols-[60%_1fr]` : ""}>
           <ScrollArea className=" flex flex-col w-full gap-4  relative h-[calc(100vh-64px)]  overflow-scroll pt-20 ">
             <div className="max-w-full w-full absolute top-0 h-16  z-20 flex justify-between container">
@@ -82,12 +80,12 @@ const ClientPage = ({client}: {client: string}) => {
                   Ready to Post
                 </button>
               </div>
-              {currentVideoNumber && (
+              {/* {currentVideoNumber && (
                 <CreateVideo
                   clientInfo={clientInfo}
                   currentVideoNumber={currentVideoNumber}
                 />
-              )}
+              )} */}
             </div>
             {view === "unPosted" && (
               <UnPostedDisplay
@@ -126,7 +124,7 @@ const ClientPage = ({client}: {client: string}) => {
         </div>
       ) : (
         <>Not found</>
-      )} */}
+      )}
     </>
   );
 };
