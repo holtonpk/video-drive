@@ -34,32 +34,32 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
 
   const [showContact, setShowContact] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const vh = 600;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollY = window.scrollY;
+  //     const vh = 600;
 
-      // Show fixed navbar when scrolled past 0
-      setIsFixed(currentScrollY > 0);
+  //     // Show fixed navbar when scrolled past 0
+  //     setIsFixed(currentScrollY > 0);
 
-      // Hide/show logic based on scroll direction and position
-      if (currentScrollY > vh) {
-        // Only hide when scrolling down, show when scrolling up
-        if (currentScrollY > lastScrollY) {
-          setIsVisible(false); // Scrolling down - hide
-        } else {
-          setIsVisible(true); // Scrolling up - show
-        }
-      } else {
-        setIsVisible(true); // Always show when within viewport height
-      }
+  //     // Hide/show logic based on scroll direction and position
+  //     if (currentScrollY > vh) {
+  //       // Only hide when scrolling down, show when scrolling up
+  //       if (currentScrollY > lastScrollY) {
+  //         setIsVisible(false); // Scrolling down - hide
+  //       } else {
+  //         setIsVisible(true); // Scrolling up - show
+  //       }
+  //     } else {
+  //       setIsVisible(true); // Always show when within viewport height
+  //     }
 
-      setLastScrollY(currentScrollY);
-    };
+  //     setLastScrollY(currentScrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollY]);
 
   // showContact should be true when scroll is greater than 1000px
   useEffect(() => {
@@ -73,7 +73,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
 
   return (
-    <div className="h-[72px]">
+    <div className="h-[72px] ">
       {isFixed ? (
         <div className="w-full fixed top-0 left-0 z-[99] pt-3">
           <div
@@ -130,7 +130,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-full px-6 py-4 md:py-8 ">
+        <div className="flex flex-col w-full px-6 py-4 md:py-6  ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
             <Link href="/" className="flex   items-center">
               <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
