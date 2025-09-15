@@ -359,11 +359,7 @@ const ThumbnailCarousel = () => {
             <img
               src={`/hero-images/${(index % 20) + 1}.PNG`}
               className="w-full h-full object-cover"
-              loading={index < 12 ? "eager" : "lazy"}
-              decoding="async"
-              fetchPriority={index < 12 ? "high" : "auto"}
               alt="showcase thumbnail"
-              draggable={false}
             />
           </div>
         ))}
@@ -382,11 +378,7 @@ const ThumbnailCarousel = () => {
             <img
               src={`/hero-images/${(index % 20) + 21}.PNG`}
               className="w-full h-full object-cover"
-              loading={index < 12 ? "eager" : "lazy"}
-              decoding="async"
-              fetchPriority={index < 12 ? "high" : "auto"}
               alt="showcase thumbnail"
-              draggable={false}
             />
           </div>
         ))}
@@ -405,11 +397,7 @@ const ThumbnailCarousel = () => {
             <img
               src={`/hero-images/${(index % 20) + 41}.PNG`}
               className="w-full h-full object-cover"
-              loading={index < 12 ? "eager" : "lazy"}
-              decoding="async"
-              fetchPriority={index < 12 ? "high" : "auto"}
               alt="showcase thumbnail"
-              draggable={false}
             />
           </div>
         ))}
