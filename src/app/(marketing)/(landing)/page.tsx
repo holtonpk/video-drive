@@ -1,5 +1,5 @@
 import React from "react";
-import {Hero} from "./hero";
+import {Hero} from "./hero/hero";
 import {Process} from "./process";
 import {Reviews} from "./reviews";
 import {Team} from "./team";

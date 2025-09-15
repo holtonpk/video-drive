@@ -7,3 +7,11 @@ declare module "@editorjs/table";
 declare module "file-saver";
 declare module "validator";
 declare module "@editorjs/header";
+declare module "*.png" {
+  const content: import("next/image").StaticImageData;
+  export default content;
+}
+declare module "*.PNG" {
+  const content: import("next/image").StaticImageData;
+  export default content;
+}
