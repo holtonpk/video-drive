@@ -129,10 +129,10 @@ export const Hero = () => {
       <NavBar />
 
       <div className="container z-20   min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px]  sm:pb-0 py-[150px] gap-4 lg:gap-6   ">
-        <motion.div
-          initial={{scale: 0, translateX: "-50%"}}
-          animate={{scale: 1, translateX: "-50%"}}
-          transition={{duration: 0.5, delay: 0.5}}
+        <div
+          // initial={{scale: 0, translateX: "-50%"}}
+          // animate={{scale: 1, translateX: "-50%"}}
+          // transition={{duration: 0.5, delay: 0.5}}
           className="flex flex-col items-center gap-4 h-fit big-shadow min-w-[350px] sm:min-w-[550px] pt-8 pb-10 lg:min-w-[650px] bg-[#1A1A1A] rounded-[12px] border-4 border-theme-color1 left-[50%] -translate-x-1/2  absolute z-10  top-[60px]"
         >
           <div className="relative z-20 ">
@@ -203,7 +203,7 @@ export const Hero = () => {
               Book a Call
             </Link>
           </div>
-        </motion.div>
+        </div>
 
         <ThumbnailCarousel />
         {/* <div className="w-6 h-[700px] mt-4 absolute left-0 top-0 dark-grad-right z-30"></div>
