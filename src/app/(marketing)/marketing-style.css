@@ -841,3 +841,68 @@ input:-webkit-autofill:active {
   font-size: 150px;
   line-height: 150px;
 }
+
+.dark-grad-right {
+  /* global 94%+ browsers support */
+
+  background: linear-gradient(
+    90deg,
+    hsla(0, 0%, 7%, 100%) 0%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+.dark-grad-left {
+  /* global 94%+ browsers support */
+
+  background: linear-gradient(
+    270deg,
+    hsla(0, 0%, 7%, 100%) 0%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+
+.rad-grad-shadow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(0, 0%, 7%, 100%) 80%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+
+.big-shadow {
+  -webkit-box-shadow: 0px 0px 15px 10px #000000;
+  box-shadow: 0px 0px 15px 10px #000000;
+}
+
+.duration-20 {
+  animation-duration: 20s;
+}
+.duration-25 {
+  animation-duration: 25s;
+}
+.duration-30 {
+  animation-duration: 30s;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-animate-scroll-left {
+  /* JS controls animation via Web Animations API to avoid restarts */
+  will-change: transform;
+}
