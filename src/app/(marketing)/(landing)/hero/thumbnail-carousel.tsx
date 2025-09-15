@@ -283,6 +283,7 @@ export const ThumbnailCarousel = () => {
           >
             <Image
               src={img}
+              priority
               fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
@@ -303,6 +304,7 @@ export const ThumbnailCarousel = () => {
           >
             <Image
               src={img}
+              priority
               // src={`/hero-images/${(index % 20) + 21}.PNG`}
               fill
               className="w-full h-full object-cover"
@@ -324,6 +326,7 @@ export const ThumbnailCarousel = () => {
           >
             <Image
               // src={`/hero-images/${(index % 20) + 41}.PNG`}
+              priority
               src={img}
               fill
               className="w-full h-full object-cover"
