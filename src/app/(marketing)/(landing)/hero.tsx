@@ -352,7 +352,7 @@ const ThumbnailCarousel = () => {
         ref={topRef}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
-        {Array.from({length: 10}).map((_, index) => (
+        {Array.from({length: 20}).map((_, index) => (
           <div
             key={`top-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
@@ -373,7 +373,7 @@ const ThumbnailCarousel = () => {
         ref={midRef}
         className="w-fit h-full flex gap-4 hero-animate-scroll-left will-change-transform"
       >
-        {Array.from({length: 10}).map((_, index) => (
+        {Array.from({length: 20}).map((_, index) => (
           <div
             key={`middle-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
@@ -392,7 +392,7 @@ const ThumbnailCarousel = () => {
         className="w-fit h-full flex gap-4 will-change-transform"
         ref={botRef}
       >
-        {Array.from({length: 10}).map((_, index) => (
+        {Array.from({length: 20}).map((_, index) => (
           <div
             key={`bottom-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
