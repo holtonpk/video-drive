@@ -6,6 +6,7 @@ import {Smile} from "../icons";
 import localFont from "next/font/local";
 import Link from "next/link";
 import Image from "next/image";
+import Image1 from "../../../../public/hero-images/1.PNG";
 
 const headingFont = localFont({
   src: "../fonts/HeadingNowTrial-57Extrabold.ttf",
@@ -359,7 +360,8 @@ const ThumbnailCarousel = () => {
           >
             <Image
               priority
-              src={`/hero-images/${(index % 20) + 1}.PNG`}
+              // src={`/hero-images/${(index % 20) + 1}.PNG`}
+              src={Image1}
               fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
