@@ -4,6 +4,7 @@ import {NavBar} from "../navbar";
 import {animationControls, motion} from "framer-motion";
 import {Smile} from "../icons";
 import localFont from "next/font/local";
+import Link from "next/link";
 
 const headingFont = localFont({
   src: "../fonts/HeadingNowTrial-57Extrabold.ttf",
@@ -123,58 +124,295 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div id="hero" className="flex flex-col sm:h-screen sm:max-h-[800px]">
-      {/* <div className="fixed z-[999999] h-screen w-1 bg-red-600 top-0 left-1/2 -translate-x-1/2"></div> */}
-
+    <div id="hero" className="flex flex-col sm:h-screen sm:max-h-[800px] ">
       <NavBar />
-      <div className="container mx-auto relative flex flex-col items-center sm:pt-10 sm:mt-20 sm:pb-0 py-[150px] gap-4 lg:gap-6  ">
-        <div className="relative max-w-[500px]  ">
-          <h1
-            className={`text-7xl sm:text-8xl  lg:text-9xl  uppercase text-center relative z-20  ${headingFont.className}`}
-          >
-            <span className="relative z-20">Content</span> <br />
-            <span className="text-theme-color3 relative z-10 bg-background ">
-              <span className="relative z-20 pointer-events-none ">
-                Creation
-              </span>
-              <div className=" w-full h-full bg-background absolute right-[6px] top-0 z-[15]"></div>
-              <motion.div
-                initial={{
-                  rotate: -60,
-                  translateX: "0",
-                  translateY: "-50%",
-                }}
-                animate={{
-                  rotate: 0,
-                  translateY: "-50%",
-                  translateX: "75%",
-                }}
-                transition={{duration: 0.75, delay: 3.5, ease: "easeInOut"}}
-                className="absolute top-1/2 -translate-y-1/2 right-0 z-10"
-              >
-                <Smile className=" w-[60px] h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
-              </motion.div>
-            </span>{" "}
-            <br />
-            <span className="relative z-20 whitespace-nowrap"> Made Easy </span>
-          </h1>
-        </div>
-        <p
-          className={`sm:max-w-[300px] lg:max-w-[500px] text-center text-xl text-primary/70 ${bodyFont.className}`}
-        >
-          We specialize in creating viral, short-form content for fast-growing
-          brands helping them capture attention, spark engagement, and connect
-          with audiences at scale.
-        </p>
 
-        {/* Conditionally render only the appropriate video display */}
-        {isMobile ? (
-          // <MobileVideoDisplay pauseVideos={true} />
-          <MobileVideoDisplay pauseVideos={!isInView} />
-        ) : (
-          // <MobileVideoDisplay pauseVideos={!isInView} />
-          <VideoDisplay pauseVideos={!isInView} />
-        )}
+      <div className="container z-20   min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px]  sm:pb-0 py-[150px] gap-4 lg:gap-6   ">
+        <motion.div
+          initial={{scale: 0, translateX: "-50%"}}
+          animate={{scale: 1, translateX: "-50%"}}
+          transition={{duration: 0.5, delay: 0.5}}
+          className="flex flex-col items-center gap-4 h-fit big-shadow min-w-[350px] sm:min-w-[550px] pt-8 pb-10 lg:min-w-[650px] bg-[#1A1A1A] rounded-[12px] border-4 border-theme-color1 left-[50%] -translate-x-1/2  absolute z-10  top-[60px]"
+        >
+          <div className="relative z-20 ">
+            <h1
+              className={`text-7xl sm:text-8xl  lg:text-9xl   uppercase text-center relative z-20 bg-[#1A1A1A]  ${headingFont.className}`}
+            >
+              <span
+                // initial={{opacity: 0}}
+                // animate={{opacity: 1}}
+                // transition={{duration: 0.5, delay: 0.5}}
+                className="relative z-20 "
+              >
+                Content
+              </span>{" "}
+              <br />
+              <motion.span
+                initial={{paddingRight: 0}}
+                animate={{paddingRight: "40px"}}
+                transition={{duration: 0.4, delay: 3, ease: "easeInOut"}}
+                className="text-theme-color3 relative z-10 bg-[#1A1A1A]  "
+              >
+                <span
+                  // initial={{opacity: 0}}
+                  // animate={{opacity: 1}}
+                  // transition={{duration: 0.5, delay: 0.7}}
+                  className="relative z-20 pointer-events-none "
+                >
+                  Creation
+                </span>
+                <div className=" w-[calc(100%-48px)] h-full bg-[#1A1A1A] absolute left-[0px]  top-0 z-[15]"></div>
+                <motion.div
+                  initial={{
+                    rotate: -60,
+                    translateX: "0",
+                    translateY: "-50%",
+                  }}
+                  animate={{
+                    rotate: 0,
+                    translateY: "-50%",
+                    translateX: "75%",
+                  }}
+                  transition={{duration: 0.75, delay: 3, ease: "easeInOut"}}
+                  className="absolute top-1/2 -translate-y-1/2 right-12 z-10"
+                >
+                  <Smile className=" w-[60px] h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
+                </motion.div>
+              </motion.span>
+              <br />
+              <span className="relative z-20 whitespace-nowrap">
+                {" "}
+                Made Easy{" "}
+              </span>
+            </h1>
+          </div>
+          <p
+            className={`max-w-[300px] sm:max-w-[400px] lg:max-w-[500px] text-center text-lg sm:text-xl text-primary/70 relative z-20 ${bodyFont.className}`}
+          >
+            We specialize in creating viral, short-form content for fast-growing
+            brands helping them capture attention, spark engagement, and connect
+            with audiences at scale.
+          </p>
+
+          <div>
+            <Link
+              href="/contact"
+              className={`big-shadow absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2  z-20 bg-primary dark:bg-theme-color1 rounded-full text-background uppercase  text-xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 ring-offset-background  transition-all duration-300 w-fit  ${headingFont.className}`}
+            >
+              Book a Call
+            </Link>
+          </div>
+        </motion.div>
+
+        <ThumbnailCarousel />
+        {/* <div className="w-6 h-[700px] mt-4 absolute left-0 top-0 dark-grad-right z-30"></div>
+        <div className="w-6 h-[700px] mt-4 absolute right-0 top-0 dark-grad-left z-30"></div> */}
+      </div>
+    </div>
+  );
+};
+
+const ThumbnailCarousel = () => {
+  const topRef = useRef<HTMLDivElement | null>(null);
+  const midRef = useRef<HTMLDivElement | null>(null);
+  const botRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = midRef.current;
+    if (!el) return;
+
+    // Middle row: translateX(-50%) -> 0
+    const anim = el.animate(
+      [
+        {transform: "translate3d(-50%, 0, 0)"},
+        {transform: "translate3d(0, 0, 0)"},
+      ],
+      {
+        duration: 25000,
+        iterations: Infinity,
+        easing: "linear",
+        fill: "both",
+        composite: "replace",
+      }
+    );
+
+    // Initial speed boost for first 3s
+    let isHovering = false;
+    anim.playbackRate = 1;
+
+    const handleEnter = () => {
+      isHovering = true;
+      anim.playbackRate = 2.5;
+    };
+
+    const handleLeave = () => {
+      isHovering = false;
+      anim.playbackRate = 1;
+    };
+
+    el.addEventListener("mouseenter", handleEnter);
+    el.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      el.removeEventListener("mouseenter", handleEnter);
+      el.removeEventListener("mouseleave", handleLeave);
+      anim.cancel();
+    };
+  }, []);
+
+  // Top row: opposite direction 0 -> -50%
+  useEffect(() => {
+    const el = topRef.current;
+    if (!el) return;
+
+    const anim = el.animate(
+      [
+        {transform: "translate3d(0, 0, 0)"},
+        {transform: "translate3d(-50%, 0, 0)"},
+      ],
+      {
+        duration: 25000,
+        iterations: Infinity,
+        easing: "linear",
+        fill: "both",
+        composite: "replace",
+      }
+    );
+
+    let isHovering = false;
+    anim.playbackRate = 1;
+
+    const handleEnter = () => {
+      isHovering = true;
+      anim.playbackRate = 2.5;
+    };
+    const handleLeave = () => {
+      isHovering = false;
+      anim.playbackRate = 1;
+    };
+
+    el.addEventListener("mouseenter", handleEnter);
+    el.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      el.removeEventListener("mouseenter", handleEnter);
+      el.removeEventListener("mouseleave", handleLeave);
+
+      anim.cancel();
+    };
+  }, []);
+
+  // Bottom row: opposite direction 0 -> -50%
+  useEffect(() => {
+    const el = botRef.current;
+    if (!el) return;
+
+    const anim = el.animate(
+      [
+        {transform: "translate3d(0, 0, 0)"},
+        {transform: "translate3d(-50%, 0, 0)"},
+      ],
+      {
+        duration: 25000,
+        iterations: Infinity,
+        easing: "linear",
+        fill: "both",
+        composite: "replace",
+      }
+    );
+
+    let isHovering = false;
+    anim.playbackRate = 1;
+
+    const handleEnter = () => {
+      isHovering = true;
+      anim.playbackRate = 2.5;
+    };
+    const handleLeave = () => {
+      isHovering = false;
+      anim.playbackRate = 1;
+    };
+
+    el.addEventListener("mouseenter", handleEnter);
+    el.addEventListener("mouseleave", handleLeave);
+
+    return () => {
+      el.removeEventListener("mouseenter", handleEnter);
+      el.removeEventListener("mouseleave", handleLeave);
+
+      anim.cancel();
+    };
+  }, []);
+
+  return (
+    <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
+      {/* Top row - panning right (opposite to middle) */}
+      <div
+        ref={topRef}
+        className="w-fit h-full flex gap-4 will-change-transform"
+      >
+        {Array.from({length: 40}).map((_, index) => (
+          <div
+            key={`top-${index}`}
+            className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
+          >
+            <img
+              src={`/hero-images/${(index % 20) + 1}.PNG`}
+              className="w-full h-full object-cover"
+              loading={index < 12 ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={index < 12 ? "high" : "auto"}
+              alt="showcase thumbnail"
+              draggable={false}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Middle row - panning left */}
+      <div
+        ref={midRef}
+        className="w-fit h-full flex gap-4 hero-animate-scroll-left will-change-transform"
+      >
+        {Array.from({length: 40}).map((_, index) => (
+          <div
+            key={`middle-${index}`}
+            className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
+          >
+            <img
+              src={`/hero-images/${(index % 20) + 21}.PNG`}
+              className="w-full h-full object-cover"
+              loading={index < 12 ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={index < 12 ? "high" : "auto"}
+              alt="showcase thumbnail"
+              draggable={false}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom row - panning right (opposite to middle) */}
+      <div
+        className="w-fit h-full flex gap-4 will-change-transform"
+        ref={botRef}
+      >
+        {Array.from({length: 40}).map((_, index) => (
+          <div
+            key={`bottom-${index}`}
+            className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
+          >
+            <img
+              src={`/hero-images/${(index % 20) + 41}.PNG`}
+              className="w-full h-full object-cover"
+              loading={index < 12 ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={index < 12 ? "high" : "auto"}
+              alt="showcase thumbnail"
+              draggable={false}
+            />
+          </div>
+        ))}
       </div>
     </div>
   );
