@@ -169,9 +169,9 @@ export const ThumbnailCarousel = () => {
   };
 
   // Different speeds per row; middle runs opposite direction
-  const xTop = useRowMarquee(4, 1);
-  const xMiddle = useRowMarquee(2, -1);
-  const xBottom = useRowMarquee(6, 1);
+  const xTop = useRowMarquee(10, 1);
+  const xMiddle = useRowMarquee(7, -1);
+  const xBottom = useRowMarquee(8, 1);
 
   return (
     <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
