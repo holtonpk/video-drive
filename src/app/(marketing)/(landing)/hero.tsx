@@ -6,66 +6,6 @@ import {Smile} from "../icons";
 import localFont from "next/font/local";
 import Link from "next/link";
 import Image from "next/image";
-import Image1 from "@/public/hero-images/1.PNG";
-// import Image2 from "@/public/hero-images/2.PNG";
-// import Image3 from "@/public/hero-images/3.PNG";
-// import Image4 from "@/public/hero-images/4.PNG";
-// import Image5 from "@/public/hero-images/5.PNG";
-// import Image6 from "@/public/hero-images/6.PNG";
-// import Image7 from "@/public/hero-images/7.PNG";
-// import Image8 from "@/public/hero-images/8.PNG";
-// import Image9 from "@/public/hero-images/9.PNG";
-// import Image10 from "@/public/hero-images/10.PNG";
-// import Image11 from "@/public/hero-images/11.PNG";
-// import Image12 from "@/public/hero-images/12.PNG";
-// import Image13 from "@/public/hero-images/13.PNG";
-// import Image14 from "@/public/hero-images/14.PNG";
-// import Image15 from "@/public/hero-images/15.PNG";
-// import Image16 from "@/public/hero-images/16.PNG";
-// import Image17 from "@/public/hero-images/17.PNG";
-// import Image18 from "@/public/hero-images/18.PNG";
-// import Image19 from "@/public/hero-images/19.PNG";
-// import Image20 from "@/public/hero-images/20.PNG";
-// import Image21 from "@/public/hero-images/21.PNG";
-// import Image22 from "@/public/hero-images/22.PNG";
-// import Image23 from "@/public/hero-images/23.PNG";
-// import Image24 from "@/public/hero-images/24.PNG";
-// import Image25 from "@/public/hero-images/25.PNG";
-// import Image26 from "@/public/hero-images/26.PNG";
-// import Image27 from "@/public/hero-images/27.PNG";
-// import Image28 from "@/public/hero-images/28.PNG";
-// import Image29 from "@/public/hero-images/29.PNG";
-// import Image30 from "@/public/hero-images/30.PNG";
-// import Image31 from "@/public/hero-images/31.PNG";
-// import Image32 from "@/public/hero-images/32.PNG";
-// import Image33 from "@/public/hero-images/33.PNG";
-// import Image34 from "@/public/hero-images/34.PNG";
-// import Image35 from "@/public/hero-images/35.PNG";
-// import Image36 from "@/public/hero-images/36.PNG";
-// import Image37 from "@/public/hero-images/37.PNG";
-// import Image38 from "@/public/hero-images/38.PNG";
-// import Image39 from "@/public/hero-images/39.PNG";
-// import Image40 from "@/public/hero-images/40.PNG";
-// import Image41 from "@/public/hero-images/41.PNG";
-// import Image42 from "@/public/hero-images/42.PNG";
-// import Image43 from "@/public/hero-images/43.PNG";
-// import Image44 from "@/public/hero-images/44.PNG";
-// import Image45 from "@/public/hero-images/45.PNG";
-// import Image46 from "@/public/hero-images/46.PNG";
-// import Image47 from "@/public/hero-images/47.PNG";
-// import Image48 from "@/public/hero-images/48.PNG";
-// import Image49 from "@/public/hero-images/49.PNG";
-// import Image50 from "@/public/hero-images/50.PNG";
-// import Image51 from "@/public/hero-images/51.PNG";
-// import Image52 from "@/public/hero-images/52.PNG";
-// import Image53 from "@/public/hero-images/53.PNG";
-// import Image54 from "@/public/hero-images/54.PNG";
-// import Image55 from "@/public/hero-images/55.PNG";
-// import Image56 from "@/public/hero-images/56.PNG";
-// import Image57 from "@/public/hero-images/57.PNG";
-// import Image58 from "@/public/hero-images/58.PNG";
-// import Image59 from "@/public/hero-images/59.PNG";
-// import Image60 from "@/public/hero-images/60.PNG";
 
 const headingFont = localFont({
   src: "../fonts/HeadingNowTrial-57Extrabold.ttf",
@@ -412,15 +352,14 @@ const ThumbnailCarousel = () => {
         ref={topRef}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
-        {Array.from({length: 40}).map((_, index) => (
+        {Array.from({length: 10}).map((_, index) => (
           <div
             key={`top-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
           >
             <Image
               priority
-              // src={`/hero-images/${(index % 20) + 1}.PNG`}
-              src={Image1}
+              src={`/hero-images/${(index % 20) + 1}.PNG`}
               fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
@@ -434,7 +373,7 @@ const ThumbnailCarousel = () => {
         ref={midRef}
         className="w-fit h-full flex gap-4 hero-animate-scroll-left will-change-transform"
       >
-        {Array.from({length: 40}).map((_, index) => (
+        {Array.from({length: 10}).map((_, index) => (
           <div
             key={`middle-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
@@ -453,7 +392,7 @@ const ThumbnailCarousel = () => {
         className="w-fit h-full flex gap-4 will-change-transform"
         ref={botRef}
       >
-        {Array.from({length: 40}).map((_, index) => (
+        {Array.from({length: 10}).map((_, index) => (
           <div
             key={`bottom-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
