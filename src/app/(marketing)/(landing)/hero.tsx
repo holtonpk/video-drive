@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState, useRef} from "react";
 import {NavBar} from "../navbar";
-import {animationControls, motion} from "framer-motion";
+import {animationControls, motion, useElementScroll} from "framer-motion";
 import {Smile} from "../icons";
 import localFont from "next/font/local";
 import Link from "next/link";
@@ -345,11 +345,22 @@ const ThumbnailCarousel = () => {
     };
   }, []);
 
+  // const [totalLoaded, setTotalLoaded] = useState(0);
+  // const [allLoaded, setAllLoaded] = useState(false);
+
+  // useEffect(() => {
+  //   console.log("totalLoaded ==>", totalLoaded);
+  //   if (totalLoaded === 60) {
+  //     console.log("================all loaded=====================");
+  //     setAllLoaded(true);
+  //   }
+  // }, [totalLoaded]);
+
   return (
     <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
       {/* Top row - panning right (opposite to middle) */}
       <div
-        ref={topRef}
+        // ref={topRef}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
         {Array.from({length: 20}).map((_, index) => (
@@ -357,12 +368,14 @@ const ThumbnailCarousel = () => {
             key={`top-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
           >
-            <Image
-              priority
+            <img
               src={`/hero-images/${(index % 20) + 1}.PNG`}
-              fill
+              // fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
+              // onLoad={() => {
+              //   setTotalLoaded((prev) => prev + 1);
+              // }}
             />
           </div>
         ))}
@@ -370,7 +383,7 @@ const ThumbnailCarousel = () => {
 
       {/* Middle row - panning left */}
       <div
-        ref={midRef}
+        // ref={midRef}
         className="w-fit h-full flex gap-4 hero-animate-scroll-left will-change-transform"
       >
         {Array.from({length: 20}).map((_, index) => (
@@ -380,8 +393,12 @@ const ThumbnailCarousel = () => {
           >
             <img
               src={`/hero-images/${(index % 20) + 21}.PNG`}
+              // fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
+              // onLoad={() => {
+              //   setTotalLoaded((prev) => prev + 1);
+              // }}
             />
           </div>
         ))}
@@ -390,7 +407,7 @@ const ThumbnailCarousel = () => {
       {/* Bottom row - panning right (opposite to middle) */}
       <div
         className="w-fit h-full flex gap-4 will-change-transform"
-        ref={botRef}
+        // ref={botRef}
       >
         {Array.from({length: 20}).map((_, index) => (
           <div
@@ -399,8 +416,12 @@ const ThumbnailCarousel = () => {
           >
             <img
               src={`/hero-images/${(index % 20) + 41}.PNG`}
+              // fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
+              // onLoad={() => {
+              //   setTotalLoaded((prev) => prev + 1);
+              // }}
             />
           </div>
         ))}
