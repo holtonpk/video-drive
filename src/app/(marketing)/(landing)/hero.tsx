@@ -5,6 +5,7 @@ import {animationControls, motion} from "framer-motion";
 import {Smile} from "../icons";
 import localFont from "next/font/local";
 import Link from "next/link";
+import Image from "next/image";
 
 const headingFont = localFont({
   src: "../fonts/HeadingNowTrial-57Extrabold.ttf",
@@ -356,8 +357,9 @@ const ThumbnailCarousel = () => {
             key={`top-${index}`}
             className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
           >
-            <img
+            <Image
               src={`/hero-images/${(index % 20) + 1}.PNG`}
+              fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
             />
