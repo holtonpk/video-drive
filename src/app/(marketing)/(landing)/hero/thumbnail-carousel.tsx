@@ -1,6 +1,16 @@
 "use client";
 import React, {useEffect, useState, useRef} from "react";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  useTransform,
+  useMotionValue,
+  useVelocity,
+  useAnimationFrame,
+} from "framer-motion";
 import Image from "next/image";
+import {wrap} from "@motionone/utils";
 // import all 60 images
 import Image1 from "@/public/hero-images/1.PNG";
 import Image2 from "@/public/hero-images/2.PNG";
@@ -127,153 +137,47 @@ const IMAGES = [
 ];
 
 export const ThumbnailCarousel = () => {
-  const topRef = useRef<HTMLDivElement | null>(null);
-  const midRef = useRef<HTMLDivElement | null>(null);
-  const botRef = useRef<HTMLDivElement | null>(null);
+  const {scrollY} = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, {
+    damping: 100,
+    stiffness: 400,
+  });
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+    clamp: false,
+  });
 
-  useEffect(() => {
-    const el = midRef.current;
-    if (!el) return;
+  // Helper to create a marquee x transform for a row with its own speed and base direction
+  const useRowMarquee = (baseVelocity: number, rowDirection: 1 | -1) => {
+    const baseX = useMotionValue(0);
+    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
+    const directionFactor = useRef<number>(rowDirection);
 
-    // Middle row: translateX(-50%) -> 0
-    const anim = el.animate(
-      [
-        {transform: "translate3d(-50%, 0, 0)"},
-        {transform: "translate3d(0, 0, 0)"},
-      ],
-      {
-        duration: 25000,
-        iterations: Infinity,
-        easing: "linear",
-        fill: "both",
-        composite: "replace",
-      }
-    );
+    useAnimationFrame((t, delta) => {
+      // Determine scroll-influenced direction, defaulting to rowDirection when idle
+      const scrollDir =
+        velocityFactor.get() === 0 ? 1 : velocityFactor.get() < 0 ? -1 : 1;
+      const effectiveDirection = rowDirection * scrollDir;
 
-    // Initial speed boost for first 3s
-    let isHovering = false;
-    anim.playbackRate = 1;
+      let moveBy = effectiveDirection * baseVelocity * (delta / 5000);
+      moveBy += effectiveDirection * moveBy * Math.abs(velocityFactor.get());
+      directionFactor.current = effectiveDirection;
+      baseX.set(baseX.get() + moveBy);
+    });
 
-    const handleEnter = () => {
-      isHovering = true;
-      anim.playbackRate = 2.5;
-    };
+    return x;
+  };
 
-    const handleLeave = () => {
-      isHovering = false;
-      anim.playbackRate = 1;
-    };
-
-    el.addEventListener("mouseenter", handleEnter);
-    el.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      el.removeEventListener("mouseenter", handleEnter);
-      el.removeEventListener("mouseleave", handleLeave);
-      anim.cancel();
-    };
-  }, []);
-
-  // Top row: opposite direction 0 -> -50%
-  useEffect(() => {
-    const el = topRef.current;
-    if (!el) return;
-
-    const anim = el.animate(
-      [
-        {transform: "translate3d(0, 0, 0)"},
-        {transform: "translate3d(-50%, 0, 0)"},
-      ],
-      {
-        duration: 25000,
-        iterations: Infinity,
-        easing: "linear",
-        fill: "both",
-        composite: "replace",
-      }
-    );
-
-    let isHovering = false;
-    anim.playbackRate = 1;
-
-    const handleEnter = () => {
-      isHovering = true;
-      anim.playbackRate = 2.5;
-    };
-    const handleLeave = () => {
-      isHovering = false;
-      anim.playbackRate = 1;
-    };
-
-    el.addEventListener("mouseenter", handleEnter);
-    el.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      el.removeEventListener("mouseenter", handleEnter);
-      el.removeEventListener("mouseleave", handleLeave);
-
-      anim.cancel();
-    };
-  }, []);
-
-  // Bottom row: opposite direction 0 -> -50%
-  useEffect(() => {
-    const el = botRef.current;
-    if (!el) return;
-
-    const anim = el.animate(
-      [
-        {transform: "translate3d(0, 0, 0)"},
-        {transform: "translate3d(-50%, 0, 0)"},
-      ],
-      {
-        duration: 25000,
-        iterations: Infinity,
-        easing: "linear",
-        fill: "both",
-        composite: "replace",
-      }
-    );
-
-    let isHovering = false;
-    anim.playbackRate = 1;
-
-    const handleEnter = () => {
-      isHovering = true;
-      anim.playbackRate = 2.5;
-    };
-    const handleLeave = () => {
-      isHovering = false;
-      anim.playbackRate = 1;
-    };
-
-    el.addEventListener("mouseenter", handleEnter);
-    el.addEventListener("mouseleave", handleLeave);
-
-    return () => {
-      el.removeEventListener("mouseenter", handleEnter);
-      el.removeEventListener("mouseleave", handleLeave);
-
-      anim.cancel();
-    };
-  }, []);
-
-  // const [totalLoaded, setTotalLoaded] = useState(0);
-  // const [allLoaded, setAllLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   console.log("totalLoaded ==>", totalLoaded);
-  //   if (totalLoaded === 60) {
-  //     console.log("================all loaded=====================");
-  //     setAllLoaded(true);
-  //   }
-  // }, [totalLoaded]);
+  // Different speeds per row; middle runs opposite direction
+  const xTop = useRowMarquee(4, 1);
+  const xMiddle = useRowMarquee(2, -1);
+  const xBottom = useRowMarquee(6, 1);
 
   return (
     <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
-      {/* Top row - panning right (opposite to middle) */}
-      <div
-        ref={topRef}
+      {/* Top row - framer motion */}
+      <motion.div
+        style={{x: xTop}}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
         {IMAGES.slice(0, 20).map((img, index) => (
@@ -284,18 +188,19 @@ export const ThumbnailCarousel = () => {
             <Image
               src={img}
               priority
+              loading="eager"
               fill
               className="w-full h-full object-cover"
               alt="showcase thumbnail"
             />
           </div>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Middle row - panning left */}
-      <div
-        ref={midRef}
-        className="w-fit h-full flex gap-4 hero-animate-scroll-left will-change-transform"
+      {/* Middle row - framer motion, opposite direction */}
+      <motion.div
+        style={{x: xMiddle}}
+        className="w-fit h-full flex gap-4 will-change-transform"
       >
         {IMAGES.slice(20, 40).map((img, index) => (
           <div
@@ -305,6 +210,7 @@ export const ThumbnailCarousel = () => {
             <Image
               src={img}
               priority
+              loading="eager"
               // src={`/hero-images/${(index % 20) + 21}.PNG`}
               fill
               className="w-full h-full object-cover"
@@ -312,12 +218,12 @@ export const ThumbnailCarousel = () => {
             />
           </div>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Bottom row - panning right (opposite to middle) */}
-      <div
+      {/* Bottom row - framer motion */}
+      <motion.div
+        style={{x: xBottom}}
         className="w-fit h-full flex gap-4 will-change-transform"
-        ref={botRef}
       >
         {IMAGES.slice(40, 60).map((img, index) => (
           <div
@@ -327,6 +233,7 @@ export const ThumbnailCarousel = () => {
             <Image
               // src={`/hero-images/${(index % 20) + 41}.PNG`}
               priority
+              loading="eager"
               src={img}
               fill
               className="w-full h-full object-cover"
@@ -334,7 +241,7 @@ export const ThumbnailCarousel = () => {
             />
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
