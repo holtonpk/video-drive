@@ -358,6 +358,7 @@ const ThumbnailCarousel = () => {
             className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
           >
             <Image
+              priority
               src={`/hero-images/${(index % 20) + 1}.PNG`}
               fill
               className="w-full h-full object-cover"
