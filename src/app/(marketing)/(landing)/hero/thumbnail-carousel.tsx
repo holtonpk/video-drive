@@ -585,7 +585,7 @@ const Thumbnail = ({
   return (
     <>
       <div
-        className="blurred-img w-full h-full"
+        className="blurred-img w-full aspect-[195/422] -mt-3"
         style={{
           backgroundImage: `url(${img.small.src})`,
         }}
@@ -593,8 +593,8 @@ const Thumbnail = ({
         <Image
           loading="lazy"
           src={img.big}
-          fill
-          className="w-full h-full object-cover block "
+          //   fill
+          className="object-cover -mt-3 "
           alt="showcase thumbnail"
         />
       </div>
