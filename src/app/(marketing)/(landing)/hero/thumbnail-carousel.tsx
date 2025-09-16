@@ -586,12 +586,18 @@ const Thumbnail = ({img}: {img: ImageGroup}) => {
       /> */}
       <Image
         loading="lazy"
+        src={img.small}
+        fill
+        className="w-full h-full object-cover block z-10  blur-[6px]"
+        alt="showcase thumbnail"
+      />
+
+      <Image
+        loading="lazy"
         src={img.big}
         fill
-        className="w-full h-full object-cover block "
+        className="w-full h-full object-cover block z-20 "
         alt="showcase thumbnail"
-        blurDataURL={img.small.src}
-        placeholder="blur"
       />
     </>
   );
