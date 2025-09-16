@@ -8,6 +8,7 @@ import {
   useMotionValue,
   useVelocity,
   useAnimationFrame,
+  useInView,
 } from "framer-motion";
 import Image from "next/image";
 import {wrap} from "@motionone/utils";
@@ -137,6 +138,8 @@ const IMAGES = [
 ];
 
 export const ThumbnailCarousel = () => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(containerRef, {amount: 0});
   const {scrollY} = useScroll();
   const scrollVelocity = useVelocity(scrollY);
   const smoothVelocity = useSpring(scrollVelocity, {
@@ -148,7 +151,11 @@ export const ThumbnailCarousel = () => {
   });
 
   // Helper to create a seamless marquee using pixel-based wrapping over measured width
-  const useRowMarquee = (baseVelocity: number, rowDirection: 1 | -1) => {
+  const useRowMarquee = (
+    baseVelocity: number,
+    rowDirection: 1 | -1,
+    isActive: boolean
+  ) => {
     const baseX = useMotionValue(0);
     const groupRef = useRef<HTMLDivElement | null>(null);
     const [groupWidth, setGroupWidth] = useState(0);
@@ -170,6 +177,7 @@ export const ThumbnailCarousel = () => {
     });
 
     useAnimationFrame((t, delta) => {
+      if (!isActive || groupWidth === 0) return;
       const scrollDir =
         velocityFactor.get() === 0 ? 1 : velocityFactor.get() < 0 ? -1 : 1;
       const effectiveDirection = rowDirection * scrollDir;
@@ -182,12 +190,15 @@ export const ThumbnailCarousel = () => {
   };
 
   // Different speeds per row; middle runs opposite direction
-  const top = useRowMarquee(120, 1);
-  const middle = useRowMarquee(70, -1);
-  const bottom = useRowMarquee(180, 1);
+  const top = useRowMarquee(120, 1, isInView);
+  const middle = useRowMarquee(70, -1, isInView);
+  const bottom = useRowMarquee(180, 1, isInView);
 
   return (
-    <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
+    <div
+      ref={containerRef}
+      className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4"
+    >
       {/* Top row - framer motion */}
       <motion.div
         style={{x: top.x}}
