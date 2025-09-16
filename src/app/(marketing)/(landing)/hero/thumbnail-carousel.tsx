@@ -459,7 +459,7 @@ export const ThumbnailCarousel = () => {
   return (
     <div
       ref={containerRef}
-      className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4"
+      className="sm:mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4"
     >
       {/* Top row - framer motion */}
       <motion.div
@@ -472,7 +472,7 @@ export const ThumbnailCarousel = () => {
               key={`top-a-${index}`}
               className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
             >
-              <Thumbnail img={img} />
+              <Thumbnail img={img} isFirstRow={true} />
             </div>
           ))}
         </div>
@@ -509,7 +509,7 @@ export const ThumbnailCarousel = () => {
               key={`middle-a-${index}`}
               className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
             >
-              <Thumbnail img={img} />
+              <Thumbnail img={img} isFirstRow={true} />
             </div>
           ))}
         </div>
@@ -546,7 +546,7 @@ export const ThumbnailCarousel = () => {
               key={`bottom-a-${index}`}
               className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
             >
-              <Thumbnail img={img} />
+              <Thumbnail img={img} isFirstRow={true} />
             </div>
           ))}
         </div>
@@ -575,30 +575,45 @@ export const ThumbnailCarousel = () => {
   );
 };
 
-const Thumbnail = ({img}: {img: ImageGroup}) => {
+const Thumbnail = ({
+  img,
+  isFirstRow,
+}: {
+  img: ImageGroup;
+  isFirstRow?: boolean;
+}) => {
   return (
     <>
-      {/* <div
+      <div
         className="blurred-img w-full h-full"
         style={{
           backgroundImage: `url(${img.small.src})`,
         }}
-      /> */}
-      <Image
+      >
+        <Image
+          loading="lazy"
+          src={img.big}
+          fill
+          className="w-full h-full object-cover block "
+          alt="showcase thumbnail"
+        />
+      </div>
+
+      {/* <Image
         loading="lazy"
         src={img.small}
         fill
         className="w-full h-full object-cover block z-10  blur-[6px]"
         alt="showcase thumbnail"
-      />
+      /> */}
 
-      <Image
+      {/* <Image
         loading="lazy"
         src={img.big}
         fill
         className="w-full h-full object-cover block z-20 "
         alt="showcase thumbnail"
-      />
+      /> */}
     </>
   );
 };
