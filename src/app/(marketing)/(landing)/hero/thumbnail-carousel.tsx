@@ -557,7 +557,6 @@ export const ThumbnailCarousel = () => {
               className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
             >
               <Thumbnail img={img} />
-              alt="showcase thumbnail"
             </div>
           ))}
         </div>
