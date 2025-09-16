@@ -11,7 +11,7 @@ import {
   useInView,
 } from "framer-motion";
 import Image, {StaticImageData} from "next/image";
-import {wrap} from "@motionone/utils";
+
 // import all 60 images
 import Image1 from "@/public/hero-images/1.PNG";
 import Image1Small from "@/public/hero-images/1_small.png";
