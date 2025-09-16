@@ -156,34 +156,47 @@ export const ThumbnailCarousel = () => {
     rowDirection: 1 | -1,
     isActive: boolean
   ) => {
-    const baseX = useMotionValue(0);
+    const x = useMotionValue(0);
+    const offset = useMotionValue(0);
     const groupRef = useRef<HTMLDivElement | null>(null);
     const [groupWidth, setGroupWidth] = useState(0);
 
     useEffect(() => {
       if (!groupRef.current) return;
       const element = groupRef.current;
-      const measure = () =>
-        setGroupWidth(element.getBoundingClientRect().width);
+      const measure = () => {
+        const w = element.getBoundingClientRect().width;
+        setGroupWidth(Math.round(w));
+      };
       measure();
       const ro = new ResizeObserver(() => measure());
       ro.observe(element);
       return () => ro.disconnect();
     }, []);
 
-    const x = useTransform(baseX, (v) => {
+    // Normalize offset if width changes to keep it within [0, width)
+    useEffect(() => {
       const width = Math.max(groupWidth, 1);
-      return `${wrap(-width, 0, v)}px`;
-    });
+      const current = offset.get();
+      const normalized = ((current % width) + width) % width;
+      offset.set(normalized);
+    }, [groupWidth]);
 
     useAnimationFrame((t, delta) => {
       if (!isActive || groupWidth === 0) return;
+      const width = Math.max(groupWidth, 1);
       const scrollDir =
         velocityFactor.get() === 0 ? 1 : velocityFactor.get() < 0 ? -1 : 1;
       const effectiveDirection = rowDirection * scrollDir;
-      let moveBy = effectiveDirection * baseVelocity * (delta / 1000);
-      moveBy += effectiveDirection * moveBy * Math.abs(velocityFactor.get());
-      baseX.set(baseX.get() + moveBy);
+
+      const speed =
+        baseVelocity * (delta / 1000) * (1 + Math.abs(velocityFactor.get()));
+      const nextOffset = (offset.get() + speed) % width;
+      offset.set(nextOffset);
+
+      const visualX =
+        effectiveDirection === -1 ? -nextOffset : nextOffset - width;
+      x.set(Math.round(visualX));
     });
 
     return {x, groupRef};
@@ -229,8 +242,23 @@ export const ThumbnailCarousel = () => {
             >
               <Image
                 src={img}
-                priority
-                loading="eager"
+                loading="lazy"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(0, 20).map((img, index) => (
+            <div
+              key={`top-c-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                loading="lazy"
                 fill
                 className="w-full h-full object-cover"
                 alt="showcase thumbnail"
@@ -270,8 +298,23 @@ export const ThumbnailCarousel = () => {
             >
               <Image
                 src={img}
-                priority
-                loading="eager"
+                loading="lazy"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(20, 40).map((img, index) => (
+            <div
+              key={`middle-c-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                loading="lazy"
                 fill
                 className="w-full h-full object-cover"
                 alt="showcase thumbnail"
@@ -310,8 +353,23 @@ export const ThumbnailCarousel = () => {
               className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
             >
               <Image
-                priority
-                loading="eager"
+                loading="lazy"
+                src={img}
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(40, 60).map((img, index) => (
+            <div
+              key={`bottom-c-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                loading="lazy"
                 src={img}
                 fill
                 className="w-full h-full object-cover"
