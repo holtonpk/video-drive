@@ -906,3 +906,10 @@ input:-webkit-autofill:active {
   /* JS controls animation via Web Animations API to avoid restarts */
   will-change: transform;
 }
+
+.blurred-img {
+  /* filter: blur(6px); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+}
