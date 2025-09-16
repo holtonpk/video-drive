@@ -130,7 +130,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col w-full px-6 py-4 md:py-6  ">
+        <div className="flex flex-col w-full px-6 py-4  md:py-6  ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
             <Link href="/" className="flex   items-center">
               <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
@@ -236,7 +236,7 @@ const MobileMenu = ({
 const MobileNav = ({onClose}: {onClose: () => void}) => {
   useLockBody();
   return (
-    <div className="fixed dark top-0 left-0 w-screen h-screen bg-background z-[99] ">
+    <div className="fixed dark top-0 left-0 w-screen h-screen bg-background z-[99]">
       <div className="relative h-full w-full">
         <div className="flex flex-col gap-8 p-6 pt-4 items-start ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">

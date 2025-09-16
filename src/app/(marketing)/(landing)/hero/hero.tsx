@@ -18,10 +18,13 @@ const bodyFont = localFont({
 // Custom hook to detect screen size
 const useScreenSize = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 640); // 640px is the 'sm' breakpoint
+      const width = window.innerWidth;
+      setIsMobile(width < 640); // 640px is the 'sm' breakpoint
+      setIsDesktop(width >= 640); // Desktop is 640px or bigger
     };
 
     // Check on mount
@@ -34,7 +37,7 @@ const useScreenSize = () => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  return isMobile;
+  return {isMobile, isDesktop};
 };
 
 // Custom hook for optimized video loading
@@ -99,7 +102,7 @@ const useOptimizedVideoLoading = (videos: string[], isMobile: boolean) => {
 
 export const Hero = () => {
   const [isInView, setIsInView] = useState(true);
-  const isMobile = useScreenSize();
+  const {isMobile, isDesktop} = useScreenSize();
 
   // if #hero is in view isInView is true
   useEffect(() => {
@@ -128,41 +131,28 @@ export const Hero = () => {
     <div id="hero" className="flex flex-col sm:h-screen sm:max-h-[800px] ">
       <NavBar />
 
-      <div className="container z-20   min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px]  sm:pb-0 py-[150px] gap-4 lg:gap-6   ">
+      <div className="container z-20   min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px] sm:pb-0 py-[150px] gap-2 sm:gap-4 lg:gap-6   ">
         <div
           // initial={{scale: 0, translateX: "-50%"}}
           // animate={{scale: 1, translateX: "-50%"}}
           // transition={{duration: 0.5, delay: 0.5}}
-          className="flex flex-col items-center gap-4 h-fit big-shadow min-w-[350px] sm:min-w-[550px] pt-8 pb-10 lg:min-w-[650px] bg-[#1A1A1A] rounded-[12px] border-4 border-theme-color1 left-[50%] -translate-x-1/2  absolute z-10  top-[60px]"
+          className="flex flex-col items-center gap-4 h-fit big-shadow min-w-[300px] sm:min-w-[550px] pt-4 sm:pt-8 pb-6 sm:pb-10 lg:min-w-[650px] bg-[#1A1A1A] rounded-[12px] border-4 border-theme-color1 left-[50%] -translate-x-1/2  absolute z-10  top-[100px] sm:top-[60px]"
         >
           <div className="relative z-20 ">
             <h1
-              className={`text-7xl sm:text-8xl  lg:text-9xl   uppercase text-center relative z-20 bg-[#1A1A1A]  ${headingFont.className}`}
+              className={`text-6xl sm:text-8xl  lg:text-9xl   uppercase text-center relative z-20 bg-[#1A1A1A]  ${headingFont.className}`}
             >
-              <span
-                // initial={{opacity: 0}}
-                // animate={{opacity: 1}}
-                // transition={{duration: 0.5, delay: 0.5}}
-                className="relative z-20 "
-              >
-                Content
-              </span>{" "}
-              <br />
+              <span className="relative z-20 ">Content</span> <br />
               <motion.span
                 initial={{paddingRight: 0}}
-                animate={{paddingRight: "40px"}}
+                animate={{paddingRight: isDesktop ? "40px" : "30px"}}
                 transition={{duration: 0.4, delay: 3, ease: "easeInOut"}}
-                className="text-theme-color3 relative z-10 bg-[#1A1A1A]  "
+                className=" text-theme-color3 relative z-10 bg-[#1A1A1A]  "
               >
-                <span
-                  // initial={{opacity: 0}}
-                  // animate={{opacity: 1}}
-                  // transition={{duration: 0.5, delay: 0.7}}
-                  className="relative z-20 pointer-events-none "
-                >
+                <span className="relative z-20 pointer-events-none ">
                   Creation
                 </span>
-                <div className=" w-[calc(100%-48px)] h-full bg-[#1A1A1A] absolute left-[0px]  top-0 z-[15]"></div>
+                <div className="w-[calc(100%-36px)] sm:w-[calc(100%-48px)] h-full bg-[#1A1A1A] absolute left-[0px]  top-0 z-[15] "></div>
                 <motion.div
                   initial={{
                     rotate: -60,
@@ -175,9 +165,9 @@ export const Hero = () => {
                     translateX: "75%",
                   }}
                   transition={{duration: 0.75, delay: 3, ease: "easeInOut"}}
-                  className="absolute top-1/2 -translate-y-1/2 right-12 z-10"
+                  className="absolute top-1/2 -translate-y-1/2 sm:right-12 right-8 z-10"
                 >
-                  <Smile className=" w-[60px] h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
+                  <Smile className=" w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
                 </motion.div>
               </motion.span>
               <br />
@@ -188,7 +178,7 @@ export const Hero = () => {
             </h1>
           </div>
           <p
-            className={`max-w-[300px] sm:max-w-[400px] lg:max-w-[500px] text-center text-lg sm:text-xl text-primary/70 relative z-20 ${bodyFont.className}`}
+            className={`max-w-[250px] sm:max-w-[400px] lg:max-w-[500px] text-center text-sm sm:text-xl text-primary/70 relative z-20 ${bodyFont.className}`}
           >
             We specialize in creating viral, short-form content for fast-growing
             brands helping them capture attention, spark engagement, and connect
@@ -198,7 +188,7 @@ export const Hero = () => {
           <div>
             <Link
               href="/contact"
-              className={`big-shadow absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2  z-20 bg-primary dark:bg-theme-color1 rounded-full text-background uppercase  text-xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 ring-offset-background  transition-all duration-300 w-fit  ${headingFont.className}`}
+              className={`whitespace-nowrap big-shadow absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2  z-20 bg-primary dark:bg-theme-color1 rounded-full text-background uppercase  text-xl px-8 py-2 hover:ring-2 ring-primary  dark:ring-theme-color1 ring-offset-4 ring-offset-background  transition-all duration-300 w-fit  ${headingFont.className}`}
             >
               Book a Call
             </Link>
