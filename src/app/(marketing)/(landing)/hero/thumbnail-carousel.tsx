@@ -189,14 +189,17 @@ export const ThumbnailCarousel = () => {
         velocityFactor.get() === 0 ? 1 : velocityFactor.get() < 0 ? -1 : 1;
       const effectiveDirection = rowDirection * scrollDir;
 
-      const speed =
-        baseVelocity * (delta / 1000) * (1 + Math.abs(velocityFactor.get()));
-      const nextOffset = (offset.get() + speed) % width;
+      const deltaPx =
+        effectiveDirection *
+        baseVelocity *
+        (delta / 1000) *
+        (1 + Math.abs(velocityFactor.get()));
+      let nextOffset = offset.get() + deltaPx;
+      nextOffset = ((nextOffset % width) + width) % width;
       offset.set(nextOffset);
 
-      const visualX =
-        effectiveDirection === -1 ? -nextOffset : nextOffset - width;
-      x.set(Math.round(visualX));
+      // Always map visual x as -offset so content continuity is preserved regardless of direction
+      x.set(-Math.round(nextOffset));
     });
 
     return {x, groupRef};
