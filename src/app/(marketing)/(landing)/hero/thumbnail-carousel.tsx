@@ -147,100 +147,168 @@ export const ThumbnailCarousel = () => {
     clamp: false,
   });
 
-  // Helper to create a marquee x transform for a row with its own speed and base direction
+  // Helper to create a seamless marquee using pixel-based wrapping over measured width
   const useRowMarquee = (baseVelocity: number, rowDirection: 1 | -1) => {
     const baseX = useMotionValue(0);
-    const x = useTransform(baseX, (v) => `${wrap(-20, -45, v)}%`);
-    const directionFactor = useRef<number>(rowDirection);
+    const groupRef = useRef<HTMLDivElement | null>(null);
+    const [groupWidth, setGroupWidth] = useState(0);
+
+    useEffect(() => {
+      if (!groupRef.current) return;
+      const element = groupRef.current;
+      const measure = () =>
+        setGroupWidth(element.getBoundingClientRect().width);
+      measure();
+      const ro = new ResizeObserver(() => measure());
+      ro.observe(element);
+      return () => ro.disconnect();
+    }, []);
+
+    const x = useTransform(baseX, (v) => {
+      const width = Math.max(groupWidth, 1);
+      return `${wrap(-width, 0, v)}px`;
+    });
 
     useAnimationFrame((t, delta) => {
-      // Determine scroll-influenced direction, defaulting to rowDirection when idle
       const scrollDir =
         velocityFactor.get() === 0 ? 1 : velocityFactor.get() < 0 ? -1 : 1;
       const effectiveDirection = rowDirection * scrollDir;
-
-      let moveBy = effectiveDirection * baseVelocity * (delta / 5000);
+      let moveBy = effectiveDirection * baseVelocity * (delta / 1000);
       moveBy += effectiveDirection * moveBy * Math.abs(velocityFactor.get());
-      directionFactor.current = effectiveDirection;
       baseX.set(baseX.get() + moveBy);
     });
 
-    return x;
+    return {x, groupRef};
   };
 
   // Different speeds per row; middle runs opposite direction
-  const xTop = useRowMarquee(10, 1);
-  const xMiddle = useRowMarquee(7, -1);
-  const xBottom = useRowMarquee(8, 1);
+  const top = useRowMarquee(120, 1);
+  const middle = useRowMarquee(70, -1);
+  const bottom = useRowMarquee(180, 1);
 
   return (
     <div className="mt-4 w-full h-full  absolute top-0 overflow-hidden rounded-[12px]  grid grid-rows-3 gap-4">
       {/* Top row - framer motion */}
       <motion.div
-        style={{x: xTop}}
+        style={{x: top.x}}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
-        {IMAGES.slice(0, 20).map((img, index) => (
-          <div
-            key={`top-${index}`}
-            className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
-          >
-            <Image
-              src={img}
-              priority
-              loading="eager"
-              fill
-              className="w-full h-full object-cover"
-              alt="showcase thumbnail"
-            />
-          </div>
-        ))}
+        <div ref={top.groupRef} className="w-fit h-full flex gap-4">
+          {IMAGES.slice(0, 20).map((img, index) => (
+            <div
+              key={`top-a-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                priority
+                loading="eager"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(0, 20).map((img, index) => (
+            <div
+              key={`top-b-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color2 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                priority
+                loading="eager"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
 
       {/* Middle row - framer motion, opposite direction */}
       <motion.div
-        style={{x: xMiddle}}
+        style={{x: middle.x}}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
-        {IMAGES.slice(20, 40).map((img, index) => (
-          <div
-            key={`middle-${index}`}
-            className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
-          >
-            <Image
-              src={img}
-              priority
-              loading="eager"
-              // src={`/hero-images/${(index % 20) + 21}.PNG`}
-              fill
-              className="w-full h-full object-cover"
-              alt="showcase thumbnail"
-            />
-          </div>
-        ))}
+        <div ref={middle.groupRef} className="w-fit h-full flex gap-4">
+          {IMAGES.slice(20, 40).map((img, index) => (
+            <div
+              key={`middle-a-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                priority
+                loading="eager"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(20, 40).map((img, index) => (
+            <div
+              key={`middle-b-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color1 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                src={img}
+                priority
+                loading="eager"
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
 
       {/* Bottom row - framer motion */}
       <motion.div
-        style={{x: xBottom}}
+        style={{x: bottom.x}}
         className="w-fit h-full flex gap-4 will-change-transform"
       >
-        {IMAGES.slice(40, 60).map((img, index) => (
-          <div
-            key={`bottom-${index}`}
-            className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
-          >
-            <Image
-              // src={`/hero-images/${(index % 20) + 41}.PNG`}
-              priority
-              loading="eager"
-              src={img}
-              fill
-              className="w-full h-full object-cover"
-              alt="showcase thumbnail"
-            />
-          </div>
-        ))}
+        <div ref={bottom.groupRef} className="w-fit h-full flex gap-4">
+          {IMAGES.slice(40, 60).map((img, index) => (
+            <div
+              key={`bottom-a-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                priority
+                loading="eager"
+                src={img}
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
+        <div className="w-fit h-full flex gap-4">
+          {IMAGES.slice(40, 60).map((img, index) => (
+            <div
+              key={`bottom-b-${index}`}
+              className="aspect-[9/16] h-full relative border border-theme-color3 rounded-[12px] overflow-hidden flex-shrink-0"
+            >
+              <Image
+                priority
+                loading="eager"
+                src={img}
+                fill
+                className="w-full h-full object-cover"
+                alt="showcase thumbnail"
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
     </div>
   );
