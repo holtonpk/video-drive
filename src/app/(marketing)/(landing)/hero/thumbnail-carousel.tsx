@@ -582,12 +582,15 @@ const Thumbnail = ({
   img: ImageGroup;
   isFirstRow?: boolean;
 }) => {
+  const [blurred, setBlurred] = useState(true);
+
   return (
     <>
       <div
         className="blurred-img w-full aspect-[195/422] -mt-3"
         style={{
           backgroundImage: `url(${img.small.src})`,
+          filter: blurred ? "blur(6px)" : "none",
         }}
       >
         <Image
@@ -596,24 +599,9 @@ const Thumbnail = ({
           //   fill
           className="object-cover -mt-3 "
           alt="showcase thumbnail"
+          onLoad={() => setBlurred(false)}
         />
       </div>
-
-      {/* <Image
-        loading="lazy"
-        src={img.small}
-        fill
-        className="w-full h-full object-cover block z-10  blur-[6px]"
-        alt="showcase thumbnail"
-      /> */}
-
-      {/* <Image
-        loading="lazy"
-        src={img.big}
-        fill
-        className="w-full h-full object-cover block z-20 "
-        alt="showcase thumbnail"
-      /> */}
     </>
   );
 };
