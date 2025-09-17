@@ -586,7 +586,7 @@ const Thumbnail = ({
 
   return (
     <>
-      <div
+      {/* <div
         className="blurred-img w-full aspect-[195/422] -mt-3"
         style={{
           backgroundImage: `url(${img.small.src})`,
@@ -604,7 +604,24 @@ const Thumbnail = ({
             opacity: blurred ? 0 : 1,
           }}
         />
-      </div>
+      </div> */}
+      <Image
+        loading="eager"
+        src={img.small}
+        className="w-full aspect-[195/422] object-cover -mt-3 blur-[6px] z-10 absolute"
+        alt="showcase thumbnail"
+      />
+      <Image
+        loading="lazy"
+        src={img.big}
+        // fill
+        className="w-full aspect-[195/422] object-cover -mt-3 opacity-0 transition-all duration-300 ease-in-out z-20 absolute"
+        alt="showcase thumbnail"
+        onLoad={() => setBlurred(false)}
+        style={{
+          opacity: blurred ? 0 : 1,
+        }}
+      />
     </>
   );
 };
