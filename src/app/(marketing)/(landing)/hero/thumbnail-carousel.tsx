@@ -606,7 +606,7 @@ const Thumbnail = ({
         />
       </div> */}
       <Image
-        loading="eager"
+        loading={isFirstRow ? "eager" : "lazy"}
         src={img.small}
         className="w-full aspect-[195/422] object-cover -mt-3 blur-[6px] z-10 absolute"
         alt="showcase thumbnail"
