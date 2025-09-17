@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect, useState, useRef} from "react";
 import {NavBar} from "../../navbar";
-import {animationControls, motion} from "framer-motion";
+import {animationControls, motion, useAnimation} from "framer-motion";
 import {Smile} from "../../icons";
 import localFont from "next/font/local";
 import Link from "next/link";
@@ -102,7 +102,9 @@ const useOptimizedVideoLoading = (videos: string[], isMobile: boolean) => {
 
 export const Hero = () => {
   const [isInView, setIsInView] = useState(true);
+  const [animationTriggered, setAnimationTriggered] = useState(false);
   const {isMobile, isDesktop} = useScreenSize();
+  const smileControls = useAnimation();
 
   // if #hero is in view isInView is true
   useEffect(() => {
@@ -127,11 +129,72 @@ export const Hero = () => {
     };
   }, []);
 
+  // Mobile-specific animation trigger with multiple fallbacks
+  useEffect(() => {
+    if (isMobile) {
+      // Primary trigger - when in view
+      if (isInView && !animationTriggered) {
+        const timer = setTimeout(() => {
+          setAnimationTriggered(true);
+          smileControls.start({
+            rotate: 0,
+            translateY: "-50%",
+            translateX: "75%",
+            transition: {
+              duration: 0.75,
+              ease: "easeInOut",
+            },
+          });
+        }, 2500); // Slightly earlier on mobile
+
+        return () => clearTimeout(timer);
+      }
+
+      // Fallback trigger - ensure animation runs regardless
+      if (!animationTriggered) {
+        const fallbackTimer = setTimeout(() => {
+          setAnimationTriggered(true);
+          smileControls.start({
+            rotate: 0,
+            translateY: "-50%",
+            translateX: "75%",
+            transition: {
+              duration: 0.75,
+              ease: "easeInOut",
+            },
+          });
+        }, 4000); // Trigger after 4 seconds regardless
+
+        return () => clearTimeout(fallbackTimer);
+      }
+    }
+  }, [isMobile, isInView, animationTriggered, smileControls]);
+
+  // Trigger animation when in view
+  useEffect(() => {
+    if (isInView && !isMobile) {
+      const timer = setTimeout(() => {
+        smileControls.start({
+          rotate: 0,
+          translateY: "-50%",
+          translateX: "75%",
+          transition: {
+            duration: 0.75,
+            delay: 3,
+            ease: "easeInOut",
+          },
+        });
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isInView, isMobile, smileControls]);
+
   return (
     <div id="hero" className="flex flex-col sm:h-screen sm:max-h-[800px] ">
       <NavBar />
 
-      <div className="container z-20   min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px] sm:pb-0 py-[150px] gap-2 sm:gap-4 lg:gap-6   ">
+      <div className="container z-20  min-h-fit sm:h-[700px] h-[600px] mx-auto relative flex flex-col items-center pt-[100px] sm:pb-0 py-[150px] gap-2 sm:gap-4 lg:gap-6   ">
         <div
           // initial={{scale: 0, translateX: "-50%"}}
           // animate={{scale: 1, translateX: "-50%"}}
@@ -159,12 +222,28 @@ export const Hero = () => {
                     translateX: "0",
                     translateY: "-50%",
                   }}
-                  animate={{
-                    rotate: 0,
-                    translateY: "-50%",
-                    translateX: "75%",
+                  animate={
+                    isMobile
+                      ? smileControls
+                      : {
+                          rotate: 0,
+                          translateY: "-50%",
+                          translateX: "75%",
+                        }
+                  }
+                  transition={
+                    isMobile
+                      ? undefined
+                      : {
+                          duration: 0.75,
+                          delay: 3,
+                          ease: "easeInOut",
+                        }
+                  }
+                  style={{
+                    willChange: "transform", // Optimize for mobile
+                    transform: "translateZ(0)", // Force hardware acceleration
                   }}
-                  transition={{duration: 0.75, delay: 3, ease: "easeInOut"}}
                   className="absolute top-1/2 -translate-y-1/2 sm:right-12 right-8 z-10"
                 >
                   <Smile className=" w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[100px] md:h-[100px] z-10 hover:rotate-12 transition-all duration-300 fill-theme-color1" />
