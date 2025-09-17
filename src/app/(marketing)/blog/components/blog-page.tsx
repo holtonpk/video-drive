@@ -67,16 +67,16 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
   const featuredPost = posts[posts.length - 1];
 
   return (
-    <div className="mx-auto md:container mt-10 w-full pb-10  flex flex-col gap-4 ">
-      <div className="grid grid-cols-2 gap-8">
-        <div className="flex flex-col gap-4 max-w-[800px] mx-auto items-center  p-10 rounded-[20px]">
+    <div className="mx-auto container mt-10 w-full pb-10  flex flex-col gap-4 ">
+      <div className="grid md:grid-cols-2 gap-8 w-full relative ">
+        <div className="flex flex-col gap-4 max-w-[800px] mx-auto items-center  md:p-10 rounded-[20px]">
           <div
             className={`bg-theme-color1 p-2 rounded-[8px] uppercase text-primary w-fit text-2xl -rotate-6 ${bigFont.className}`}
           >
             blog
           </div>
           <h1
-            className={`text-8xl md:text-[110px] text-primary text-center uppercase ${extraBigFont.className}`}
+            className={`text-6xl sm:text-8xl md:text-[110px] text-primary text-center uppercase ${extraBigFont.className}`}
           >
             The Content Lab
           </h1>
@@ -113,12 +113,12 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
         </div>
         <Link
           href={`blog/${featuredPost.path}`}
-          className="w-full relative rounded-[20px] overflow-hidden group"
+          className="w-full max-w-full relative rounded-[20px] overflow-hidden group"
         >
           <img
             src={featuredPost.image}
             alt="blog-page-image"
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full aspect-video object-cover group-hover:scale-110 transition-transform duration-300"
           />
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-background rounded-t-[20px] p-8 w-[80%] flex flex-col gap-2">
             <h1
@@ -127,7 +127,7 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
               {featuredPost.title}
             </h1>
             <p
-              className={`text-muted-foreground text-sm text-center ${bodyFont.className}`}
+              className={`hidden sm:block text-muted-foreground text-sm text-center ${bodyFont.className}`}
             >
               {featuredPost.description}
             </p>
@@ -178,7 +178,7 @@ const BlogPageBody = ({posts}: {posts: BlogPost[]}) => {
         </div> */}
       </div>
       {filteredPosts && filteredPosts.length > 0 ? (
-        <div className="grid md:grid-cols-3 gap-8 relative mt-10">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8 relative mt-10">
           {/* <div className="absolute top-0 w-2 h-[450px] bg-blue-600"></div> */}
           {filteredPosts.map((post) => (
             <PostCard post={post} key={post.id} />
@@ -225,7 +225,7 @@ const PostCard = ({post}: {post: BlogPost}) => {
       </div>
       <div className="p-4 gap-2 h-fit flex flex-col">
         <h1
-          className={` text-primary text-4xl group-hover:underline text-center ${bodyBold.className}`}
+          className={` text-primary sm:text-2xl md:text-4xl group-hover:underline text-center ${bodyBold.className}`}
         >
           {post.title}
         </h1>

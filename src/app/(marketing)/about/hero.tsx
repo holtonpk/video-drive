@@ -29,7 +29,7 @@ export const Hero = () => {
           with <br />
           <span className="text-theme-color3 relative z-20">
             short-form
-            <Smile className="absolute bottom-3 right-0 translate-x-full w-[100px] fill-theme-color1" />
+            {/* <Smile className="absolute bottom-3 right-0 translate-x-full w-[100px] fill-theme-color1" /> */}
           </span>{" "}
         </h1>
         <p

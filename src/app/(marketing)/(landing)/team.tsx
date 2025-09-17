@@ -92,7 +92,7 @@ export const Team = ({
           {description}
         </p>
       </div>
-      <div className=" grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-primary/40 lg:divide-dashed gap-6 lg:gap-4">
+      <div className=" grid  lg:grid-cols-4 lg:divide-x divide-primary/40 lg:divide-dashed gap-6 lg:gap-4">
         {Flexes.map((flex, index) => (
           <div
             key={index}
