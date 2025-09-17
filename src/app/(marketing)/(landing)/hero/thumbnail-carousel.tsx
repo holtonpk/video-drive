@@ -597,9 +597,12 @@ const Thumbnail = ({
           loading="lazy"
           src={img.big}
           //   fill
-          className="object-cover -mt-3 "
+          className="object-cover -mt-3 opacity-0 transition-all duration-300"
           alt="showcase thumbnail"
           onLoad={() => setBlurred(false)}
+          style={{
+            opacity: blurred ? 0 : 1,
+          }}
         />
       </div>
     </>
