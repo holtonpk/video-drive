@@ -452,9 +452,9 @@ export const ThumbnailCarousel = () => {
   };
 
   // Different speeds per row; middle runs opposite direction
-  const top = useRowMarquee(120, 1, isInView);
+  const top = useRowMarquee(50, 1, isInView);
   const middle = useRowMarquee(70, -1, isInView);
-  const bottom = useRowMarquee(180, 1, isInView);
+  const bottom = useRowMarquee(80, 1, isInView);
 
   return (
     <div

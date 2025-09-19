@@ -64,15 +64,15 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
         id="services"
         className="flex flex-col lg:grid lg:grid-cols-3 gap-20 xl:gap-10 mt-24"
       >
-        <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
+        <div className="w-full  lg:max-w-[400px]  bg-[#1C1C1C] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
             className={`absolute bg-theme-color3 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Content Creation
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/content-website.webm?alt=media&token=c9259ce9-9146-4042-b5d4-5005cc75380b"
-            className="aspect-square w-full rounded-3xl process-video"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/service-content.webm?alt=media&token=8ca763a6-b3b5-4dd2-a99a-34875a1a1673"
+            className="aspect-square w-full rounded-3xl rounded-b-none process-video"
             muted
             loop
             playsInline
@@ -93,15 +93,15 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             </Link>
           </div>
         </div>
-        <div className="w-full  lg:max-w-[400px]  bg-[#202020] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
+        <div className="w-full  lg:max-w-[400px]  bg-[#201E1E] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
             className={`absolute bg-theme-color2 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Social Management
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/social-website.webm?alt=media&token=561eb8c0-e237-4220-8e7b-cc08db7cb07c"
-            className="aspect-square w-full rounded-3xl process-video "
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/service-sm.webm?alt=media&token=a8c5da4f-8e38-48fc-bb04-0146148b015b"
+            className="aspect-square w-full rounded-3xl rounded-b-none process-video "
             muted
             loop
             playsInline
@@ -122,15 +122,15 @@ export const Process = ({Heading}: {Heading: React.ReactNode}) => {
             </Link>
           </div>
         </div>
-        <div className="w-full  lg:max-w-[400px]  bg-[#1A1A1A] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
+        <div className="w-full  lg:max-w-[400px]  bg-[#181818] h-fit rounded-3xl relative  flex flex-col sm:grid sm:grid-cols-2  lg:flex  lg:flex-col ">
           <div
             className={`absolute bg-theme-color1 rounded-[8px] top-0 -translate-y-1/2 left-6 -rotate-3 text-3xl sm:text-4xl  p-2 text-background uppercase ${h1Font.className}`}
           >
             Paid Media
           </div>
           <video
-            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/paid-website.webm?alt=media&token=bd14bc7c-439a-43dc-8dc5-b78c95b07314"
-            className="aspect-square w-full rounded-3xl process-video"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/service-paid.webm?alt=media&token=856bb8af-ed5d-4ceb-86c4-7b24312b19b9"
+            className="aspect-square w-full rounded-3xl rounded-b-none process-video"
             muted
             loop
             playsInline
