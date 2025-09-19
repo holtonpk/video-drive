@@ -80,7 +80,7 @@ import {EditorSelector} from "./components/editor-selector";
 import Background from "@/components/background";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
-import {useToast} from "@/components/ui/use-toast";
+// import {useToast} from "@/components/ui/use-toast";
 import {Banknote, Clock, Grid, List} from "lucide-react";
 import {VideoDisplay} from "../../(admin)/client-view/[client]/components/video-display";
 import {connectStorageEmulator} from "firebase/storage";
@@ -836,7 +836,7 @@ const PayoutRequest = ({
 
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const {toast} = useToast();
+  // const {toast} = useToast();
 
   const {currentUser} = useAuth()!;
 
@@ -874,11 +874,11 @@ const PayoutRequest = ({
     setOpen(false);
 
     setIsLoading(false);
-    return toast({
-      title: "Successfully sent payout requested",
-      description:
-        "We will process your request shortly, and will notify you once it's done",
-    });
+    // return toast({
+    //   title: "Successfully sent payout requested",
+    //   description:
+    //     "We will process your request shortly, and will notify you once it's done",
+    // });
   };
 
   const sendEmail = async (emailTemp: any) => {
