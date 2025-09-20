@@ -4,10 +4,6 @@ import EditorLayout from "./editor-layout";
 import "./blog-style.css";
 import {useRouter} from "next/router";
 
-interface PageProps {
-  params: {postId: string};
-}
-
 export default function Page() {
   const router = useRouter();
   const {postId} = router.query;

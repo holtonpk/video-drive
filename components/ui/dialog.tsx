@@ -8,7 +8,13 @@ import {cn} from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
 
-const DialogTrigger = DialogPrimitive.Trigger;
+const DialogTrigger = (
+  props: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>
+) => {
+  const {ref, ...restProps} = props;
+  return <DialogPrimitive.Trigger ref={ref} {...restProps} />;
+};
+DialogTrigger.displayName = DialogPrimitive.Trigger.displayName;
 
 const DialogPortal = DialogPrimitive.Portal;
 

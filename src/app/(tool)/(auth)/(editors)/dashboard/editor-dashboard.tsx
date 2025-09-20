@@ -72,18 +72,12 @@ import {
 
 import {db} from "@/config/firebase";
 import {ADMIN_USERS, EDITORS, Post, VideoData} from "@/config/data";
-import {formatDaynameMonthDay} from "@/lib/utils";
 import {clients, REVIEW_USERS_DATA} from "@/config/data";
 import Link from "next/link";
 import {useAuth} from "@/context/user-auth";
 import {EditorSelector} from "./components/editor-selector";
-import Background from "@/components/background";
 import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
-// import {useToast} from "@/components/ui/use-toast";
 import {Banknote, Clock, Grid, List} from "lucide-react";
-import {VideoDisplay} from "../../(admin)/client-view/[client]/components/video-display";
-import {connectStorageEmulator} from "firebase/storage";
 
 const EditDashboard = () => {
   const [videoData, setVideoData] = React.useState<VideoData[] | undefined>();

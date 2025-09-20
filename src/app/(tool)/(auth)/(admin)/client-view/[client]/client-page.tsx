@@ -116,12 +116,12 @@ const ClientPage = ({client}: {client: string}) => {
               />
             )}
           </ScrollArea>
-          {/* {displayedVideo && (
+          {displayedVideo && (
             <VideoDisplay
               video={displayedVideo}
               setDisplayedVideo={setDisplayedVideo}
             />
-          )} */}
+          )}
         </div>
       ) : (
         <>Not found</>

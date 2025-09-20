@@ -18,8 +18,7 @@ export const generateMetadata = (): Metadata => {
 };
 
 const Page = () => {
-  const params = {clientId: "blueCollarKeys"};
-  return <ReportPage params={params} />;
+  return <ReportPage />;
 };
 
 export default Page;

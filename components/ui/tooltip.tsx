@@ -9,7 +9,13 @@ const TooltipProvider = TooltipPrimitive.Provider;
 
 const Tooltip = TooltipPrimitive.Root;
 
-const TooltipTrigger = TooltipPrimitive.Trigger;
+const TooltipTrigger = (
+  props: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Trigger>
+) => {
+  const {ref, ...restProps} = props;
+  return <TooltipPrimitive.Trigger ref={ref} {...restProps} />;
+};
+TooltipTrigger.displayName = TooltipPrimitive.Trigger.displayName;
 
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,

@@ -1,5 +1,6 @@
 "use client";
 
+import React, {useEffect, useState} from "react";
 import {
   TiktokLogo,
   XLogo,
@@ -10,7 +11,6 @@ import {
   Icons,
 } from "@/components/icons";
 import Image from "next/image";
-import React, {useEffect, useState} from "react";
 import {db} from "@/config/firebase";
 import {doc, getDoc, onSnapshot, query} from "firebase/firestore";
 import {collection} from "firebase/firestore";
@@ -115,7 +115,10 @@ const getFollowers = (post: any, platform: string) => {
     : 0;
 };
 
-const ReportPage = ({params}: {params: {clientId: string}}) => {
+const ReportPage = () => {
+  const [clientId, setClientId] = useState<string>("blueCollarKeys");
+  const [isLoading, setIsLoading] = useState(false);
+
   type Report = {
     label: string;
     date: string;
@@ -127,20 +130,22 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
   };
 
   const getDataFromWeek = (reportDate: string) => {
+    if (!clientId) return null;
+
     const tiktokDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+      require(`./${clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
     const youtubeDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+      require(`./${clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
     const instagramDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+      require(`./${clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
     const facebookDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
+      require(`./${clientId}/${reportDate}/dataset_facebook.json`).filter(
         (post: FacebookPost) => post?.isVideo === true
       ) as FacebookPost[];
     const linkedinDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+      require(`./${clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
     const xDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
+      require(`./${clientId}/${reportDate}/dataset_x.json`) as XPost[];
 
     const cleanedData = {
       tiktok: {
@@ -418,9 +423,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-13-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("4-13-2025").totalFollowers,
-      totalPosts: getDataFromWeek("4-13-2025").totalPosts,
+      totalEngagement: getDataFromWeek("4-13-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("4-13-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("4-13-2025")?.totalPosts || 0,
     },
     {
       label: "Week 2",
@@ -434,9 +439,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-20-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("4-20-2025").totalFollowers,
-      totalPosts: getDataFromWeek("4-20-2025").totalPosts,
+      totalEngagement: getDataFromWeek("4-20-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("4-20-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("4-20-2025")?.totalPosts || 0,
     },
     {
       label: "Week 3",
@@ -450,9 +455,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-27-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("4-27-2025").totalFollowers,
-      totalPosts: getDataFromWeek("4-27-2025").totalPosts,
+      totalEngagement: getDataFromWeek("4-27-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("4-27-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("4-27-2025")?.totalPosts || 0,
     },
     {
       label: "Week 4",
@@ -466,9 +471,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("5-4-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("5-4-2025").totalFollowers,
-      totalPosts: getDataFromWeek("5-4-2025").totalPosts,
+      totalEngagement: getDataFromWeek("5-4-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("5-4-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("5-4-2025")?.totalPosts || 0,
     },
     {
       label: "Week 5",
@@ -482,9 +487,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("5-11-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("5-11-2025").totalFollowers,
-      totalPosts: getDataFromWeek("5-11-2025").totalPosts,
+      totalEngagement: getDataFromWeek("5-11-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("5-11-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("5-11-2025")?.totalPosts || 0,
     },
     {
       label: "Week 6",
@@ -496,9 +501,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
 - **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
 `,
-      totalEngagement: getDataFromWeek("5-18-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("5-18-2025").totalFollowers,
-      totalPosts: getDataFromWeek("5-18-2025").totalPosts,
+      totalEngagement: getDataFromWeek("5-18-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("5-18-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("5-18-2025")?.totalPosts || 0,
     },
     {
       label: "Week 7",
@@ -510,9 +515,9 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
 - **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
 - **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
 `,
-      totalEngagement: getDataFromWeek("5-25-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("5-25-2025").totalFollowers,
-      totalPosts: getDataFromWeek("5-25-2025").totalPosts,
+      totalEngagement: getDataFromWeek("5-25-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("5-25-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("5-25-2025")?.totalPosts || 0,
     },
     {
       label: "Week 8",
@@ -541,9 +546,9 @@ Animated story content is consistently performing well. Videos are averaging ove
 - **TikTok**:
 Content is regularly going viral. We’re seeing strong consistency in reach and shares.
 `,
-      totalEngagement: getDataFromWeek("6-1-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("6-1-2025").totalFollowers,
-      totalPosts: getDataFromWeek("6-1-2025").totalPosts,
+      totalEngagement: getDataFromWeek("6-1-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("6-1-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("6-1-2025")?.totalPosts || 0,
     },
     {
       label: "Week 9",
@@ -555,9 +560,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **BOF vs TOF**: Will be posting more of the meme / worksite ugc to get more eyes on the higher value content.
 - **Written stories**: Performing great on youtube and tiktok. We will continue with 3 of these a week.
 `,
-      totalEngagement: getDataFromWeek("6-14-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("6-14-2025").totalFollowers,
-      totalPosts: getDataFromWeek("6-14-2025").totalPosts,
+      totalEngagement: getDataFromWeek("6-14-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("6-14-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("6-14-2025")?.totalPosts || 0,
     },
     {
       label: "Week 10",
@@ -570,9 +575,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Animated Series**: Hook including blue collar has been proven to work. Double down here. 
 - **Written content**: New series with visuals will go out this week. Contents been too vanilla going to take more chances.
 `,
-      totalEngagement: getDataFromWeek("6-28-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("6-28-2025").totalFollowers,
-      totalPosts: getDataFromWeek("6-28-2025").totalPosts,
+      totalEngagement: getDataFromWeek("6-28-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("6-28-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("6-28-2025")?.totalPosts || 0,
     },
     {
       label: "Week 11",
@@ -585,9 +590,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Follower goals**: Double instagram followers, 50 on facebook. More Meme low value content to maximize reach. Boosting will help reach  
 - **Content update**: 1 week of interview clips left. Ai series will replace this until we get more footage.   
 `,
-      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
-      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
+      totalEngagement: getDataFromWeek("7-13-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("7-13-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("7-13-2025")?.totalPosts || 0,
     },
     {
       label: "Week 12",
@@ -597,9 +602,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Instagram, Tiktok, and Youtube**: Seeing improved reach with TOF content.
 - **Facebook**: Boosted content is ready to be put out. Need control of payments on the platform.
 `,
-      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
-      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
+      totalEngagement: getDataFromWeek("7-13-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("7-13-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("7-13-2025")?.totalPosts || 0,
     },
     {
       label: "Week 13",
@@ -610,9 +615,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Instagram**: decent traction consistent views, waiting for first break out post.
 - **Facebook**: Continuing to iterate on written content.
     `,
-      totalEngagement: getDataFromWeek("8-24-2025").totalEngagement,
-      totalFollowers: getDataFromWeek("8-24-2025").totalFollowers,
-      totalPosts: getDataFromWeek("8-24-2025").totalPosts,
+      totalEngagement: getDataFromWeek("8-24-2025")?.totalEngagement || 0,
+      totalFollowers: getDataFromWeek("8-24-2025")?.totalFollowers || 0,
+      totalPosts: getDataFromWeek("8-24-2025")?.totalPosts || 0,
     },
   ];
 
@@ -623,19 +628,19 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   console.log("selectedReport", selectedReport);
 
   const tiktokData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
   const youtubeData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
   const instagramData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
   const facebookData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
       (post: FacebookPost) => post?.isVideo === true
     ) as FacebookPost[];
   const linkedinData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
   const xData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
 
   const Platforms = {
     tiktok: {
@@ -822,7 +827,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     },
   };
 
-  const clientInfo = clients.find((c: any) => c.value === params.clientId);
+  const clientInfo = clients.find((c: any) => c.value === clientId);
 
   const [clientViewData, setClientViewData] = useState<ClientVideoData[]>([]);
 
@@ -874,17 +879,17 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 
   const chartDataEngagement = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate).totalEngagement,
+    data: getDataFromWeek(week.reportDate)?.totalEngagement || 0,
   }));
 
   const chartDataFollowers = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate).totalFollowers,
+    data: getDataFromWeek(week.reportDate)?.totalFollowers || 0,
   }));
 
   const chartDataPosts = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate).totalPosts,
+    data: getDataFromWeek(week.reportDate)?.totalPosts || 0,
   }));
 
   const exportAsCSV = () => {
@@ -998,6 +1003,14 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   `,
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Background />
@@ -1085,7 +1098,8 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalEngagement
+                    getDataFromWeek(selectedReport.reportDate)
+                      ?.totalEngagement || 0
                   )}
               </h1>
             </div>
@@ -1094,7 +1108,8 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalFollowers
+                    getDataFromWeek(selectedReport.reportDate)
+                      ?.totalFollowers || 0
                   )}
               </h1>
             </div>
@@ -1104,7 +1119,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalPosts
+                    getDataFromWeek(selectedReport.reportDate)?.totalPosts || 0
                   )}
               </h1>
             </div>
