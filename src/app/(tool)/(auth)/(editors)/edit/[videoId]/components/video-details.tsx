@@ -470,6 +470,7 @@ export const VideoDetails = () => {
             </div>
           </div>
 
+          <Requirements />
           {/* <Requirements script={video.script} selectedHighlightColor={selectedHighlightColor} setSelectedHighlightColor={setSelectedHighlightColor} /> */}
         </div>
       </div>
