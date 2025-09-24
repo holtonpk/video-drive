@@ -115,7 +115,7 @@ const getFollowers = (post: any, platform: string) => {
     : 0;
 };
 
-const ReportPage = ({params}: {params: {clientId: string}}) => {
+const ReportPage = () => {
   type Report = {
     label: string;
     date: string;
@@ -125,22 +125,23 @@ const ReportPage = ({params}: {params: {clientId: string}}) => {
     totalFollowers: number;
     totalPosts: number;
   };
+  const clientId = "blueCollarKeys";
 
   const getDataFromWeek = (reportDate: string) => {
     const tiktokDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+      require(`./${clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
     const youtubeDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+      require(`./${clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
     const instagramDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+      require(`./${clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
     const facebookDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
+      require(`./${clientId}/${reportDate}/dataset_facebook.json`).filter(
         (post: FacebookPost) => post?.isVideo === true
       ) as FacebookPost[];
     const linkedinDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+      require(`./${clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
     const xDataLocal =
-      require(`./${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
+      require(`./${clientId}/${reportDate}/dataset_x.json`) as XPost[];
 
     const cleanedData = {
       tiktok: {
@@ -636,19 +637,19 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   console.log("selectedReport", selectedReport);
 
   const tiktokData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
   const youtubeData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
   const instagramData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
   const facebookData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
       (post: FacebookPost) => post?.isVideo === true
     ) as FacebookPost[];
   const linkedinData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
   const xData =
-    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
+    require(`./${clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
 
   const Platforms = {
     tiktok: {
@@ -835,7 +836,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     },
   };
 
-  const clientInfo = clients.find((c: any) => c.value === params.clientId);
+  const clientInfo = clients.find((c: any) => c.value === clientId);
 
   const [clientViewData, setClientViewData] = useState<ClientVideoData[]>([]);
 
