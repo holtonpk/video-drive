@@ -1,6 +1,5 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
 import {
   TiktokLogo,
   XLogo,
@@ -11,6 +10,7 @@ import {
   Icons,
 } from "@/components/icons";
 import Image from "next/image";
+import React, {useEffect, useState} from "react";
 import {db} from "@/config/firebase";
 import {doc, getDoc, onSnapshot, query} from "firebase/firestore";
 import {collection} from "firebase/firestore";
@@ -115,10 +115,7 @@ const getFollowers = (post: any, platform: string) => {
     : 0;
 };
 
-const ReportPage = () => {
-  const [clientId, setClientId] = useState<string>("blueCollarKeys");
-  const [isLoading, setIsLoading] = useState(false);
-
+const ReportPage = ({params}: {params: {clientId: string}}) => {
   type Report = {
     label: string;
     date: string;
@@ -130,22 +127,20 @@ const ReportPage = () => {
   };
 
   const getDataFromWeek = (reportDate: string) => {
-    if (!clientId) return null;
-
     const tiktokDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
     const youtubeDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
+      require(`./${params.clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
     const instagramDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
     const facebookDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_facebook.json`).filter(
+      require(`./${params.clientId}/${reportDate}/dataset_facebook.json`).filter(
         (post: FacebookPost) => post?.isVideo === true
       ) as FacebookPost[];
     const linkedinDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
     const xDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_x.json`) as XPost[];
+      require(`./${params.clientId}/${reportDate}/dataset_x.json`) as XPost[];
 
     const cleanedData = {
       tiktok: {
@@ -423,9 +418,9 @@ const ReportPage = () => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-13-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("4-13-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("4-13-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("4-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-13-2025").totalPosts,
     },
     {
       label: "Week 2",
@@ -439,9 +434,9 @@ const ReportPage = () => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-20-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("4-20-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("4-20-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("4-20-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-20-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-20-2025").totalPosts,
     },
     {
       label: "Week 3",
@@ -455,9 +450,9 @@ const ReportPage = () => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("4-27-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("4-27-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("4-27-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("4-27-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("4-27-2025").totalFollowers,
+      totalPosts: getDataFromWeek("4-27-2025").totalPosts,
     },
     {
       label: "Week 4",
@@ -471,9 +466,9 @@ const ReportPage = () => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("5-4-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("5-4-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("5-4-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("5-4-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-4-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-4-2025").totalPosts,
     },
     {
       label: "Week 5",
@@ -487,9 +482,9 @@ const ReportPage = () => {
 - **LinkedIn & Twitter**: Growth has been slow. These platforms favor written content, so a new series tailored for that format will be launched.
 - **Facebook**: Growth is currently slow. We anticipate improvement as Instagram picks up. If not, we'll consider launching a new series specifically optimized for Facebook.
 `,
-      totalEngagement: getDataFromWeek("5-11-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("5-11-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("5-11-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("5-11-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-11-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-11-2025").totalPosts,
     },
     {
       label: "Week 6",
@@ -501,9 +496,9 @@ const ReportPage = () => {
 - **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
 - **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
 `,
-      totalEngagement: getDataFromWeek("5-18-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("5-18-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("5-18-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("5-18-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-18-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-18-2025").totalPosts,
     },
     {
       label: "Week 7",
@@ -515,9 +510,9 @@ const ReportPage = () => {
 - **New series**: We’re also launching a new series that sources blue-collar UGC from the community to create more relatable, frequent content.
 - **ICP focus**: You’ve probably noticed our animated series is now more directly aligned with Blue Collar Keys’ ideal customer profile—shifting focus from general construction stories to ones centered on home services and the trades.
 `,
-      totalEngagement: getDataFromWeek("5-25-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("5-25-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("5-25-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("5-25-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("5-25-2025").totalFollowers,
+      totalPosts: getDataFromWeek("5-25-2025").totalPosts,
     },
     {
       label: "Week 8",
@@ -546,9 +541,9 @@ Animated story content is consistently performing well. Videos are averaging ove
 - **TikTok**:
 Content is regularly going viral. We’re seeing strong consistency in reach and shares.
 `,
-      totalEngagement: getDataFromWeek("6-1-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("6-1-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("6-1-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("6-1-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("6-1-2025").totalFollowers,
+      totalPosts: getDataFromWeek("6-1-2025").totalPosts,
     },
     {
       label: "Week 9",
@@ -560,9 +555,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **BOF vs TOF**: Will be posting more of the meme / worksite ugc to get more eyes on the higher value content.
 - **Written stories**: Performing great on youtube and tiktok. We will continue with 3 of these a week.
 `,
-      totalEngagement: getDataFromWeek("6-14-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("6-14-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("6-14-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("6-14-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("6-14-2025").totalFollowers,
+      totalPosts: getDataFromWeek("6-14-2025").totalPosts,
     },
     {
       label: "Week 10",
@@ -575,9 +570,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Animated Series**: Hook including blue collar has been proven to work. Double down here. 
 - **Written content**: New series with visuals will go out this week. Contents been too vanilla going to take more chances.
 `,
-      totalEngagement: getDataFromWeek("6-28-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("6-28-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("6-28-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("6-28-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("6-28-2025").totalFollowers,
+      totalPosts: getDataFromWeek("6-28-2025").totalPosts,
     },
     {
       label: "Week 11",
@@ -590,9 +585,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Follower goals**: Double instagram followers, 50 on facebook. More Meme low value content to maximize reach. Boosting will help reach  
 - **Content update**: 1 week of interview clips left. Ai series will replace this until we get more footage.   
 `,
-      totalEngagement: getDataFromWeek("7-13-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("7-13-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("7-13-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
     },
     {
       label: "Week 12",
@@ -602,9 +597,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Instagram, Tiktok, and Youtube**: Seeing improved reach with TOF content.
 - **Facebook**: Boosted content is ready to be put out. Need control of payments on the platform.
 `,
-      totalEngagement: getDataFromWeek("7-13-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("7-13-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("7-13-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("7-13-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("7-13-2025").totalFollowers,
+      totalPosts: getDataFromWeek("7-13-2025").totalPosts,
     },
     {
       label: "Week 13",
@@ -615,32 +610,45 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - **Instagram**: decent traction consistent views, waiting for first break out post.
 - **Facebook**: Continuing to iterate on written content.
     `,
-      totalEngagement: getDataFromWeek("8-24-2025")?.totalEngagement || 0,
-      totalFollowers: getDataFromWeek("8-24-2025")?.totalFollowers || 0,
-      totalPosts: getDataFromWeek("8-24-2025")?.totalPosts || 0,
+      totalEngagement: getDataFromWeek("8-24-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("8-24-2025").totalFollowers,
+      totalPosts: getDataFromWeek("8-24-2025").totalPosts,
+    },
+    {
+      label: "Week 14",
+      date: "8-24-2025 - 9-22-2025",
+      reportDate: "9-22-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok, and Youtube**: Great traction here. Especially on tiktok.
+- **Instagram**: decent traction consistent views, waiting for first break out post.
+- **Facebook**: Continuing to iterate on written content.
+    `,
+      totalEngagement: getDataFromWeek("9-22-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("9-22-2025").totalFollowers,
+      totalPosts: getDataFromWeek("9-22-2025").totalPosts,
     },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[12]
+    reports[13]
   );
 
   console.log("selectedReport", selectedReport);
 
   const tiktokData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
   const youtubeData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
   const instagramData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
   const facebookData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
       (post: FacebookPost) => post?.isVideo === true
     ) as FacebookPost[];
   const linkedinData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
   const xData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
+    require(`./${params.clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
 
   const Platforms = {
     tiktok: {
@@ -827,7 +835,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     },
   };
 
-  const clientInfo = clients.find((c: any) => c.value === clientId);
+  const clientInfo = clients.find((c: any) => c.value === params.clientId);
 
   const [clientViewData, setClientViewData] = useState<ClientVideoData[]>([]);
 
@@ -879,17 +887,17 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 
   const chartDataEngagement = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate)?.totalEngagement || 0,
+    data: getDataFromWeek(week.reportDate).totalEngagement,
   }));
 
   const chartDataFollowers = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate)?.totalFollowers || 0,
+    data: getDataFromWeek(week.reportDate).totalFollowers,
   }));
 
   const chartDataPosts = reports.map((week) => ({
     week: week.label,
-    data: getDataFromWeek(week.reportDate)?.totalPosts || 0,
+    data: getDataFromWeek(week.reportDate).totalPosts,
   }));
 
   const exportAsCSV = () => {
@@ -978,7 +986,6 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 - Interactive interviews: **How can we make interview clips more engaging?**  
 
 
-
 ## Interactive Street Interviews (TOF)
 
 **How can we make the street interviews more engaging?**
@@ -1002,14 +1009,6 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 
   `,
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-white">Loading...</div>
-      </div>
-    );
-  }
 
   return (
     <>
@@ -1098,8 +1097,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate)
-                      ?.totalEngagement || 0
+                    getDataFromWeek(selectedReport.reportDate).totalEngagement
                   )}
               </h1>
             </div>
@@ -1108,8 +1106,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate)
-                      ?.totalFollowers || 0
+                    getDataFromWeek(selectedReport.reportDate).totalFollowers
                   )}
               </h1>
             </div>
@@ -1119,7 +1116,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate)?.totalPosts || 0
+                    getDataFromWeek(selectedReport.reportDate).totalPosts
                   )}
               </h1>
             </div>
@@ -1127,11 +1124,6 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         </div>
         <div defaultValue="videos" className="w-full relative z-10 mt-4">
           <PlatformView Platforms={Platforms} clientLinkData={clientLinkData} />
-          <VideoTab
-            clientInfo={clientInfo}
-            Platforms={Platforms}
-            clientViewData={clientViewData}
-          />
         </div>
       </div>
     </>
@@ -1162,7 +1154,7 @@ const PlatformView = ({
             >
               <div className="flex items-center gap-2 ">
                 {React.createElement(platform.icon, {
-                  className: "h-5 w-5  fill-foreground",
+                  className: "h-5 w-5 text-white  fill-white",
                 })}
                 <h3 className="font-semibold ">{platform.name}</h3>
               </div>
@@ -1188,266 +1180,6 @@ const PlatformView = ({
               </div>
             </Link>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const VideoTab = ({
-  clientInfo,
-  Platforms,
-  clientViewData,
-}: {
-  clientInfo: any;
-  Platforms: any;
-  clientViewData: ClientVideoData[];
-}) => {
-  const [selectedVideo, setSelectedVideo] = useState<ClientVideoData | null>(
-    clientViewData[clientViewData.length - 1]
-  );
-
-  useEffect(() => {
-    setSelectedVideo(clientViewData[clientViewData.length - 1]);
-  }, [clientViewData]);
-
-  console.log("clientViewData", clientViewData[0], selectedVideo);
-
-  const getTotalViews = () => {
-    let totalViews = 0;
-    Object.keys(Platforms).forEach((platform) => {
-      const platformData = Platforms[platform];
-
-      const postData = platformData.data.find(
-        (post: any) =>
-          getId(post, platform) ===
-          (
-            selectedVideo?.[platform as keyof ClientVideoData] as
-              | {id: string; link: string}
-              | undefined
-          )?.id
-      );
-      const views = getViews(postData, platform);
-      console.log("views", views);
-      console.log("postData", postData);
-      totalViews += Number(views) || 0;
-    });
-    return totalViews;
-  };
-
-  const getTotalLikes = () => {
-    let totalLikes = 0;
-    Object.keys(Platforms).forEach((platform) => {
-      const platformData = Platforms[platform];
-      const postData = platformData.data.find(
-        (post: any) =>
-          getId(post, platform) ===
-          (
-            selectedVideo?.[platform as keyof ClientVideoData] as
-              | {id: string; link: string}
-              | undefined
-          )?.id
-      );
-      const likes = getLikes(postData, platform);
-      totalLikes += Number(likes) || 0;
-    });
-    return totalLikes;
-  };
-
-  const getTotalComments = () => {
-    let totalComments = 0;
-    Object.keys(Platforms).forEach((platform) => {
-      const platformData = Platforms[platform];
-      const postData = platformData.data.find(
-        (post: any) =>
-          getId(post, platform) ===
-          (
-            selectedVideo?.[platform as keyof ClientVideoData] as
-              | {id: string; link: string}
-              | undefined
-          )?.id
-      );
-      const comments = getComments(postData, platform);
-      totalComments += Number(comments) || 0;
-    });
-    return totalComments;
-  };
-
-  const getTotalShares = () => {
-    let totalShares = 0;
-    Object.keys(Platforms).forEach((platform) => {
-      const platformData = Platforms[platform];
-      const postData = platformData.data.find(
-        (post: any) =>
-          getId(post, platform) ===
-          (
-            selectedVideo?.[platform as keyof ClientVideoData] as
-              | {id: string; link: string}
-              | undefined
-          )?.id
-      );
-      const shares = getShares(postData, platform);
-      totalShares += Number(shares) || 0;
-    });
-    return totalShares;
-  };
-  return (
-    <div className="flex flex-col gap-2">
-      <h1 className="text-2xl font-bold mb-2 h-full ">
-        Video Library ({clientViewData.length})
-      </h1>
-
-      <div className="flex flex-col gap-2  ">
-        <div className="max-w-full bg-white/5 p-2 rounded-md overflow-x-auto w-full md:w-fit">
-          <div className=" max-w-full overflow-x-auto h-[200px] md:h-fit gap-2 ">
-            <div className="grid grid-cols-5 md:flex gap-2 w-full md:w-fit">
-              {[...clientViewData].reverse().map((video) => (
-                <div
-                  key={video.videoNumber}
-                  className="w-full md:min-w-[80px]  aspect-[9/16] "
-                >
-                  <button
-                    onClick={() => setSelectedVideo(video)}
-                    className={`w-full aspect-[9/16] rounded-sm overflow-hidden  transition-all duration-300 ${
-                      selectedVideo?.videoNumber === video.videoNumber
-                        ? "border-2 border-[rgba(52,244,175)]"
-                        : "hover:scale-105 border-2 border-white/10"
-                    }`}
-                  >
-                    <Image
-                      alt={video.title || "Video thumbnail"}
-                      src={video.thumbnail || ""}
-                      title={video.title || ""}
-                      className="w-full h-full object-cover "
-                      width={50}
-                      height={50}
-                    />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="grid md:grid-cols-[300px_1fr] gap-4">
-          <div className="w-full aspect-[9/16] relative hidden md:block">
-            <VideoPlayer
-              videoUrl={selectedVideo?.videoURL || ""}
-              title={selectedVideo?.title || ""}
-            />
-          </div>
-
-          <div className=" h-full">
-            <h1 className="text-2xl font-bold mb-2">Selected Video Stats</h1>
-            <div className="w-full h-full flex flex-col gap-2">
-              <div className="grid md:grid-cols-4 gap-2">
-                <div className="flex flex-col p-2 rounded-md bg-white/5 border border-white/10 w-full items-center">
-                  <h1 className="text-2xl flex gap-2 items-center">
-                    <Eye className="h-4 w-4 text-white" />
-                    Views
-                  </h1>
-                  <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                    {formatNumber(getTotalViews())}
-                  </h1>
-                </div>
-                <div className="flex flex-col p-2 rounded-md bg-white/5 border border-white/10 w-full items-center">
-                  <h1 className="text-2xl flex gap-2 items-center">
-                    <Heart className="h-4 w-4 text-white" />
-                    Likes
-                  </h1>
-                  <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                    {formatNumber(getTotalLikes())}
-                  </h1>
-                </div>
-                <div className="flex flex-col p-2 rounded-md bg-white/5 border border-white/10 w-full items-center">
-                  <h1 className="text-2xl flex gap-2 items-center">
-                    <MessageCircle className="h-4 w-4 text-white" />
-                    Comments
-                  </h1>
-                  <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                    {formatNumber(getTotalComments())}
-                  </h1>
-                </div>
-                <div className="flex flex-col p-2 rounded-md bg-white/5 border border-white/10 w-full items-center">
-                  <h1 className="text-2xl flex gap-2 items-center">
-                    <Share className="h-4 w-4 text-white" />
-                    Shares
-                  </h1>
-                  <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
-                    {formatNumber(getTotalShares())}
-                  </h1>
-                </div>
-              </div>
-              <div className="grid md:grid-cols-2 gap-4">
-                {Object.keys(Platforms).map((platform: any) => {
-                  if (!selectedVideo?.[platform as keyof ClientVideoData])
-                    return null;
-
-                  const platformData = Platforms[platform];
-                  const Icon = platformData.icon;
-
-                  const postData = platformData.data.find(
-                    (post: any) =>
-                      getId(post, platform) ===
-                      (
-                        selectedVideo?.[platform as keyof ClientVideoData] as
-                          | {id: string; link: string}
-                          | undefined
-                      )?.id
-                  );
-
-                  const views = getViews(postData, platform);
-                  const likes = getLikes(postData, platform);
-                  const comments = getComments(postData, platform);
-                  const shares = getShares(postData, platform);
-
-                  return (
-                    <Link
-                      href={
-                        (
-                          selectedVideo?.[platform as keyof ClientVideoData] as
-                            | {id: string; link: string}
-                            | undefined
-                        )?.link || ""
-                      }
-                      target="_blank"
-                      key={platform}
-                      className="group"
-                    >
-                      <div className="flex md:flex-row flex-col justify-between gap-2 text-white border border-white/10 p-2 rounded-md group-hover:border-[rgba(52,244,175)] transition-all duration-300">
-                        <div className="flex gap-2 items-center">
-                          <Icon className="h-5 w-5 fill-white" />
-                          <h1 className="text-lg font-bold">
-                            {platformData.name}
-                          </h1>
-                        </div>
-                        <div className="flex gap-4 items-center">
-                          <span className="flex gap-1 items-center">
-                            <Eye className="h-4 w-4 text-white" />
-                            <span className="text-sm ">{views}</span>
-                          </span>
-                          <span className="flex gap-1 items-center">
-                            <Heart className="h-4 w-4 text-white" />
-                            <span className="text-sm ">{likes}</span>
-                          </span>
-                          <span className="flex gap-1 items-center">
-                            <MessageCircle className="h-4 w-4 text-white" />
-                            <span className="text-sm ">{comments}</span>
-                          </span>
-
-                          {shares !== "unavailable" && (
-                            <span className="flex gap-1 items-center">
-                              <Share className="h-4 w-4 text-white" />
-                              <span className="text-sm ">{shares}</span>
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
