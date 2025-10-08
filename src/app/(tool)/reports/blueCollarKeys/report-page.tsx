@@ -1039,7 +1039,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-white/15 hover:bg-white/15 gap-2 border border-white/10 hover:border-[rgba(52,244,175)] transition-all duration-300  focus-visible:ring-0 ring-0 focus-visible:ring-offset-0 ring-offset-0 ">
+              <Button className="bg-white/15 hover:bg-white/15 gap-2 border text-white hover:text-[rgba(52,244,175)] border-white/10 hover:border-[rgba(52,244,175)] transition-all duration-300  focus-visible:ring-0 ring-0 focus-visible:ring-offset-0 ring-offset-0 ">
                 Export Data
                 <Icons.download2 className="h-4 w-4" />
               </Button>
@@ -1055,6 +1055,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         {/* <div className="mb-4">
           <ReportBody selectedReport={updateReport as Report} />
         </div> */}
+        <ReportTable />
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
         <div className="grid md:grid-cols-3 gap-4">
           <Chart
@@ -1155,7 +1156,7 @@ const PlatformView = ({
 }) => {
   console.log("clientLinkData", clientLinkData);
   return (
-    <div>
+    <div className="">
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-2">Stats by Platform</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -1195,6 +1196,68 @@ const PlatformView = ({
             </Link>
           ))}
         </div>
+      </div>
+    </div>
+  );
+};
+
+const data = [
+  {
+    platform: "TikTok",
+    followers: "+72 (+3.1%)",
+    views: "+341,832 (+11.5%)",
+    likes: "+3,229 (+1.7%)",
+    comments: "+67 (+5.3%)",
+  },
+  {
+    platform: "YouTube",
+    followers: "+7 (+7.2%)",
+    views: "+102,567 (+40.4%)",
+    likes: "+495 (+21.4%)",
+    comments: "+37 (+90.2%)",
+  },
+  {
+    platform: "Instagram",
+    followers: "+9 (+14.8%)",
+    views: "+24,197 (+6.9%)",
+    likes: "+161 (+5.1%)",
+    comments: "+3 (+6.3%)",
+  },
+];
+
+const ReportTable = () => {
+  return (
+    <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
+      <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
+        2 Week Performance Report
+      </h2>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left text-white">
+          <thead className="text-xs uppercase bg-white/5 border border-white/10">
+            <tr>
+              <th className="px-6 py-3">Platform</th>
+              <th className="px-6 py-3">Followers </th>
+              <th className="px-6 py-3">Views </th>
+              <th className="px-6 py-3">Likes </th>
+              <th className="px-6 py-3">Comments </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, i) => (
+              <tr
+                key={i}
+                className={`border-b border-white/10 ${i % 2 === 0 ? "" : ""}`}
+              >
+                <td className="px-6 py-4 font-medium">{row.platform}</td>
+                <td className="px-6 py-4">{row.followers}</td>
+                <td className="px-6 py-4">{row.views}</td>
+                <td className="px-6 py-4">{row.likes}</td>
+                <td className="px-6 py-4">{row.comments}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
