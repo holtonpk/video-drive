@@ -628,10 +628,23 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("9-22-2025").totalFollowers,
       totalPosts: getDataFromWeek("9-22-2025").totalPosts,
     },
+    {
+      label: "Week 15",
+      date: "9-22-2025 - 10-05-2025",
+      reportDate: "10-05-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok**: Consistently high views here. still our top platform. 
+- **Youtube**: Doing great especially with the last few posts doing 30k+ views. 
+- **Instagram**: Still not performing as well but on a definite uptick. excited to see how the new round of footage will do here.
+    `,
+      totalEngagement: getDataFromWeek("10-05-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("10-05-2025").totalFollowers,
+      totalPosts: getDataFromWeek("10-05-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[13]
+    reports[14]
   );
 
   console.log("selectedReport", selectedReport);
@@ -1039,9 +1052,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
           </DropdownMenu>
           {/* <SettingsButtons /> */}
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <ReportBody selectedReport={updateReport as Report} />
-        </div>
+        </div> */}
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
         <div className="grid md:grid-cols-3 gap-4">
           <Chart
