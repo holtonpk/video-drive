@@ -641,13 +641,24 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("10-05-2025").totalFollowers,
       totalPosts: getDataFromWeek("10-05-2025").totalPosts,
     },
+    {
+      label: "Week 16",
+      date: "10-05-2025 - 10-12-2025",
+      reportDate: "10-12-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok**: Consistently high views here. still our top platform. 
+- **Youtube**: Doing great especially with the last few posts doing 30k+ views.
+- **Instagram**: Still not performing as well but on a definite uptick. excited to see how the new round of footage will do here.
+    `,
+      totalEngagement: getDataFromWeek("10-12-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("10-12-2025").totalFollowers,
+      totalPosts: getDataFromWeek("10-12-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[14]
+    reports[15]
   );
-
-  console.log("selectedReport", selectedReport);
 
   const tiktokData =
     require(`./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
@@ -1204,24 +1215,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+72 (+3.1%)",
-    views: "+341,832 (+11.5%)",
-    likes: "+3,229 (+1.7%)",
-    comments: "+67 (+5.3%)",
+    followers: "+86 (+3.7%)",
+    views: "+68,689 (+2.1%)",
+    likes: "+1,732 (+0.9%)",
+    comments: "+17 (+1.3%)",
   },
   {
     platform: "YouTube",
-    followers: "+7 (+7.2%)",
-    views: "+102,567 (+40.4%)",
-    likes: "+495 (+21.4%)",
-    comments: "+37 (+90.2%)",
+    followers: "+7 (+7.3%)",
+    views: "+45,834 (+12.9%)",
+    likes: "+94 (+3.4%)",
+    comments: "+9 (+11.5%)",
   },
   {
     platform: "Instagram",
-    followers: "+9 (+14.8%)",
-    views: "+24,197 (+6.9%)",
-    likes: "+161 (+5.1%)",
-    comments: "+3 (+6.3%)",
+    followers: "+11 (+18.0%)",
+    views: "+26,830 (+7.1%)",
+    likes: "+305 (+9.2%)",
+    comments: "+4 (+7.8%)",
   },
 ];
 
