@@ -40,11 +40,11 @@ export const NewsletterCard = () => {
   const onSubmit = async (data: EmailFormData) => {
     try {
       // Save email and timestamp to Firebase emailList1 collection
-      // await addDoc(collection(db, "emailList1"), {
-      //   email: data.email,
-      //   timestamp: serverTimestamp(),
-      //   createdAt: new Date().toISOString(),
-      // });
+      await addDoc(collection(db, "emailList1"), {
+        email: data.email,
+        timestamp: serverTimestamp(),
+        createdAt: new Date().toISOString(),
+      });
 
       // Show success toast
       toast("🎉 Welcome to The Content Vault!");
