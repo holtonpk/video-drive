@@ -654,6 +654,19 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("10-12-2025").totalFollowers,
       totalPosts: getDataFromWeek("10-12-2025").totalPosts,
     },
+    {
+      label: "Week 17",
+      date: "10-19-2025 - 10-26-2025",
+      reportDate: "10-26-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok**: Consistently high views here. still our top platform. 
+- **Youtube**: Doing great especially with the last few posts doing 30k+ views.
+- **Instagram**: Still not performing as well but on a definite uptick. excited to see how the new round of footage will do here.
+    `,
+      totalEngagement: getDataFromWeek("10-26-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("10-26-2025").totalFollowers,
+      totalPosts: getDataFromWeek("10-26-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
@@ -737,7 +750,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       data: instagramData,
       icon: InstagramLogo,
       name: "Instagram",
-      followers: 72,
+      followers: 83,
       posts: instagramData.length,
       totalViews:
         Number(
@@ -1215,24 +1228,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+86 (+3.7%)",
-    views: "+68,689 (+2.1%)",
-    likes: "+1,732 (+0.9%)",
-    comments: "+17 (+1.3%)",
+    followers: "+309 (+13.0%)",
+    views: "+255,772 (+7.5%)",
+    likes: "+9,918 (+5.0%)",
+    comments: "+87 (+6.5%)",
   },
   {
     platform: "YouTube",
-    followers: "+7 (+7.3%)",
-    views: "+45,834 (+12.9%)",
-    likes: "+94 (+3.4%)",
-    comments: "+9 (+11.5%)",
+    followers: "+3 (+2.9%)",
+    views: "+9,663 (+2.4%)",
+    likes: "+101 (+3.5%)",
+    comments: "+1 (+1.1%)",
   },
   {
     platform: "Instagram",
-    followers: "+11 (+18.0%)",
-    views: "+26,830 (+7.1%)",
-    likes: "+305 (+9.2%)",
-    comments: "+4 (+7.8%)",
+    followers: "+11 (+15.3%)",
+    views: "+12,164 (+3.0%)",
+    likes: "+180 (+5.0%)",
+    comments: "+1 (+1.8%)",
   },
 ];
 
