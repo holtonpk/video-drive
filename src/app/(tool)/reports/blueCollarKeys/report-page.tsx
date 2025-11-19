@@ -667,10 +667,23 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("10-26-2025").totalFollowers,
       totalPosts: getDataFromWeek("10-26-2025").totalPosts,
     },
+    {
+      label: "Week 18",
+      date: "11-02-2025 - 11-16-2025",
+      reportDate: "11-16-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok**: Consistently high views here. still our top platform. 
+- **Youtube**: Doing great especially with the last few posts doing 30k+ views.
+- **Instagram**: Still not performing as well but on a definite uptick. excited to see how the new round of footage will do here.
+    `,
+      totalEngagement: getDataFromWeek("11-16-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("11-16-2025").totalFollowers,
+      totalPosts: getDataFromWeek("11-16-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[15]
+    reports[17]
   );
 
   const tiktokData =
@@ -1228,24 +1241,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+309 (+13.0%)",
-    views: "+255,772 (+7.5%)",
-    likes: "+9,918 (+5.0%)",
-    comments: "+87 (+6.5%)",
+    followers: "+142 (+5.3%)",
+    views: "+62,242 (+1.7%)",
+    likes: "+2,926 (+1.4%)",
+    comments: "+28 (+2.0%)",
   },
   {
     platform: "YouTube",
-    followers: "+3 (+2.9%)",
-    views: "+9,663 (+2.4%)",
-    likes: "+101 (+3.5%)",
-    comments: "+1 (+1.1%)",
+    followers: "+17 (+16.0%)",
+    views: "+19,327 (+4.7%)",
+    likes: "+202 (+6.7%)",
+    comments: "+5 (+5.7%)",
   },
   {
     platform: "Instagram",
-    followers: "+11 (+15.3%)",
-    views: "+12,164 (+3.0%)",
-    likes: "+180 (+5.0%)",
-    comments: "+1 (+1.8%)",
+    followers: "+5 (+6.0%)",
+    views: "+10,225 (+2.5%)",
+    likes: "+292 (+7.7%)",
+    comments: "0 (0%)",
   },
 ];
 
