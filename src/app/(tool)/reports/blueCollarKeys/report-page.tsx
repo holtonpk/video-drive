@@ -217,7 +217,7 @@ const ReportPage = () => {
         data: instagramDataLocal,
         icon: InstagramLogo,
         name: "Instagram",
-        followers: 40,
+        followers: 88,
         posts: instagramDataLocal.length,
         totalViews:
           Number(
@@ -680,10 +680,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("11-16-2025").totalFollowers,
       totalPosts: getDataFromWeek("11-16-2025").totalPosts,
     },
+    {
+      label: "Week 19",
+      date: "11-16-2025 - 11-30-2025",
+      reportDate: "11-30-2025",
+      body: `## Content Performance & Strategy Update
+- **Tiktok**: Consistently high views here. still our top platform. 
+- **Youtube**: Doing great especially with the last few posts doing 30k+ views.
+- **Instagram**: Still not performing as well but on a definite uptick. excited to see how the new round of footage will do here.    `,
+      totalEngagement: getDataFromWeek("11-30-2025").totalEngagement,
+      totalFollowers: getDataFromWeek("11-30-2025").totalFollowers,
+      totalPosts: getDataFromWeek("11-30-2025").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[17]
+    reports[18]
   );
 
   const tiktokData =
@@ -1241,23 +1253,23 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+142 (+5.3%)",
-    views: "+62,242 (+1.7%)",
-    likes: "+2,926 (+1.4%)",
-    comments: "+28 (+2.0%)",
+    followers: "+43 (+1.5%)",
+    views: "+17,436 (+0.5%)",
+    likes: "+715 (+0.3%)",
+    comments: "+8 (+0.5%)",
   },
   {
     platform: "YouTube",
-    followers: "+17 (+16.0%)",
-    views: "+19,327 (+4.7%)",
-    likes: "+202 (+6.7%)",
-    comments: "+5 (+5.7%)",
+    followers: "+2 (+1.6%)",
+    views: "+3,701 (+0.9%)",
+    likes: "+39 (+1.2%)",
+    comments: "0 (0%)",
   },
   {
     platform: "Instagram",
     followers: "+5 (+6.0%)",
-    views: "+10,225 (+2.5%)",
-    likes: "+292 (+7.7%)",
+    views: "+1,919 (+0.4%)",
+    likes: "+24 (+0.6%)",
     comments: "0 (0%)",
   },
 ];
