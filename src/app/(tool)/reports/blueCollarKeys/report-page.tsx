@@ -716,10 +716,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("12-28-2025").totalFollowers,
       totalPosts: getDataFromWeek("12-28-2025").totalPosts,
     },
+    {
+      label: "Week 22",
+      date: "12-28-2025 - 1-11-2026",
+      reportDate: "1-11-2026",
+      body: `## Content Performance & Strategy Update
+      - **Instagram**: Great movement here. We are seeing success with re-postable content.  
+      - **Youtube**: Doing great with video consistently doing over 1k views
+      - **Tiktok**: Underperforming but still getting good views.`,
+      totalEngagement: getDataFromWeek("1-11-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("1-11-2026").totalFollowers,
+      totalPosts: getDataFromWeek("1-11-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[20]
+    reports[21]
   );
 
   const tiktokData =
@@ -1277,24 +1289,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+46 (+1.6%)",
-    views: "+21,174 (+0.6%)",
-    likes: "+661 (+0.3%)",
-    comments: "+3 (+0.2%)",
+    followers: "+520 (+18.0%)",
+    views: "+284,035 (+7.5%)",
+    likes: "+17,007 (+8.0%)",
+    comments: "+302 (+20.5%)",
   },
   {
     platform: "YouTube",
-    followers: "+8 (+6.7%)",
-    views: "+7,971 (+1.7%)",
-    likes: "+54 (+1.6%)",
-    comments: "0 (0%)",
+    followers: "+4 (+3.1%)",
+    views: "+7,333 (+1.5%)",
+    likes: "+94 (+2.7%)",
+    comments: "+3 (+2.9%)",
   },
   {
     platform: "Instagram",
-    followers: "+178 (+110.6%)",
-    views: "+136,424 (+27.1%)",
-    likes: "+3,834 (+54.5%)",
-    comments: "+37 (+49.3%)",
+    followers: "+62 (+22.1%)",
+    views: "+14,996 (+2.3%)",
+    likes: "+516 (+4.7%)",
+    comments: "+10 (+8.9%)",
   },
 ];
 
