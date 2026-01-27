@@ -217,7 +217,7 @@ const ReportPage = () => {
         data: instagramDataLocal,
         icon: InstagramLogo,
         name: "Instagram",
-        followers: 339,
+        followers: 352,
         posts: instagramDataLocal.length,
         totalViews:
           Number(
@@ -728,10 +728,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("1-11-2026").totalFollowers,
       totalPosts: getDataFromWeek("1-11-2026").totalPosts,
     },
+    {
+      label: "Week 23",
+      date: "1-11-2026 - 1-25-2026",
+      reportDate: "1-25-2026",
+      body: `## Content Performance & Strategy Update
+      - **Instagram**: Great movement here. We are seeing success with re-postable content.  
+      - **Youtube**: Doing great with video consistently doing over 1k views
+      - **Tiktok**: Underperforming but still getting good views.`,
+      totalEngagement: getDataFromWeek("1-25-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("1-25-2026").totalFollowers,
+      totalPosts: getDataFromWeek("1-25-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[21]
+    reports[22]
   );
 
   const tiktokData =
@@ -811,7 +823,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       data: instagramData,
       icon: InstagramLogo,
       name: "Instagram",
-      followers: 161,
+      followers: 352,
       posts: instagramData.length,
       totalViews:
         Number(
@@ -1288,27 +1300,28 @@ const PlatformView = ({
 
 const data = [
   {
-    platform: "TikTok",
-    followers: "+520 (+18.0%)",
-    views: "+284,035 (+7.5%)",
-    likes: "+17,007 (+8.0%)",
-    comments: "+302 (+20.5%)",
+    "platform": "TikTok",
+    "followers": "+436 (+12.8%)",
+    "views": "+348,035 (+8.6%)",
+    "likes": "+22,411 (+9.8%)",
+    "comments": "+186 (+10.5%)"
   },
   {
-    platform: "YouTube",
-    followers: "+4 (+3.1%)",
-    views: "+7,333 (+1.5%)",
-    likes: "+94 (+2.7%)",
-    comments: "+3 (+2.9%)",
+    "platform": "YouTube",
+    "followers": "+1 (+0.8%)",
+    "views": "+6,730 (+1.4%)",
+    "likes": "+91 (+2.5%)",
+    "comments": "+3 (+2.8%)"
   },
   {
-    platform: "Instagram",
-    followers: "+62 (+22.1%)",
-    views: "+14,996 (+2.3%)",
-    likes: "+516 (+4.7%)",
-    comments: "+10 (+8.9%)",
-  },
-];
+    "platform": "Instagram",
+    "followers": "+22 (+6.7%)",
+    "views": "+17,179 (+2.6%)",
+    "likes": "+658 (+5.8%)",
+    "comments": "+6 (+4.9%)"
+  }
+]
+
 
 const ReportTable = () => {
   return (
