@@ -43,76 +43,76 @@ const getId = (data: any, platformId: string) => {
   return platformId === "facebook"
     ? data.postId || 0
     : platformId === "linkedin"
-    ? data?.linkedinVideo?.videoPlayMetadata?.trackingId || 0
-    : data.id;
+      ? data?.linkedinVideo?.videoPlayMetadata?.trackingId || 0
+      : data.id;
 };
 
 const getViews = (post: any, platform: string) => {
   return platform === "tiktok"
     ? post?.playCount || 0
     : platform === "youtube"
-    ? post?.viewCount || 0
-    : platform === "instagram"
-    ? post?.videoPlayCount || 0
-    : platform === "x"
-    ? post?.viewCount || 0
-    : platform === "facebook"
-    ? post?.viewsCount || 0
-    : platform === "linkedin"
-    ? post?.numLikes || 0
-    : "unavailable";
+      ? post?.viewCount || 0
+      : platform === "instagram"
+        ? post?.videoPlayCount || 0
+        : platform === "x"
+          ? post?.viewCount || 0
+          : platform === "facebook"
+            ? post?.viewsCount || 0
+            : platform === "linkedin"
+              ? post?.numLikes || 0
+              : "unavailable";
 };
 
 const getLikes = (post: any, platform: string) => {
   return platform === "tiktok"
     ? post?.diggCount || 0
     : platform === "youtube"
-    ? post?.likes || 0
-    : platform === "instagram"
-    ? post?.likesCount || 0
-    : platform === "x"
-    ? post?.likeCount || 0
-    : platform === "facebook"
-    ? post?.likes || 0
-    : platform === "linkedin"
-    ? post?.numLikes || 0
-    : "unavailable";
+      ? post?.likes || 0
+      : platform === "instagram"
+        ? post?.likesCount || 0
+        : platform === "x"
+          ? post?.likeCount || 0
+          : platform === "facebook"
+            ? post?.likes || 0
+            : platform === "linkedin"
+              ? post?.numLikes || 0
+              : "unavailable";
 };
 
 const getComments = (post: any, platform: string) => {
   return platform === "tiktok"
     ? post?.commentCount || 0
     : platform === "youtube"
-    ? post?.commentsCount || 0
-    : platform === "instagram"
-    ? post?.commentsCount || 0
-    : platform === "x"
-    ? post?.replyCount || 0
-    : platform === "facebook"
-    ? post?.topReactionsCount || 0
-    : platform === "linkedin"
-    ? post?.numComments || 0
-    : "unavailable";
+      ? post?.commentsCount || 0
+      : platform === "instagram"
+        ? post?.commentsCount || 0
+        : platform === "x"
+          ? post?.replyCount || 0
+          : platform === "facebook"
+            ? post?.topReactionsCount || 0
+            : platform === "linkedin"
+              ? post?.numComments || 0
+              : "unavailable";
 };
 
 const getShares = (post: any, platform: string) => {
   return platform === "tiktok"
     ? post?.shareCount || 0
     : platform === "facebook"
-    ? post?.shares || 0
-    : platform === "linkedin"
-    ? post?.numShares || 0
-    : "unavailable";
+      ? post?.shares || 0
+      : platform === "linkedin"
+        ? post?.numShares || 0
+        : "unavailable";
 };
 
 const getFollowers = (post: any, platform: string) => {
   return platform === "tiktok"
     ? post?.authorMeta.fans
     : platform === "youtube"
-    ? post?.numberOfSubscribers
-    : platform === "linkedin"
-    ? post?.authorFollowersCount
-    : 0;
+      ? post?.numberOfSubscribers
+      : platform === "linkedin"
+        ? post?.authorFollowersCount
+        : 0;
 };
 
 const ReportPage = () => {
@@ -128,20 +128,24 @@ const ReportPage = () => {
   const clientId = "blueCollarKeys";
 
   const getDataFromWeek = (reportDate: string) => {
-    const tiktokDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_tiktok.json`) as TikTokPost[];
-    const youtubeDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_youtube.json`) as YouTubePost[];
-    const instagramDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_instagram.json`) as InstagramPost[];
-    const facebookDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_facebook.json`).filter(
-        (post: FacebookPost) => post?.isVideo === true
-      ) as FacebookPost[];
-    const linkedinDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_linkedin.json`) as LinkedInPost[];
-    const xDataLocal =
-      require(`./${clientId}/${reportDate}/dataset_x.json`) as XPost[];
+    const tiktokDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_tiktok.json`,
+    ) as TikTokPost[];
+    const youtubeDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_youtube.json`,
+    ) as YouTubePost[];
+    const instagramDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_instagram.json`,
+    ) as InstagramPost[];
+    const facebookDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_facebook.json`,
+    ).filter((post: FacebookPost) => post?.isVideo === true) as FacebookPost[];
+    const linkedinDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_linkedin.json`,
+    ) as LinkedInPost[];
+    const xDataLocal = require(
+      `./${clientId}/${reportDate}/dataset_x.json`,
+    ) as XPost[];
 
     const cleanedData = {
       tiktok: {
@@ -154,26 +158,26 @@ const ReportPage = () => {
         totalViews: Number(
           tiktokDataLocal.reduce(
             (acc, video) => acc + getViews(video, "tiktok"),
-            0
-          )
+            0,
+          ),
         ),
         totalLikes: Number(
           tiktokDataLocal.reduce(
             (acc, video) => acc + getLikes(video, "tiktok"),
-            0
-          )
+            0,
+          ),
         ),
         totalComments: Number(
           tiktokDataLocal.reduce(
             (acc, video) => acc + getComments(video, "tiktok"),
-            0
-          )
+            0,
+          ),
         ),
         totalShares: Number(
           tiktokDataLocal.reduce(
             (acc, video) => acc + getShares(video, "tiktok"),
-            0
-          )
+            0,
+          ),
         ),
       },
       youtube: {
@@ -187,29 +191,29 @@ const ReportPage = () => {
           Number(
             youtubeDataLocal.reduce(
               (acc, video) => acc + getViews(video, "youtube"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalLikes:
           Number(
             youtubeDataLocal.reduce(
               (acc, video) => acc + getLikes(video, "youtube"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalComments:
           Number(
             youtubeDataLocal.reduce(
               (acc, video) => acc + getComments(video, "youtube"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalShares:
           Number(
             youtubeDataLocal.reduce(
               (acc, video) => acc + getShares(video, "youtube"),
-              0
-            )
+              0,
+            ),
           ) || 0,
       },
       instagram: {
@@ -223,29 +227,29 @@ const ReportPage = () => {
           Number(
             instagramDataLocal.reduce(
               (acc, video) => acc + getViews(video, "instagram"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalLikes:
           Number(
             instagramDataLocal.reduce(
               (acc, video) => acc + getLikes(video, "instagram"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalComments:
           Number(
             instagramDataLocal.reduce(
               (acc, video) => acc + getComments(video, "instagram"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalShares:
           Number(
             instagramDataLocal.reduce(
               (acc, video) => acc + getShares(video, "instagram"),
-              0
-            )
+              0,
+            ),
           ) || 0,
       },
       facebook: {
@@ -259,29 +263,29 @@ const ReportPage = () => {
           Number(
             facebookDataLocal.reduce(
               (acc, video) => acc + getViews(video, "facebook"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalLikes:
           Number(
             facebookDataLocal.reduce(
               (acc, video) => acc + getLikes(video, "facebook"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalComments:
           Number(
             facebookDataLocal.reduce(
               (acc, video) => acc + getComments(video, "facebook"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalShares:
           Number(
             facebookDataLocal.reduce(
               (acc, video) => acc + getShares(video, "facebook"),
-              0
-            )
+              0,
+            ),
           ) || 0,
       },
       linkedin: {
@@ -295,29 +299,29 @@ const ReportPage = () => {
           Number(
             linkedinDataLocal.reduce(
               (acc, video) => acc + getViews(video, "linkedin"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalLikes:
           Number(
             linkedinDataLocal.reduce(
               (acc, video) => acc + getLikes(video, "linkedin"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalComments:
           Number(
             linkedinDataLocal.reduce(
               (acc, video) => acc + getComments(video, "linkedin"),
-              0
-            )
+              0,
+            ),
           ) || 0,
         totalShares:
           Number(
             linkedinDataLocal.reduce(
               (acc, video) => acc + getShares(video, "linkedin"),
-              0
-            )
+              0,
+            ),
           ) || 0,
       },
       x: {
@@ -329,19 +333,19 @@ const ReportPage = () => {
         posts: xDataLocal.length,
         totalViews:
           Number(
-            xDataLocal.reduce((acc, post) => acc + getViews(post, "x"), 0)
+            xDataLocal.reduce((acc, post) => acc + getViews(post, "x"), 0),
           ) || 0,
         totalLikes:
           Number(
-            xDataLocal.reduce((acc, post) => acc + getLikes(post, "x"), 0)
+            xDataLocal.reduce((acc, post) => acc + getLikes(post, "x"), 0),
           ) || 0,
         totalComments:
           Number(
-            xDataLocal.reduce((acc, post) => acc + getComments(post, "x"), 0)
+            xDataLocal.reduce((acc, post) => acc + getComments(post, "x"), 0),
           ) || 0,
         totalShares:
           Number(
-            xDataLocal.reduce((acc, post) => acc + getShares(post, "x"), 0)
+            xDataLocal.reduce((acc, post) => acc + getShares(post, "x"), 0),
           ) || 0,
       },
     };
@@ -733,9 +737,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "1-11-2026 - 1-25-2026",
       reportDate: "1-25-2026",
       body: `## Content Performance & Strategy Update
-      - **Instagram**: Great movement here. We are seeing success with re-postable content.  
-      - **Youtube**: Doing great with video consistently doing over 1k views
-      - **Tiktok**: Underperforming but still getting good views.`,
+      - Instagram: Consistent views, follower count still increasing. Getting great reach to followers.  
+      - Youtube: Getting high views looking to increase subscribers.
+      - Tiktok: Great traction here as usual`,
       totalEngagement: getDataFromWeek("1-25-2026").totalEngagement,
       totalFollowers: getDataFromWeek("1-25-2026").totalFollowers,
       totalPosts: getDataFromWeek("1-25-2026").totalPosts,
@@ -743,23 +747,27 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[22]
+    reports[22],
   );
 
-  const tiktokData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`) as TikTokPost[];
-  const youtubeData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_youtube.json`) as YouTubePost[];
-  const instagramData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_instagram.json`) as InstagramPost[];
-  const facebookData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_facebook.json`).filter(
-      (post: FacebookPost) => post?.isVideo === true
-    ) as FacebookPost[];
-  const linkedinData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`) as LinkedInPost[];
-  const xData =
-    require(`./${clientId}/${selectedReport?.reportDate}/dataset_x.json`) as XPost[];
+  const tiktokData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_tiktok.json`,
+  ) as TikTokPost[];
+  const youtubeData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_youtube.json`,
+  ) as YouTubePost[];
+  const instagramData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_instagram.json`,
+  ) as InstagramPost[];
+  const facebookData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_facebook.json`,
+  ).filter((post: FacebookPost) => post?.isVideo === true) as FacebookPost[];
+  const linkedinData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_linkedin.json`,
+  ) as LinkedInPost[];
+  const xData = require(
+    `./${clientId}/${selectedReport?.reportDate}/dataset_x.json`,
+  ) as XPost[];
 
   const Platforms = {
     tiktok: {
@@ -770,16 +778,19 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       followers: Number(getFollowers(tiktokData[0], "tiktok")),
       posts: tiktokData.length,
       totalViews: Number(
-        tiktokData.reduce((acc, video) => acc + getViews(video, "tiktok"), 0)
+        tiktokData.reduce((acc, video) => acc + getViews(video, "tiktok"), 0),
       ),
       totalLikes: Number(
-        tiktokData.reduce((acc, video) => acc + getLikes(video, "tiktok"), 0)
+        tiktokData.reduce((acc, video) => acc + getLikes(video, "tiktok"), 0),
       ),
       totalComments: Number(
-        tiktokData.reduce((acc, video) => acc + getComments(video, "tiktok"), 0)
+        tiktokData.reduce(
+          (acc, video) => acc + getComments(video, "tiktok"),
+          0,
+        ),
       ),
       totalShares: Number(
-        tiktokData.reduce((acc, video) => acc + getShares(video, "tiktok"), 0)
+        tiktokData.reduce((acc, video) => acc + getShares(video, "tiktok"), 0),
       ),
     },
     youtube: {
@@ -793,29 +804,29 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         Number(
           youtubeData.reduce(
             (acc, video) => acc + getViews(video, "youtube"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalLikes:
         Number(
           youtubeData.reduce(
             (acc, video) => acc + getLikes(video, "youtube"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalComments:
         Number(
           youtubeData.reduce(
             (acc, video) => acc + getComments(video, "youtube"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalShares:
         Number(
           youtubeData.reduce(
             (acc, video) => acc + getShares(video, "youtube"),
-            0
-          )
+            0,
+          ),
         ) || 0,
     },
     instagram: {
@@ -829,29 +840,29 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         Number(
           instagramData.reduce(
             (acc, video) => acc + getViews(video, "instagram"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalLikes:
         Number(
           instagramData.reduce(
             (acc, video) => acc + getLikes(video, "instagram"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalComments:
         Number(
           instagramData.reduce(
             (acc, video) => acc + getComments(video, "instagram"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalShares:
         Number(
           instagramData.reduce(
             (acc, video) => acc + getShares(video, "instagram"),
-            0
-          )
+            0,
+          ),
         ) || 0,
     },
     facebook: {
@@ -865,29 +876,29 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         Number(
           facebookData.reduce(
             (acc, video) => acc + getViews(video, "facebook"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalLikes:
         Number(
           facebookData.reduce(
             (acc, video) => acc + getLikes(video, "facebook"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalComments:
         Number(
           facebookData.reduce(
             (acc, video) => acc + getComments(video, "facebook"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalShares:
         Number(
           facebookData.reduce(
             (acc, video) => acc + getShares(video, "facebook"),
-            0
-          )
+            0,
+          ),
         ) || 0,
     },
 
@@ -919,29 +930,29 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         Number(
           linkedinData.reduce(
             (acc, video) => acc + getViews(video, "linkedin"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalLikes:
         Number(
           linkedinData.reduce(
             (acc, video) => acc + getLikes(video, "linkedin"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalComments:
         Number(
           linkedinData.reduce(
             (acc, video) => acc + getComments(video, "linkedin"),
-            0
-          )
+            0,
+          ),
         ) || 0,
       totalShares:
         Number(
           linkedinData.reduce(
             (acc, video) => acc + getShares(video, "linkedin"),
-            0
-          )
+            0,
+          ),
         ) || 0,
     },
   };
@@ -952,7 +963,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
 
   useEffect(() => {
     const clientViewDataQuery = query(
-      collection(db, `client-access/${clientInfo?.value}/videos`)
+      collection(db, `client-access/${clientInfo?.value}/videos`),
     );
     const unsubscribe = onSnapshot(clientViewDataQuery, (querySnapshot) => {
       const clientViewDataLocal: ClientVideoData[] = [];
@@ -969,7 +980,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
   useEffect(() => {
     const clientLinkDataQuery = doc(
       db,
-      `client-access/${clientInfo?.value}/info/links`
+      `client-access/${clientInfo?.value}/info/links`,
     );
     getDoc(clientLinkDataQuery).then((doc) => {
       setClientLinkData(doc.data() as any[]);
@@ -1047,7 +1058,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     link.setAttribute("href", url);
     link.setAttribute(
       "download",
-      `${clientInfo?.label}_report_${selectedReport?.reportDate}.csv`
+      `${clientInfo?.label}_report_${selectedReport?.reportDate}.csv`,
     );
     link.style.visibility = "hidden";
     document.body.appendChild(link);
@@ -1080,7 +1091,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
     link.setAttribute("href", url);
     link.setAttribute(
       "download",
-      `${clientInfo?.label}_report_${selectedReport?.reportDate}.json`
+      `${clientInfo?.label}_report_${selectedReport?.reportDate}.json`,
     );
     link.style.visibility = "hidden";
     document.body.appendChild(link);
@@ -1209,7 +1220,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalEngagement
+                    getDataFromWeek(selectedReport.reportDate).totalEngagement,
                   )}
               </h1>
             </div>
@@ -1218,7 +1229,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalFollowers
+                    getDataFromWeek(selectedReport.reportDate).totalFollowers,
                   )}
               </h1>
             </div>
@@ -1228,7 +1239,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
               <h1 className="text-2xl font-bold text-[rgba(52,244,175)]">
                 {selectedReport &&
                   formatNumber(
-                    getDataFromWeek(selectedReport.reportDate).totalPosts
+                    getDataFromWeek(selectedReport.reportDate).totalPosts,
                   )}
               </h1>
             </div>
@@ -1300,28 +1311,27 @@ const PlatformView = ({
 
 const data = [
   {
-    "platform": "TikTok",
-    "followers": "+436 (+12.8%)",
-    "views": "+348,035 (+8.6%)",
-    "likes": "+22,411 (+9.8%)",
-    "comments": "+186 (+10.5%)"
+    platform: "TikTok",
+    followers: "+436 (+12.8%)",
+    views: "+348,035 (+8.6%)",
+    likes: "+22,411 (+9.8%)",
+    comments: "+186 (+10.5%)",
   },
   {
-    "platform": "YouTube",
-    "followers": "+1 (+0.8%)",
-    "views": "+6,730 (+1.4%)",
-    "likes": "+91 (+2.5%)",
-    "comments": "+3 (+2.8%)"
+    platform: "YouTube",
+    followers: "+3 (+2.3%)",
+    views: "+23,730 (+4.9%)",
+    likes: "+183 (+5.1%)",
+    comments: "+6 (+5.7%)",
   },
   {
-    "platform": "Instagram",
-    "followers": "+22 (+6.7%)",
-    "views": "+17,179 (+2.6%)",
-    "likes": "+658 (+5.8%)",
-    "comments": "+6 (+4.9%)"
-  }
-]
-
+    platform: "Instagram",
+    followers: "+22 (+6.7%)",
+    views: "+17,179 (+2.6%)",
+    likes: "+658 (+5.8%)",
+    comments: "+6 (+4.9%)",
+  },
+];
 
 const ReportTable = () => {
   return (
