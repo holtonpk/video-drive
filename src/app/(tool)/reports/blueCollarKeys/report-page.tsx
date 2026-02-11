@@ -744,10 +744,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("1-25-2026").totalFollowers,
       totalPosts: getDataFromWeek("1-25-2026").totalPosts,
     },
+    {
+      label: "Week 24",
+      date: "1-25-2026 - 2-08-2026",
+      reportDate: "2-08-2026",
+      body: `## Content Performance & Strategy Update
+      - Instagram: Consistent views, follower count still increasing. Getting great reach to followers.  
+      - Youtube: Getting high views looking to increase subscribers.
+      - Tiktok: Great traction here as usual`,
+      totalEngagement: getDataFromWeek("2-08-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("2-08-2026").totalFollowers,
+      totalPosts: getDataFromWeek("2-08-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[22],
+    reports[23],
   );
 
   const tiktokData = require(
@@ -1312,24 +1324,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+436 (+12.8%)",
-    views: "+348,035 (+8.6%)",
-    likes: "+22,411 (+9.8%)",
-    comments: "+186 (+10.5%)",
+    followers: "+75 (+1.9%)",
+    views: "+84,878 (+1.9%)",
+    likes: "+2,671 (+1.1%)",
+    comments: "+55 (+2.8%)",
   },
   {
     platform: "YouTube",
-    followers: "+3 (+2.3%)",
-    views: "+23,730 (+4.9%)",
-    likes: "+183 (+5.1%)",
-    comments: "+6 (+5.7%)",
+    followers: "+6 (+4.5%)",
+    views: "+26,629 (+5.4%)",
+    likes: "+203 (+5.5%)",
+    comments: "+5 (+4.6%)",
   },
   {
     platform: "Instagram",
-    followers: "+22 (+6.7%)",
-    views: "+17,179 (+2.6%)",
-    likes: "+658 (+5.8%)",
-    comments: "+6 (+4.9%)",
+    followers: "+23 (+6.5%)",
+    views: "+25,890 (+3.9%)",
+    likes: "+1,019 (+8.5%)",
+    comments: "+9 (+7.0%)",
   },
 ];
 
