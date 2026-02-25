@@ -12,7 +12,7 @@ const ReportBody = ({selectedReport}: {selectedReport: Report}) => {
   return (
     <div
       id="report"
-      className="bg-white/5 border border-white/10 p-4 rounded-md "
+      className="bg-white/5 border border-white/10 p-4 rounded-md max-w-full "
     >
       <ReactMarkdown>{selectedReport.body}</ReactMarkdown>
     </div>

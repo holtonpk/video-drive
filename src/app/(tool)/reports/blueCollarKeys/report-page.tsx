@@ -756,10 +756,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("2-08-2026").totalFollowers,
       totalPosts: getDataFromWeek("2-08-2026").totalPosts,
     },
+    {
+      label: "Week 25",
+      date: "2-08-2026 - 2-22-2026",
+      reportDate: "2-22-2026",
+      body: `## Content Performance & Strategy Update
+  - Instagram: We had another video pop off here with over 350k views. Posts here are averaging around 3k Views. Making instagram our new top platform.
+  - Youtube: Had a video here do 11k views making it the second best performer on youtube. If posts don't flop here they will usually hit 1k-5k views. we will be recycling flops to try and get them more reach.
+  - Tiktok: Hit the big milestone here of 4k followers. Views are relatively low here but still getting the best view retention.`,
+      totalEngagement: getDataFromWeek("2-22-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("2-22-2026").totalFollowers,
+      totalPosts: getDataFromWeek("2-22-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[23],
+    reports[24],
   );
 
   const tiktokData = require(
@@ -1324,24 +1336,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+75 (+1.9%)",
-    views: "+84,878 (+1.9%)",
-    likes: "+2,671 (+1.1%)",
-    comments: "+55 (+2.8%)",
+    followers: "+130 (+3.3%)",
+    views: "+101,612 (+2.3%)",
+    likes: "+5,216 (+2.1%)",
+    comments: "+25 (+1.2%)",
   },
   {
     platform: "YouTube",
-    followers: "+6 (+4.5%)",
-    views: "+26,629 (+5.4%)",
-    likes: "+203 (+5.5%)",
-    comments: "+5 (+4.6%)",
+    followers: "+8 (+5.8%)",
+    views: "+24,414 (+4.7%)",
+    likes: "+259 (+6.7%)",
+    comments: "+12 (+10.5%)",
   },
   {
     platform: "Instagram",
-    followers: "+23 (+6.5%)",
-    views: "+25,890 (+3.9%)",
-    likes: "+1,019 (+8.5%)",
-    comments: "+9 (+7.0%)",
+    followers: "+128 (+36.4%)",
+    views: "+408,483 (+58.6%)",
+    likes: "+14,135 (+108.2%)",
+    comments: "+17 (+12.4%)",
   },
 ];
 
