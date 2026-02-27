@@ -1187,6 +1187,7 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         {/* <div className="mb-4">
           <ReportBody selectedReport={updateReport as Report} />
         </div> */}
+        <ReportTable6 />
         <ReportTable />
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
         <div className="grid md:grid-cols-3 gap-4">
@@ -1377,6 +1378,69 @@ const ReportTable = () => {
           </thead>
           <tbody>
             {data.map((row, i) => (
+              <tr
+                key={i}
+                className={`border-b border-white/10 ${i % 2 === 0 ? "" : ""}`}
+              >
+                <td className="px-6 py-4 font-medium">{row.platform}</td>
+                <td className="px-6 py-4">{row.followers}</td>
+                <td className="px-6 py-4">{row.views}</td>
+                <td className="px-6 py-4">{row.likes}</td>
+                <td className="px-6 py-4">{row.comments}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+// 6 month report
+
+const data6 = [
+  {
+    platform: "TikTok",
+    followers: "+1,836 (+82.7%)",
+    views: "+1,900,054 (+70.8%)",
+    likes: "+71,876 (+38.4%)",
+    comments: "+995 (+95.0%)",
+  },
+  {
+    platform: "YouTube",
+    followers: "+63 (+75.0%)",
+    views: "+363,345 (+203.2%)",
+    likes: "+2,451 (+145.6%)",
+    comments: "+112 (+800.0%)",
+  },
+  {
+    platform: "Instagram",
+    followers: "+310 (+738.1%)",
+    views: "+773,316 (+232.6%)",
+    likes: "+24,276 (+831.4%)",
+    comments: "+108 (+234.8%)",
+  },
+];
+
+const ReportTable6 = () => {
+  return (
+    <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
+      <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
+        6 Month Performance Report
+      </h2>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left text-white">
+          <thead className="text-xs uppercase bg-white/5 border border-white/10">
+            <tr>
+              <th className="px-6 py-3">Platform</th>
+              <th className="px-6 py-3">Followers </th>
+              <th className="px-6 py-3">Views </th>
+              <th className="px-6 py-3">Likes </th>
+              <th className="px-6 py-3">Comments </th>
+            </tr>
+          </thead>
+          <tbody>
+            {data6.map((row, i) => (
               <tr
                 key={i}
                 className={`border-b border-white/10 ${i % 2 === 0 ? "" : ""}`}
