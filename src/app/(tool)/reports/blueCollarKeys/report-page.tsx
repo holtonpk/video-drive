@@ -768,10 +768,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("2-22-2026").totalFollowers,
       totalPosts: getDataFromWeek("2-22-2026").totalPosts,
     },
+    {
+      label: "Week 26",
+      date: "2-22-2026 - 3-8-2026",
+      reportDate: "3-8-2026",
+      body: `## Content Performance & Strategy Update
+  - Instagram: We had another video pop off here with over 350k views. Posts here are averaging around 3k Views. Making instagram our new top platform.
+  - Youtube: Had a video here do 11k views making it the second best performer on youtube. If posts don't flop here they will usually hit 1k-5k views. we will be recycling flops to try and get them more reach.
+  - Tiktok: Hit the big milestone here of 4k followers. Views are relatively low here but still getting the best view retention.`,
+      totalEngagement: getDataFromWeek("3-8-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("3-8-2026").totalFollowers,
+      totalPosts: getDataFromWeek("3-8-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[24],
+    reports[25],
   );
 
   const tiktokData = require(
@@ -1187,8 +1199,10 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
         {/* <div className="mb-4">
           <ReportBody selectedReport={updateReport as Report} />
         </div> */}
-        <ReportTable6 />
-        <ReportTable />
+        <div className="md:grid md:grid-cols-2 gap-4">
+          <ReportTable6 />
+          <ReportTable />
+        </div>
         {selectedReport && <ReportBody selectedReport={selectedReport} />}
         <div className="grid md:grid-cols-3 gap-4">
           <Chart
@@ -1337,24 +1351,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+130 (+3.3%)",
-    views: "+101,612 (+2.3%)",
-    likes: "+5,216 (+2.1%)",
-    comments: "+25 (+1.2%)",
+    followers: "+101 (+2.5%)",
+    views: "+75,238 (+1.6%)",
+    likes: "+5,262 (+2.0%)",
+    comments: "+23 (+1.1%)",
   },
   {
     platform: "YouTube",
-    followers: "+8 (+5.8%)",
-    views: "+24,414 (+4.7%)",
-    likes: "+259 (+6.7%)",
-    comments: "+12 (+10.5%)",
+    followers: "+3 (+2.0%)",
+    views: "+8,205 (+1.5%)",
+    likes: "+85 (+2.1%)",
+    comments: "+1 (+0.8%)",
   },
   {
     platform: "Instagram",
-    followers: "+128 (+36.4%)",
-    views: "+408,483 (+58.6%)",
-    likes: "+14,135 (+108.2%)",
-    comments: "+17 (+12.4%)",
+    followers: "+43 (+9.0%)",
+    views: "+108,688 (+9.8%)",
+    likes: "+4,053 (+14.9%)",
+    comments: "+6 (+3.9%)",
   },
 ];
 
@@ -1363,6 +1377,7 @@ const ReportTable = () => {
     <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
       <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
         2 Week Performance Report
+        <h4 className="text-sm text-white/40">Last Updated 3/8</h4>
       </h2>
 
       <div className="overflow-x-auto">
@@ -1426,6 +1441,7 @@ const ReportTable6 = () => {
     <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
       <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
         6 Month Performance Report
+        <h4 className="text-sm text-white/40">Last Updated 2/26</h4>
       </h2>
 
       <div className="overflow-x-auto">
