@@ -773,9 +773,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "2-22-2026 - 3-8-2026",
       reportDate: "3-8-2026",
       body: `## Content Performance & Strategy Update
-  - Instagram: We had another video pop off here with over 350k views. Posts here are averaging around 3k Views. Making instagram our new top platform.
-  - Youtube: Had a video here do 11k views making it the second best performer on youtube. If posts don't flop here they will usually hit 1k-5k views. we will be recycling flops to try and get them more reach.
-  - Tiktok: Hit the big milestone here of 4k followers. Views are relatively low here but still getting the best view retention.`,
+  - Instagram: We had another solid viral video with 45k views. Still seeing consistent follower growth. 
+  - Youtube: Videos averaging 1k views. We have some recycled videos that will be re-posted to see if we can get more views out of them.
+  - Tiktok: Had one video do well with 31K views. Not the best views recently but follower count is still growing consistently.`,
       totalEngagement: getDataFromWeek("3-8-2026").totalEngagement,
       totalFollowers: getDataFromWeek("3-8-2026").totalFollowers,
       totalPosts: getDataFromWeek("3-8-2026").totalPosts,
