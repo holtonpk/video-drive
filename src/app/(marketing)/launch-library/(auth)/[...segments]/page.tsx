@@ -27,13 +27,13 @@ const typedFieldDescriptions = fieldDescriptions as Record<
 >;
 
 type Props = {
-  params: Promise<{segments: string[]}> | {segments: string[]};
+  params: Promise<{segments: string[]}>;
 };
 
 async function resolveSegments(
   params: Props["params"],
 ): Promise<{segments: string[]}> {
-  const p = await Promise.resolve(params);
+  const p = await params;
   return {segments: p.segments ?? []};
 }
 
