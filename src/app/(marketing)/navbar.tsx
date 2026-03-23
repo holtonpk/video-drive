@@ -8,11 +8,11 @@ import {motion, AnimatePresence} from "framer-motion";
 import localFont from "next/font/local";
 
 const bigFont = localFont({
-  src: "./fonts/HeadingNowTrial-57Extrabold.ttf",
+  src: "./fonts/HeadingNow-57Extrabold.ttf",
 });
 
 const h1Font = localFont({
-  src: "./fonts/HeadingNowTrial-56Bold.ttf",
+  src: "./fonts/HeadingNow-56Bold.ttf",
 });
 
 const h2Font = localFont({
@@ -115,6 +115,12 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
                 >
                   Services
                 </LinkButton>
+                <LinkButton
+                  href="/launch-library"
+                  className={`text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
+                >
+                  Launch Library
+                </LinkButton>
               </div>
               <Link
                 href="/contact"
@@ -164,6 +170,12 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
                 className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
               >
                 Services
+              </LinkButton>
+              <LinkButton
+                href="/launch-library"
+                className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
+              >
+                Launch Library
               </LinkButton>
             </div>
 
