@@ -4,6 +4,17 @@ import {db} from "@/config/firebase";
 import {getDoc, doc} from "firebase/firestore";
 import {UserData} from "@/context/user-auth";
 
+export function useDebouncedValue<T>(value: T, delay = 250): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(timeout);
+  }, [value, delay]);
+
+  return debounced;
+}
+
 interface IntersectionObserverOptions {
   root?: Element | null;
   rootMargin?: string;
