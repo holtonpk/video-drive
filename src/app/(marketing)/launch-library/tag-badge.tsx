@@ -20,6 +20,7 @@ export const TagBadge = ({
   return (
     <a
       href={`/launch-library/${fieldCategory}/${slugifyFieldValue(tag)}`}
+      data-interactive="true"
       onClick={(e) => e.stopPropagation()}
       className={className ?? defaultRowClass}
     >

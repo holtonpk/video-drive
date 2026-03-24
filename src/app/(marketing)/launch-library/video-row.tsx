@@ -41,12 +41,28 @@ export const VideoCard = ({
 }) => {
   const router = useRouter();
 
-  const handleNavigate = () => {
-    const pathSlug = video.slug ?? baseSlugFromName(video.name);
-    router.push(`/launch-library/${pathSlug}`);
+  const pathSlug = useMemo(
+    () => video.slug ?? baseSlugFromName(video.name),
+    [video.slug, video.name],
+  );
+  const href = `/launch-library/${pathSlug}`;
+
+  const handleNavigate = (
+    e?: React.MouseEvent<HTMLElement> | React.PointerEvent<HTMLElement>,
+  ) => {
+    const target = e?.target;
+    const el =
+      target instanceof Element
+        ? target
+        : (target as Node | null)?.parentElement;
+    if (el?.closest("[data-interactive='true']")) {
+      return;
+    }
+
+    router.push(href);
   };
 
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLAnchorElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -128,6 +144,8 @@ export const VideoCard = ({
   };
 
   const handleEnter = () => {
+    router.prefetch(href);
+
     isHoveringCardRef.current = true;
     setIsHoveringCard(true);
     updatePreviewPosition();
@@ -153,6 +171,8 @@ export const VideoCard = ({
   };
 
   const handlePreviewEnter = () => {
+    router.prefetch(href);
+
     isHoveringPreviewRef.current = true;
     setIsHoveringPreview(true);
     clearExitTimeout();
@@ -212,13 +232,15 @@ export const VideoCard = ({
 
   return (
     <>
-      <div
+      <Link
+        href={href}
         ref={cardRef}
+        prefetch
         className="shrink-0 relative cursor-pointer flex aspect-video h-36 items-center justify-center overflow-hidden rounded-[12px] bg-muted"
         style={{width: CARD_WIDTH}}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        onClick={handleNavigate}
+        onPointerDown={() => router.prefetch(href)}
       >
         <Image
           src={video.thumbnail ?? ""}
@@ -234,7 +256,7 @@ export const VideoCard = ({
             </div>
           </div>
         )}
-      </div>
+      </Link>
 
       {mounted &&
         isPreviewMounted &&
@@ -253,7 +275,7 @@ export const VideoCard = ({
             }}
             onMouseEnter={handlePreviewEnter}
             onMouseLeave={handlePreviewLeave}
-            onClick={handleNavigate}
+            onPointerDown={handleNavigate}
           >
             <div className="relative w-full aspect-video shrink-0 overflow-hidden bg-muted">
               {video.thumbnail && (
@@ -284,6 +306,7 @@ export const VideoCard = ({
 
               <button
                 type="button"
+                data-interactive="true"
                 aria-label={isMuted ? "Unmute preview" : "Mute preview"}
                 onClick={(e) => {
                   e.stopPropagation();

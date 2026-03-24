@@ -26,7 +26,7 @@ export const Hero = ({
   description?: string;
 }) => {
   return (
-    <div className="container mx-auto relative flex flex-col items-center pt-10 gap-6 ">
+    <div className="container mx-auto relative flex flex-col items-center pt-10 gap-6">
       <div className="flex max-w-[800px] flex-col gap-6 items-center">
         <div
           className={`px-3 py-2 border-2 border-theme-color1 uppercase rounded-[8px] text-2xl w-fit -rotate-6 ${bigFontTest.className}`}

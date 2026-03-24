@@ -99,13 +99,12 @@ const VideoPage = ({
 
   return (
     <main className="flex flex-1 flex-col px-6 py-10 text-white">
-      <Link
+      {/* <Link
         href="/launch-library"
-        className="mb-6 w-fit hover:underline text-sm text-white/60 hover:text-white"
+        className="hidden sm:block absolute z-30 left-8 top-28  w-fit text-sm text-white/60 hover:text-white hover:underline"
       >
         ← Back to Launch Library
-      </Link>
-
+      </Link> */}
       <div className="grid grid-cols-[65%_1fr] items-center ">
         <VideoPlayer
           src={video.videoUrl ?? ""}

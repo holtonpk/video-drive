@@ -2,143 +2,139 @@
   "cohort": {
     "fall-2024": {
       "label": "Fall 2024",
-      "description": "93 startups from YC Fall 2024. A highly selective batch featuring AI startup launch videos, product demo videos, and modern video marketing strategies. Many companies focus on AI-powered tools, SaaS platforms, and creative advertising content for global markets."
+      "description": "93 startups from YC Fall 2024. Launch videos in this cohort primarily use problem-to-solution storytelling, product demos, and founder-led formats, with minimal, cinematic styles supported by motion graphics and live action."
     },
     "fall-2025": {
       "label": "Fall 2025",
-      "description": "147 startups in YC Fall 2025. A strong mix of AI video-driven startups, B2B SaaS launches, and innovative advertising campaigns. This batch highlights modern startup launch videos, growth marketing strategies, and AI-first product demos."
+      "description": "147 startups in YC Fall 2025. Most launch videos combine founder-led delivery, skits, and product demos, using problem-to-solution storytelling with cinematic, fast-paced, and minimal production styles."
     },
     "spring-2025": {
       "label": "Spring 2025",
-      "description": "145 startups from YC Spring 2025. Focused on AI agents, automation, and enterprise tools, with high-quality launch videos, product walkthroughs, and video marketing content designed for rapid growth and customer acquisition."
-    },
-    "sprint-2021": {
-      "label": "Sprint 2021",
-      "description": "Experimental YC Sprint 2021 batch. A smaller cohort featuring early-stage startup launch videos and rapid iteration products, with a focus on lean marketing, video storytelling, and fast product validation."
+      "description": "145 startups from YC Spring 2025. Launch videos in this cohort lean on problem-to-solution explainers and product demos, with minimal, fast-paced, and cinematic tones supported by motion graphics and live action."
     },
     "summer-2020": {
       "label": "Summer 2020",
-      "description": "208 startups from YC Summer 2020, the first fully remote batch. Features a wide range of startup launch videos, remote-first product demos, and digital marketing strategies during the global shift to online business."
+      "description": "208 startups from YC Summer 2020, the first fully remote batch. Launch videos in this cohort focus on straightforward product demos and explainers, often using simple, minimal formats with screen recordings and lightweight production."
     },
     "summer-2021": {
       "label": "Summer 2021",
-      "description": "291 startups in YC Summer 2021, one of the largest batches ever. Includes a massive collection of startup launch videos, fintech product demos, and high-growth video marketing campaigns during the startup boom."
+      "description": "291 startups in YC Summer 2021, one of the largest batches ever. This cohort features a wide range of product demos, founder-led videos, and problem-to-solution explainers, typically using minimal and clear storytelling formats."
     },
     "summer-2022": {
       "label": "Summer 2022",
-      "description": "234 startups from YC Summer 2022. A more focused batch with strong emphasis on SaaS, fintech, and efficient growth. Launch videos highlight clearer messaging, product demos, and performance-driven advertising content."
+      "description": "234 startups from YC Summer 2022. Launch videos emphasize product demos and problem-to-solution storytelling, with minimal and cinematic styles supported by motion graphics and clear explanations."
     },
     "summer-2023": {
       "label": "Summer 2023",
-      "description": "220 startups from YC Summer 2023. One of the first major waves of AI startup launch videos following the rise of generative AI. Includes AI video tools, automation platforms, and creative marketing experiments."
+      "description": "220 startups from YC Summer 2023. Most launches combine founder-led storytelling, product demos, and skit-based formats, using minimal, relatable, and fast-paced editing styles."
     },
     "summer-2024": {
       "label": "Summer 2024",
-      "description": "248 startups in YC Summer 2024. Dominated by AI-first companies with high-quality launch videos, product demo videos, and advanced video marketing strategies across SaaS, developer tools, and automation."
+      "description": "248 startups in YC Summer 2024. Launch videos in this cohort commonly use product demos, narrative elements, and problem-to-solution storytelling, with fast-paced, minimal formats and motion graphics."
     },
     "summer-2025": {
       "label": "Summer 2025",
-      "description": "166 startups from YC Summer 2025. A more curated batch featuring strong AI startup launch videos, robotics demos, and high-conversion video advertising focused on real-world applications and revenue."
+      "description": "166 startups from YC Summer 2025. This cohort leans heavily on founder-led videos, skits, and product demos, using problem-to-solution storytelling with cinematic, minimal, and fast-paced production."
     },
     "winter-2020": {
       "label": "Winter 2020",
-      "description": "229 startups from YC Winter 2020. A pre-pandemic batch featuring classic startup launch videos, SaaS demos, and early-stage video marketing strategies across fintech, marketplaces, and software."
+      "description": "229 startups from YC Winter 2020. A pre pandemic batch featuring classic startup launch videos. Launch videos in this cohort are primarily simple product demos and explainers, using minimal formats with screen recordings and straightforward messaging."
     },
     "winter-2021": {
       "label": "Winter 2021",
-      "description": "336 startups in YC Winter 2021. A major expansion during the startup boom, with a huge variety of launch videos, product demos, and global video marketing campaigns from remote-first companies."
+      "description": "336 startups in YC Winter 2021. A major expansion during the startup boom, with a huge variety of launch videos. A large mix of product demos, founder-led videos, and explainers, typically using minimal, clear, and functional storytelling approaches."
     },
     "winter-2022": {
       "label": "Winter 2022",
-      "description": "399 startups from YC Winter 2022, the largest batch ever. Features hundreds of startup launch videos across crypto, fintech, SaaS, and consumer apps, showcasing peak startup growth and advertising experimentation."
+      "description": "399 startups from YC Winter 2022, the largest batch ever. Features hundreds of startup launch videos across crypto, fintech, SaaS, and consumer apps. Launch videos are dominated by product demos and problem-to-solution explainers, using minimal formats with motion graphics and clear messaging."
     },
     "winter-2023": {
       "label": "Winter 2023",
-      "description": "275 startups in YC Winter 2023. A more disciplined batch with focus on efficient growth, AI-powered products, and clearer startup launch videos with strong messaging and conversion-focused video marketing."
+      "description": "275 startups in YC Winter 2023. This cohort features more structured problem-to-solution storytelling, with product demos and founder-led formats using minimal and cinematic styles."
     },
     "winter-2024": {
       "label": "Winter 2024",
-      "description": "251 startups from YC Winter 2024. Strong presence of generative AI startups with high-quality AI video demos, product walkthroughs, and modern advertising strategies for enterprise and consumer markets."
+      "description": "251 startups from YC Winter 2024. Launch videos commonly combine product demos, narrative elements, and problem-to-solution storytelling, using fast-paced, minimal, and cinematic formats."
     },
     "winter-2025": {
       "label": "Winter 2025",
-      "description": "167 startups in YC Winter 2025. A selective batch focused on AI agents, automation, and deep tech, with launch videos designed to replace traditional workflows and drive high-impact video marketing."
+      "description": "167 startups in YC Winter 2025. This cohort emphasizes product demos and explainers, with minimal, fast-paced formats supported by motion graphics and clear storytelling."
     },
     "winter-2026": {
       "label": "Winter 2026",
-      "description": "199 startups from YC Winter 2026. Features next-generation AI startup launch videos, robotics demos, and enterprise AI systems with advanced video marketing and advertising strategies for real-world deployment."
+      "description": "199 startups from YC Winter 2026. Launch videos frequently use founder-led storytelling, skits, and product demos, built around problem-to-solution structures with cinematic, minimal, and fast-paced production."
     }
   },
   "industry": {
     "b2b": {
       "label": "B2B",
-      "description": "B2B startups sell to businesses, so the best startup launch videos focus on clarity, ROI, and workflow impact. High-performing B2B product demo videos highlight specific use cases, before-and-after comparisons, and measurable outcomes. Strong B2B video marketing avoids fluff and instead shows how the product saves time, reduces cost, or increases revenue. Ideal formats include screen recordings, AI-powered demos, and concise explainer videos tailored for decision-makers."
+      "description": "B2B startups sell to businesses, but the best launch videos go beyond clarity alone. Strong B2B content clearly communicates the product, use case, and value—while using creative storytelling, distinct concepts, and brand personality to stand out. High-performing launches often combine problem-to-solution framing with narrative, humor, or founder-led delivery, proving that effective B2B video marketing can be both clear and creatively differentiated."
     },
     "b2c": {
       "label": "B2C",
-      "description": "B2C startups target individual users, making emotional storytelling and attention-grabbing visuals critical in launch videos. The best B2C startup videos combine fast pacing, relatable scenarios, and strong hooks within the first few seconds. High-performing video marketing in B2C often includes lifestyle visuals, influencer-style content, and viral advertising formats designed for platforms like TikTok and Instagram."
+      "description": "B2C startups target individual users, making emotional storytelling and attention grabbing visuals critical in launch videos. The best B2C startup videos combine fast pacing, relatable scenarios, and strong hooks within the first few seconds. High performing video marketing in B2C often includes lifestyle visuals, influencer style content, and viral advertising formats designed for platforms like TikTok and Instagram."
     },
     "consumer": {
       "label": "Consumer",
-      "description": "Consumer startups focus on mass adoption, so launch videos should be simple, engaging, and instantly understandable. The best consumer startup launch videos highlight the product in action, emphasize ease of use, and create a strong visual identity. Effective video marketing combines product demos with storytelling to drive downloads, signups, or purchases at scale."
+      "description": "Consumer startups compete for attention, so launch videos need to hook fast and feel native to the platforms they live on. The strongest launches show the product in action while using visual storytelling, pacing, and identity to drive interest. High-performing videos often blend product demos with narrative or social-first formats to make the experience memorable and shareable."
     },
     "edtech": {
       "label": "EdTech",
-      "description": "EdTech startups require clear communication of value and outcomes. The best EdTech launch videos focus on transformation—what users learn or achieve. High-performing product demo videos often include UI walkthroughs, real learning scenarios, and proof of results. Strong video marketing in education combines clarity, trust, and simplicity to appeal to both students and institutions."
+      "description": "EdTech startups require clear communication of value and outcomes. The best EdTech launch videos focus on transformation—what users learn or achieve. High performing product demo videos often include UI walkthroughs, real learning scenarios, and proof of results. Strong video marketing in education combines clarity, trust, and simplicity to appeal to teachers, students, and institutions."
     },
     "fintech": {
       "label": "Fintech",
-      "description": "Fintech startups must balance trust and innovation. The best fintech launch videos emphasize security, reliability, and ease of use while clearly explaining complex financial concepts. High-converting product demo videos simplify flows like payments, investing, or banking through clean visuals and strong UX demonstrations. Effective fintech video marketing builds credibility while showcasing speed and convenience."
+      "description": "Fintech startups need to build trust while simplifying complexity. The best launch videos make financial workflows feel intuitive, using clear visuals and structured storytelling to break down products like payments, investing, or banking. Strong launches balance credibility with clarity, often combining product demos with clean, minimal, or narrative-driven formats."
     },
     "government": {
       "label": "Government",
-      "description": "Government-focused startups need clarity, compliance, and real-world impact in their launch videos. The best videos highlight efficiency improvements, cost savings, and large-scale implementation. High-performing video marketing in this space focuses on trust, reliability, and long-term value rather than hype, often using case-study-style storytelling and clear product demonstrations."
+      "description": "Government focused startups need clarity, compliance, and real world impact in their launch videos. The best videos highlight efficiency improvements, cost savings, and large scale implementation. High performing video marketing in this space focuses on trust, reliability, and long term value rather than hype, often using case study style storytelling and clear product demonstrations."
     },
     "healthcare": {
       "label": "Healthcare",
-      "description": "Healthcare startups require trust, accuracy, and clarity in their launch videos. The best healthcare product demo videos explain complex solutions in a simple and visual way, often showing patient outcomes or clinical workflows. Strong video marketing emphasizes credibility, compliance, and real-world impact, making it easier for providers and patients to understand the value."
+      "description": "Healthcare startups require trust, accuracy, and clarity in their launch videos. The best healthcare product demo videos explain complex solutions in a simple and visual way, often showing patient outcomes or clinical workflows. Strong video marketing emphasizes credibility, compliance, and real world impact, making it easier for providers and patients to understand the value."
     },
     "industrials": {
       "label": "Industrials",
-      "description": "Industrial startups focus on physical systems, logistics, and infrastructure, so launch videos should clearly show the product in action. The best industrial startup videos highlight real-world environments, operational efficiency, and measurable improvements. High-performing video marketing uses demonstrations, before-and-after comparisons, and practical use cases to communicate value."
+      "description": "Industrial startups operate in real-world environments, so the most effective launch videos show the product in action. Strong launches highlight operational impact through clear demonstrations, before-and-after comparisons, and real use cases. The best videos combine practical visuals with structured storytelling to make complex systems easy to understand."
     },
     "real-estate": {
       "label": "Real Estate",
-      "description": "Real estate startups rely heavily on visuals, making high-quality video essential. The best real estate launch videos showcase properties, platforms, or workflows through cinematic visuals and clear navigation. Effective video marketing highlights user experience, transaction simplicity, and value for buyers, sellers, or agents, often combining product demos with lifestyle imagery."
+      "description": "Real estate startups rely heavily on visuals, making high quality video essential. The best real estate launch videos showcase properties, platforms, or workflows through cinematic visuals and clear navigation. Effective video marketing highlights user experience, transaction simplicity, and value for buyers, sellers, or agents, often combining product demos with lifestyle imagery."
     }
   },
   "sector": {
     "agriculture": {
       "label": "Agriculture",
-      "description": "Agriculture startups focus on real-world impact, so the best launch videos show the product working in the field. High-performing startup launch videos highlight efficiency gains, yield improvements, and automation using clear before-and-after visuals. Strong video marketing in agtech combines real footage with simple product demos to build trust and demonstrate value."
+      "description": "Agriculture startups focus on real world impact, so the best launch videos show the product working in the field. High performing startup launch videos highlight efficiency gains, yield improvements, and automation using clear before and after visuals. Strong video marketing in agtech combines real footage with simple product demos to build trust and demonstrate value."
     },
     "analytics": {
       "label": "Analytics",
-      "description": "Analytics startups should focus on clarity and insight. The best product demo videos visualize data transformation—turning raw data into actionable insights. High-performing launch videos use dashboards, charts, and real use cases to show how decisions improve. Effective video marketing emphasizes speed, accuracy, and business impact."
+      "description": "Analytics startups should focus on clarity and insight. The best product demo videos visualize data transformation—turning raw data into actionable insights. High performing launch videos use dashboards, charts, and real use cases to show how decisions improve. Effective video marketing emphasizes speed, accuracy, and business impact."
     },
     "apprael-cosmetics": {
       "label": "Apprael Cosmetics",
-      "description": "Apparel and cosmetics startups rely heavily on visuals and branding. The best launch videos focus on aesthetics, lifestyle storytelling, and product experience. High-performing video marketing includes influencer-style content, close-up product shots, and emotional hooks that drive engagement and conversions."
+      "description": "Apparel and cosmetics startups rely heavily on visuals and branding. The best launch videos focus on aesthetics, lifestyle storytelling, and product experience. High performing video marketing includes influencer style content, close up product shots, and emotional hooks that drive engagement and conversions."
     },
     "automotive": {
       "label": "Automotive",
-      "description": "Automotive startups should highlight performance, innovation, and real-world usage. The best startup launch videos showcase the product in motion, focusing on features, design, and user experience. Strong video marketing combines cinematic visuals with clear product demonstrations."
+      "description": "Automotive startups should highlight performance, innovation, and real world usage. The best startup launch videos showcase the product in motion, focusing on features, design, and user experience. Strong video marketing combines cinematic visuals with clear product demonstrations."
     },
     "aviation-and-space": {
       "label": "Aviation & Space",
-      "description": "Aviation and space startups require clarity and credibility. The best launch videos simplify complex systems using visuals, simulations, and real-world applications. High-performing product demo videos highlight innovation, scale, and technical breakthroughs while maintaining accessibility."
+      "description": "Aviation and space startups require clarity and credibility. The best launch videos simplify complex systems using visuals, simulations, and real world applications. High performing product demo videos highlight innovation, scale, and technical breakthroughs while maintaining accessibility."
     },
     "banking-and-exchange": {
       "label": "Banking & Exchange",
-      "description": "Banking and exchange startups must build trust quickly. The best fintech launch videos focus on security, ease of use, and transaction speed. High-converting product demo videos simplify financial flows and highlight reliability through clean visuals and clear messaging."
+      "description": "Banking and exchange startups must build trust quickly. The best fintech launch videos focus on security, ease of use, and transaction speed. High converting product demo videos simplify financial flows and highlight reliability through clean visuals and clear messaging."
     },
     "biology": {
       "label": "Biology",
-      "description": "Biology startups deal with complex science, so launch videos should focus on simplification. The best videos use visuals, animations, and storytelling to explain biological processes and real-world impact. Effective video marketing emphasizes clarity, credibility, and outcomes."
+      "description": "Biology startups deal with complex science, so launch videos should focus on simplification. The best videos use visuals, animations, and storytelling to explain biological processes and real world impact. Effective video marketing emphasizes clarity, credibility, and outcomes."
     },
     "climate": {
       "label": "Climate",
-      "description": "Climate startups should highlight impact and urgency. The best launch videos show measurable environmental outcomes, real-world deployments, and scalable solutions. High-performing video marketing combines storytelling with data to communicate both mission and results."
+      "description": "Climate startups often need to communicate both impact and scale. The best launch videos ground big ideas in real-world applications, showing how the product works and what it changes. Strong launches combine storytelling with clear visuals or data to make environmental impact tangible and credible."
     },
     "consumer-electronics": {
       "label": "Consumer Electronics",
@@ -146,15 +142,15 @@
     },
     "developers": {
       "label": "Developers",
-      "description": "Developer-focused startups should prioritize clarity and technical depth. The best launch videos include code-level demos, real workflows, and clear problem-solution framing. High-performing video marketing avoids fluff and focuses on speed, flexibility, and integration."
+      "description": "Developer-focused startups need to communicate technical value quickly and clearly. The best launch videos show real workflows, code-level interactions, or product behavior in action, often using direct demos or problem-to-solution framing. While clarity is critical, the strongest launches use pacing, structure, and creative hooks to keep highly technical content engaging."
     },
     "drones": {
       "label": "Drones",
-      "description": "Drone startups benefit from dynamic visuals. The best launch videos showcase aerial footage, real-world applications, and performance capabilities. Strong video marketing highlights precision, autonomy, and use cases across industries."
+      "description": "Drone startups benefit from dynamic visuals. The best launch videos showcase aerial footage, real world applications, and performance capabilities. Strong video marketing highlights precision, autonomy, and use cases across industries."
     },
     "drug-discovery": {
       "label": "Drug Discovery",
-      "description": "Drug discovery startups must simplify complex processes. The best launch videos explain how the technology accelerates research and improves outcomes. High-performing product demo videos combine animation, data, and real-world impact to build credibility."
+      "description": "Drug discovery startups must simplify complex processes. The best launch videos explain how the technology accelerates research and improves outcomes. High performing product demo videos combine animation, data, and real world impact to build credibility."
     },
     "education": {
       "label": "Education",
@@ -162,11 +158,11 @@
     },
     "energy": {
       "label": "Energy",
-      "description": "Energy startups should highlight efficiency, sustainability, and scale. The best launch videos demonstrate real-world applications and measurable impact. Strong video marketing uses visuals and data to communicate innovation and reliability."
+      "description": "Energy startups should highlight efficiency, sustainability, and scale. The best launch videos demonstrate real world applications and measurable impact. Strong video marketing uses visuals and data to communicate innovation and reliability."
     },
     "engineering": {
       "label": "Engineering",
-      "description": "Engineering startups should focus on problem-solving and technical excellence. The best launch videos break down complex systems into simple visuals and demonstrate clear value. High-performing video marketing emphasizes precision and innovation."
+      "description": "Engineering startups should focus on problem solving and technical excellence. The best launch videos break down complex systems into simple visuals and demonstrate clear value. High performing video marketing emphasizes precision and innovation."
     },
     "finance-and-accounting": {
       "label": "Finance & Accounting",
@@ -178,11 +174,11 @@
     },
     "gaming": {
       "label": "Gaming",
-      "description": "Gaming startups should focus on excitement and engagement. The best launch videos highlight gameplay, visuals, and unique mechanics. High-performing video marketing uses fast pacing, strong hooks, and immersive experiences."
+      "description": "Gaming startups should focus on excitement and engagement. The best launch videos highlight gameplay, visuals, and unique mechanics. High performing video marketing uses fast pacing, strong hooks, and immersive experiences."
     },
     "healthcare": {
       "label": "Healthcare",
-      "description": "Healthcare startups need trust and clarity. The best launch videos show real-world use cases, patient outcomes, and clinical workflows. Effective video marketing emphasizes credibility, compliance, and impact."
+      "description": "Healthcare startups need trust and clarity. The best launch videos show real world use cases, patient outcomes, and clinical workflows. Effective video marketing emphasizes credibility, compliance, and impact."
     },
     "human-resources": {
       "label": "Human Resources",
@@ -190,7 +186,7 @@
     },
     "infrastructure": {
       "label": "Infrastructure",
-      "description": "Infrastructure startups should focus on scale and reliability. The best launch videos demonstrate performance, uptime, and real-world deployment. High-performing video marketing emphasizes robustness and long-term value."
+      "description": "Infrastructure startups should focus on scale and reliability. The best launch videos demonstrate performance, uptime, and real world deployment. High performing video marketing emphasizes robustness and long term value."
     },
     "insurance": {
       "label": "Insurance",
@@ -202,191 +198,191 @@
     },
     "legal": {
       "label": "Legal",
-      "description": "Legal startups need clarity and trust. The best launch videos simplify legal workflows and highlight efficiency gains. Strong video marketing focuses on accessibility, automation, and compliance."
+      "description": "Legal startups need to build trust while simplifying complexity. The strongest launch videos make legal workflows feel accessible, using clear explanations, structured storytelling, and real use cases. While clarity is critical, standout launches use tone and pacing to make traditionally dense topics more engaging."
     },
     "manufacturing-and-robotics": {
       "label": "Manufacturing & Robotics",
-      "description": "Manufacturing and robotics startups should show the product in action. The best launch videos highlight automation, precision, and efficiency. High-performing video marketing uses real-world footage and clear demonstrations."
+      "description": "Manufacturing and robotics startups benefit from showing the product in real-world environments. The most effective launch videos highlight automation, precision, and physical impact through clear demonstrations and operational context. Strong launches combine practical footage with structured storytelling to make complex systems easy to grasp."
     },
     "marketing": {
       "label": "Marketing",
-      "description": "Marketing startups should lead with results. The best launch videos show campaign outcomes, growth metrics, and real use cases. High-performing video marketing uses storytelling, data, and clear value propositions."
+      "description": "Marketing startups operate in a crowded, high-expectation space. The best launch videos don’t just explain the product—they prove it. Strong launches often show real outputs, campaigns, or transformations while using storytelling and pacing to make results feel tangible and immediate."
     },
     "operations": {
       "label": "Operations",
-      "description": "Operations startups should focus on efficiency and workflows. The best product demo videos highlight process improvements and time savings. Effective video marketing emphasizes simplicity and impact."
+      "description": "Operations startups focus on improving workflows, so the most effective launch videos make processes visible. Strong launches break down before-and-after states, showing how systems become faster, simpler, or more reliable. Clarity is key, but structure and pacing help make complex workflows easy to follow."
     },
     "payment": {
       "label": "Payment",
-      "description": "Payment startups must emphasize speed, security, and ease of use. The best fintech launch videos show transaction flows and user experience clearly. High-converting video marketing builds trust while highlighting convenience."
+      "description": "Payment startups need to make complex financial interactions feel simple and fast. The best launch videos clearly show transaction flows and user experience while reinforcing trust through clean visuals and structure. Strong launches balance clarity with pacing to make speed and reliability feel tangible."
     },
     "product-design": {
       "label": "Product Design",
-      "description": "Product design startups should showcase creativity and workflow. The best launch videos highlight the design process, tools, and outcomes. Strong video marketing combines UI demos with storytelling."
+      "description": "Product design startups sit at the intersection of creativity and workflow. The strongest launch videos showcase the product in use while highlighting the creative process and outcomes. Great launches often combine UI demos with narrative or visual storytelling to reflect the product’s identity."
     },
     "productivity": {
       "label": "Productivity",
-      "description": "Productivity startups should focus on time savings and efficiency. The best product demo videos show clear before-and-after workflows. High-performing video marketing emphasizes simplicity and impact."
+      "description": "Productivity startups compete on efficiency, so the best launch videos make time savings obvious. Strong launches show clear before-and-after workflows, focusing on how tasks become faster or simpler. While clarity is essential, pacing and structure help reinforce the feeling of momentum and improvement."
     },
     "real-estate-and-construction": {
       "label": "Real Estate & Construction",
-      "description": "Real estate and construction startups should use strong visuals. The best launch videos show properties, tools, or workflows in action. Effective video marketing highlights ease of use and real-world value."
+      "description": "Real estate and construction startups rely on real-world context. The most effective launch videos show environments, workflows, or tools in action, grounding the product in practical use. Strong launches combine visual clarity with demonstrations that highlight efficiency, scale, or ease of execution."
     },
     "retail": {
       "label": "Retail",
-      "description": "Retail startups should focus on customer experience and product presentation. The best launch videos highlight shopping flows, product visuals, and brand identity. Strong video marketing drives engagement and conversions."
+      "description": "Retail startups are driven by experience and presentation. The best launch videos highlight the product visually while reinforcing brand identity and customer interaction. Strong launches often blend product-focused visuals with storytelling or lifestyle elements to make the experience feel immediate and desirable."
     },
     "sales": {
       "label": "Sales",
-      "description": "Sales startups should focus on outcomes and performance. The best launch videos show pipeline improvements, conversion rates, and workflows. Effective video marketing emphasizes results and ROI."
+      "description": "Sales startups focus on performance, but the best launch videos go beyond metrics alone. Strong launches show workflows, pipeline movement, or real use cases while using structure and pacing to make outcomes feel concrete. Clarity is important, but differentiation comes from how the story is told."
     },
     "security": {
       "label": "Security",
-      "description": "Security startups must build trust quickly. The best launch videos explain threats and solutions clearly. High-performing product demo videos highlight protection, reliability, and ease of use."
+      "description": "Security startups need to communicate risk and protection clearly. The most effective launch videos frame the problem quickly, then show how the product solves it in a simple, structured way. Strong launches balance trust and clarity while using visuals or storytelling to make abstract threats feel real."
     },
     "supply-chain-and-logistics": {
       "label": "Supply Chain & Logistics",
-      "description": "Supply chain and logistics startups should focus on efficiency and visibility. The best launch videos show movement of goods, tracking systems, and optimization. Strong video marketing emphasizes speed, reliability, and scale."
+      "description": "Supply chain and logistics startups deal with movement and coordination at scale. The best launch videos make these systems visible, showing how goods, data, or processes flow more efficiently. Strong launches combine real-world context with structured storytelling to highlight speed, reliability, and operational impact."
     }
   },
   "creative-format": {
     "abstract": {
       "label": "Abstract",
-      "description": "Abstract startup launch videos focus on visuals, motion, and mood rather than direct explanation. This format is ideal for AI startups, deep tech, and brand-first companies. High-performing abstract video marketing uses cinematic visuals, 3D animation, and sound design to create intrigue and curiosity. Best used as a top-of-funnel advertising video to capture attention and build brand identity."
+      "description": "Abstract launch videos communicate value without directly explaining the product. Instead of demos or walkthroughs, they rely on symbolism, metaphor, and visual storytelling to create meaning and intrigue. This format is harder to execute, but when done well, it can be one of the most distinctive and memorable ways to position a brand."
     },
     "animation": {
       "label": "Animation",
-      "description": "Animation is one of the most versatile formats for startup launch videos. It allows founders to explain complex ideas clearly through motion graphics and visual storytelling. The best animated product demo videos simplify concepts, highlight workflows, and maintain fast pacing. High-performing video marketing uses animation to make abstract or technical products easy to understand."
+      "description": "Animation is one of the most versatile formats for startup launch videos. It allows founders to explain complex ideas clearly through motion graphics and visual storytelling. The best animated product demo videos simplify concepts, highlight workflows, and maintain fast pacing. High performing video marketing uses animation to make abstract or technical products easy to understand."
     },
     "diy": {
       "label": "DIY",
-      "description": "DIY startup videos are low-production but highly authentic. This format works well for early-stage founders and scrappy launches. The best DIY launch videos focus on clarity, real use cases, and direct communication. High-performing video marketing in this format feels raw, relatable, and honest, often outperforming polished ads due to authenticity."
+      "description": "DIY startup videos are low production but highly authentic. This format works well for early stage founders and scrappy launches. The best DIY launch videos focus on clarity, real use cases, and direct communication. High performing video marketing in this format feels raw, relatable, and honest, often outperforming polished ads due to authenticity. This is where founders with no budget should be looking."
     },
     "founder-led": {
       "label": "Founder Led",
-      "description": "Founder-led videos feature the founder explaining the product directly, building trust and authenticity. This is one of the most effective startup launch video formats, especially for B2B and SaaS. The best founder-led product demos combine storytelling, clear problem-solution framing, and personal credibility. Strong video marketing in this format focuses on clarity and conviction."
+      "description": "Founder led videos feature the founder explaining the product directly, building trust and authenticity. This is one of the most effective startup launch video formats, especially for B2B and SaaS. The best founder led product demos combine storytelling, clear problem solution framing, and personal credibility. Strong video marketing in this format focuses on clarity and conviction."
     },
     "narrative": {
       "label": "Narrative",
-      "description": "Narrative startup videos use storytelling to engage the audience. This format is ideal for consumer startups and brand-driven products. The best narrative launch videos follow a clear story arc, showing a problem, journey, and resolution. High-performing video marketing combines emotional hooks with product integration to drive engagement and retention."
+      "description": "Narrative startup videos use storytelling to engage the audience. This format is ideal for consumer startups and brand driven products. The best narrative launch videos follow a clear story arc, showing a problem, journey, and resolution. High performing video marketing combines emotional hooks with product integration to drive engagement and retention."
     },
     "no-voive-over": {
       "label": "No Voive Over",
-      "description": "No voiceover videos rely entirely on visuals, text, and music to communicate the message. This format is ideal for global audiences and social media platforms. The best startup launch videos without voiceover use strong visual storytelling, captions, and fast pacing. High-performing video marketing in this format is highly shareable and easy to consume."
+      "description": "No voiceover videos rely entirely on visuals, text, and music to communicate the message. This format is ideal for global audiences and social media platforms. The best startup launch videos without voiceover use strong visual storytelling, captions, and fast pacing. High performing video marketing in this format is highly shareable and easy to consume."
     },
     "problem-solution": {
       "label": "Problem → Solution",
-      "description": "Problem-solution is the most proven startup launch video structure. It clearly shows a pain point and how the product solves it. The best product demo videos in this format start with a relatable problem, then quickly transition to the solution with a clear demonstration. High-converting video marketing uses this format to drive understanding and conversions."
+      "description": "Problem solution is the most proven startup launch video structure. It clearly shows a pain point and how the product solves it. The best product demo videos in this format start with a relatable problem, then quickly transition to the solution with a clear demonstration. High converting video marketing uses this format to drive understanding and conversions."
     },
     "product-demo": {
       "label": "Product Demo",
-      "description": "Product demo videos are essential for startups, especially in SaaS and AI. The best startup launch videos show the product in action, highlighting key features and workflows. High-performing product demo videos focus on clarity, speed, and real use cases. Strong video marketing ensures viewers understand the value within seconds."
+      "description": "Product demo videos are essential for startups, especially in SaaS and AI. The best startup launch videos show the product in action, highlighting key features and workflows. High performing product demo videos focus on clarity, speed, and real use cases. Strong video marketing ensures viewers understand the value within seconds."
     },
     "screen-recording-demos": {
       "label": "Screen Recording Demos",
-      "description": "Screen recording demos are ideal for software and developer tools. The best launch videos show real workflows, UI interactions, and product capabilities. High-performing video marketing in this format focuses on speed, clarity, and real-world usage. Often paired with voiceover or captions for maximum effectiveness."
+      "description": "Screen recording demos are ideal for software and developer tools. The best launch videos show real workflows, UI interactions, and product capabilities. High performing video marketing in this format focuses on speed, clarity, and real world usage. Often paired with voiceover or captions for maximum effectiveness."
     },
     "skit-sketch": {
       "label": "Skit / Sketch",
-      "description": "Skit or sketch videos use humor and scenarios to explain the product. This format is highly effective for viral marketing and consumer startups. The best startup launch videos in this category use relatable situations and strong hooks. High-performing video marketing combines entertainment with a clear product message."
+      "description": "Skit or sketch videos use humor and scenarios to explain the product. This format is highly effective for viral marketing and consumer startups. The best startup launch videos in this category use relatable situations and strong hooks. High performing video marketing combines entertainment with a clear product message."
     },
     "voiceover-explainers": {
       "label": "Voiceover Explainers",
-      "description": "Voiceover explainer videos use narration to guide the viewer through the product. This is a classic and effective format for startup launch videos, especially for complex products. The best explainer videos combine clear scripting, visuals, and pacing to simplify the message. High-performing video marketing ensures the voiceover adds clarity rather than noise."
+      "description": "Voiceover explainer videos use narration to guide the viewer through the product. This is a classic and effective format for startup launch videos, especially for complex products. The best explainer videos combine clear scripting, visuals, and pacing to simplify the message. High performing video marketing ensures the voiceover adds clarity rather than noise."
     }
   },
   "tone": {
     "analytical": {
       "label": "Analytical",
-      "description": "Analytical startup launch videos focus on logic, data, and clear reasoning. This tone works best for B2B, SaaS, and developer-focused products. High-performing product demo videos use metrics, comparisons, and structured explanations to show value. Effective video marketing in this tone prioritizes clarity, ROI, and decision-making over emotion."
+      "description": "Analytical startup launch videos focus on logic, data, and clear reasoning. This tone works best for B2B, SaaS, and developer focused products. High performing product demo videos use metrics, comparisons, and structured explanations to show value. Effective video marketing in this tone prioritizes clarity, ROI, and decision making over emotion."
     },
     "cinematic": {
       "label": "Cinematic",
-      "description": "Cinematic startup videos prioritize visuals, lighting, and production quality to create a premium feel. This tone is ideal for AI startups, consumer products, and brand-driven launches. The best launch videos use dramatic shots, smooth camera movement, and strong sound design. High-performing video marketing in this style captures attention and builds brand perception."
+      "description": "Cinematic startup videos prioritize visuals, lighting, and production quality to create a premium feel. This tone is ideal for AI startups, consumer products, and brand driven launches. The best launch videos use dramatic shots, smooth camera movement, and strong sound design. High performing video marketing in this style captures attention and builds brand perception."
     },
     "disruptive": {
       "label": "Disruptive",
-      "description": "Disruptive startup videos challenge the status quo and highlight how the product changes the market. This tone is effective for bold startups entering competitive spaces. The best launch videos use strong hooks, contrarian messaging, and clear differentiation. High-performing video marketing emphasizes why existing solutions are broken and how the new approach wins."
+      "description": "Disruptive startup videos challenge the status quo and highlight how the product changes the market. This tone is effective for bold startups entering competitive spaces. The best launch videos use strong hooks, contrarian messaging, and clear differentiation. High performing video marketing emphasizes why existing solutions are broken and how the new approach wins."
     },
     "dramatic": {
       "label": "Dramatic",
-      "description": "Dramatic startup videos use tension, contrast, and storytelling to highlight the problem and solution. This tone works well for high-impact industries like healthcare, climate, and finance. The best launch videos build emotional intensity before revealing the product. Strong video marketing uses pacing and narrative to keep viewers engaged."
+      "description": "Dramatic startup videos use tension, contrast, and storytelling to highlight the problem and solution. This tone works well for high impact industries like healthcare, climate, and finance. The best launch videos build emotional intensity before revealing the product. Strong video marketing uses pacing and narrative to keep viewers engaged."
     },
     "epic": {
       "label": "Epic",
-      "description": "Epic startup launch videos create a sense of scale, ambition, and future impact. This tone is ideal for AI, space, and deep tech startups. The best videos use bold visuals, powerful music, and visionary messaging. High-performing video marketing in this style positions the company as category-defining and forward-looking."
+      "description": "Epic startup launch videos create a sense of scale, ambition, and future impact. This tone is ideal for AI, space, and deep tech startups. The best videos use bold visuals, powerful music, and visionary messaging. High performing video marketing in this style positions the company as category defining and forward looking."
     },
     "explainer": {
       "label": "Explainer",
-      "description": "Explainer videos focus on clarity and understanding. This is one of the most effective tones for startup launch videos, especially for complex products. The best explainer videos break down the product step-by-step using visuals and narration. High-performing video marketing ensures the audience quickly understands what the product does and why it matters."
+      "description": "Explainer videos focus on clarity and understanding. This is one of the most effective tones for startup launch videos, especially for complex products. The best explainer videos break down the product step by step using visuals and narration. High performing video marketing ensures the audience quickly understands what the product does and why it matters."
     },
     "fast-paced": {
       "label": "Fast Paced",
-      "description": "Fast-paced startup videos prioritize speed, energy, and quick cuts to maintain attention. This tone works well for social media, AI tools, and consumer apps. The best launch videos deliver value within seconds using rapid visuals and concise messaging. High-performing video marketing in this style is optimized for short attention spans and high engagement."
+      "description": "Fast paced startup videos prioritize speed, energy, and quick cuts to maintain attention. This tone works well for social media, AI tools, and consumer apps. The best launch videos deliver value within seconds using rapid visuals and concise messaging. High performing video marketing in this style is optimized for short attention spans and high engagement."
     },
     "humour": {
       "label": "Humour",
-      "description": "Humorous startup videos use comedy, relatability, and entertainment to engage viewers. This tone is highly effective for viral marketing and consumer products. The best launch videos use skits, exaggeration, and unexpected moments to capture attention. High-performing video marketing blends humor with a clear product message."
+      "description": "Humorous startup videos use comedy, relatability, and entertainment to engage viewers. This tone is highly effective for viral marketing and consumer products. The best launch videos use skits, exaggeration, and unexpected moments to capture attention. High performing video marketing blends humor with a clear product message."
     },
     "inspirational": {
       "label": "Inspirational",
-      "description": "Inspirational startup videos focus on mission, vision, and impact. This tone works well for climate, healthcare, and purpose-driven companies. The best launch videos highlight the problem at a global level and position the product as part of the solution. Strong video marketing in this style motivates and resonates emotionally with the audience."
+      "description": "Inspirational startup videos focus on mission, vision, and impact. This tone works well for climate, healthcare, and purpose driven companies. The best launch videos highlight the problem at a global level and position the product as part of the solution. Strong video marketing in this style motivates and resonates emotionally with the audience."
     },
     "minimal": {
       "label": "Minimal",
-      "description": "Minimal startup videos focus on simplicity, clean design, and clear messaging. This tone is ideal for SaaS, productivity, and design-focused products. The best launch videos remove unnecessary elements and highlight the core value quickly. High-performing video marketing in this style emphasizes clarity and elegance."
+      "description": "Minimal startup videos focus on simplicity, clean design, and clear messaging. This tone is ideal for SaaS, productivity, and design focused products. The best launch videos remove unnecessary elements and highlight the core value quickly. High performing video marketing in this style emphasizes clarity and elegance."
     },
     "relatable": {
       "label": "Relatable",
-      "description": "Relatable startup videos focus on everyday scenarios and user experiences. This tone is highly effective for consumer and B2C products. The best launch videos show real-life problems and how the product fits naturally into daily life. High-performing video marketing uses familiarity to build connection and trust."
+      "description": "Relatable startup videos focus on everyday scenarios and user experiences. This tone is highly effective for consumer and B2C products. The best launch videos show real life problems and how the product fits naturally into daily life. High performing video marketing uses familiarity to build connection and trust."
     },
     "visionary": {
       "label": "Visionary",
-      "description": "Visionary startup videos focus on the future and big-picture impact. This tone is ideal for AI, deep tech, and category-defining startups. The best launch videos communicate where the world is going and how the product plays a role. High-performing video marketing positions the company as a leader shaping the future."
+      "description": "Visionary startup videos focus on the future and big picture impact. This tone is ideal for AI, deep tech, and category defining startups. The best launch videos communicate where the world is going and how the product plays a role. High performing video marketing positions the company as a leader shaping the future."
     }
   },
   "production": {
     "3d-animation": {
       "label": "3D Animation",
-      "description": "3D animation is a high-end production style used in premium startup launch videos. It is ideal for AI, deep tech, and hardware startups that need to visualize complex systems. The best 3D product demo videos use cinematic lighting, smooth motion, and abstract visuals to create a futuristic feel. High-performing video marketing in this style builds strong brand perception and captures attention."
+      "description": "3D animation is a high end production style used in premium startup launch videos. It is ideal for AI, deep tech, and hardware startups that need to visualize complex systems. The best 3D product demo videos use cinematic lighting, smooth motion, and abstract visuals to create a futuristic feel. High performing video marketing in this style builds strong brand perception and captures attention."
     },
     "ai-generated": {
       "label": "AI Generated",
-      "description": "AI-generated videos are a fast-growing format in startup video marketing. This production style allows founders to create high-quality launch videos quickly using tools like generative video, AI avatars, and synthetic visuals. The best AI startup videos combine speed, creativity, and storytelling while keeping production costs low. Ideal for rapid experimentation and scalable content creation."
+      "description": "AI generated videos are a fast growing format in startup video marketing. This production style allows founders to create high quality launch videos quickly using tools like generative video, AI avatars, and synthetic visuals. The best AI startup videos combine tasteful shot selection with creativity and storytelling while keeping production costs relatively low. Ideal for rapid experimentation and scalable content creation."
     },
     "animated": {
       "label": "Animated",
-      "description": "Animated videos use 2D visuals and illustrations to explain products clearly. This production style is ideal for SaaS, fintech, and educational startups. The best animated startup launch videos simplify complex ideas using motion and visual storytelling. High-performing video marketing in this format focuses on clarity, pacing, and strong messaging."
+      "description": "Animated videos use 2D visuals and illustrations to explain products clearly. This production style is ideal for SaaS, fintech, and educational startups. The best animated startup launch videos simplify complex ideas using motion and visual storytelling. High performing video marketing in this format focuses on clarity, pacing, and strong messaging."
     },
     "live-action": {
       "label": "Live Action",
-      "description": "Live action videos feature real people, environments, and products. This production style is highly effective for building trust and relatability. The best startup launch videos use real scenarios, testimonials, or lifestyle footage to demonstrate the product. High-performing video marketing in this format feels authentic and engaging."
+      "description": "Live action videos feature real people, environments, and products. This production style is highly effective for building trust and relatability. The best startup launch videos use real scenarios, testimonials, or lifestyle footage to demonstrate the product. High performing video marketing in this format feels authentic and engaging."
     },
     "motion-graphics": {
       "label": "Motion Graphics",
-      "description": "Motion graphics videos use text, shapes, and UI elements to explain ideas visually. This is one of the most common formats for startup launch videos. The best product demo videos combine motion graphics with UI flows to clearly communicate value. High-performing video marketing uses clean design, fast pacing, and clear hierarchy."
+      "description": "Motion graphics videos use text, shapes, and UI elements to explain ideas visually. This is one of the most common formats for startup launch videos. The best product demo videos combine motion graphics with UI flows to clearly communicate value. High performing video marketing uses clean design, fast pacing, and clear hierarchy."
     },
     "screen-recording": {
       "label": "Screen Recording",
-      "description": "Screen recording videos show the product directly through real usage. This production style is ideal for SaaS, developer tools, and AI products. The best startup launch videos highlight real workflows, key features, and speed of execution. High-performing product demo videos in this format focus on clarity and real-world use cases."
+      "description": "Screen recording videos show the product directly through real usage. This production style is ideal for SaaS, developer tools, and AI products. The best startup launch videos highlight real workflows, key features, and speed of execution. High performing product demo videos in this format focus on clarity and real world use cases. Often seen in DIY productions and the least optimal for distribution."
     },
     "stop-motion": {
       "label": "Stop Motion",
-      "description": "Stop motion videos use frame-by-frame physical animation to create a unique visual style. This production approach is less common but highly memorable. The best startup launch videos in this format stand out through creativity and craftsmanship. High-performing video marketing uses stop motion to create distinctive and engaging brand content."
+      "description": "Stop motion videos use frame by frame physical animation to create a unique visual style. This production approach is less common but highly memorable. The best startup launch videos in this format stand out through creativity and craftsmanship. High performing video marketing uses stop motion to create distinctive and engaging brand content."
     }
   },
   "hook": {
     "bold-claim": {
       "label": "Bold Claim",
-      "description": "Bold claim hooks immediately grab attention by making a strong, confident statement. This is one of the most effective startup launch video strategies for standing out in crowded markets. The best video marketing hooks highlight a clear outcome or breakthrough, such as saving time or replacing existing tools. High-performing advertising videos use bold claims to create curiosity and drive viewers to keep watching."
+      "description": "Bold claim hooks immediately grab attention by making a strong, confident statement. This is one of the most effective startup launch video strategies for standing out in crowded markets. The best video marketing hooks highlight a clear outcome or breakthrough, such as saving time or replacing existing tools. High performing advertising videos use bold claims to create curiosity and drive viewers to keep watching."
     },
     "emotional": {
       "label": "Emotional",
-      "description": "Emotional hooks connect with the audience on a personal level within the first few seconds. This approach works well for consumer startups, healthcare, and mission-driven products. The best startup launch videos use relatable struggles, aspirations, or human moments to build connection. Strong video marketing leverages emotion to increase engagement and retention."
+      "description": "Emotional hooks connect with the audience on a personal level within the first few seconds. This approach works well for consumer startups, healthcare, and mission driven products. The best startup launch videos use relatable struggles, aspirations, or human moments to build connection. Strong video marketing leverages emotion to increase engagement and retention."
     },
     "great": {
       "label": "Great",
-      "description": "Great hooks are well-crafted openings that combine clarity, curiosity, and strong execution. These hooks may not rely on a single tactic but instead balance messaging, visuals, and pacing. The best startup launch videos use great hooks to quickly communicate value while maintaining intrigue. High-performing video marketing ensures the first few seconds feel polished and intentional."
+      "description": "Great hooks are well crafted openings that combine clarity, curiosity, and strong execution. These hooks may not rely on a single tactic but instead balance messaging, visuals, and pacing. The best startup launch videos use great hooks to quickly communicate value while maintaining intrigue. High performing video marketing ensures the first few seconds feel polished and intentional."
     },
     "humor": {
       "label": "Humor",
@@ -394,27 +390,27 @@
     },
     "problem": {
       "label": "Problem",
-      "description": "Problem hooks start by highlighting a clear pain point that the audience recognizes immediately. This is one of the most proven startup launch video structures. The best product demo videos show the frustration first, making the solution more compelling. High-converting video marketing uses problem hooks to create instant relevance and engagement."
+      "description": "Problem hooks start by highlighting a clear pain point that the audience recognizes immediately. This is one of the most proven startup launch video structures. The best product demo videos show the frustration first, making the solution more compelling. High converting video marketing uses problem hooks to create instant relevance and engagement."
     },
     "question": {
       "label": "Question",
-      "description": "Question hooks engage the viewer by prompting curiosity or self-reflection. This format works well in startup launch videos and social media advertising. The best hooks ask a question the target audience immediately relates to. High-performing video marketing uses questions to pull viewers into the narrative and encourage continued watching."
+      "description": "Question hooks engage the viewer by prompting curiosity or self reflection. This format works well in startup launch videos and social media advertising. The best hooks ask a question the target audience immediately relates to. High performing video marketing uses questions to pull viewers into the narrative and encourage continued watching."
     },
     "ragebait": {
       "label": "Ragebait",
-      "description": "Ragebait hooks intentionally provoke a reaction, often by presenting a controversial or frustrating scenario. This format is common in high-engagement video marketing and social media advertising. The best startup launch videos use this carefully to spark attention without damaging trust. When done right, it drives strong engagement and shares."
+      "description": "Ragebait hooks intentionally provoke a reaction, often by presenting a controversial or frustrating scenario. This format is common in high engagement video marketing and social media advertising. The best startup launch videos use this carefully to spark attention without damaging trust. When done right, it drives strong engagement and shares."
     },
     "repetitive-montage": {
       "label": "Repetitive Montage",
-      "description": "Repetitive montage hooks use fast, repeated visuals or actions to create rhythm and grab attention. This format works well in fast-paced startup launch videos and product demos. The best video marketing examples use quick cuts to show scale, usage, or multiple scenarios in seconds, keeping viewers engaged from the start."
+      "description": "Montage hooks use fast, repeated visuals or actions to create rhythm and grab attention. This format works well in fast paced startup launch videos and product demos. The best video marketing examples use quick cuts to show scale, usage, or multiple scenarios in seconds, keeping viewers engaged from the start."
     },
     "statistic": {
       "label": "Statistic",
-      "description": "Statistic hooks use data points to immediately establish credibility and importance. This is highly effective in B2B, fintech, and analytics startup launch videos. The best product demo videos use a surprising or impactful stat to hook attention. High-performing video marketing uses statistics to frame the problem and justify the solution."
+      "description": "Statistic hooks use data points to immediately establish credibility and importance. This is highly effective in B2B, fintech, and analytics startup launch videos. The best product demo videos use a surprising or impactful stat to hook attention. High performing video marketing uses statistics to frame the problem and justify the solution."
     },
     "visual": {
       "label": "Visual",
-      "description": "Visual hooks rely on striking imagery or motion to capture attention instantly. This format is ideal for AI videos, product demos, and consumer startup launch videos. The best advertising videos use unexpected visuals, transformations, or dynamic motion in the first few seconds. High-performing video marketing ensures the visuals alone can stop the scroll."
+      "description": "Visual hooks rely on striking imagery or motion to capture attention instantly. This format is ideal for AI videos, product demos, and consumer startup launch videos. The best advertising videos use unexpected visuals, transformations, or dynamic motion in the first few seconds. High performing video marketing ensures the visuals alone can stop the scroll."
     }
   },
   "score": {

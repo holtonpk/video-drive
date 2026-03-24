@@ -119,7 +119,6 @@ const Page = async ({params}: Props) => {
     return (
       <div className="flex min-h-screen flex-col">
         <NavBar />
-
         <VideoPage video={video} allVideos={allVideos} />
         <Footer />
       </div>
@@ -156,7 +155,7 @@ const Page = async ({params}: Props) => {
         <NavBar />
         <Link
           href="/launch-library"
-          className="hidden sm:block absolute left-8 top-28  w-fit text-sm text-white/60 hover:text-white hover:underline"
+          className="hidden sm:block absolute left-8 top-28 z-40 w-fit text-sm text-white/60 hover:text-white hover:underline"
         >
           ← Back to Launch Library
         </Link>
