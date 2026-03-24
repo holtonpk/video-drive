@@ -2,12 +2,10 @@
 
 import React, {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import {Loader2} from "lucide-react";
 import VideoRowHeader from "./video-row-header";
 import {TopTen} from "./top-ten";
 import {LaunchLibraryContent} from "./launch-library-content";
@@ -32,11 +30,11 @@ function searchCacheKey(input: {
   });
 }
 
-export default function LaunchLibraryPageClient() {
-  const [homepageVideos, setHomepageVideos] = useState<VideoData[]>([]);
-  const [homeLoading, setHomeLoading] = useState(true);
-  const [homeError, setHomeError] = useState<string | null>(null);
-
+export default function LaunchLibraryPageClient({
+  homepageVideos,
+}: {
+  homepageVideos: VideoData[];
+}) {
   const [searchValue, setSearchValue] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [activeFilters, setActiveFilters] =
@@ -68,42 +66,6 @@ export default function LaunchLibraryPageClient() {
     const trimmed = submittedQuery.trim().toLowerCase();
     return trimmed.length >= 1 || hasActiveFilters;
   }, [submittedQuery, hasActiveFilters]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadHomepage() {
-      try {
-        const res = await fetch("/api/launch-library/homepage");
-        const data = (await res.json()) as {
-          videos?: VideoData[];
-          error?: string;
-        };
-        if (cancelled) return;
-        if (!res.ok) {
-          setHomeError(data.error ?? "Failed to load homepage");
-          return;
-        }
-        setHomepageVideos(data.videos ?? []);
-        setHomeError(null);
-      } catch (e) {
-        if (!cancelled) {
-          setHomeError(
-            e instanceof Error ? e.message : "Failed to load homepage",
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setHomeLoading(false);
-        }
-      }
-    }
-
-    void loadHomepage();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const runSearch = useCallback(
     async (cursor: string | null, qOverride?: string) => {
@@ -253,9 +215,6 @@ export default function LaunchLibraryPageClient() {
 
   const showSearchResults = hasSearchIntent;
 
-  const pageError = homeError && !showSearchResults ? homeError : null;
-  const combinedLoadingHome = homeLoading && !showSearchResults;
-
   return (
     <>
       <VideoRowHeader
@@ -267,17 +226,7 @@ export default function LaunchLibraryPageClient() {
       />
 
       <div className="flex flex-col">
-        {combinedLoadingHome && (
-          <div className="px-6 py-8 text-muted-foreground min-h-screen">
-            <Loader2 className="animate-spin mx-auto size-10 mt-8" />
-          </div>
-        )}
-
-        {pageError && (
-          <div className="px-6 py-8 text-destructive">{pageError}</div>
-        )}
-
-        {!combinedLoadingHome && !pageError && showSearchResults && (
+        {showSearchResults ? (
           <>
             {searchError && (
               <div className="px-6 pt-4 text-destructive">{searchError}</div>
@@ -296,9 +245,7 @@ export default function LaunchLibraryPageClient() {
               onLoadMore={handleLoadMore}
             />
           </>
-        )}
-
-        {!combinedLoadingHome && !pageError && !showSearchResults && (
+        ) : (
           <>
             <TopTen videos={homepageVideos} />
             <LaunchLibraryContent videos={homepageVideos} />
