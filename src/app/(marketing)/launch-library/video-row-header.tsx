@@ -31,26 +31,36 @@ const FILTER_ORDER: LaunchLibraryFilterField[] = [
   ).filter((field) => field !== "score"),
 ];
 
-function renderScoreStars(value: string, isActive: boolean) {
-  const count = Number(value);
-  if (!Number.isFinite(count) || count < 1) return value;
+function renderStarRow(activeCount: number, hoverCount = 0) {
+  const filled = hoverCount || activeCount;
 
   return (
-    <span className="flex items-center gap-0.5">
-      {Array.from({length: count}).map((_, i) => (
-        <span
-          key={i}
-          className={
-            isActive
-              ? "text-black drop-shadow-sm"
-              : "text-theme-color1 drop-shadow-sm"
-          }
-        >
-          ★
-        </span>
-      ))}
+    <span className="flex items-center gap-1">
+      {Array.from({length: 5}).map((_, i) => {
+        const starNumber = i + 1;
+        const isFilled = starNumber <= filled;
+
+        return (
+          <span
+            key={starNumber}
+            className={
+              isFilled
+                ? "text-theme-color1 drop-shadow-sm"
+                : "text-white/20"
+            }
+          >
+            ★
+          </span>
+        );
+      })}
     </span>
   );
+}
+
+function getActiveScoreValue(activeFilters: LaunchLibraryActiveFilters): number {
+  const raw = activeFilters.score?.[0];
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed >= 1 && parsed <= 5 ? parsed : 0;
 }
 
 const VideoRowHeader = ({
@@ -67,6 +77,7 @@ const VideoRowHeader = ({
   onFiltersChange: (filters: LaunchLibraryActiveFilters) => void;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [hoveredScore, setHoveredScore] = useState(0);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
   const activeCount = useMemo(() => {
@@ -109,6 +120,16 @@ const VideoRowHeader = ({
     onFiltersChange({
       ...activeFilters,
       [field]: nextValues,
+    });
+  };
+
+  const setScoreFilter = (value: number) => {
+    const current = activeFilters.score?.[0];
+    const nextScore = current === String(value) ? [] : [String(value)];
+
+    onFiltersChange({
+      ...activeFilters,
+      score: nextScore,
     });
   };
 
@@ -196,33 +217,74 @@ const VideoRowHeader = ({
                       {HARD_CODED_FIELD_LABELS[field]}
                     </div>
 
-                    <div className="flex flex-wrap gap-2">
-                      {HARD_CODED_FILTER_OPTIONS[field].map((option) => {
-                        const isActive =
-                          activeFilters[field]?.includes(option) ?? false;
+                    {field === "score" ? (
+                      <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                        <div
+                          className="flex items-center gap-1"
+                          onMouseLeave={() => setHoveredScore(0)}
+                        >
+                          {Array.from({length: 5}).map((_, i) => {
+                            const starValue = i + 1;
+                            const activeScore = getActiveScoreValue(activeFilters);
+                            const filled = hoveredScore || activeScore;
+                            const isFilled = starValue <= filled;
 
-                        return (
-                          <button
-                            key={`${field}-${option}`}
-                            type="button"
-                            onClick={() => toggleFilterValue(field, option)}
-                            className={`rounded-full flex flex-col items-center justify-center border px-3 py-1 text-xs transition-colors ${
-                              isActive
-                                ? "border-theme-color1 bg-theme-color1 text-black"
-                                : "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                            }`}
-                          >
-                            {field === "score"
-                              ? renderScoreStars(option, isActive)
-                              : option}{" "}
-                            (
-                            {HARD_CODED_FILTER_OPTION_COUNTS[field][option] ??
-                              0}
-                            )
-                          </button>
-                        );
-                      })}
-                    </div>
+                            return (
+                              <button
+                                key={starValue}
+                                type="button"
+                                onMouseEnter={() => setHoveredScore(starValue)}
+                                onFocus={() => setHoveredScore(starValue)}
+                                onClick={() => setScoreFilter(starValue)}
+                                className="text-2xl leading-none transition-transform hover:scale-110"
+                                aria-label={`Filter by ${starValue} star${starValue > 1 ? "s" : ""}`}
+                              >
+                                <span
+                                  className={
+                                    isFilled
+                                      ? "text-theme-color1 drop-shadow-sm"
+                                      : "text-white/20"
+                                  }
+                                >
+                                  ★
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        <div className="text-xs text-white/60">
+                          {getActiveScoreValue(activeFilters) > 0
+                            ? `${HARD_CODED_FILTER_OPTION_COUNTS.score[String(getActiveScoreValue(activeFilters))] ?? 0} videos`
+                            : "Select rating"}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {HARD_CODED_FILTER_OPTIONS[field].map((option) => {
+                          const isActive =
+                            activeFilters[field]?.includes(option) ?? false;
+
+                          return (
+                            <button
+                              key={`${field}-${option}`}
+                              type="button"
+                              onClick={() => toggleFilterValue(field, option)}
+                              className={`rounded-full flex flex-col items-center justify-center border px-3 py-1 text-xs transition-colors ${
+                                isActive
+                                  ? "border-theme-color1 bg-theme-color1 text-black"
+                                  : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                              }`}
+                            >
+                              {option} (
+                              {HARD_CODED_FILTER_OPTION_COUNTS[field][option] ??
+                                0}
+                              )
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -252,7 +314,7 @@ const VideoRowHeader = ({
                     {HARD_CODED_FIELD_LABELS[field]}:
                   </span>
                   <span className="inline-flex items-center gap-0.5">
-                    {field === "score" ? renderScoreStars(value, false) : value}
+                    {field === "score" ? renderStarRow(Number(value)) : value}
                   </span>
                   <X className="h-3 w-3" />
                 </button>

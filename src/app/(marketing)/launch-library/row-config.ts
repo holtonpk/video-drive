@@ -252,7 +252,7 @@ export const videoRowConfigs: VideoRowConfig[] = [
   },
   {
     label: "Animated Motion Graphics",
-    href: "/launch-library/production/animated-motion-graphics",
+    href: "/launch-library/production/motion-graphics",
     criteria: [
       {
         field: "production",
@@ -288,7 +288,7 @@ export const videoRowConfigs: VideoRowConfig[] = [
   },
   {
     label: "Humor",
-    href: "/launch-library/tone/humor",
+    href: "/launch-library/tone/humour",
     criteria: [{field: "tone", values: ["Humour"], match: "any"}],
     sortBy: "score",
     sortDirection: "desc",
