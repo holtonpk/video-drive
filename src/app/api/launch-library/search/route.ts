@@ -11,6 +11,7 @@ import {
   startAfter,
   startAt,
   endAt,
+  where,
   type QueryConstraint,
   type QueryDocumentSnapshot,
   type DocumentSnapshot,
@@ -30,6 +31,17 @@ const PREFIX_FETCH = 60;
 const FALLBACK_FETCH = 300;
 const FILTER_FETCH = 120;
 const MIN_RESULTS = 20;
+
+/** Parsed numeric score filter, or null if no score filter is active. */
+function parseScoreFilter(filters: Filters): number[] | null {
+  const raw = filters.score;
+  if (!raw?.length) return null;
+  const nums = raw
+    .map((s) => Number(s))
+    .filter((n) => Number.isFinite(n));
+  if (!nums.length) return null;
+  return [...new Set(nums)];
+}
 
 function normalize(value: string) {
   return value.trim().toLowerCase();
@@ -294,6 +306,8 @@ export async function POST(req: NextRequest) {
     );
 
     if (queryText.length >= 1) {
+      const selectedScores = parseScoreFilter(filters);
+
       const prefixConstraints: QueryConstraint[] = [
         orderBy("nameLower"),
         startAt(queryText),
@@ -306,10 +320,23 @@ export async function POST(req: NextRequest) {
 
       prefixConstraints.push(limit(PREFIX_FETCH));
 
-      const fallbackConstraints: QueryConstraint[] = [
-        orderBy("score", "desc"),
-        limit(FALLBACK_FETCH),
-      ];
+      const fallbackConstraints: QueryConstraint[] = (() => {
+        if (selectedScores && selectedScores.length === 1) {
+          return [
+            where("score", "==", selectedScores[0]),
+            orderBy("nameLower"),
+            limit(FALLBACK_FETCH),
+          ];
+        }
+        if (selectedScores && selectedScores.length > 1) {
+          return [
+            where("score", "in", selectedScores),
+            orderBy("score", "desc"),
+            limit(FALLBACK_FETCH),
+          ];
+        }
+        return [orderBy("score", "desc"), limit(FALLBACK_FETCH)];
+      })();
 
       const [prefixSnapshot, fallbackSnapshot] = await Promise.all([
         getDocs(query(colRef, ...prefixConstraints)),
@@ -352,7 +379,17 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const browseConstraints: QueryConstraint[] = [orderBy("score", "desc")];
+    const selectedScores = parseScoreFilter(filters);
+
+    const browseConstraints: QueryConstraint[] = (() => {
+      if (selectedScores && selectedScores.length === 1) {
+        return [where("score", "==", selectedScores[0]), orderBy("nameLower")];
+      }
+      if (selectedScores && selectedScores.length > 1) {
+        return [where("score", "in", selectedScores), orderBy("score", "desc")];
+      }
+      return [orderBy("score", "desc")];
+    })();
 
     if (cursorSnap) {
       browseConstraints.push(startAfter(cursorSnap));

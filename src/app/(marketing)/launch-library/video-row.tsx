@@ -236,7 +236,7 @@ export const VideoCard = ({
         href={href}
         ref={cardRef}
         prefetch
-        className="shrink-0 relative cursor-pointer flex aspect-video h-36 items-center justify-center overflow-hidden rounded-[12px] bg-muted"
+        className="shrink-0 relative cursor-pointer flex aspect-video h-[250px] md:h-36 items-center justify-center overflow-hidden rounded-[12px] bg-muted"
         style={{width: CARD_WIDTH}}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
@@ -471,10 +471,10 @@ const VideoRow = ({
 
   return (
     <div className="w-full flex flex-col gap-2 px-6 items-start">
-      <div className="flex flex-row justify-between items-center w-full">
+      <div className="flex sm:flex-row flex-col justify-between gap-1 items-start sm:items-center w-full">
         <Link
           href={href}
-          className={`group relative z-20 inline-flex items-center pl-6 text-2xl uppercase big-text ${h1Font.className}`}
+          className={`group relative z-20 inline-flex items-center sm:pl-6 text-2xl uppercase big-text ${h1Font.className}`}
         >
           <span className="group-hover:underline">{label}</span>
 
@@ -510,7 +510,7 @@ const VideoRow = ({
           Copy all
         </button> */}
         {/* indicates which page is currently active by changing the background color */}
-        <div className="flex gap-[1px]">
+        <div className="flex gap-[1px] flex-wrap">
           {Array.from({length: AMOUNT_OF_PAGES}).map((_, index) => (
             <div
               key={index}

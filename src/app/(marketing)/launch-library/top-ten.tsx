@@ -26,7 +26,6 @@ const bodyFont = localFont({
   src: "../fonts/proximanova_regular.ttf",
 });
 
-
 type RankPathItem = (typeof rankPaths)[number];
 type RankedRankItem = RankPathItem & {video: HomepageVideoCardData};
 
@@ -544,14 +543,14 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
 
   return (
     <div className="flex w-full min-w-0 flex-col items-start gap-2">
-      <div className="flex w-full flex-row items-center justify-between px-6">
+      <div className="flex w-full flex-col sm:flex-row gap-1 items-start sm:items-center justify-between px-6">
         <h1
-          className={`relative z-20 text-center text-2xl pl-6 uppercase big-text ${h1Font.className}`}
+          className={`relative z-20 text-center text-2xl sm:pl-6 uppercase big-text ${h1Font.className}`}
         >
           Top 10 Launch Videos
         </h1>
 
-        <div className="flex gap-[1px]">
+        <div className="flex gap-[1px] flex-wrap">
           {pageStarts.map((_, index) => (
             <div
               key={index}

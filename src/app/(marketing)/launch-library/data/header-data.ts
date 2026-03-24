@@ -112,7 +112,7 @@ export const HARD_CODED_FILTER_OPTIONS: Record<
     "Voiceover Explainers",
   ],
   tone: [
-    "Analytical",
+    // "Analytical",
     "Cinematic",
     "Disruptive",
     "Dramatic",
@@ -248,7 +248,7 @@ export const HARD_CODED_FILTER_OPTION_COUNTS: Record<
     Humour: 55,
     Inspirational: 4,
     Epic: 10,
-    Analytical: 1,
+    // Analytical: 1,
     Dramatic: 32,
     Relatable: 13,
     Emotional: 1,

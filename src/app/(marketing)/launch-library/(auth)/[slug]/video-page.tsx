@@ -105,7 +105,7 @@ const VideoPage = ({
       >
         ← Back to Launch Library
       </Link> */}
-      <div className="grid grid-cols-[65%_1fr] items-center ">
+      <div className="grid md:grid-cols-[65%_1fr] items-center ">
         <VideoPlayer
           src={video.videoUrl ?? ""}
           poster={video.thumbnail ?? undefined}
@@ -115,11 +115,13 @@ const VideoPage = ({
         <FeedBackCard video={video} />
       </div>
 
-      <h2 className={`text-2xl font-bold mt-8 ${h1Font.className}`}>
+      <h2
+        className={`text-2xl text-center md:text-left font-bold mt-8 ${h1Font.className}`}
+      >
         Related Videos
       </h2>
 
-      <div className="mt-4 grid grid-cols-[repeat(auto-fill,minmax(256px,1fr))] gap-4 place-items-center">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(256px,1fr))] gap-4 place-items-center">
         {relatedVideos.map((relatedVideo, index) => (
           <VideoCard
             key={relatedVideo.postId}
@@ -174,7 +176,7 @@ const FeedBackCard = ({video}: {video: VideoData}) => {
   };
 
   return (
-    <div className="flex h-fit flex-col gap-3 mt-4 rounded-r-[12px] border-[1px] min-h-[90%] border-l-0 border-white/20 bg-[#1A1A1A] p-4">
+    <div className="flex h-fit flex-col gap-3 mt-4 md:rounded-l-[0px] rounded-[12px] border-[1px] min-h-[90%] md:border-l-0 border-white/20 bg-[#1A1A1A] p-4">
       <div className="p-2 flex items-center gap-1">
         <img
           src={getFaviconUrl(video.website ?? "")}

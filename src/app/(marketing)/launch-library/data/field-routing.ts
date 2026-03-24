@@ -18,6 +18,7 @@ export type VideoFilterField =
 export const isValidFieldCategory = (
   value: string,
 ): value is LaunchLibraryFieldCategory => {
+  console.log("value======", value);
   return value in FIELD_CATEGORY_MAP;
 };
 

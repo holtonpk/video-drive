@@ -129,12 +129,17 @@ const Page = async ({params}: Props) => {
     const fieldCategory = decodeURIComponent(segments[0]).trim();
     const fieldValue = decodeURIComponent(segments[1]).trim();
 
+    console.log("fieldCategory", fieldCategory);
+    console.log("fieldValue", fieldValue);
+
     if (!isValidFieldCategory(fieldCategory)) {
       notFound();
     }
 
     const field = FIELD_CATEGORY_MAP[fieldCategory];
     const allVideos = await getLaunchLibraryVideos();
+
+    console.log("allVideos", allVideos.length);
 
     const matchingVideos = allVideos.filter((video) =>
       videoMatchesFieldRoute(video, field, fieldValue),

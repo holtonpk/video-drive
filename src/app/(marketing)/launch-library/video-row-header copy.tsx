@@ -148,8 +148,8 @@ const VideoRowHeader = ({
 
   return (
     <div className="relative mx-auto mt-6 flex w-fit flex-col gap-3">
-      <div className="items-center gap-3 hidden sm:flex">
-        <div className="relative flex-1 sm:w-[500px] w-full">
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 w-[500px]">
           {/* <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" /> */}
           <input
             value={searchValue}
