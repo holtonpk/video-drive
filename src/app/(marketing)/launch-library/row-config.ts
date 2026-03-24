@@ -43,7 +43,7 @@ function matchesCriterion(
 export const videoRowConfigs: VideoRowConfig[] = [
   {
     label: "Best hooks",
-    href: "/launch-library/hooks/great",
+    href: "/launch-library/hook/great",
     criteria: [{field: "hook", values: ["Great"], match: "any"}],
     sortBy: "score",
     sortDirection: "desc",
@@ -192,7 +192,7 @@ export const videoRowConfigs: VideoRowConfig[] = [
   },
   {
     label: "Best B 2 C",
-    href: "/launch-library/industry/b2c",
+    href: "/launch-library/industry/consumer",
     criteria: [{field: "industry", values: ["B2C", "Consumer"], match: "any"}],
     sortBy: "score",
     sortDirection: "desc",
