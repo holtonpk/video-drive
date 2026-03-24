@@ -1,6 +1,12 @@
 "use client";
 
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import localFont from "next/font/local";
 import {ChevronLeft, ChevronRight, Volume2, VolumeX} from "lucide-react";
 import {createPortal} from "react-dom";
@@ -21,9 +27,15 @@ const bodyFont = localFont({
   src: "../fonts/proximanova_regular.ttf",
 });
 
-const CARD_WIDTH = 256;
+const CARD_WIDTH_DESKTOP = 256;
+const CARD_WIDTH_MOBILE = 356;
 const GAP = 16;
 const EDGE_PEEK = 24;
+
+const getCardWidth = () =>
+  typeof window !== "undefined" && window.innerWidth < 768
+    ? CARD_WIDTH_MOBILE
+    : CARD_WIDTH_DESKTOP;
 
 const mod = (n: number, m: number) => ((n % m) + m) % m;
 
@@ -236,8 +248,7 @@ export const VideoCard = ({
         href={href}
         ref={cardRef}
         prefetch
-        className="shrink-0 relative cursor-pointer flex aspect-video h-[250px] md:h-36 items-center justify-center overflow-hidden rounded-[12px] bg-muted"
-        style={{width: CARD_WIDTH}}
+        className="shrink-0 relative cursor-pointer flex items-center justify-center overflow-hidden rounded-[12px] bg-muted w-[356px] md:w-[256px] h-[200px] md:h-36"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         onPointerDown={() => router.prefetch(href)}
@@ -245,9 +256,8 @@ export const VideoCard = ({
         <Image
           src={video.thumbnail ?? ""}
           alt={video.name}
-          width={CARD_WIDTH}
-          height={144}
-          className="rounded-[12px] h-full w-full object-cover"
+          fill
+          className="rounded-[12px] object-cover"
         />
         {showNameOverlay && (
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-3 py-2">
@@ -383,18 +393,26 @@ const VideoRow = ({
 
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const [logicalStart, setLogicalStart] = useState(0);
+  const [cardWidth, setCardWidth] = useState(CARD_WIDTH_DESKTOP);
 
   // this is the actual animated anchor inside the repeated track
   const [trackStart, setTrackStart] = useState(total);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useLayoutEffect(() => {
+    setCardWidth(getCardWidth());
+  }, []);
 
   useEffect(() => {
     const measure = () => {
       const viewport = viewportRef.current;
       if (!viewport) return;
 
+      const cardW = getCardWidth();
+      setCardWidth((prev) => (prev !== cardW ? cardW : prev));
+
       const width = viewport.clientWidth;
-      const fullCardWidth = CARD_WIDTH + GAP;
+      const fullCardWidth = cardW + GAP;
 
       const nextItemsPerPage = Math.max(
         1,
@@ -420,7 +438,7 @@ const VideoRow = ({
     setTrackStart(total + logicalStart);
   }, [itemsPerPage, total]);
 
-  const translateX = -(trackStart * (CARD_WIDTH + GAP)) + EDGE_PEEK;
+  const translateX = -(trackStart * (cardWidth + GAP)) + EDGE_PEEK;
 
   const move = (direction: "left" | "right") => {
     if (animatingRef.current || total === 0) return;
