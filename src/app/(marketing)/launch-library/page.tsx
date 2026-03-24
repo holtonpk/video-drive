@@ -13,7 +13,9 @@ export const metadata = constructMetadata({
   description: "A Human curated library of the best YC launch videos",
 });
 
-export const revalidate = 3600;
+/** Avoid ISR prerender body size limit on Vercel (FALLBACK_BODY_TOO_LARGE). */
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function Page() {
   const homepageVideos = await getHomepageVideos();
