@@ -78,7 +78,9 @@ function slimResult(docSnap: QueryDocumentSnapshot): LaunchLibrarySearchHit {
       (typeof data.thumbnailUrl === "string" && data.thumbnailUrl) ||
       (typeof data.thumbnail === "string" && data.thumbnail) ||
       null,
+    videoUrl: typeof data.videoUrl === "string" ? data.videoUrl : null,
     createdAt: typeof data.createdAt === "string" ? data.createdAt : null,
+    website: typeof data.website === "string" ? data.website : null,
   };
 }
 
@@ -88,9 +90,7 @@ function rowForFilterMatch(
   return {postId: docSnap.id, ...docSnap.data()};
 }
 
-function dedupeDocs(
-  docs: QueryDocumentSnapshot[],
-): QueryDocumentSnapshot[] {
+function dedupeDocs(docs: QueryDocumentSnapshot[]): QueryDocumentSnapshot[] {
   const seen = new Set<string>();
   const result: QueryDocumentSnapshot[] = [];
 

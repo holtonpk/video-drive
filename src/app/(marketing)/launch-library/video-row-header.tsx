@@ -12,12 +12,46 @@ import {
   type LaunchLibraryActiveFilters,
   type LaunchLibraryFilterField,
 } from "./data/types";
+import {LAUNCH_LIBRARY_FILTERS_STORAGE_KEY} from "./launch-library-storage";
 import {Icons} from "@/components/icons";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const h2Font = localFont({
   src: "../fonts/HeadingNowTrial-55Medium.ttf",
 });
+
+const bodyFont = localFont({
+  src: "../fonts/proximanova_regular.ttf",
+});
+
+const FILTER_ORDER: LaunchLibraryFilterField[] = [
+  "score",
+  ...(
+    Object.keys(HARD_CODED_FIELD_LABELS) as LaunchLibraryFilterField[]
+  ).filter((field) => field !== "score"),
+];
+
+function renderScoreStars(value: string, isActive: boolean) {
+  const count = Number(value);
+  if (!Number.isFinite(count) || count < 1) return value;
+
+  return (
+    <span className="flex items-center gap-0.5">
+      {Array.from({length: count}).map((_, i) => (
+        <span
+          key={i}
+          className={
+            isActive
+              ? "text-black drop-shadow-sm"
+              : "text-theme-color1 drop-shadow-sm"
+          }
+        >
+          ★
+        </span>
+      ))}
+    </span>
+  );
+}
 
 const VideoRowHeader = ({
   searchValue,
@@ -81,6 +115,11 @@ const VideoRowHeader = ({
   const clearAll = () => {
     onSearchChange("");
     onFiltersChange({});
+    try {
+      localStorage.removeItem(LAUNCH_LIBRARY_FILTERS_STORAGE_KEY);
+    } catch {
+      /* ignore quota / private mode */
+    }
     setIsFilterOpen(false);
   };
 
@@ -99,7 +138,7 @@ const VideoRowHeader = ({
               }
             }}
             placeholder="Search for a company"
-            className={`h-14 w-full rounded-full text-lg  transition-colors duration-200 ease-in-out border-[#1E1E1E] hover:border-theme-color1/10 focus:border-theme-color1/10 border-4 bg-[#1E1E1E] hover:bg-background focus:bg-background pl-4 pr-10 text-white outline-none placeholder:text-white/40 focus:border-white/20 ${h2Font.className}`}
+            className={`h-14 w-full rounded-full text-lg  transition-colors duration-200 ease-in-out border-[#1E1E1E] hover:border-theme-color1/10 focus:border-theme-color1/10 border-4 bg-[#1E1E1E] hover:bg-background focus:bg-background pl-4 pr-10 text-white outline-none placeholder:text-white/40  ${h2Font.className}`}
           />
           {searchValue && (
             <button
@@ -114,7 +153,7 @@ const VideoRowHeader = ({
           <button
             type="button"
             onClick={onSearchSubmit}
-            className="absolute hover:bg-theme-color3/80 transition-colors duration-200 ease-in-out right-2 top-1/2 -translate-y-1/2 rounded-full inline-flex h-10 aspect-square shrink-0 items-center justify-center  bg-theme-color1 text-background dark"
+            className="absolute hover:bg-theme-color1/80 transition-colors duration-200 ease-in-out right-2 top-1/2 -translate-y-1/2 rounded-full inline-flex h-10 aspect-square shrink-0 items-center justify-center  bg-theme-color1 text-background dark"
           >
             <Icons.search className="h-4 w-4" />
           </button>
@@ -124,7 +163,7 @@ const VideoRowHeader = ({
           <button
             type="button"
             onClick={() => setIsFilterOpen((prev) => !prev)}
-            className={`inline-flex h-14 items-center gap-2 rounded-full text-base border-4 border-[#1E1E1E] bg-[#1E1E1E] hover:border-theme-color3/10 focus:border-theme-color3/10 hover:bg-background focus:bg-background px-4  text-white transition-colors hover:sbg-white/10 ${h2Font.className}`}
+            className={`inline-flex h-14 items-center gap-2 rounded-full text-base border-4 border-[#1E1E1E] bg-[#1E1E1E] hover:border-theme-color3/10 focus:border-theme-color3/10 hover:bg-background focus:bg-background px-4  text-white transition-colors hover:sbg-white/10 ${bodyFont.className}`}
           >
             <Filter className="h-4 w-4" />
             Filters
@@ -151,11 +190,7 @@ const VideoRowHeader = ({
               </div>
 
               <div className="flex flex-col gap-4">
-                {(
-                  Object.keys(
-                    HARD_CODED_FIELD_LABELS,
-                  ) as LaunchLibraryFilterField[]
-                ).map((field) => (
+                {FILTER_ORDER.map((field) => (
                   <div key={field} className="flex flex-col gap-2">
                     <div className="text-sm font-medium text-white/80">
                       {HARD_CODED_FIELD_LABELS[field]}
@@ -171,13 +206,16 @@ const VideoRowHeader = ({
                             key={`${field}-${option}`}
                             type="button"
                             onClick={() => toggleFilterValue(field, option)}
-                            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                            className={`rounded-full flex flex-col items-center justify-center border px-3 py-1 text-xs transition-colors ${
                               isActive
                                 ? "border-theme-color1 bg-theme-color1 text-black"
                                 : "border-white/10 bg-white/5 text-white hover:bg-white/10"
                             }`}
                           >
-                            {option} (
+                            {field === "score"
+                              ? renderScoreStars(option, isActive)
+                              : option}{" "}
+                            (
                             {HARD_CODED_FILTER_OPTION_COUNTS[field][option] ??
                               0}
                             )
@@ -213,7 +251,9 @@ const VideoRowHeader = ({
                   <span className="text-white/60">
                     {HARD_CODED_FIELD_LABELS[field]}:
                   </span>
-                  <span>{value}</span>
+                  <span className="inline-flex items-center gap-0.5">
+                    {field === "score" ? renderScoreStars(value, false) : value}
+                  </span>
                   <X className="h-3 w-3" />
                 </button>
               )),

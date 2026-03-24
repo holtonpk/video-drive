@@ -17,9 +17,11 @@ export type LaunchLibrarySearchHit = {
   hook: string[];
   score: number | null;
   thumbnailUrl: string | null;
+  videoUrl: string | null;
   createdAt: string | null;
   updatedAt?: string;
   searchText?: string;
+  website: string | null;
 };
 
 export function searchHitToVideoData(hit: LaunchLibrarySearchHit): VideoData {
@@ -48,9 +50,9 @@ export function searchHitToVideoData(hit: LaunchLibrarySearchHit): VideoData {
     replyCount: 0,
     repostCount: 0,
     viewCount: 0,
-    website: null,
+    website: hit.website,
     ycUrl: null,
     thumbnail: hit.thumbnailUrl,
-    videoUrl: null,
+    videoUrl: hit.videoUrl,
   };
 }

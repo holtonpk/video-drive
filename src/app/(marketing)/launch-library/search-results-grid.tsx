@@ -27,6 +27,7 @@ const SearchResultsGrid = ({
   hasMore?: boolean;
   onLoadMore?: () => void;
 }) => {
+  console.log(videos);
   return (
     <div className="flex w-full flex-col gap-4 px-6 py-8">
       <h2 className={`text-lg uppercase text-white ${h1Font.className}`}>

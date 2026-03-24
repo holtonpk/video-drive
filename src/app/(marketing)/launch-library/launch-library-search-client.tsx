@@ -1,7 +1,8 @@
 "use client";
 
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import VideoRowHeader from "./video-row-header";
+import {LAUNCH_LIBRARY_FILTERS_STORAGE_KEY} from "./launch-library-storage";
 import type {LaunchLibraryActiveFilters, VideoData} from "./data/types";
 import SearchResultsGrid from "./search-results-grid";
 import {
@@ -32,6 +33,7 @@ export default function LaunchLibrarySearchClient({
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [activeFilters, setActiveFilters] =
     useState<LaunchLibraryActiveFilters>({});
+  const [restoredFromStorage, setRestoredFromStorage] = useState(false);
 
   const [results, setResults] = useState<VideoData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,9 +51,7 @@ export default function LaunchLibrarySearchClient({
 
   const hasActiveFilters = useMemo(
     () =>
-      Object.values(activeFilters).some(
-        (values) => (values?.length ?? 0) > 0,
-      ),
+      Object.values(activeFilters).some((values) => (values?.length ?? 0) > 0),
     [activeFilters],
   );
 
@@ -60,10 +60,41 @@ export default function LaunchLibrarySearchClient({
     return trimmed.length >= 1 || hasActiveFilters;
   }, [submittedQuery, hasActiveFilters]);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LAUNCH_LIBRARY_FILTERS_STORAGE_KEY);
+      if (!raw) {
+        return;
+      }
+
+      const parsed = JSON.parse(raw) as {
+        searchValue?: unknown;
+        activeFilters?: unknown;
+      };
+
+      if (typeof parsed.searchValue === "string") {
+        setSearchValue(parsed.searchValue);
+        setSubmittedQuery(parsed.searchValue.trim());
+      }
+
+      if (
+        parsed.activeFilters != null &&
+        typeof parsed.activeFilters === "object" &&
+        !Array.isArray(parsed.activeFilters)
+      ) {
+        setActiveFilters(parsed.activeFilters as LaunchLibraryActiveFilters);
+      }
+    } catch (e) {
+      console.warn("Failed to load filters from localStorage", e);
+    } finally {
+      setRestoredFromStorage(true);
+    }
+  }, []);
+
   const runSearch = useCallback(
-    async (cursor: string | null, qOverride?: string) => {
+    async (cursor: string | null) => {
       const isAppend = Boolean(cursor);
-      const q = qOverride ?? submittedQuery;
+      const q = submittedQuery;
 
       const cacheKey = searchCacheKey({
         q,
@@ -161,42 +192,48 @@ export default function LaunchLibrarySearchClient({
     [submittedQuery, activeFilters],
   );
 
-  const lastSubmittedSearchKeyRef = useRef<string>("");
-
-  const resetSubmittedSearchState = useCallback(() => {
-    setSubmittedQuery("");
-    setResults([]);
-    setNextCursor(null);
-    setSearchError(null);
-    lastSubmittedSearchKeyRef.current = "";
-    abortRef.current?.abort();
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchValue(value);
+    if (value === "") {
+      setSubmittedQuery("");
+    }
   }, []);
 
-  const handleSearchChange = useCallback(
-    (value: string) => {
-      setSearchValue(value);
-      if (value.trim() !== "") return;
-      resetSubmittedSearchState();
-    },
-    [resetSubmittedSearchState],
-  );
-
   const handleSearchSubmit = useCallback(() => {
-    const trimmed = searchValue.trim();
-    if (!trimmed && !hasActiveFilters) return;
+    setSubmittedQuery(searchValue.trim());
+  }, [searchValue]);
 
-    const searchKey = JSON.stringify({
-      q: trimmed,
-      filters: activeFilters,
-    });
-    if (searchKey === lastSubmittedSearchKeyRef.current) return;
+  useEffect(() => {
+    if (!restoredFromStorage) return;
+    try {
+      localStorage.setItem(
+        LAUNCH_LIBRARY_FILTERS_STORAGE_KEY,
+        JSON.stringify({searchValue, activeFilters}),
+      );
+    } catch (e) {
+      console.warn("Failed to save filters", e);
+    }
+  }, [searchValue, activeFilters, restoredFromStorage]);
 
-    lastSubmittedSearchKeyRef.current = searchKey;
-    setSubmittedQuery(trimmed);
-    setResults([]);
-    setNextCursor(null);
-    void runSearch(null, trimmed);
-  }, [searchValue, hasActiveFilters, activeFilters, runSearch]);
+  useEffect(() => {
+    if (!restoredFromStorage) return;
+
+    if (!hasSearchIntent) {
+      setResults([]);
+      setNextCursor(null);
+      setSearchError(null);
+      abortRef.current?.abort();
+      return;
+    }
+
+    void runSearch(null);
+  }, [
+    submittedQuery,
+    activeFilters,
+    hasSearchIntent,
+    runSearch,
+    restoredFromStorage,
+  ]);
 
   const handleLoadMore = useCallback(async () => {
     if (!nextCursor || isLoading || isLoadingMore) return;
