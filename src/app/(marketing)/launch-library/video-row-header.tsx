@@ -3,41 +3,34 @@
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import localFont from "next/font/local";
 import {Filter, Search, X} from "lucide-react";
-import {FIELD_CATEGORY_MAP, slugifyFieldValue} from "./data/field-routing";
+import {
+  HARD_CODED_FIELD_LABELS,
+  HARD_CODED_FILTER_OPTIONS,
+  HARD_CODED_FILTER_OPTION_COUNTS,
+} from "./data/header-data";
 import {
   type LaunchLibraryActiveFilters,
   type LaunchLibraryFilterField,
 } from "./data/types";
+import {Icons} from "@/components/icons";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 const h2Font = localFont({
   src: "../fonts/HeadingNowTrial-55Medium.ttf",
 });
 
-const FIELD_LABELS: Record<LaunchLibraryFilterField, string> = {
-  cohort: "Cohort",
-  industry: "Industry",
-  sector: "Sector",
-  creativeFormat: "Creative Format",
-  tone: "Tone",
-  production: "Production",
-  hook: "Hook",
-  score: "Score",
-};
-
 const VideoRowHeader = ({
   searchValue,
   onSearchChange,
+  onSearchSubmit,
   activeFilters,
   onFiltersChange,
-  filterOptions,
-  filterOptionCounts,
 }: {
   searchValue: string;
   onSearchChange: (value: string) => void;
+  onSearchSubmit?: () => void;
   activeFilters: LaunchLibraryActiveFilters;
   onFiltersChange: (filters: LaunchLibraryActiveFilters) => void;
-  filterOptions: Record<LaunchLibraryFilterField, string[]>;
-  filterOptionCounts: Record<LaunchLibraryFilterField, Record<string, number>>;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
@@ -91,72 +84,47 @@ const VideoRowHeader = ({
     setIsFilterOpen(false);
   };
 
-  const handleExportFieldDescriptions = () => {
-    const exportData: Record<
-      string,
-      Record<string, {label: string; description: string}>
-    > = {};
-
-    (
-      Object.entries(FIELD_CATEGORY_MAP) as [
-        keyof typeof FIELD_CATEGORY_MAP,
-        LaunchLibraryFilterField,
-      ][]
-    ).forEach(([fieldCategory, field]) => {
-      exportData[fieldCategory] = {};
-
-      filterOptions[field].forEach((value) => {
-        const slug = slugifyFieldValue(value);
-
-        exportData[fieldCategory][slug] = {
-          label: String(value),
-          description: "",
-        };
-      });
-    });
-
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-      type: "application/json",
-    });
-
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "field-descriptions.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <div className="relative mx-auto mt-6 flex  w-fit flex-col gap-3 ">
+    <div className="relative mx-auto mt-6 flex w-fit flex-col gap-3">
       <div className="flex items-center gap-3">
         <div className="relative flex-1 w-[500px]">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" />
+          {/* <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/50" /> */}
           <input
             value={searchValue}
             onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                onSearchSubmit?.();
+              }
+            }}
             placeholder="Search for a company"
-            className={`h-11 w-full rounded-full border border-white/10 bg-white/5 pl-10 pr-10 text-white outline-none placeholder:text-white/40 focus:border-white/20 ${h2Font.className}`}
+            className={`h-14 w-full rounded-full text-lg  transition-colors duration-200 ease-in-out border-[#1E1E1E] hover:border-theme-color1/10 focus:border-theme-color1/10 border-4 bg-[#1E1E1E] hover:bg-background focus:bg-background pl-4 pr-10 text-white outline-none placeholder:text-white/40 focus:border-white/20 ${h2Font.className}`}
           />
           {searchValue && (
             <button
               type="button"
               onClick={() => onSearchChange("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
+              className="absolute right-14 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
               aria-label="Clear search"
             >
               <X className="h-4 w-4" />
             </button>
           )}
+          <button
+            type="button"
+            onClick={onSearchSubmit}
+            className="absolute hover:bg-theme-color3/80 transition-colors duration-200 ease-in-out right-2 top-1/2 -translate-y-1/2 rounded-full inline-flex h-10 aspect-square shrink-0 items-center justify-center  bg-theme-color1 text-background dark"
+          >
+            <Icons.search className="h-4 w-4" />
+          </button>
         </div>
 
         <div ref={filterMenuRef} className="relative">
           <button
             type="button"
             onClick={() => setIsFilterOpen((prev) => !prev)}
-            className="inline-flex h-11 items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 text-sm text-white transition-colors hover:bg-white/10"
+            className={`inline-flex h-14 items-center gap-2 rounded-full text-base border-4 border-[#1E1E1E] bg-[#1E1E1E] hover:border-theme-color3/10 focus:border-theme-color3/10 hover:bg-background focus:bg-background px-4  text-white transition-colors hover:sbg-white/10 ${h2Font.className}`}
           >
             <Filter className="h-4 w-4" />
             Filters
@@ -183,48 +151,43 @@ const VideoRowHeader = ({
               </div>
 
               <div className="flex flex-col gap-4">
-                {(Object.keys(FIELD_LABELS) as LaunchLibraryFilterField[]).map(
-                  (field) => (
-                    <div key={field} className="flex flex-col gap-2">
-                      <div className="text-sm font-medium text-white/80">
-                        {FIELD_LABELS[field]}
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {filterOptions[field].map((option) => {
-                          const isActive =
-                            activeFilters[field]?.includes(option) ?? false;
-
-                          return (
-                            <button
-                              key={`${field}-${option}`}
-                              type="button"
-                              onClick={() => toggleFilterValue(field, option)}
-                              className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                                isActive
-                                  ? "border-theme-color1 bg-theme-color1 text-black"
-                                  : "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                              }`}
-                            >
-                              {option} ({filterOptionCounts[field][option] ?? 0}
-                              )
-                            </button>
-                          );
-                        })}
-                      </div>
+                {(
+                  Object.keys(
+                    HARD_CODED_FIELD_LABELS,
+                  ) as LaunchLibraryFilterField[]
+                ).map((field) => (
+                  <div key={field} className="flex flex-col gap-2">
+                    <div className="text-sm font-medium text-white/80">
+                      {HARD_CODED_FIELD_LABELS[field]}
                     </div>
-                  ),
-                )}
+
+                    <div className="flex flex-wrap gap-2">
+                      {HARD_CODED_FILTER_OPTIONS[field].map((option) => {
+                        const isActive =
+                          activeFilters[field]?.includes(option) ?? false;
+
+                        return (
+                          <button
+                            key={`${field}-${option}`}
+                            type="button"
+                            onClick={() => toggleFilterValue(field, option)}
+                            className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                              isActive
+                                ? "border-theme-color1 bg-theme-color1 text-black"
+                                : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                            }`}
+                          >
+                            {option} (
+                            {HARD_CODED_FILTER_OPTION_COUNTS[field][option] ??
+                              0}
+                            )
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
-{/* 
-              <div className="mt-5 border-t border-white/10 pt-4">
-                <button
-                  type="button"
-                  onClick={handleExportFieldDescriptions}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-colors hover:bg-white/10"
-                >
-                  Export field description JSON
-                </button>
-              </div> */}
             </div>
           )}
         </div>
@@ -247,7 +210,9 @@ const VideoRowHeader = ({
                   onClick={() => toggleFilterValue(field, value)}
                   className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white hover:bg-white/15"
                 >
-                  <span className="text-white/60">{FIELD_LABELS[field]}:</span>
+                  <span className="text-white/60">
+                    {HARD_CODED_FIELD_LABELS[field]}:
+                  </span>
                   <span>{value}</span>
                   <X className="h-3 w-3" />
                 </button>

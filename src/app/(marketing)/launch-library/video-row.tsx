@@ -444,6 +444,8 @@ const VideoRow = ({
     AMOUNT_OF_PAGES,
   );
 
+  const [isCopied, setIsCopied] = useState(false);
+
   return (
     <div className="w-full flex flex-col gap-2 px-6 items-start">
       <div className="flex flex-row justify-between items-center w-full">
@@ -468,6 +470,22 @@ const VideoRow = ({
           {/* invisible hover buffer */}
           <span className="absolute left-full top-0 h-full w-32" />
         </Link>
+        {/* a button that copies all the video ids as string in a list to the clipboard and keeps them in the same order */}
+        {/* <button
+          onClick={() => {
+            setIsCopied(true);
+
+            const text = items.map((video) => `"${video.postId}"`).join(",");
+
+            void navigator.clipboard.writeText(text);
+
+            setTimeout(() => {
+              setIsCopied(false);
+            }, 3000);
+          }}
+        >
+          Copy all
+        </button> */}
         {/* indicates which page is currently active by changing the background color */}
         <div className="flex gap-[1px]">
           {Array.from({length: AMOUNT_OF_PAGES}).map((_, index) => (
@@ -547,6 +565,26 @@ const VideoRow = ({
                 video={video}
                 index={index % total}
               />
+              // delete this div after testing
+              // <div className="flex flex-col">
+              //    <button
+              //     className={`text-sm  hover:text-white transition-colors duration-200 ease-in-out ${isCopied ? "text-green-500" : "text-white/70 hover:text-white"}`}
+              //     onClick={() => {
+              //       setIsCopied(true);
+              //       void navigator.clipboard.writeText(video.postId.toString());
+              //       setTimeout(() => {
+              //         setIsCopied(false);
+              //       }, 3000);
+              //     }}
+              //   >
+              //     {video.postId}
+              //   </button>
+              //   <VideoCard
+              //     key={`${video.postId}-${index}`}
+              //     video={video}
+              //     index={index % total}
+              //   />
+              //  </div>
             ))}
           </div>
         </div>

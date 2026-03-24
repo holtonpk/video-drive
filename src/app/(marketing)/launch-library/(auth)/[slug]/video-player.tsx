@@ -14,6 +14,7 @@ import {
   SkipForward,
   Settings,
 } from "lucide-react";
+import {useAuthGate} from "../auth-gate";
 
 const videoPlayerVariants = cva(
   "relative w-full bg-black rounded-card overflow-hidden group",
@@ -60,6 +61,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
     },
     ref,
   ) => {
+    const {locked} = useAuthGate();
     const [isPlaying, setIsPlaying] = React.useState(false);
     const [currentTime, setCurrentTime] = React.useState(0);
     const [duration, setDuration] = React.useState(0);
@@ -236,7 +238,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
 
     React.useEffect(() => {
       const video = videoRef.current;
-      if (!video || !autoPlay) return;
+      if (!video || !autoPlay || locked) return;
 
       const tryPlay = () => {
         void video.play().catch(() => {
@@ -250,7 +252,21 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
         video.addEventListener("canplay", tryPlay, {once: true});
         return () => video.removeEventListener("canplay", tryPlay);
       }
-    }, [src, autoPlay]);
+    }, [src, autoPlay, locked]);
+
+    React.useEffect(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      if (locked) {
+        video.pause();
+        return;
+      }
+
+      if (autoPlay) {
+        void video.play().catch(() => {});
+      }
+    }, [locked, autoPlay]);
 
     React.useEffect(() => {
       const handleFullscreenChange = () => {

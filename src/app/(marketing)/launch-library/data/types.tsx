@@ -83,6 +83,9 @@ export type VideoRowConfig = {
   sortBy?: SortField;
   sortDirection?: "asc" | "desc";
   limit?: number;
+  videoIds?: string[];
+  /** When false, skip hardcoded `videoIds` even if production mode is on (use criteria ranking). */
+  useHardcodedIds?: boolean;
 };
 
 /** Fields exposed in launch library search / filter UI */

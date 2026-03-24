@@ -15,6 +15,7 @@ import {ChevronLeft, ChevronRight, Volume2, VolumeX} from "lucide-react";
 import {rankPaths} from "./assets";
 import {VideoData} from "./data/types";
 import {getVideoTags} from "./data/video-tags";
+import {getTopTenVideos} from "./row-config";
 import {TagBadge} from "./tag-badge";
 
 const h1Font = localFont({
@@ -25,18 +26,6 @@ const bodyFont = localFont({
   src: "../fonts/proximanova_regular.ttf",
 });
 
-const topTen: string[] = [
-  "1978176112740950504",
-  "1963310947470344353",
-  "1978158867499331586",
-  "1985391530090127424",
-  "1988320904926130562",
-  "1924948247618920780",
-  "1985769015881715775",
-  "1894447274756817044",
-  "2018383922099630298",
-  "2018799155871903814",
-];
 
 type RankPathItem = (typeof rankPaths)[number];
 type RankedRankItem = RankPathItem & {video: VideoData};
@@ -388,11 +377,10 @@ function RankCard({
 
 export const TopTen = ({videos}: {videos: VideoData[]}) => {
   const rankedItems = useMemo((): RankedRankItem[] => {
-    const videoMap = new Map(videos.map((video) => [video.postId, video]));
+    const ordered = getTopTenVideos(videos);
     return rankPaths
       .map((rank, index) => {
-        const postId = topTen[index];
-        const video = videoMap.get(postId);
+        const video = ordered[index];
         if (!video) return null;
         return {...rank, video};
       })

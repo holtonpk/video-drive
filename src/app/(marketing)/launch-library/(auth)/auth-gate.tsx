@@ -11,6 +11,16 @@ import {
 import {auth, sendEmailCode, verifyEmailCode} from "@/lib/firebase-auth-gate";
 import {getFunctions, httpsCallable} from "firebase/functions";
 
+type AuthGateContextValue = {
+  locked: boolean;
+};
+
+const AuthGateContext = React.createContext<AuthGateContextValue>({
+  locked: true,
+});
+
+export const useAuthGate = () => React.useContext(AuthGateContext);
+
 const h1Font = localFont({
   src: "../../fonts/HeadingNow-56Bold.ttf",
 });
@@ -59,7 +69,21 @@ export function AuthGate({children}: {children: React.ReactNode}) {
     return () => unsub();
   }, []);
 
-  const locked = mounted && !user;
+  const locked = !user;
+
+  React.useEffect(() => {
+    if (!mounted) return;
+
+    if (locked) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [locked, mounted]);
 
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault();
@@ -118,19 +142,20 @@ export function AuthGate({children}: {children: React.ReactNode}) {
   }
 
   return (
-    <div className="relative min-h-screen">
-      <div
-        aria-hidden={locked}
-        className={
-          locked
-            ? "pointer-events-none select-none blur-md transition duration-200"
-            : "transition duration-200"
-        }
-      >
-        {children}
-      </div>
+    <AuthGateContext.Provider value={{locked}}>
+      <div className="relative min-h-screen">
+        <div
+          aria-hidden={locked}
+          className={
+            locked
+              ? "pointer-events-none select-none blur-md transition duration-200"
+              : "transition duration-200"
+          }
+        >
+          {children}
+        </div>
 
-      {locked && (
+        {locked && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/45 px-4">
           <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#171717] p-6 shadow-2xl">
             <div className="mb-2">
@@ -229,7 +254,8 @@ export function AuthGate({children}: {children: React.ReactNode}) {
             )}
           </div>
         </div>
-      )}
-    </div>
+        )}
+      </div>
+    </AuthGateContext.Provider>
   );
 }
