@@ -9,7 +9,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "backfill:launch-library-search": "tsx scripts/backfill-launch-library-search.ts",
+    "verify:launch-library-search": "tsx scripts/verify-launch-library-search.ts"
   },
   "dependencies": {
     "@editorjs/checklist": "^1.6.0",
@@ -92,9 +94,11 @@
     "validator": "^13.12.0",
     "vaul": "^1.1.2",
     "youtube-captions-scraper": "^2.0.3",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "firebase-admin": "^12.7.0"
   },
   "devDependencies": {
+    "tsx": "^4.19.3",
     "@types/node": "^20",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
