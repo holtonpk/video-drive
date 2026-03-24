@@ -13,7 +13,7 @@ import {useRouter} from "next/navigation";
 import {baseSlugFromName} from "@/lib/slug";
 import {ChevronLeft, ChevronRight, Volume2, VolumeX} from "lucide-react";
 import {rankPaths} from "./assets";
-import {VideoData} from "./data/types";
+import type {HomepageVideoCardData} from "./data/types";
 import {getVideoTags} from "./data/video-tags";
 import {getTopTenVideos} from "./row-config";
 import {TagBadge} from "./tag-badge";
@@ -28,7 +28,7 @@ const bodyFont = localFont({
 
 
 type RankPathItem = (typeof rankPaths)[number];
-type RankedRankItem = RankPathItem & {video: VideoData};
+type RankedRankItem = RankPathItem & {video: HomepageVideoCardData};
 
 function RankNumber({
   id,
@@ -68,7 +68,7 @@ function RankCard({
   viewBox: string;
   path: string;
   width: number;
-  video: VideoData;
+  video: HomepageVideoCardData;
 }) {
   const router = useRouter();
 
@@ -375,7 +375,7 @@ function RankCard({
   );
 }
 
-export const TopTen = ({videos}: {videos: VideoData[]}) => {
+export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
   const rankedItems = useMemo((): RankedRankItem[] => {
     const ordered = getTopTenVideos(videos);
     return rankPaths

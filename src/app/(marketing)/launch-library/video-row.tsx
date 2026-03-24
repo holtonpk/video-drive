@@ -4,7 +4,7 @@ import React, {useEffect, useMemo, useRef, useState} from "react";
 import localFont from "next/font/local";
 import {ChevronLeft, ChevronRight, Volume2, VolumeX} from "lucide-react";
 import {createPortal} from "react-dom";
-import {VideoData} from "./data/types";
+import type {VideoCardDisplay} from "./data/types";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import {baseSlugFromName} from "@/lib/slug";
@@ -35,7 +35,7 @@ export const VideoCard = ({
   index,
   showNameOverlay = false,
 }: {
-  video: VideoData;
+  video: VideoCardDisplay;
   index: number;
   showNameOverlay?: boolean;
 }) => {
@@ -346,7 +346,7 @@ const VideoRow = ({
   label,
   href,
 }: {
-  videos: VideoData[];
+  videos: VideoCardDisplay[];
   label: string;
   href: string;
 }) => {

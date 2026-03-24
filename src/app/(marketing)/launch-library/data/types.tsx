@@ -50,6 +50,35 @@ export type VideoData = {
   videoUrl: string | null;
 };
 
+/**
+ * Minimal fields for card hover / preview UI (homepage slim payload + search hits).
+ * Omits description, postUrl, and other heavy VideoData fields.
+ */
+export type VideoCardDisplay = {
+  postId: string;
+  slug?: string;
+  name: string;
+  thumbnail: string | null;
+  cohort: string | null;
+  industry: string[];
+  sector: string[];
+  creativeFormat: string[];
+  tone: string[];
+  production: string[];
+  hook: string[];
+  videoUrl: string | null;
+  website: string | null;
+  commentary: string | null;
+};
+
+/** Homepage-only: slim doc for ISR/static (truncated commentary, no description). */
+export type HomepageVideoCardData = VideoCardDisplay & {
+  score: VideoData["score"];
+  createdAt: string | null;
+  viewCount: number;
+  likeCount: number;
+};
+
 export type ScalarField = "cohort" | "score";
 
 export type ArrayField =

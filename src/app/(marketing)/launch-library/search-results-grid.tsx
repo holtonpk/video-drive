@@ -3,7 +3,7 @@
 import React from "react";
 import localFont from "next/font/local";
 import {Loader2} from "lucide-react";
-import {VideoData} from "./data/types";
+import type {VideoCardDisplay} from "./data/types";
 import {VideoCard} from "./video-row";
 
 const h1Font = localFont({
@@ -20,7 +20,7 @@ const SearchResultsGrid = ({
   onLoadMore,
 }: {
   title: string;
-  videos: VideoData[];
+  videos: VideoCardDisplay[];
   showNameOverlay?: boolean;
   isLoading?: boolean;
   isLoadingMore?: boolean;

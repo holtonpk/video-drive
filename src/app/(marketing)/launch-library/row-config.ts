@@ -1,9 +1,16 @@
-import type {VideoData, VideoRowConfig, RowCriterion} from "./data/types";
+import type {
+  HomepageVideoCardData,
+  VideoRowConfig,
+  RowCriterion,
+} from "./data/types";
 
 export const USE_HARDCODED_HOMEPAGE_ROWS =
   process.env.NEXT_PUBLIC_USE_HARDCODED_HOMEPAGE_ROWS === "false";
 
-function matchesCriterion(video: VideoData, criterion: RowCriterion): boolean {
+function matchesCriterion(
+  video: HomepageVideoCardData,
+  criterion: RowCriterion,
+): boolean {
   const fieldValue = video[criterion.field];
 
   if ("value" in criterion) {
@@ -326,10 +333,10 @@ export const TOP_TEN_VIDEO_IDS: string[] = [
 ];
 
 function sortVideos(
-  videos: VideoData[],
-  sortBy?: keyof VideoData,
+  videos: HomepageVideoCardData[],
+  sortBy?: keyof HomepageVideoCardData,
   direction: "asc" | "desc" = "desc",
-): VideoData[] {
+): HomepageVideoCardData[] {
   if (!sortBy) return [...videos];
 
   return [...videos].sort((a, b) => {
@@ -348,24 +355,31 @@ function sortVideos(
   });
 }
 
-function getVideoKey(video: VideoData): string {
+function getVideoKey(video: HomepageVideoCardData): string {
   return String(video.postId ?? video.name);
 }
 
-function createVideoMap(videos: VideoData[]): Map<string, VideoData> {
+function createVideoMap(
+  videos: HomepageVideoCardData[],
+): Map<string, HomepageVideoCardData> {
   return new Map(videos.map((video) => [getVideoKey(video), video]));
 }
 
-function getVideosByIds(videos: VideoData[], ids: string[]): VideoData[] {
+function getVideosByIds(
+  videos: HomepageVideoCardData[],
+  ids: string[],
+): HomepageVideoCardData[] {
   const videoMap = createVideoMap(videos);
 
   return ids
     .map((id) => videoMap.get(String(id)))
-    .filter(Boolean) as VideoData[];
+    .filter(Boolean) as HomepageVideoCardData[];
 }
 
 /** Discover top videos for dev when hardcoded lists are off (score, then views). */
-function rankVideosForTopTenDiscover(videos: VideoData[]): VideoData[] {
+function rankVideosForTopTenDiscover(
+  videos: HomepageVideoCardData[],
+): HomepageVideoCardData[] {
   return [...videos]
     .sort((a, b) => {
       const as = a.score ?? 0;
@@ -376,14 +390,16 @@ function rankVideosForTopTenDiscover(videos: VideoData[]): VideoData[] {
     .slice(0, 10);
 }
 
-export function getTopTenVideos(videos: VideoData[]): VideoData[] {
+export function getTopTenVideos(
+  videos: HomepageVideoCardData[],
+): HomepageVideoCardData[] {
   return getVideosByIds(videos, TOP_TEN_VIDEO_IDS);
 }
 
 export function getVideosForRow(
-  videos: VideoData[],
+  videos: HomepageVideoCardData[],
   config: VideoRowConfig,
-): VideoData[] {
+): HomepageVideoCardData[] {
   const shouldUseHardcodedIds =
     USE_HARDCODED_HOMEPAGE_ROWS &&
     config.useHardcodedIds !== false &&
@@ -406,7 +422,7 @@ export function getVideosForRow(
 
   result = sortVideos(
     result,
-    config.sortBy as keyof VideoData | undefined,
+    config.sortBy as keyof HomepageVideoCardData | undefined,
     config.sortDirection ?? "desc",
   );
 
@@ -418,9 +434,9 @@ export function getVideosForRow(
 }
 
 export function buildVideoRows(
-  videos: VideoData[],
+  videos: HomepageVideoCardData[],
   configs: VideoRowConfig[] = videoRowConfigs,
-): Array<{config: VideoRowConfig; videos: VideoData[]}> {
+): Array<{config: VideoRowConfig; videos: HomepageVideoCardData[]}> {
   const usedVideoKeys = new Set<string>();
 
   return configs.map((config) => {

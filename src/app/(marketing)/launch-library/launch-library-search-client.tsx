@@ -1,14 +1,7 @@
 "use client";
 
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import VideoRowHeader from "./video-row-header";
-import {TopTen} from "./top-ten";
-import {LaunchLibraryContent} from "./launch-library-content";
 import type {LaunchLibraryActiveFilters, VideoData} from "./data/types";
 import SearchResultsGrid from "./search-results-grid";
 import {
@@ -30,10 +23,10 @@ function searchCacheKey(input: {
   });
 }
 
-export default function LaunchLibraryPageClient({
-  homepageVideos,
+export default function LaunchLibrarySearchClient({
+  children,
 }: {
-  homepageVideos: VideoData[];
+  children: React.ReactNode;
 }) {
   const [searchValue, setSearchValue] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
@@ -246,10 +239,7 @@ export default function LaunchLibraryPageClient({
             />
           </>
         ) : (
-          <>
-            <TopTen videos={homepageVideos} />
-            <LaunchLibraryContent videos={homepageVideos} />
-          </>
+          children
         )}
       </div>
     </>

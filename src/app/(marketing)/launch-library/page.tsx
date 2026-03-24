@@ -3,7 +3,9 @@ import {NavBar} from "../navbar";
 import {Footer} from "../footer";
 import {Hero} from "./hero";
 import {constructMetadata} from "@/lib/utils";
-import LaunchLibraryPageClient from "./launch-library-page-client";
+import LaunchLibrarySearchClient from "./launch-library-search-client";
+import {TopTen} from "./top-ten";
+import {LaunchLibraryContent} from "./launch-library-content";
 import {getHomepageVideos} from "@/lib/launch-library/get-homepage-videos";
 
 export const metadata = constructMetadata({
@@ -20,7 +22,10 @@ export default async function Page() {
     <div id="hero" className="flex flex-col min-h-screen">
       <NavBar />
       <Hero />
-      <LaunchLibraryPageClient homepageVideos={homepageVideos} />
+      <LaunchLibrarySearchClient>
+        <TopTen videos={homepageVideos} />
+        <LaunchLibraryContent videos={homepageVideos} />
+      </LaunchLibrarySearchClient>
       <Footer />
     </div>
   );

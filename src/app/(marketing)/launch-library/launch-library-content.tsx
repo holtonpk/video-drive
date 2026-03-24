@@ -2,10 +2,14 @@
 
 import React, {useMemo} from "react";
 import VideoRow from "./video-row";
-import {VideoData} from "./data/types";
+import type {HomepageVideoCardData} from "./data/types";
 import {videoRowConfigs, buildVideoRows} from "./row-config";
 
-export function LaunchLibraryContent({videos}: {videos: VideoData[]}) {
+export function LaunchLibraryContent({
+  videos,
+}: {
+  videos: HomepageVideoCardData[];
+}) {
   const rows = useMemo(() => buildVideoRows(videos, videoRowConfigs), [videos]);
 
   return (

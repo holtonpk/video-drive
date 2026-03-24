@@ -1,4 +1,4 @@
-import type {VideoData} from "./types";
+import type {VideoCardDisplay} from "./types";
 import type {LaunchLibraryFieldCategory} from "./field-routing";
 
 const TAG_FIELDS = [
@@ -17,7 +17,7 @@ export type VideoTag = {
   category: LaunchLibraryFieldCategory;
 };
 
-export const getVideoTags = (video: VideoData): VideoTag[] => {
+export const getVideoTags = (video: VideoCardDisplay): VideoTag[] => {
   const tags: VideoTag[] = [];
 
   for (const { field, category } of TAG_FIELDS) {
