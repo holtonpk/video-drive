@@ -1,9 +1,20 @@
 import {NextRequest, NextResponse} from "next/server";
-import type {
-  DocumentSnapshot,
-  QueryDocumentSnapshot,
-} from "firebase-admin/firestore";
-import {getAdminDb} from "@/lib/firebase/admin";
+import {db} from "@/config/firebase";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAfter,
+  startAt,
+  endAt,
+  type QueryConstraint,
+  type QueryDocumentSnapshot,
+  type DocumentSnapshot,
+} from "firebase/firestore";
 import {
   LAUNCH_LIBRARY_FILTER_FIELDS,
   type LaunchLibraryActiveFilters,
@@ -15,13 +26,9 @@ export const runtime = "nodejs";
 
 type Filters = LaunchLibraryActiveFilters;
 
-// Fast prefix candidates
 const PREFIX_FETCH = 60;
-// Big fallback pool so fuzzy matching always has enough candidates
 const FALLBACK_FETCH = 300;
-// Filter-only / browse pool
 const FILTER_FETCH = 120;
-// Always try to return at least this many
 const MIN_RESULTS = 20;
 
 function normalize(value: string) {
@@ -50,11 +57,11 @@ function matchesFilters(doc: Record<string, unknown>, filters: Filters) {
   );
 }
 
-function slimResult(doc: QueryDocumentSnapshot): LaunchLibrarySearchHit {
-  const data = doc.data();
+function slimResult(docSnap: QueryDocumentSnapshot): LaunchLibrarySearchHit {
+  const data = docSnap.data();
 
   return {
-    postId: doc.id,
+    postId: docSnap.id,
     slug: typeof data.slug === "string" ? data.slug : "",
     name: typeof data.name === "string" ? data.name : "",
     authorUsername:
@@ -76,26 +83,28 @@ function slimResult(doc: QueryDocumentSnapshot): LaunchLibrarySearchHit {
 }
 
 function rowForFilterMatch(
-  doc: QueryDocumentSnapshot,
+  docSnap: QueryDocumentSnapshot,
 ): Record<string, unknown> {
-  return {postId: doc.id, ...doc.data()};
+  return {postId: docSnap.id, ...docSnap.data()};
 }
 
-function dedupeDocs(docs: QueryDocumentSnapshot[]): QueryDocumentSnapshot[] {
+function dedupeDocs(
+  docs: QueryDocumentSnapshot[],
+): QueryDocumentSnapshot[] {
   const seen = new Set<string>();
   const result: QueryDocumentSnapshot[] = [];
 
-  for (const doc of docs) {
-    if (seen.has(doc.id)) continue;
-    seen.add(doc.id);
-    result.push(doc);
+  for (const docSnap of docs) {
+    if (seen.has(docSnap.id)) continue;
+    seen.add(docSnap.id);
+    result.push(docSnap);
   }
 
   return result;
 }
 
-function getNameLower(doc: QueryDocumentSnapshot): string {
-  const data = doc.data();
+function getNameLower(docSnap: QueryDocumentSnapshot): string {
+  const data = docSnap.data();
 
   if (typeof data.nameLower === "string" && data.nameLower.trim()) {
     return normalize(data.nameLower);
@@ -108,8 +117,8 @@ function getNameLower(doc: QueryDocumentSnapshot): string {
   return "";
 }
 
-function getSearchBlob(doc: QueryDocumentSnapshot): string {
-  const data = doc.data();
+function getSearchBlob(docSnap: QueryDocumentSnapshot): string {
+  const data = docSnap.data();
 
   return [
     typeof data.name === "string" ? data.name : "",
@@ -195,9 +204,9 @@ function diceCoefficient(a: string, b: string): number {
   return (2 * overlap) / (aBigrams.length + bBigrams.length);
 }
 
-function tokenPrefixScore(name: string, query: string): number {
+function tokenPrefixScore(name: string, queryText: string): number {
   const nameWords = name.split(/[\s\-_/]+/).filter(Boolean);
-  const queryWords = query.split(/[\s\-_/]+/).filter(Boolean);
+  const queryWords = queryText.split(/[\s\-_/]+/).filter(Boolean);
 
   if (!nameWords.length || !queryWords.length) return 0;
 
@@ -219,21 +228,21 @@ function tokenPrefixScore(name: string, query: string): number {
   return score;
 }
 
-function scoreDoc(doc: QueryDocumentSnapshot, queryText: string): number {
-  const data = doc.data();
-  const name = getNameLower(doc);
-  const blob = getSearchBlob(doc);
+function scoreDoc(docSnap: QueryDocumentSnapshot, queryText: string): number {
+  const data = docSnap.data();
+  const name = getNameLower(docSnap);
+  const blob = getSearchBlob(docSnap);
   const businessScore = typeof data.score === "number" ? data.score : 0;
 
   if (!queryText) {
     return businessScore;
   }
 
-  // Strong exact / prefix / substring boosts
   if (name === queryText) return 20000 + businessScore;
   if (name.startsWith(queryText)) return 15000 + businessScore;
-  if (queryText.startsWith(name) && name.length >= 4)
+  if (queryText.startsWith(name) && name.length >= 4) {
     return 14000 + businessScore;
+  }
   if (name.includes(queryText)) return 11000 + businessScore;
   if (blob.includes(queryText)) return 7000 + businessScore;
 
@@ -241,15 +250,22 @@ function scoreDoc(doc: QueryDocumentSnapshot, queryText: string): number {
   const diceSim = diceCoefficient(name, queryText);
   const tokenScore = tokenPrefixScore(name, queryText);
 
-  // Weighted fuzzy score
   const fuzzy = editSim * 4000 + diceSim * 3000 + tokenScore * 500;
 
-  // Small reward if individual query words appear somewhere in blob
   const queryWords = queryText.split(/\s+/).filter(Boolean);
   const wordMatches = queryWords.filter((word) => blob.includes(word)).length;
   const wordScore = wordMatches * 150;
 
   return fuzzy + wordScore + businessScore;
+}
+
+async function getCursorSnap(
+  cursor: string | null,
+): Promise<DocumentSnapshot | null> {
+  if (!cursor) return null;
+
+  const snap = await getDoc(doc(db, "launch-library-search", cursor));
+  return snap.exists() ? snap : null;
 }
 
 export async function POST(req: NextRequest) {
@@ -270,33 +286,34 @@ export async function POST(req: NextRequest) {
     const cursor = body.cursor ? String(body.cursor) : null;
 
     const queryText = normalize(qRaw);
-    const db = getAdminDb();
-    const col = db.collection("launch-library-search");
-
-    let cursorSnap: DocumentSnapshot | null = null;
-    if (cursor) {
-      const c = await col.doc(cursor).get();
-      if (c.exists) cursorSnap = c;
-    }
+    const colRef = collection(db, "launch-library-search");
+    const cursorSnap = await getCursorSnap(cursor);
 
     const hasActiveFilters = LAUNCH_LIBRARY_FILTER_FIELDS.some(
       (field) => (filters[field]?.length ?? 0) > 0,
     );
 
-    // Typed search: always return best fuzzy matches, even for typos
     if (queryText.length >= 1) {
-      let prefixQuery = col
-        .orderBy("nameLower")
-        .startAt(queryText)
-        .endAt(queryText + "\uf8ff");
+      const prefixConstraints: QueryConstraint[] = [
+        orderBy("nameLower"),
+        startAt(queryText),
+        endAt(queryText + "\uf8ff"),
+      ];
 
       if (cursorSnap) {
-        prefixQuery = prefixQuery.startAfter(cursorSnap);
+        prefixConstraints.push(startAfter(cursorSnap));
       }
 
+      prefixConstraints.push(limit(PREFIX_FETCH));
+
+      const fallbackConstraints: QueryConstraint[] = [
+        orderBy("score", "desc"),
+        limit(FALLBACK_FETCH),
+      ];
+
       const [prefixSnapshot, fallbackSnapshot] = await Promise.all([
-        prefixQuery.limit(PREFIX_FETCH).get(),
-        col.orderBy("score", "desc").limit(FALLBACK_FETCH).get(),
+        getDocs(query(colRef, ...prefixConstraints)),
+        getDocs(query(colRef, ...fallbackConstraints)),
       ]);
 
       let candidates = dedupeDocs([
@@ -305,15 +322,15 @@ export async function POST(req: NextRequest) {
       ]);
 
       if (hasActiveFilters) {
-        candidates = candidates.filter((doc) =>
-          matchesFilters(rowForFilterMatch(doc), filters),
+        candidates = candidates.filter((docSnap) =>
+          matchesFilters(rowForFilterMatch(docSnap), filters),
         );
       }
 
       const ranked = candidates
-        .map((doc) => ({
-          doc,
-          rank: scoreDoc(doc, queryText),
+        .map((docSnap) => ({
+          doc: docSnap,
+          rank: scoreDoc(docSnap, queryText),
         }))
         .sort((a, b) => b.rank - a.rank);
 
@@ -323,6 +340,7 @@ export async function POST(req: NextRequest) {
 
       const lastPrefixDoc =
         prefixSnapshot.docs[prefixSnapshot.docs.length - 1] ?? null;
+
       const nextCursor =
         prefixSnapshot.docs.length >= PREFIX_FETCH && lastPrefixDoc
           ? lastPrefixDoc.id
@@ -334,20 +352,21 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Filters only / browse
-    let browseQuery = col.orderBy("score", "desc");
+    const browseConstraints: QueryConstraint[] = [orderBy("score", "desc")];
 
     if (cursorSnap) {
-      browseQuery = browseQuery.startAfter(cursorSnap);
+      browseConstraints.push(startAfter(cursorSnap));
     }
 
-    const snapshot = await browseQuery.limit(FILTER_FETCH).get();
+    browseConstraints.push(limit(FILTER_FETCH));
+
+    const snapshot = await getDocs(query(colRef, ...browseConstraints));
 
     let docs = snapshot.docs;
 
     if (hasActiveFilters) {
-      docs = docs.filter((doc) =>
-        matchesFilters(rowForFilterMatch(doc), filters),
+      docs = docs.filter((docSnap) =>
+        matchesFilters(rowForFilterMatch(docSnap), filters),
       );
     }
 
@@ -364,10 +383,7 @@ export async function POST(req: NextRequest) {
     console.error("launch-library search", e);
     return NextResponse.json(
       {
-        error:
-          e instanceof Error
-            ? e.message
-            : "Search failed — check credentials and Firestore indexes.",
+        error: e instanceof Error ? e.message : "Search failed",
       },
       {status: 500},
     );

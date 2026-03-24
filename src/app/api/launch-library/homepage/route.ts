@@ -1,32 +1,46 @@
 import {NextResponse} from "next/server";
-import {getAdminDb} from "@/lib/firebase/admin";
+import {db} from "@/config/firebase";
 import {collectHomepageVideoIds} from "@/lib/launch-library/homepage-ids";
 import type {VideoData} from "@/src/app/(marketing)/launch-library/data/types";
+import {
+  collection,
+  documentId,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const runtime = "nodejs";
 
-/**
- * Loads only the `launch-library` documents referenced by hardcoded TopTen + row
- * configs (batched getAll). No full collection scan.
- */
+const IN_CHUNK_SIZE = 10;
+
 export async function GET() {
   try {
-    const db = getAdminDb();
     const ids = collectHomepageVideoIds();
     const videos: VideoData[] = [];
 
-    for (let i = 0; i < ids.length; i += 100) {
-      const chunk = ids.slice(i, i + 100);
-      const refs = chunk.map((id) => db.collection("launch-library").doc(id));
-      const snaps = await db.getAll(...refs);
-      for (const snap of snaps) {
-        if (!snap.exists) continue;
+    for (let i = 0; i < ids.length; i += IN_CHUNK_SIZE) {
+      const chunk = ids.slice(i, i + IN_CHUNK_SIZE);
+
+      const q = query(
+        collection(db, "launch-library"),
+        where(documentId(), "in", chunk),
+      );
+
+      const snapshot = await getDocs(q);
+
+      for (const snap of snapshot.docs) {
         const raw = snap.data() as VideoData;
         videos.push({...raw, postId: snap.id});
       }
     }
 
-    return NextResponse.json({videos});
+    const byId = new Map(videos.map((video) => [video.postId, video]));
+    const orderedVideos = ids
+      .map((id) => byId.get(id))
+      .filter(Boolean) as VideoData[];
+
+    return NextResponse.json({videos: orderedVideos});
   } catch (e) {
     console.error("launch-library homepage", e);
     return NextResponse.json(
