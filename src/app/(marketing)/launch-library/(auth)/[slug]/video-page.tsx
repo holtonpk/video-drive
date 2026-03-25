@@ -177,17 +177,19 @@ const FeedBackCard = ({video}: {video: VideoData}) => {
 
   return (
     <div className="flex h-fit flex-col gap-3 mt-4 md:rounded-l-[0px] rounded-[12px] border-[1px] min-h-[90%] md:border-l-0 border-white/20 bg-[#1A1A1A] p-4">
-      <div className="p-2 flex items-center gap-1">
+      <div className=" flex flex-row items-start gap-1">
         <img
           src={getFaviconUrl(video.website ?? "")}
           alt={video.name}
-          className="h-10 w-10 mr-4 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
+          className="h-16 w-16 md:h-10 md:w-10 mr-4 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
         />
-        <h1 className={`text-3xl font-semibold ${h1Font.className}`}>
-          {video.name}
-        </h1>
-        <div className={`min-w-0 truncate text-xl text-white/70`}>
-          • YC {video.cohort ?? "Cohort unknown"}
+        <div className="flex flex-col md:flex-row items-start gap-1">
+          <h1 className={`text-3xl font-semibold ${h1Font.className}`}>
+            {video.name}
+          </h1>
+          <div className={` min-w-0  truncate text-xl text-white/70`}>
+            • YC {video.cohort ?? "Cohort unknown"}
+          </div>
         </div>
       </div>
       {/* <p className={`text-lg text-white/80 ${bodyFont.className}`}>

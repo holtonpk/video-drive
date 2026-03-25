@@ -28,7 +28,7 @@ const bodyFont = localFont({
 });
 
 const CARD_WIDTH_DESKTOP = 256;
-const CARD_WIDTH_MOBILE = 356;
+const CARD_WIDTH_MOBILE = 311;
 const GAP = 16;
 const EDGE_PEEK = 24;
 
@@ -89,6 +89,34 @@ export const VideoCard = ({
   const [previewPos, setPreviewPos] = useState({top: 0, left: 0});
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    isHoveringCardRef.current = false;
+    isHoveringPreviewRef.current = false;
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    if (exitTimeoutRef.current) {
+      clearTimeout(exitTimeoutRef.current);
+      exitTimeoutRef.current = null;
+    }
+    setIsHoveringCard(false);
+    setIsHoveringPreview(false);
+    setIsPreviewMounted(false);
+    setIsPreviewVisible(false);
+    setIsVideoReady(false);
+  }, [isMobile]);
 
   useEffect(() => {
     setMounted(true);
@@ -156,6 +184,8 @@ export const VideoCard = ({
   };
 
   const handleEnter = () => {
+    if (isMobile) return;
+
     router.prefetch(href);
 
     isHoveringCardRef.current = true;
@@ -171,6 +201,8 @@ export const VideoCard = ({
   };
 
   const handleLeave = () => {
+    if (isMobile) return;
+
     isHoveringCardRef.current = false;
     setIsHoveringCard(false);
 
@@ -248,9 +280,17 @@ export const VideoCard = ({
         href={href}
         ref={cardRef}
         prefetch
-        className="shrink-0 relative cursor-pointer flex items-center justify-center overflow-hidden rounded-[12px] bg-muted w-[356px] md:w-[256px] h-[200px] md:h-36"
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
+        className="shrink-0 relative cursor-pointer flex items-center justify-center overflow-hidden rounded-[12px] bg-muted w-[311px] md:w-[256px] h-[175px] md:h-36"
+        onMouseEnter={!isMobile ? handleEnter : undefined}
+        onMouseLeave={!isMobile ? handleLeave : undefined}
+        onClick={
+          isMobile
+            ? (e) => {
+                e.preventDefault();
+                handleNavigate(e);
+              }
+            : undefined
+        }
         onPointerDown={() => router.prefetch(href)}
       >
         <Image
@@ -259,7 +299,7 @@ export const VideoCard = ({
           fill
           className="rounded-[12px] object-cover"
         />
-        {showNameOverlay && (
+        {(showNameOverlay || isMobile) && (
           <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-3 py-2">
             <div className={`truncate text-sm text-white ${h1Font.className}`}>
               {video.name}
@@ -268,7 +308,8 @@ export const VideoCard = ({
         )}
       </Link>
 
-      {mounted &&
+      {!isMobile &&
+        mounted &&
         isPreviewMounted &&
         createPortal(
           <div
@@ -488,11 +529,11 @@ const VideoRow = ({
   const [isCopied, setIsCopied] = useState(false);
 
   return (
-    <div className="w-full flex flex-col gap-2 px-6 items-start">
-      <div className="flex sm:flex-row flex-col justify-between gap-1 items-start sm:items-center w-full">
+    <div className="w-full flex flex-col gap-2 md:px-6 items-start">
+      <div className="flex sm:flex-row flex-col justify-between gap-1 items-start sm:items-center w-full pl-4 md:pl-0">
         <Link
           href={href}
-          className={`group relative z-20 inline-flex items-center sm:pl-6 text-2xl uppercase big-text ${h1Font.className}`}
+          className={`group relative z-20 inline-flex items-center  sm:pl-6 text-2xl uppercase big-text ${h1Font.className}`}
         >
           <span className="group-hover:underline">{label}</span>
 
@@ -528,11 +569,11 @@ const VideoRow = ({
           Copy all
         </button> */}
         {/* indicates which page is currently active by changing the background color */}
-        <div className="flex gap-[1px] flex-wrap">
+        <div className="flex gap-1 md:gap-[1px] flex-wrap">
           {Array.from({length: AMOUNT_OF_PAGES}).map((_, index) => (
             <div
               key={index}
-              className={`w-6 h-1 ${index === currentPage ? "bg-theme-color1" : "bg-muted"}`}
+              className={`w-2 h-2 rounded-full md:rounded-none mb-2 md:mb-0 md:w-6 md:h-1 ${index === currentPage ? "bg-theme-color1" : "bg-muted"}`}
             />
           ))}
         </div>

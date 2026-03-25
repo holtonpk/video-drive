@@ -55,6 +55,7 @@ function RankNumber({
 }
 
 const HOVER_DELAY = 500;
+const PREVIEW_EXIT_MS = 180;
 
 function RankCard({
   id,
@@ -71,9 +72,25 @@ function RankCard({
 }) {
   const router = useRouter();
 
-  const handleNavigate = () => {
-    const pathSlug = video.slug ?? baseSlugFromName(video.name);
-    router.push(`/launch-library/${pathSlug}`);
+  const pathSlug = useMemo(
+    () => video.slug ?? baseSlugFromName(video.name),
+    [video.slug, video.name],
+  );
+  const href = `/launch-library/${pathSlug}`;
+
+  const handleNavigate = (
+    e?: React.MouseEvent<HTMLElement> | React.PointerEvent<HTMLElement>,
+  ) => {
+    const target = e?.target;
+    const el =
+      target instanceof Element
+        ? target
+        : (target as Node | null)?.parentElement;
+    if (el?.closest("[data-interactive='true']")) {
+      return;
+    }
+
+    router.push(href);
   };
 
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -91,8 +108,36 @@ function RankCard({
   const [previewPos, setPreviewPos] = useState({top: 0, left: 0});
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const tags = getVideoTags(video);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    isHoveringCardRef.current = false;
+    isHoveringPreviewRef.current = false;
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    if (exitTimeoutRef.current) {
+      clearTimeout(exitTimeoutRef.current);
+      exitTimeoutRef.current = null;
+    }
+    setIsHoveringCard(false);
+    setIsHoveringPreview(false);
+    setPreviewMounted(false);
+    setPreviewVisible(false);
+    setIsVideoReady(false);
+  }, [isMobile]);
 
   useEffect(() => {
     setMounted(true);
@@ -146,7 +191,7 @@ function RankCard({
       setIsHoveringPreview(false);
       setPreviewMounted(false);
       setIsVideoReady(false);
-    }, 180);
+    }, PREVIEW_EXIT_MS);
   };
 
   const scheduleCloseIfNeeded = () => {
@@ -185,6 +230,8 @@ function RankCard({
   };
 
   const handlePreviewEnter = () => {
+    router.prefetch(href);
+
     isHoveringPreviewRef.current = true;
     setIsHoveringPreview(true);
     clearExitTimeout();
@@ -242,8 +289,8 @@ function RankCard({
     <>
       <div
         className="flex shrink-0 items-center"
-        onMouseEnter={handleEnter}
-        onMouseLeave={handleLeave}
+        onMouseEnter={!isMobile ? handleEnter : undefined}
+        onMouseLeave={!isMobile ? handleLeave : undefined}
       >
         <RankNumber id={id} viewBox={viewBox} path={path} width={width} />
 
@@ -251,7 +298,15 @@ function RankCard({
           ref={cardRef}
           id="rank-video-card-preview"
           className="-ml-px relative aspect-video w-[256px] shrink-0 cursor-pointer overflow-hidden rounded-r-[6px] bg-muted"
-          onClick={handleNavigate}
+          onClick={
+            isMobile
+              ? (e) => {
+                  e.preventDefault();
+                  handleNavigate(e);
+                }
+              : handleNavigate
+          }
+          onPointerDown={() => router.prefetch(href)}
         >
           <Image
             src={video.thumbnail ?? ""}
@@ -260,15 +315,20 @@ function RankCard({
             className="object-cover"
           />
 
-          {/* <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-3 py-2">
-            <div className={`truncate text-sm text-white ${h1Font.className}`}>
-              {video.name}
+          {isMobile && (
+            <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-3 py-2">
+              <div
+                className={`truncate text-sm text-white ${h1Font.className}`}
+              >
+                {video.name}
+              </div>
             </div>
-          </div> */}
+          )}
         </div>
       </div>
 
-      {mounted &&
+      {!isMobile &&
+        mounted &&
         previewMounted &&
         createPortal(
           <div
@@ -285,7 +345,7 @@ function RankCard({
             }}
             onMouseEnter={handlePreviewEnter}
             onMouseLeave={handlePreviewLeave}
-            onClick={handleNavigate}
+            onPointerDown={handleNavigate}
           >
             <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-muted">
               {video.thumbnail && (
@@ -316,6 +376,7 @@ function RankCard({
 
               <button
                 type="button"
+                data-interactive="true"
                 aria-label={isMuted ? "Unmute preview" : "Mute preview"}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -550,11 +611,11 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
           Top 10 Launch Videos
         </h1>
 
-        <div className="flex gap-[1px] flex-wrap">
+        <div className="flex gap-1 md:gap-[1px] flex-wrap">
           {pageStarts.map((_, index) => (
             <div
               key={index}
-              className={`h-1 w-6 ${
+              className={`w-2 h-2 rounded-full md:rounded-none mb-2 md:mb-0 md:w-6 md:h-1 ${
                 index === currentPageIndex ? "bg-theme-color1" : "bg-muted"
               }`}
             />

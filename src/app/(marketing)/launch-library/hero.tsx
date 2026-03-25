@@ -18,7 +18,7 @@ export const Hero = () => {
     <div className="container mx-auto relative flex flex-col items-center pt-16 gap-6 ">
       <div className="flex max-w-[500px] flex-col gap-6 items-center">
         <div
-          className={`px-3 py-2 border-2 border-theme-color1 uppercase rounded-[8px] text-2xl w-fit -rotate-6 ${h1Font.className}`}
+          className={`px-3 py-2 border-2 border-theme-color1 uppercase rounded-[8px] text-lg md:text-2xl w-fit -rotate-6 ${h1Font.className}`}
         >
           Hand picked by humans
         </div>
@@ -32,9 +32,11 @@ export const Hero = () => {
           </span>{" "}
         </h1>
         <p
-          className={`text-xl small-text text-primary/70 text-center ${bodyFont.className}`}
+          className={`text-sm md:text-xl small-text text-primary/70 text-center ${bodyFont.className}`}
         >
-          A Human curated library of the best YC launch videos
+          The largest collection of startup launch videos on the internet. Human
+          curated, ranked and organized. Giving the best way to plan your
+          companies launch.
         </p>
       </div>
     </div>
