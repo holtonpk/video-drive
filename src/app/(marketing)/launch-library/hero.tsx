@@ -15,7 +15,7 @@ const bodyFont = localFont({
 
 export const Hero = () => {
   return (
-    <div className="container mx-auto relative flex flex-col items-center pt-16 gap-6 ">
+    <div className="container mx-auto relative flex flex-col items-center md:pt-16 pt-8 gap-6 ">
       <div className="flex max-w-[500px] flex-col gap-6 items-center">
         <div
           className={`px-3 py-2 border-2 border-theme-color1 uppercase rounded-[8px] text-lg md:text-2xl w-fit -rotate-6 ${h1Font.className}`}
