@@ -121,7 +121,7 @@ const VideoPage = ({
         Related Videos
       </h2>
 
-      <div className="mt-4 grid grid-cols-1 md:grid-cols-[repeat(auto-fill,minmax(256px,1fr))] gap-4 place-items-center">
+      <div className="mt-4 grid grid-cols-1 file: md:grid-cols-[repeat(auto-fill,minmax(256px,1fr))] gap-4 place-items-center">
         {relatedVideos.map((relatedVideo, index) => (
           <VideoCard
             key={relatedVideo.postId}

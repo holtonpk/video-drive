@@ -124,13 +124,70 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       }
     };
 
-    const toggleFullscreen = () => {
-      if (!document.fullscreenElement) {
-        containerRef.current?.requestFullscreen();
-        setIsFullscreen(true);
-      } else {
-        document.exitFullscreen();
-        setIsFullscreen(false);
+    const toggleFullscreen = async () => {
+      const container = containerRef.current as
+        | (HTMLDivElement & {
+            webkitRequestFullscreen?: () => Promise<void> | void;
+          })
+        | null;
+
+      const video = videoRef.current as
+        | (HTMLVideoElement & {
+            webkitEnterFullscreen?: () => void;
+            webkitExitFullscreen?: () => void;
+            webkitDisplayingFullscreen?: boolean;
+          })
+        | null;
+
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null;
+        webkitExitFullscreen?: () => Promise<void> | void;
+      };
+
+      const isNativeFullscreen =
+        !!document.fullscreenElement || !!doc.webkitFullscreenElement;
+
+      const isVideoFullscreen = !!video?.webkitDisplayingFullscreen;
+
+      try {
+        // Exit fullscreen first
+        if (isNativeFullscreen) {
+          if (document.exitFullscreen) {
+            await document.exitFullscreen();
+          } else if (doc.webkitExitFullscreen) {
+            await doc.webkitExitFullscreen();
+          }
+          setIsFullscreen(false);
+          return;
+        }
+
+        if (isVideoFullscreen) {
+          video?.webkitExitFullscreen?.();
+          setIsFullscreen(false);
+          return;
+        }
+
+        // Enter fullscreen
+        if (container?.requestFullscreen) {
+          await container.requestFullscreen();
+          setIsFullscreen(true);
+          return;
+        }
+
+        if (container?.webkitRequestFullscreen) {
+          await container.webkitRequestFullscreen();
+          setIsFullscreen(true);
+          return;
+        }
+
+        // iPhone Safari fallback: fullscreen the <video> itself
+        if (video?.webkitEnterFullscreen) {
+          video.webkitEnterFullscreen();
+          setIsFullscreen(true);
+          return;
+        }
+      } catch (error) {
+        console.error("Fullscreen failed", error);
       }
     };
 
@@ -269,15 +326,51 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
     }, [locked, autoPlay]);
 
     React.useEffect(() => {
-      const handleFullscreenChange = () => {
-        setIsFullscreen(!!document.fullscreenElement);
+      const video = videoRef.current as
+        | (HTMLVideoElement & {
+            webkitDisplayingFullscreen?: boolean;
+          })
+        | null;
+
+      const doc = document as Document & {
+        webkitFullscreenElement?: Element | null;
       };
 
-      document.addEventListener("fullscreenchange", handleFullscreenChange);
+      const syncFullscreenState = () => {
+        const nativeFullscreen =
+          !!document.fullscreenElement || !!doc.webkitFullscreenElement;
+        const videoFullscreen = !!video?.webkitDisplayingFullscreen;
+
+        setIsFullscreen(nativeFullscreen || videoFullscreen);
+      };
+
+      document.addEventListener("fullscreenchange", syncFullscreenState);
+      document.addEventListener(
+        "webkitfullscreenchange",
+        syncFullscreenState as EventListener,
+      );
+      video?.addEventListener(
+        "webkitbeginfullscreen",
+        syncFullscreenState as EventListener,
+      );
+      video?.addEventListener(
+        "webkitendfullscreen",
+        syncFullscreenState as EventListener,
+      );
+
       return () => {
+        document.removeEventListener("fullscreenchange", syncFullscreenState);
         document.removeEventListener(
-          "fullscreenchange",
-          handleFullscreenChange,
+          "webkitfullscreenchange",
+          syncFullscreenState as EventListener,
+        );
+        video?.removeEventListener(
+          "webkitbeginfullscreen",
+          syncFullscreenState as EventListener,
+        );
+        video?.removeEventListener(
+          "webkitendfullscreen",
+          syncFullscreenState as EventListener,
         );
       };
     }, []);

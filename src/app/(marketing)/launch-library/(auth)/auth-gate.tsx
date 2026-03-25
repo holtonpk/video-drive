@@ -49,6 +49,7 @@ type Step = "email" | "code";
 
 export function AuthGate({children}: {children: React.ReactNode}) {
   const [mounted, setMounted] = React.useState(false);
+  const [authResolved, setAuthResolved] = React.useState(false);
   const [user, setUser] = React.useState<User | null>(null);
 
   const [step, setStep] = React.useState<Step>("email");
@@ -64,15 +65,16 @@ export function AuthGate({children}: {children: React.ReactNode}) {
 
     const unsub = onAuthStateChanged(auth, (nextUser) => {
       setUser(nextUser);
+      setAuthResolved(true);
     });
 
     return () => unsub();
   }, []);
 
-  const locked = !user;
+  const locked = authResolved && !user;
 
   React.useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || !authResolved) return;
 
     if (locked) {
       document.body.style.overflow = "hidden";
@@ -83,7 +85,7 @@ export function AuthGate({children}: {children: React.ReactNode}) {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [locked, mounted]);
+  }, [locked, mounted, authResolved]);
 
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault();
@@ -137,7 +139,7 @@ export function AuthGate({children}: {children: React.ReactNode}) {
     }
   }
 
-  if (!mounted) {
+  if (!mounted || !authResolved) {
     return <div className="min-h-screen bg-[#121212]" />;
   }
 
