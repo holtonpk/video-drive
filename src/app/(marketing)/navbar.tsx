@@ -282,6 +282,13 @@ const MobileNav = ({onClose}: {onClose: () => void}) => {
           >
             Services
           </LinkButton>
+          <LinkButton
+            href="/launch-library"
+            className={`text-primary dark:hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase text-6xl text-left ${h1Font.className}`}
+          >
+            Launch Library
+          </LinkButton>
+
           <Link
             href="/contact"
             className={`mt-2 w-fit flex gap-4 items-center bg-theme-color1 text-background hover:ring-2 hover:ring-theme-color1 ring-offset-4 ring-offset-background py-2 px-6 rounded-full text-3xl ${h1Font.className}`}
