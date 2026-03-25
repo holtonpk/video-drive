@@ -46,10 +46,12 @@ export const VideoCard = ({
   video,
   index,
   showNameOverlay = false,
+  disableClick = false,
 }: {
   video: VideoCardDisplay;
   index: number;
   showNameOverlay?: boolean;
+  disableClick?: boolean;
 }) => {
   const router = useRouter();
 
@@ -286,6 +288,10 @@ export const VideoCard = ({
         onClick={
           isMobile
             ? (e) => {
+                if (disableClick) {
+                  e.preventDefault();
+                  return;
+                }
                 e.preventDefault();
                 handleNavigate(e);
               }
@@ -429,6 +435,12 @@ const VideoRow = ({
 
   const viewportRef = useRef<HTMLDivElement>(null);
   const animatingRef = useRef(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchDeltaXRef = useRef(0);
+  const isSwipingRef = useRef(false);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   const repeated = useMemo(() => [...items, ...items, ...items], [items]);
 
@@ -476,6 +488,13 @@ const VideoRow = ({
   }, [total]);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
     setTrackStart(total + logicalStart);
   }, [itemsPerPage, total]);
 
@@ -517,6 +536,54 @@ const VideoRow = ({
         animatingRef.current = false;
       });
     });
+  };
+
+  const SWIPE_THRESHOLD = 40;
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || animatingRef.current) return;
+
+    touchStartXRef.current = e.touches[0]?.clientX ?? null;
+    touchDeltaXRef.current = 0;
+    isSwipingRef.current = false;
+    setIsSwiping(false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || touchStartXRef.current == null) return;
+
+    const currentX = e.touches[0]?.clientX ?? 0;
+    touchDeltaXRef.current = currentX - touchStartXRef.current;
+
+    if (Math.abs(touchDeltaXRef.current) > 8) {
+      isSwipingRef.current = true;
+      setIsSwiping(true);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isMobile || touchStartXRef.current == null) {
+      setIsSwiping(false);
+      return;
+    }
+
+    const deltaX = touchDeltaXRef.current;
+
+    touchStartXRef.current = null;
+    touchDeltaXRef.current = 0;
+
+    if (Math.abs(deltaX) >= SWIPE_THRESHOLD) {
+      if (deltaX < 0) {
+        move("right");
+      } else {
+        move("left");
+      }
+    }
+
+    window.setTimeout(() => {
+      isSwipingRef.current = false;
+      setIsSwiping(false);
+    }, 0);
   };
 
   const AMOUNT_OF_PAGES = Math.ceil(total / itemsPerPage);
@@ -630,7 +697,14 @@ const VideoRow = ({
           />
         </button>
 
-        <div ref={viewportRef} className="overflow-hidden">
+        <div
+          ref={viewportRef}
+          className="overflow-hidden touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
+        >
           <div
             className="flex w-max gap-4 will-change-transform"
             onTransitionEnd={handleTransitionEnd}
@@ -646,6 +720,7 @@ const VideoRow = ({
                 key={`${video.postId}-${index}`}
                 video={video}
                 index={index % total}
+                disableClick={isSwiping}
               />
               // delete this div after testing
               // <div className="flex flex-col">
