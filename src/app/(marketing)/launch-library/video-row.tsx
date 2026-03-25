@@ -659,6 +659,7 @@ const VideoRow = ({
             h-full
             opacity-0 group-hover:opacity-100
             pointer-events-none group-hover:pointer-events-auto
+            hidden md:block
           "
           aria-label="Previous"
         >
@@ -684,6 +685,7 @@ const VideoRow = ({
             h-full
             opacity-0 group-hover:opacity-100
             pointer-events-none group-hover:pointer-events-auto
+            hidden md:block
           "
           aria-label="Next"
         >

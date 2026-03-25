@@ -63,12 +63,14 @@ function RankCard({
   path,
   width,
   video,
+  disableClick = false,
 }: {
   id: string;
   viewBox: string;
   path: string;
   width: number;
   video: HomepageVideoCardData;
+  disableClick?: boolean;
 }) {
   const router = useRouter();
 
@@ -301,6 +303,10 @@ function RankCard({
           onClick={
             isMobile
               ? (e) => {
+                  if (disableClick) {
+                    e.preventDefault();
+                    return;
+                  }
                   e.preventDefault();
                   handleNavigate(e);
                 }
@@ -457,6 +463,12 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const animatingRef = useRef(false);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchDeltaXRef = useRef(0);
+  const isSwipingRef = useRef(false);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSwiping, setIsSwiping] = useState(false);
 
   const [positions, setPositions] = useState<number[]>([]);
   const [, setItemsPerPage] = useState(4);
@@ -474,6 +486,13 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
       return prev;
     });
   }, [total]);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useLayoutEffect(() => {
     const measure = () => {
@@ -602,6 +621,54 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
     });
   };
 
+  const SWIPE_THRESHOLD = 40;
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || animatingRef.current) return;
+
+    touchStartXRef.current = e.touches[0]?.clientX ?? null;
+    touchDeltaXRef.current = 0;
+    isSwipingRef.current = false;
+    setIsSwiping(false);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isMobile || touchStartXRef.current == null) return;
+
+    const currentX = e.touches[0]?.clientX ?? 0;
+    touchDeltaXRef.current = currentX - touchStartXRef.current;
+
+    if (Math.abs(touchDeltaXRef.current) > 8) {
+      isSwipingRef.current = true;
+      setIsSwiping(true);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isMobile || touchStartXRef.current == null) {
+      setIsSwiping(false);
+      return;
+    }
+
+    const deltaX = touchDeltaXRef.current;
+
+    touchStartXRef.current = null;
+    touchDeltaXRef.current = 0;
+
+    if (Math.abs(deltaX) >= SWIPE_THRESHOLD) {
+      if (deltaX < 0) {
+        move("right");
+      } else {
+        move("left");
+      }
+    }
+
+    window.setTimeout(() => {
+      isSwipingRef.current = false;
+      setIsSwiping(false);
+    }, 0);
+  };
+
   return (
     <div className="flex w-full min-w-0 flex-col items-start gap-2">
       <div className="flex w-full flex-col sm:flex-row gap-1 items-start sm:items-center justify-between px-6">
@@ -635,6 +702,7 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
             opacity-0 transition-colors duration-300 ease-in-out
             hover:bg-[rgb(18,18,18,.5)]
             group-hover:pointer-events-auto group-hover:opacity-100
+            hidden md:block
           "
           aria-label="Previous"
         >
@@ -658,6 +726,7 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
             opacity-0 transition-colors duration-300 ease-in-out
             hover:bg-[rgb(18,18,18,.5)]
             group-hover:pointer-events-auto group-hover:opacity-100
+            hidden md:block
           "
           aria-label="Next"
         >
@@ -670,7 +739,14 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
           />
         </button>
 
-        <div ref={viewportRef} className="overflow-hidden pr-8">
+        <div
+          ref={viewportRef}
+          className="overflow-hidden pr-8 touch-pan-y"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onTouchCancel={handleTouchEnd}
+        >
           <div
             className="flex w-max items-center gap-6 will-change-transform"
             onTransitionEnd={handleTransitionEnd}
@@ -689,7 +765,7 @@ export const TopTen = ({videos}: {videos: HomepageVideoCardData[]}) => {
                 }}
                 className="shrink-0"
               >
-                <RankCard {...rank} />
+                <RankCard {...rank} disableClick={isSwiping} />
               </div>
             ))}
           </div>
