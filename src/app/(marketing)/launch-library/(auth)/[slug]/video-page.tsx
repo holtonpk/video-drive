@@ -98,21 +98,23 @@ const VideoPage = ({
   const relatedVideos = getRelatedVideos(video, allVideos).slice(0, 20);
 
   return (
-    <main className="flex flex-1 flex-col px-6 py-10 text-white">
+    <main className="flex flex-1 flex-col md:px-6 pt-2 md:py-10 text-white">
       {/* <Link
         href="/launch-library"
         className="hidden sm:block absolute z-30 left-8 top-28  w-fit text-sm text-white/60 hover:text-white hover:underline"
       >
         ← Back to Launch Library
       </Link> */}
-      <div className="grid md:grid-cols-[65%_1fr] items-center ">
+      <div className="grid gap-0 md:grid-cols-[65%_1fr] items-center ">
         <VideoPlayer
           src={video.videoUrl ?? ""}
           poster={video.thumbnail ?? undefined}
           size="full"
-          className="rounded-[12px] aspect-video shadow-lg shadow-black"
+          className="md:rounded-[12px] h-fit  aspect-video shadow-lg shadow-black"
         />
-        <FeedBackCard video={video} />
+        <div className="px-4 md:px-0">
+          <FeedBackCard video={video} />
+        </div>
       </div>
 
       <h2
@@ -176,18 +178,20 @@ const FeedBackCard = ({video}: {video: VideoData}) => {
   };
 
   return (
-    <div className="flex h-fit flex-col gap-3 mt-4 md:rounded-l-[0px] rounded-[12px] border-[1px] min-h-[90%] md:border-l-0 border-white/20 bg-[#1A1A1A] p-4">
-      <div className=" flex flex-row items-start gap-1">
+    <div className="flex pt-6 md:pt-4 h-fit flex-col gap-3 md:mt-4 md:rounded-l-[0px] md:rounded-tr-[12px] rounded-b-[12px] border-[1px] min-h-[90%] border-t-0 md:border-l-0 md:border-t-[1px] border-white/20 bg-[#1A1A1A] p-4">
+      <div className=" flex flex-row md:items-start items-center gap-1">
         <img
           src={getFaviconUrl(video.website ?? "")}
           alt={video.name}
-          className="h-16 w-16 md:h-10 md:w-10 mr-4 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
+          className="h-12 w-12 md:h-10 md:w-10 mr-4 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
         />
-        <div className="flex flex-col md:flex-row items-start gap-1">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-1">
           <h1 className={`text-3xl font-semibold ${h1Font.className}`}>
             {video.name}
           </h1>
-          <div className={` min-w-0  truncate text-xl text-white/70`}>
+          <div
+            className={` min-w-0  truncate md:text-xl text-sm text-white/70`}
+          >
             • YC {video.cohort ?? "Cohort unknown"}
           </div>
         </div>
