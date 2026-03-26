@@ -245,6 +245,8 @@ export default function LaunchLibrarySearchClient({
 
   const showSearchResults = hasSearchIntent;
 
+  console.log("results", results.length);
+
   return (
     <>
       <VideoRowHeader

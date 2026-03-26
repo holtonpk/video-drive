@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import {Icons} from "@/components/icons";
 import localFont from "next/font/local";
-import {VideoPlayer} from "@/src/app/(marketing)/launch-library/(auth)/[slug]/video-player";
+import {VideoPlayer} from "./video-player";
 import "./blog-style.css";
 
 const h1Font = localFont({
@@ -188,10 +188,30 @@ export const BlogBody = () => {
             ones use multiple. It just has to be something.
           </p>
 
-          <p>
-            Here are examples of all four types of hooks: Visual — Chasi, Verbal
-            — Wondercraft, Text — Rev1, Audio — Goriff.
-          </p>
+          <p>Here are examples of all four types of hooks:</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/2023789545242710115-chasi.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=HNdSedD%2BMO2%2BaYjN7TKLUBcUx4GFLq16YHQhyRlNr%2F8c03wGjk7WpejsRfP%2BefQEeyFTesVYmcpyD1SuSJIDoUZ5lQzi7wzFl2WOYyDfOCXBlHg6hKylLvUe9kpanKsn8s%2FwX84%2BCx2RcBqVxjypKd53KgEI%2BDum5X23khaklTMpF7eZ7w5dSwa205oFN5BM5D6a6QQLjPkM3V6KBJOR%2Bug%2FQ5cJWvQ37zeKDvmOW0O%2BXhaPCmekGq6JIGFk5ffK4KhEmE6mK1BekHz1lTD5GUztMVA7iqwJn04reyqe9d3cKE4Wclu6%2FrE84%2FBYBdPg0bvqD5jVbUNrJG5W%2BKzUYw%3D%3D"
+          />
+          <p>Visual — Chasi</p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1962923480879608063-wondercraft.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=lvVEwNMd8WzZnwD%2BD0l%2FOVCzhmG3A78WoUsyX0WRPcasLrxbG3DE1sWBRS3tT7b6Ck0%2Br4Ws9HJdvAMD2jne0qYqn37URqhRI%2Fv7mO3pqfyi%2BfQjfJ5DLnYJPZm2x5W2SUEqEa6pafY07Ryxlq92nC1wtuTA%2BujbE2V1hBKI7qeAxMy2%2BgVhv3%2FuKQFblAvVOvi%2BPwGvoIQICRq%2BeErFn8087tG9DKsKmC45nM9gnGC9RmKaRQks7uL7HgBxgL%2BlfStjMEo1qICxOB7L9VIQQ41hquPUEo7IaqGDxxPHHnHqRmjXFR%2BwBtNdtFfkDdcr7Ia1Z%2B2bIZk5lV6d6pWGYg%3D%3D"
+          />
+          <p>Verbal — Wondercraft</p>
+
+          <VideoPlayer
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/2018731211737137341-rev1.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=W%2Fz%2BL3HOBxZljdoSuvL9S64%2FyUvZx3jyO2t9wKUuczwsujWD%2FF1E%2FJkSRnADyKdjZ%2BfXYk1H2LoAanwCApSLzrjdkyaRKoKgyWKnQxYhyZZ89YcbhFB%2FZlUPGpuuf%2BQLFpRWgGTgZM39f1Xerig7fAlqouwTBR78keXbWQUrIcRDYu6i5InemzGLkhMKhFNMPrHD6ohRNSo%2Fbsh1iY9C0%2Fr0SeLq9ljqs%2BucPT%2FcOr%2BJrCS3tidG1opdJ4oTff3Ah7h%2FnNxb2fEPfYSMGeasSZrPc8YrXCaDj8IFTrf3KSVvYVln%2FiApO5eahzlq4uOns7F9V9g7UxiCEmZpsQ01IQ%3D%3D"
+            className="rounded-[12px] shadow-xl"
+          />
+          <p>Text — Rev1</p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1945196673199735232-goriff.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=L9iudAqLdKdDklFQnmnLbwz6TayiFTtxryKOnN7f8IKZdYIQeHOEPs07OE4BCMoN%2Fm2GTx8j%2FopdGErceBNMhmbGMQifBYXZmIqqeyMhxxCsjYq8HC6FGcQqRCpHLScSQSyfpjgughcfI2mWkGmuRl9gEslISgpM1FsgBJf%2BTEfhhzyQH4osPEUhYf7J3Iz%2B%2B%2FNBXXYkkaMbCgZw743paRZdDO8RlIo%2Bpp%2BSDyPDEgQYzORDsV70g%2BJ18%2F8ZMjjXrKMYEfqr8Vset7rqDc8fUyF6IZ4cQUQlVH1erNVUzaCU5GSigfC0WJJH5p%2F0UXt%2F3IWWbuEsgEmWmAORnciunA%3D%3D"
+          />
+          <p>Audio — GoRiff</p>
 
           <h2>2. Attention Comes From Intrigue, Not Information</h2>
 
@@ -216,8 +236,25 @@ export const BlogBody = () => {
 
           <p>
             Here are examples of launches that do a great job creating intrigue:
-            Unsiloed, Stockline, Cotool.
           </p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1985391530090127424-unsiloed-ai.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=nkhPx8RZVl176aqIcAke5AfnVlSGdBzUCXPJlUUZ8o8goeNITuKcS%2FuIS8yffCzeR2QUUwiwtWU82%2F0knwdrjAhKBfl3WWZJ59UWNk2H9Ihk9npWqfAPs9nSZU2EGqDJG8s5OqchW4f%2FC1wxwz384SY%2F6Wwp2d9fzQ2VnhzNg30xJSuQ5ZeVPlmgw0IJdBNWMaQUvRBm4kDiOnMRO34qaTsfbKSFHVwhVhgXcr4OoAn7lFTeRkdbEHlGHA8t3U4hTf%2Fqr2gOft54QKLBZ7w2ODBcI3U0sBQz3yMCIDOb26P1wNxoHeLhQhV980QIBjrk5VBwt6hDF50p%2FqlkYKbXGA%3D%3D"
+          />
+          <p>Unsiloed</p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1948465725775270235-stockline.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=UBYlfFMt9Zhqqx5XGXPIPq6YaXfq6KP9t%2BuJkS9iQKQ0subkqz9zoN%2BTXTrEPCPT14Hy5wWgMo4wTIHZGDLU70Ln6bNICHswDjdEkvl8AA0YP7Lh4iQIVDGFCcDWy0RqFuXMJe9At%2Fta52v3oq8PzXIrj1XiuJ50M1o%2B1uvDrTo1blGoo0I8ft8VRm1zQAMFnql1ZoUOxFaasCW7b3idJ8zIFkNAnFrQ8I5PMQxvq%2BRXWcMNDn5VxtnvxjMWA%2FSRn1wu7wsQnJPtD3%2FbefG3%2FlP%2FqMJ57pG85dzQJIzzjQfDuRf5AH1hlsH4f%2F0rnFjxOSgLviSVfNzELH9X5J6I0w%3D%3D"
+          />
+          <p>Stockline</p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1922698429660119331-cotool.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=d0RcJ6kpGjNNRqzzXkU0PEMtXenvm4wjQgIEk7qEyyprnLhz5O7r1nvS8CYUXD25lye8FuUD9jJ%2Bn%2BUjXPBbGD1gJET3X8bjhnGOqSbxXLwiLe93hvDkzu7LFpSmJ%2FJT00kAYyXu0ff%2F3Y093QuzyyWKE5yF6yqPt%2FkGjXHArTrXEwpU2tSeJii7FFFq40MYEhrBEodZyqsqBOJW%2BkIEiYSNdDOOvbsvmN7%2BjYEeYHnxOgc9ovZyX8uVJjqLCLgAvxzvWBKYJk5ZbDOqXnlmDwDOro7zD4kpX0Egflcu35IapGAQKKa4heGprl%2FzEq9gQazMtUJqUivolAhOLnAr1Q%3D%3D"
+          />
+          <p>Cotool</p>
 
           <h2>3. Show, Don’t Explain</h2>
 
@@ -235,10 +272,22 @@ export const BlogBody = () => {
             already lost them.
           </p>
 
-          <p>
-            Here are examples of good visuals that do the heavy lifting: Source
-            Jobs, BaseDash, Bear.
-          </p>
+          <p>Here are examples of good visuals that do the heavy lifting:</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/launch-library%2Fvideos%2F1975224529002844516-sorce.mp4?alt=media&token=e38b3404-490f-4c1b-8182-ccd3f16e8415"
+          />
+          <p>Source</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1970573884442460196-basedash.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=RxBka4PJNXXIjvQ44e%2FIxjoeTJPLKQytWSlOwB%2FWARzN1AlsA1azNSVEapO91CF20K3MZNaLN6BDnDXzFaYcdXNqe4ggs5pGpn5YeZESKW5s08apnRTzBMfcLvpa0BgWvqTTWWaWEyO1dHPn%2BG6zOR8yIRULn3F%2BuXDfmXNzxtBjI8zxNKs6MBOlqX9NDknNTe0NvD4WGhe2%2BcfYUKmonT2HB75lAY6M8N9yqIg%2FT08Jd2JhW5T%2BjxP9uOfhMzeq87OS9IblftWo4rJgKHSS20CmgFRuHTtz4tyqkZNAGlhFp1WoPwQb%2FgsOw29HBa7sFrYAcE8ix5%2Bo8fPtgM77KA%3D%3D"
+          />
+          <p>BaseDash</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1983564490953372099-bear.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=YVLWDk%2F2YcMpLk4mv2wM93O2Y1c3aYdGw9qIXdaWlytDCA%2FQNByeEWGrwFLTUrI02bl25pUgJK6lvy2CF5Yt8iQsWREp7qdVoTx18jDBTfCAfzihckiMWbKZjgsA9cm8cAuQtcqUBwX5p2LkGr71CBy02uFxq%2B1oYEk2KGb3pSv%2BizbxMPhbfSllzh8umRyrlZuN%2BKYNvzeiAY8ps1kR1PZY7un3%2FJ4pxFFe2j040ZIJbYkusckInru3rM9yWj8XDTRU8Hikj6j1hWWMSEGDO%2F80H%2BCUcX%2BmLqW3M3L8wSrM9t2DyB94iGjhs210EoHtbrBG8gCBAnJKR7lOYfA7Xg%3D%3D"
+          />
+          <p>Bear</p>
 
           <h2>4. Simplicity Wins</h2>
 
@@ -256,10 +305,22 @@ export const BlogBody = () => {
             The best launch videos are easy to understand on the first watch.
           </p>
 
-          <p>
-            Here are examples of very good messaging: Palus Finance, Zavo,
-            Uplane.
-          </p>
+          <p>Here are examples of very good messaging:</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/2031369491049808072-palus-finance.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=Xx0qVUU1iu7ce1cURqqBlJiMFUaG5euFaWF9jeaXsnChtmMx5%2BkL6%2FSAAteTrsSLxYqyB24Wbm%2BSVKn9hsoitFCY%2F6dcl0arDbbT1oL51oS5Cul9%2B0r%2F9XwybU6M4PPvqLuylsb7xWaZ3ybUZeebUY%2BS4nb%2BsPdWd5GVjMWRNtzoUbWr8IKnmc6irdGfqCeQKAuG0lmPUMHzwtJFJeSh9FZGCyIU0JsskytgPipOfh9RiXtUir6EUxQfwCAP%2BbMdnwQ8hNo4V542c%2BhOpMYCoQzthP6IOQ9eAJSfRGBUryI7CiAwgAeMUoQuSrIfvq2WIvggrAOPJ2tzD9jBR50pUg%3D%3D"
+          />
+          <p>Palus Finance</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1978158867499331586-zavo.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=Kuvh1Ft%2FhtEuqVLMX0%2F%2Bm4dLc8XgUFibZl0jVpSZkNppj7Z6cMcB2SaNBd3LFVaaUapfUvVoSPgV6UzyHTvCit%2B5As%2B%2BsA%2BusqyMPfqMO13b%2BR6wwhtAFJXcODkZSRAEHwSLhVpMshLIM0a4T6XOOscKbJszx1T16WmBtHVcOYsXTzvMB%2BTOQH%2FTMHdYhMfXRXRgV%2F0%2FgNN8AQjDqD8VtHPfIvwKGZTdXrMUj203v6P13zz4CjN611S9xfK1h7XX5dcneg1Mk6%2Fz94K62Lns2ApNHKgr9GTTswrvhGsBYOuq35EJjHt8qtay2I0e0ThqpPb7jQSGeVGZSlqZIJA0BA%3D%3D"
+          />
+          <p>Zavo</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1980302994408403184-uplane.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=fqxRN8YWcf5P4kulUvP1fCzmghiwwFzCpvZNe%2B%2BAvoIKtwnjP6nqu9pKBkDm76PVH5%2F8uInbtl0PRdZNKR8TtfD0fJ8U%2FsOX2q%2B4koYKSBs%2BIQzi8h7O7%2Bao15EKpLj86v1BeaSD12r0kGMIVMp6W3BThpIGXDtDx%2FdoHcM80Uur%2FhDIFWnOBwzOKjtumCtzqm5j%2FpHd14Ykw13vHu2rxnxK5vlOpunajiQRbxIV4l9sTgbPBJte2yDrNc6gUw4d9ttOANB0vRn5ilfEJIuB0m0pkikYdgeqssyUcatJL%2FYKL%2F13v89Q0uJh60shZtPuRnN8pdk5OuNH4INa05bv3w%3D%3D"
+          />
+          <p>Uplane</p>
 
           <h2>5. Pacing Is Everything</h2>
 
@@ -271,7 +332,23 @@ export const BlogBody = () => {
             watching.
           </p>
 
-          <p>Here are examples of great pacing: Absurd, BlackSmith, Flick.</p>
+          <p>Here are examples of great pacing: </p>
+
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1978176112740950504-absurd.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=PFjVzuFXpUHSo%2BmHIhyQTF9q%2BuIUmi%2BX6L5Qi4pMuXDlWRQluQ6AAKjuwsQdhfrxXfVeCvWK1dFde4IOAfeN%2FGINHuGHswfBzm0qNEUoG76phxPzjf2BMqK%2BFk4x8e9XhxoEyj6PK5LqIwYA5Am7FrGqTG%2F9ecBqUo%2FNpUyWE75FblCg2wjVGfJjL4VhekUJQkJmTJ4eKxn%2BYAGijq53a%2Fizj7NHyqlYMcV%2ByAMXj72gx0n92XxxLAFMMgrpZxRSqfkta5k1V8QUHa1TCu9aNrug3SEfDaTUvR7F%2FlmVsv0ZkSELGtxD5pEbujLQt30Yg15DgNqlf0RM8beuRy3Miw%3D%3D"
+          />
+          <p>Absurd</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1968701548135071772-blacksmith.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=aJcom7FcnvS6Gi%2BROKwN130pMUw5meU52kPog7zWXDQXmK4Ks0AbJroZcrB3GpOEx4BekW0MN5mvKUqeN9qo0k%2FNE9ripzIVn9JSRLWCPKvpQUdkkJwVcPiuqfBJXmG8b3e4%2F%2FpAVcK16mtdazaNDgwh1HEbbEUp8uz3SeL%2F94WtAMWNwk7Jogtp3GZMUXB4Mr6h8s53Jx2FQpbAl29jeFvVa%2BTVI1oJdsToxuHiwW3BhLA%2B1qc7AZTaM6IbZQSYIEuObWB5i9MUttaNWXjOliGGqTsrsYH8endcS6hKTxX0Xkj1wAntwHBFhgQggda8%2Bd6%2BfW9fV81mLNpryLw82g%3D%3D"
+          />
+          <p>BlackSmith</p>
+          <VideoPlayer
+            className="rounded-[12px] shadow-xl"
+            src="https://storage.googleapis.com/video-drive-8d636.appspot.com/launch-library/videos/1986146628970160225-flick.mp4?GoogleAccessId=video-downloader%40video-drive-8d636.iam.gserviceaccount.com&Expires=16730294400&Signature=UGyvGaoV3Ots%2BsxvUaN%2BMxCIBShtpUEn6PQaxAFg2BbrggTBjHd%2FHYqVFjsiy6GGbK0rPJrC8%2FtiXVlfDr9sD2HQWkIOUdCH8vHhUuI%2B07i%2Bxr3zPAulCHKyAHcuemVNR7lgRUqKvpmP2Qr4Psm8KBD7UAQUIG4B7FXCbIe9DSF6qOkljbMDTT3juvlnT1eb7TxwGEAxiZkO%2B%2FaWgLzuCSnsSCukoq1CdaBIc4clMIQ0hzgzOVcCFTCHSbu0JNVm6JjObcfTmU11OPg3OkttPOrHrvU1PDqBInj0iZr%2B7IT%2B%2BSQU57v2a%2BoZh39kDJkMoBJez9ZAsnzDtooF%2BIv0ZA%3D%3D"
+          />
+          <p>Flick</p>
 
           <h1>Formats That Work &amp; How to Choose Which One to Use</h1>
 

@@ -35,7 +35,7 @@ const SearchResultsGrid = ({
 
       {isLoading && videos.length === 0 && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(256px,1fr))] gap-4 place-items-center">
-          {Array.from({length: 10}).map((_, index) => (
+          {Array.from({length: 20}).map((_, index) => (
             <div
               key={index}
               className="animate-pulse shrink-0 relative cursor-pointer flex items-center justify-center overflow-hidden rounded-[12px] bg-muted w-[311px] md:w-[256px] h-[175px] md:h-36"

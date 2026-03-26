@@ -19,6 +19,9 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 const h2Font = localFont({
   src: "../fonts/HeadingNowTrial-55Medium.ttf",
 });
+const h1Font = localFont({
+  src: "../fonts/HeadingNow-56Bold.ttf",
+});
 
 const bodyFont = localFont({
   src: "../fonts/proximanova_regular.ttf",
@@ -161,7 +164,7 @@ const VideoRowHeader = ({
               }
             }}
             placeholder="Search for a company"
-            className={`h-14 w-full rounded-full text-lg  transition-colors duration-200 ease-in-out border-[#1E1E1E] hover:border-theme-color1/10 focus:border-theme-color1/10 border-4 bg-[#1E1E1E] hover:bg-background focus:bg-background pl-4 pr-10 text-white outline-none placeholder:text-white/40  ${h2Font.className}`}
+            className={`h-14 w-full rounded-full text-lg  transition-colors duration-200 ease-in-out border-[#1E1E1E] hover:border-theme-color1/10 focus:border-theme-color1/10 border-4 bg-[#1E1E1E] hover:bg-background focus:bg-background pl-4 pr-10 text-white outline-none placeholder:text-white/40  ${h1Font.className}`}
           />
           {searchValue && (
             <button
