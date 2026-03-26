@@ -221,7 +221,7 @@ const ReportPage = () => {
         data: instagramDataLocal,
         icon: InstagramLogo,
         name: "Instagram",
-        followers: 352,
+        followers: 550,
         posts: instagramDataLocal.length,
         totalViews:
           Number(
@@ -780,10 +780,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("3-8-2026").totalFollowers,
       totalPosts: getDataFromWeek("3-8-2026").totalPosts,
     },
+    {
+      label: "Week 27",
+      date: "3-8-2026 - 3-22-2026",
+      reportDate: "3-22-2026",
+      body: `## Content Performance & Strategy Update
+  - Instagram: Top performing platform for this period. great views with over 100K views. 
+  - Youtube: Had some video get shadow banned for some reason, that would be why you see the lower view count and follower growth. Those will be re-posted. But had a good break out video here with 5k views.
+  - Tiktok: Consistent as always with great views and follower growth.`,
+      totalEngagement: getDataFromWeek("3-22-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("3-22-2026").totalFollowers,
+      totalPosts: getDataFromWeek("3-22-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[25],
+    reports[26],
   );
 
   const tiktokData = require(
@@ -1351,24 +1363,24 @@ const PlatformView = ({
 const data = [
   {
     platform: "TikTok",
-    followers: "+101 (+2.5%)",
-    views: "+75,238 (+1.6%)",
-    likes: "+5,262 (+2.0%)",
-    comments: "+23 (+1.1%)",
+    followers: "+18 (+0.4%)",
+    views: "+28,377 (+0.6%)",
+    likes: "+903 (+0.3%)",
+    comments: "+7 (+0.3%)",
   },
   {
     platform: "YouTube",
-    followers: "+3 (+2.0%)",
-    views: "+8,205 (+1.5%)",
-    likes: "+85 (+2.1%)",
-    comments: "+1 (+0.8%)",
+    followers: "0 (0%)",
+    views: "+14,345 (+2.6%)",
+    likes: "+100 (+2.4%)",
+    comments: "+6 (+4.7%)",
   },
   {
     platform: "Instagram",
-    followers: "+43 (+9.0%)",
-    views: "+108,688 (+9.8%)",
-    likes: "+4,053 (+14.9%)",
-    comments: "+6 (+3.9%)",
+    followers: "+38 (+7.4%)",
+    views: "+137,808 (+11.3%)",
+    likes: "+5,620 (+18.0%)",
+    comments: "+10 (+6.3%)",
   },
 ];
 
@@ -1377,7 +1389,7 @@ const ReportTable = () => {
     <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
       <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
         2 Week Performance Report
-        <h4 className="text-sm text-white/40">Last Updated 3/8</h4>
+        <h4 className="text-sm text-white/40">Last Updated 3/22</h4>
       </h2>
 
       <div className="overflow-x-auto">
