@@ -13,15 +13,15 @@ import {LucideProps} from "lucide-react";
 import localFont from "next/font/local";
 
 const bigFont = localFont({
-  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+  src: "../../fonts/HeadingNow-56Bold.ttf",
 });
 
 const extraBigFont = localFont({
-  src: "../../fonts/HeadingNowTrial-57Extrabold.ttf",
+  src: "../../fonts/HeadingNow-57Extrabold.ttf",
 });
 
 const h1Font = localFont({
-  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+  src: "../../fonts/HeadingNow-56Bold.ttf",
 });
 
 const bodyFont = localFont({

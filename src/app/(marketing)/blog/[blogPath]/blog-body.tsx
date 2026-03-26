@@ -9,7 +9,7 @@ import Link from "next/link";
 import localFont from "next/font/local";
 
 const h1Font = localFont({
-  src: "../../fonts/HeadingNowTrial-56Bold.ttf",
+  src: "../../fonts/HeadingNow-56Bold.ttf",
 });
 
 const bodyFontLight = localFont({
