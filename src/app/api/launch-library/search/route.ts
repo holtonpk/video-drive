@@ -29,8 +29,12 @@ type Filters = LaunchLibraryActiveFilters;
 
 const PREFIX_FETCH = 60;
 const FALLBACK_FETCH = 300;
+/** Batch size when scanning Firestore for filter-in-memory browse pagination. */
 const FILTER_FETCH = 120;
 const MIN_RESULTS = 20;
+
+/** Text-search pagination uses ranked in-memory slices; cursor is never a Firestore doc id. */
+const SEARCH_CURSOR_PREFIX = "srch:";
 
 /** Parsed numeric score filter, or null if no score filter is active. */
 function parseScoreFilter(filters: Filters): number[] | null {
@@ -299,7 +303,14 @@ export async function POST(req: NextRequest) {
 
     const queryText = normalize(qRaw);
     const colRef = collection(db, "launch-library-search");
-    const cursorSnap = await getCursorSnap(cursor);
+
+    const searchOffset =
+      queryText.length >= 1 && cursor?.startsWith(SEARCH_CURSOR_PREFIX)
+        ? Math.max(0, Number(cursor.slice(SEARCH_CURSOR_PREFIX.length)) || 0)
+        : 0;
+
+    const cursorSnap =
+      queryText.length >= 1 ? null : await getCursorSnap(cursor);
 
     const hasActiveFilters = LAUNCH_LIBRARY_FILTER_FIELDS.some(
       (field) => (filters[field]?.length ?? 0) > 0,
@@ -312,13 +323,8 @@ export async function POST(req: NextRequest) {
         orderBy("nameLower"),
         startAt(queryText),
         endAt(queryText + "\uf8ff"),
+        limit(PREFIX_FETCH),
       ];
-
-      if (cursorSnap) {
-        prefixConstraints.push(startAfter(cursorSnap));
-      }
-
-      prefixConstraints.push(limit(PREFIX_FETCH));
 
       const fallbackConstraints: QueryConstraint[] = (() => {
         if (selectedScores && selectedScores.length === 1) {
@@ -361,16 +367,16 @@ export async function POST(req: NextRequest) {
         }))
         .sort((a, b) => b.rank - a.rank);
 
-      const results = ranked
-        .slice(0, requestedLimit)
-        .map((item) => slimResult(item.doc));
+      const pageRows = ranked.slice(
+        searchOffset,
+        searchOffset + requestedLimit,
+      );
+      const results = pageRows.map((item) => slimResult(item.doc));
 
-      const lastPrefixDoc =
-        prefixSnapshot.docs[prefixSnapshot.docs.length - 1] ?? null;
-
+      const nextOffset = searchOffset + pageRows.length;
       const nextCursor =
-        prefixSnapshot.docs.length >= PREFIX_FETCH && lastPrefixDoc
-          ? lastPrefixDoc.id
+        nextOffset < ranked.length
+          ? `${SEARCH_CURSOR_PREFIX}${nextOffset}`
           : null;
 
       return NextResponse.json({
@@ -391,26 +397,57 @@ export async function POST(req: NextRequest) {
       return [orderBy("score", "desc")];
     })();
 
-    if (cursorSnap) {
-      browseConstraints.push(startAfter(cursorSnap));
+    const pageSize = requestedLimit;
+
+    if (!hasActiveFilters) {
+      if (cursorSnap) {
+        browseConstraints.push(startAfter(cursorSnap));
+      }
+      browseConstraints.push(limit(pageSize + 1));
+
+      const snapshot = await getDocs(query(colRef, ...browseConstraints));
+      const docs = snapshot.docs;
+      const pageDocs = docs.slice(0, pageSize);
+      const hits = pageDocs.map(slimResult);
+      const hasMore = docs.length > pageSize;
+      const nextCursor =
+        hasMore && pageDocs.length > 0 ? pageDocs[pageDocs.length - 1].id : null;
+
+      return NextResponse.json({
+        results: hits,
+        nextCursor,
+      });
     }
 
-    browseConstraints.push(limit(FILTER_FETCH));
+    let matches: QueryDocumentSnapshot[] = [];
+    let readAfter: DocumentSnapshot | null = cursorSnap;
 
-    const snapshot = await getDocs(query(colRef, ...browseConstraints));
+    while (matches.length < pageSize + 1) {
+      const batchConstraints: QueryConstraint[] = [...browseConstraints];
+      if (readAfter) {
+        batchConstraints.push(startAfter(readAfter));
+      }
+      batchConstraints.push(limit(FILTER_FETCH));
 
-    let docs = snapshot.docs;
+      const batch = await getDocs(query(colRef, ...batchConstraints));
+      if (batch.empty) break;
 
-    if (hasActiveFilters) {
-      docs = docs.filter((docSnap) =>
-        matchesFilters(rowForFilterMatch(docSnap), filters),
-      );
+      for (const docSnap of batch.docs) {
+        if (matchesFilters(rowForFilterMatch(docSnap), filters)) {
+          matches.push(docSnap);
+          if (matches.length >= pageSize + 1) break;
+        }
+      }
+
+      readAfter = batch.docs[batch.docs.length - 1]!;
+      if (batch.docs.length < FILTER_FETCH) break;
     }
 
-    const hits = docs.slice(0, requestedLimit).map(slimResult);
-    const lastDoc = snapshot.docs[snapshot.docs.length - 1];
+    const pageDocs = matches.slice(0, pageSize);
+    const hits = pageDocs.map(slimResult);
+    const hasMore = matches.length > pageSize;
     const nextCursor =
-      snapshot.docs.length >= FILTER_FETCH && lastDoc ? lastDoc.id : null;
+      hasMore && pageDocs.length > 0 ? pageDocs[pageDocs.length - 1].id : null;
 
     return NextResponse.json({
       results: hits,
