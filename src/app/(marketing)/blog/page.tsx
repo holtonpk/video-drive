@@ -7,7 +7,7 @@ import {notFound} from "next/navigation";
 
 export const generateMetadata = (): Metadata => {
   return {
-    title: `Ripple Media| Blog`,
+    title: `Ripple Media | Blog`,
     description:
       "Read out latest thoughts and insights on the world of tech tool marketing",
     icons: {
@@ -57,7 +57,7 @@ async function getPosts() {
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/fetch-blog-posts`,
       {
         next: {revalidate: 3600}, // Cache posts for 1 hour
-      }
+      },
     );
 
     if (!res.ok) {
