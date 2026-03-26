@@ -55,10 +55,7 @@ export const VideoCard = ({
 }) => {
   const router = useRouter();
 
-  const pathSlug = useMemo(
-    () => video.slug ?? baseSlugFromName(video.name),
-    [video.slug, video.name],
-  );
+  const pathSlug = useMemo(() => baseSlugFromName(video.name), [video.name]);
   const href = `/launch-library/${pathSlug}`;
 
   const handleNavigate = (
@@ -297,7 +294,9 @@ export const VideoCard = ({
               }
             : undefined
         }
-        onPointerDown={() => router.prefetch(href)}
+        onPointerDown={() => 
+          router.prefetch(href)
+        }
       >
         <Image
           src={video.thumbnail ?? ""}
