@@ -111,6 +111,7 @@ const VideoPage = ({
           poster={video.thumbnail ?? undefined}
           size="full"
           className="md:rounded-[12px] h-fit  aspect-video shadow-lg shadow-black"
+          name={video.name}
         />
         <div className="px-4 md:px-0">
           <FeedBackCard video={video} />

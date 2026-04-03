@@ -15,6 +15,24 @@ import {
   Settings,
 } from "lucide-react";
 import {useAuthGate} from "../auth-gate";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import {
+  PlayIcon,
+  Volume2Icon,
+  Loader,
+  DownloadIcon,
+  FullscreenIcon,
+  Camera,
+  HeartIcon,
+  EyeIcon,
+  MessageCircleIcon,
+} from "lucide-react";
 
 const videoPlayerVariants = cva(
   "relative w-full bg-black rounded-card overflow-hidden group",
@@ -33,6 +51,21 @@ const videoPlayerVariants = cva(
   },
 );
 
+const formatName = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+
+const formatTimestamp = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+
+  return `${minutes.toString().padStart(2, "0")}m${seconds
+    .toString()
+    .padStart(2, "0")}s`;
+};
+
 export interface VideoPlayerProps
   extends
     React.VideoHTMLAttributes<HTMLVideoElement>,
@@ -42,6 +75,7 @@ export interface VideoPlayerProps
   showControls?: boolean;
   autoHide?: boolean;
   className?: string;
+  name: string;
 }
 
 const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
@@ -51,12 +85,14 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       size,
       src,
       poster,
+      name,
       showControls = true,
       autoHide = true,
       /** Muted by default so autoplay works under browser policies (user can unmute). */
       autoPlay = true,
       playsInline = true,
       muted = false,
+
       ...props
     },
     ref,
@@ -435,6 +471,93 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
         ? Math.min(100, Math.max(0, (currentTime / duration) * 100))
         : 0;
 
+    const handleScreenshot = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      try {
+        // Check if the video has crossOrigin attribute set
+        if (!video.crossOrigin) {
+          console.log(
+            "Video doesn't have crossOrigin attribute set, showing instructions",
+          );
+          // setShowScreenshotInstructions(true);
+          return;
+        }
+
+        // Create a canvas element
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        if (!ctx) {
+          console.error("Could not get canvas context");
+          return;
+        }
+
+        // Set canvas dimensions to match video
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Draw the current frame to the canvas
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Try to get the data URL
+        try {
+          const dataURL = canvas.toDataURL("image/png");
+
+          // Create a download link
+          const link = document.createElement("a");
+          const cleanName = formatName(name);
+          const timestamp = formatTimestamp(video.currentTime);
+          link.download = `${cleanName}-frame-${timestamp}.png`;
+          link.href = dataURL;
+          link.click();
+        } catch (e) {
+          // If canvas export fails, show instructions
+          console.log(
+            "Canvas export failed due to security restrictions. This happens when the video is from a different domain without proper CORS headers.",
+            e,
+          );
+          // setShowScreenshotInstructions(true);
+        }
+      } catch (e) {
+        console.error("Screenshot error:", e);
+        // setShowScreenshotInstructions(true);
+      }
+    };
+
+    const [isDownloading, setIsDownloading] = React.useState(false);
+
+    const handleDownload = async () => {
+      setIsDownloading(true);
+      const video = videoRef.current;
+      if (video) {
+        try {
+          const response = await fetch(src);
+          if (!response.ok) {
+            throw new Error(
+              `Network response was not ok, status: ${response.status}`,
+            );
+          }
+          const blob = await response.blob();
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = downloadUrl;
+          const cleanName = formatName(name);
+          a.download = `${cleanName}-launch-video.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(downloadUrl);
+          a.remove();
+        } catch (error) {
+          console.error("Download error:", error);
+          // Fallback: open in new tab
+          window.open(src, "_blank");
+        }
+      }
+      setIsDownloading(false);
+    };
+
     return (
       <div
         ref={containerRef}
@@ -455,6 +578,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
           muted={isMuted}
           className="w-full h-full object-cover rounded-[12px]"
           onClick={togglePlay}
+          crossOrigin="anonymous"
           {...props}
         />
         {showControls && (
@@ -602,7 +726,22 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {" "}
+                    <button
+                      className="p-2 text-white hover:bg-white/20 rounded-[8px] transition-colors"
+                      onClick={handleScreenshot}
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                    <button
+                      className="p-2 text-white hover:bg-white/20 rounded-[8px] transition-colors"
+                      onClick={handleDownload}
+                    >
+                      {isDownloading ? (
+                        <Loader className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <DownloadIcon className="w-4 h-4" />
+                      )}
+                    </button>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
