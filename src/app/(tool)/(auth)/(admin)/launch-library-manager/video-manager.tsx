@@ -442,21 +442,35 @@ export default function Page() {
           return aIsLocalOnly ? -1 : 1;
         }
 
-        const aSyncStatus = getDisplaySyncStatus(a);
-        const bSyncStatus = getDisplaySyncStatus(b);
-
-        const aIsNotSynced = aSyncStatus !== "synced";
-        const bIsNotSynced = bSyncStatus !== "synced";
-
-        if (aIsNotSynced !== bIsNotSynced) {
-          return aIsNotSynced ? -1 : 1;
-        }
-
         const aIsMissingVideo = !a.videoUrl;
         const bIsMissingVideo = !b.videoUrl;
 
         if (aIsMissingVideo !== bIsMissingVideo) {
           return aIsMissingVideo ? -1 : 1;
+        }
+
+        const aHasNoCommentary = !hasCommentary(a);
+        const bHasNoCommentary = !hasCommentary(b);
+
+        if (aHasNoCommentary !== bHasNoCommentary) {
+          return aHasNoCommentary ? -1 : 1;
+        }
+
+        const aIsMissingThumbnail = !a.thumbnail;
+        const bIsMissingThumbnail = !b.thumbnail;
+
+        if (aIsMissingThumbnail !== bIsMissingThumbnail) {
+          return aIsMissingThumbnail ? -1 : 1;
+        }
+
+        const aSyncStatus = getDisplaySyncStatus(a);
+        const bSyncStatus = getDisplaySyncStatus(b);
+
+        const aIsUnsynced = aSyncStatus !== "synced";
+        const bIsUnsynced = bSyncStatus !== "synced";
+
+        if (aIsUnsynced !== bIsUnsynced) {
+          return aIsUnsynced ? -1 : 1;
         }
 
         return 0;
