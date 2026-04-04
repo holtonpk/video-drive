@@ -182,7 +182,7 @@ const FeedBackCard = ({video}: {video: VideoData}) => {
     <div className="flex pt-6 md:pt-4 h-fit flex-col gap-3 md:mt-4 md:rounded-l-[0px] md:rounded-tr-[12px] rounded-b-[12px] border-[1px] min-h-[90%] border-t-0 md:border-l-0 md:border-t-[1px] border-white/20 bg-[#1A1A1A] p-4">
       <div className=" flex flex-row md:items-start items-center gap-1">
         <img
-          src={getFaviconUrl(video.website ?? "")}
+          src={video.logo ?? getFaviconUrl(video.website ?? "")}
           alt={video.name}
           className="h-12 w-12 md:h-10 md:w-10 mr-4 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
         />

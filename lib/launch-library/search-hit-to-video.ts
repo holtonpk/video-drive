@@ -22,6 +22,7 @@ export type LaunchLibrarySearchHit = {
   updatedAt?: string;
   searchText?: string;
   website: string | null;
+  logo?: string | null;
 };
 
 export function searchHitToVideoData(hit: LaunchLibrarySearchHit): VideoData {

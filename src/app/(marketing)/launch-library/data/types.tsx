@@ -18,13 +18,8 @@ export type videoSchema = {
   meta: {};
 };
 
-
 export type VideoData = {
   name: string;
-  /**
-   * Unique URL segment (e.g. random-company, random-company-2).
-   * Should be set when saving; navigation falls back to slugified name only for migration.
-   */
   slug?: string;
   cohort: string | null;
   industry: string[];
@@ -48,6 +43,7 @@ export type VideoData = {
   ycUrl: string | null;
   thumbnail: string | null;
   videoUrl: string | null;
+  logo?: string | null;
 };
 
 /**
@@ -66,6 +62,7 @@ export type VideoCardDisplay = {
   tone: string[];
   production: string[];
   hook: string[];
+  logo?: string | null;
   videoUrl: string | null;
   website: string | null;
   commentary: string | null;

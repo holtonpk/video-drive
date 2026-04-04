@@ -294,9 +294,7 @@ export const VideoCard = ({
               }
             : undefined
         }
-        onPointerDown={() => 
-          router.prefetch(href)
-        }
+        onPointerDown={() => router.prefetch(href)}
       >
         <Image
           src={video.thumbnail ?? ""}
@@ -377,7 +375,7 @@ export const VideoCard = ({
             <div className="flex flex-col gap-3 p-3">
               <div className="flex gap-2 items-center min-w-0">
                 <img
-                  src={getFaviconUrl(video.website ?? "")}
+                  src={video.logo ?? getFaviconUrl(video.website ?? "")}
                   alt={video.name}
                   className="h-6 w-6 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
                 />

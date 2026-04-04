@@ -40,9 +40,7 @@ const SEARCH_CURSOR_PREFIX = "srch:";
 function parseScoreFilter(filters: Filters): number[] | null {
   const raw = filters.score;
   if (!raw?.length) return null;
-  const nums = raw
-    .map((s) => Number(s))
-    .filter((n) => Number.isFinite(n));
+  const nums = raw.map((s) => Number(s)).filter((n) => Number.isFinite(n));
   if (!nums.length) return null;
   return [...new Set(nums)];
 }
@@ -97,6 +95,7 @@ function slimResult(docSnap: QueryDocumentSnapshot): LaunchLibrarySearchHit {
     videoUrl: typeof data.videoUrl === "string" ? data.videoUrl : null,
     createdAt: typeof data.createdAt === "string" ? data.createdAt : null,
     website: typeof data.website === "string" ? data.website : null,
+    logo: typeof data.logo === "string" ? data.logo : null,
   };
 }
 
@@ -411,7 +410,9 @@ export async function POST(req: NextRequest) {
       const hits = pageDocs.map(slimResult);
       const hasMore = docs.length > pageSize;
       const nextCursor =
-        hasMore && pageDocs.length > 0 ? pageDocs[pageDocs.length - 1].id : null;
+        hasMore && pageDocs.length > 0
+          ? pageDocs[pageDocs.length - 1].id
+          : null;
 
       return NextResponse.json({
         results: hits,

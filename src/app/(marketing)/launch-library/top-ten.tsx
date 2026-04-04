@@ -397,7 +397,7 @@ function RankCard({
             <div className="flex flex-col gap-3 p-3">
               <div className="flex min-w-0 items-center gap-2">
                 <img
-                  src={getFaviconUrl(video.website ?? "")}
+                  src={video.logo ?? getFaviconUrl(video.website ?? "")}
                   alt={video.name}
                   className="h-6 w-6 shrink-0 rounded-full ring-2 ring-white/20 ring-offset-4 ring-offset-black"
                 />
