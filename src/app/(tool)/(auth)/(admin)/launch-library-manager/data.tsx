@@ -26,8 +26,9 @@ export type VideoData = {
   videoUrl: string | null;
   logo?: string | null;
 };
+export const localData: VideoData[] = [];
 
-export const localData: VideoData[] = [
+export const localDataOld: VideoData[] = [
   {
     name: "",
     cohort: null,
