@@ -2,7 +2,11 @@ import React from "react";
 import VideoManager from "./video-manager";
 
 const Page = () => {
-  return <VideoManager />;
+  return (
+    <div className="max-w-screen max-h-screen overflow-hidden">
+      <VideoManager />
+    </div>
+  );
 };
 
 export default Page;

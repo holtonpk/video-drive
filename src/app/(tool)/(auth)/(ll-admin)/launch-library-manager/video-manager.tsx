@@ -7,6 +7,7 @@ import type {LaunchLibraryFilterField} from "@/src/app/(marketing)/launch-librar
 import {HARD_CODED_FILTER_OPTION_COUNTS, localData, VideoData} from "./data";
 import Link from "next/link";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
+import {Icons} from "@/components/icons";
 
 const LAUNCH_LIBRARY_DISMISSED_LOCAL_KEY =
   "launch-library-dismissed-local-videos";
@@ -506,6 +507,10 @@ export default function Page() {
     return videos.filter((v) => !v.videoUrl).length;
   }, [videos]);
 
+  const missingCommentaryCount = useMemo(() => {
+    return videos.filter((v) => !hasCommentary(v)).length;
+  }, [videos]);
+
   const missingThumbnailCount = useMemo(() => {
     return videos.filter((v) => !v.thumbnail).length;
   }, [videos]);
@@ -886,7 +891,7 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-[1700px]">
-        <div className="mb-6 flex flex-col gap-4 border border-zinc-800 bg-zinc-950 p-5 lg:flex-row lg:items-end lg:justify-between">
+        {/* <div className="mb-6 flex flex-col gap-4 border border-zinc-800 bg-zinc-950 p-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="text-xs uppercase tracking-[0.25em] text-zinc-500">
               Video data manager
@@ -1002,21 +1007,54 @@ export default function Page() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="pt-2">
+        <div className="py-2">
           <div
             id="workspace"
-            className="sticky top-2 grid h-[calc(100vh-8px)] grid-cols-1 gap-6 lg:grid-cols-3"
+            className="sticky top-2 px-2 grid h-[calc(100vh-16px)] grid-cols-1 gap-6 lg:grid-cols-3"
           >
             <div
               id="videos-display"
               className="flex h-full min-h-0 flex-col rounded-3xl border border-zinc-800 bg-zinc-950/60"
             >
+              <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
+
               <div className="flex min-h-0 flex-1 flex-col">
-                <div className="relative flex h-[100px] shrink-0 flex-col gap-2 rounded-3xl border-zinc-800 bg-black p-4">
-                  <div className="text-sm font-medium text-white px-4  flex items-center justify-between">
-                    {filteredVideos.length} total videos
+                <div className="relative flex h-[150px] shrink-0 flex-col gap-2 rounded-3xl border-zinc-800 bg-black p-4">
+                  <div className="flex flex-wrap items-center  gap-2 text-xs">
+                    {/* <div className="text-sm font-medium text-white px-4  flex items-center justify-between">
+                      {filteredVideos.length} total videos
+                    </div> */}
+                    <button className="rounded-xl border flex items-center justify-center gap-2 border-zinc-700 px-4 py-2 text-sm font-medium  transition bg-white text-black disabled:cursor-not-allowed disabled:opacity-50">
+                      <Icons.add className="w-4 h-4" />
+                      New Video
+                    </button>
+                    <span className="rounded-full h-fit border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
+                      {videos.length} total videos
+                    </span>
+                    {/* {unsyncedVideos.length > 0 && ( */}
+                    <span className="rounded-full border h-fit border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
+                      {unsyncedVideos.length} unsynced
+                    </span>
+                    {/* )} */}
+
+                    {/* {missingVideoCount > 0 && ( */}
+                    <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
+                      {missingVideoCount} missing video
+                    </span>
+                    {/* )} */}
+                    {/* {missingCommentaryCount > 0 && ( */}
+                    <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
+                      {missingCommentaryCount} missing commentary
+                    </span>
+                    {/* )} */}
+
+                    {/* {missingThumbnailCount > 0 && ( */}
+                    <span className="rounded-full border h-fit border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300">
+                      {missingThumbnailCount} missing thumbnail
+                    </span>
+                    {/* )} */}
                   </div>
                   <div className="flex flex-col gap-3  ">
                     <div className="flex gap-3">
@@ -1037,7 +1075,9 @@ export default function Page() {
                         onClick={() => setFiltersPopoverOpen((prev) => !prev)}
                         className="rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-200 transition hover:bg-zinc-900"
                       >
-                        Filters({activeFilterEntries.length})
+                        Filters{" "}
+                        {activeFilterEntries.length > 0 &&
+                          `(${activeFilterEntries.length})`}
                       </button>
                     </div>
                   </div>
@@ -1177,8 +1217,8 @@ export default function Page() {
                 </div>
 
                 <div className="relative min-h-0 flex-1 rounded-b-3xl border border-zinc-800 bg-black">
-                  <ScrollArea className="h-full w-full pb-4">
-                    <div className="w-full min-w-0 px-4">
+                  <ScrollArea className="h-full w-full ">
+                    <div className="w-full min-w-0 px-4 pb-4 pt-3">
                       <div className="flex w-full min-w-0 flex-col gap-3">
                         {filteredVideos.map((video) => {
                           const isActive = video.postId === selectedId;
@@ -1193,7 +1233,7 @@ export default function Page() {
                               key={video.postId}
                               onClick={() => setSelectedId(video.postId)}
                               className={classNames(
-                                "box-border grid-cols-[128px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
+                                "box-border grid-cols-[178px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
                                 isActive
                                   ? "border-white bg-white/5"
                                   : "border-zinc-800 bg-zinc-950 hover:border-zinc-700 hover:bg-zinc-900",
@@ -1276,26 +1316,22 @@ export default function Page() {
             </div>
             <ScrollArea
               id="video-area"
-              className="h-[calc(100vh-8px)] min-h-0 w-full"
+              className={classNames(
+                " h-[calc(100vh-16px)] min-h-0 w-full pb-6 rounded-3xl  border bg-zinc-950/60  transition-colors",
+
+                selectedVideoSyncStatus === "missing" && "border-red-500/60",
+
+                selectedVideoSyncStatus === "unsynced" && "border-amber-500/60",
+
+                selectedVideoSyncStatus === "synced" && "border-emerald-500/60",
+
+                !selectedVideo && "border-zinc-800",
+              )}
             >
+              <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
               <ScrollBar orientation="vertical" />
 
-              <div
-                id="edit-panel"
-                className={classNames(
-                  "rounded-3xl  border bg-zinc-950/60 p-5 transition-colors",
-
-                  selectedVideoSyncStatus === "missing" && "border-red-500/60",
-
-                  selectedVideoSyncStatus === "unsynced" &&
-                    "border-amber-500/60",
-
-                  selectedVideoSyncStatus === "synced" &&
-                    "border-emerald-500/60",
-
-                  !selectedVideo && "border-zinc-800",
-                )}
-              >
+              <div id="edit-panel" className={classNames("p-5")}>
                 {selectedVideo && (
                   <div
                     className={classNames(
@@ -1320,311 +1356,286 @@ export default function Page() {
                     Choose a record to edit
                   </div>
                 ) : (
-                  <EditPanel
-                    key={selectedVideo.postId}
-                    selectedVideo={selectedVideo}
-                    editOptions={editOptions}
-                    onSave={handleEditPanelSave}
-                    onChange={setDraftVideo}
-                    showNotALaunch={isLocalOnlyVideo(
-                      selectedVideo,
-                      firebaseVideosById,
-                    )}
-                    onNotALaunch={() => dismissLocalVideo(selectedVideo.postId)}
-                  />
-                )}
-              </div>
-            </ScrollArea>
-
-            <ScrollArea
-              id="video-area-right"
-              className="h-[calc(100vh-8px)] min-h-0 w-full"
-            >
-              <ScrollBar orientation="vertical" />
-              <div id="video-display">
-                {!selectedVideo ? (
-                  <div className="flex h-full min-h-[500px] items-center justify-center rounded-3xl border border-dashed border-zinc-800 text-zinc-500">
-                    Select a video to view details
-                  </div>
-                ) : (
-                  <div className="space-y-5 p-5 rounded-3xl border border-zinc-800">
-                    {selectedVideo &&
-                      !videoMatchesFilters(selectedVideo, filters) && (
-                        <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
-                          This row does not match the active filter. Adjust
-                          filters or edit the saved record in the list source.
-                        </div>
+                  <>
+                    <EditPanel
+                      key={selectedVideo.postId}
+                      selectedVideo={selectedVideo}
+                      editOptions={editOptions}
+                      onSave={handleEditPanelSave}
+                      onChange={setDraftVideo}
+                      showNotALaunch={isLocalOnlyVideo(
+                        selectedVideo,
+                        firebaseVideosById,
                       )}
+                      onNotALaunch={() =>
+                        dismissLocalVideo(selectedVideo.postId)
+                      }
+                    />
 
-                    <div className="flex flex-wrap items-start justify-between gap-4">
-                      <div>
-                        <div className="flex flex-wrap items-start gap-4">
-                          <input
-                            ref={logoInputRef}
-                            type="file"
-                            accept="image/*"
-                            onChange={handleLogoUpload}
-                            className="hidden"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => logoInputRef.current?.click()}
-                            className="rounded-full transition hover:opacity-80"
-                            title="Upload logo"
-                          >
-                            <img
-                              src={
-                                selectedVideo.logo ||
-                                getFaviconUrl(selectedVideo.website ?? "")
-                              }
-                              alt={selectedVideo.name}
-                              className="h-8 w-8 shrink-0 rounded-full ring-[2px] ring-white/20 ring-offset-[4px] ring-offset-black"
-                            />
-                          </button>
-                          <h2 className="text-2xl font-semibold">
-                            {selectedVideo.name}
-                          </h2>
-                        </div>
-                        {(logoUploadState === "uploading" ||
-                          logoUploadState === "success" ||
-                          logoUploadState === "error") && (
-                          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
-                            <span
-                              className={classNames(
-                                "rounded-full border px-2.5 py-1",
-                                logoUploadState === "uploading" &&
-                                  "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                                logoUploadState === "success" &&
-                                  "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                                logoUploadState === "error" &&
-                                  "border-red-500/40 bg-red-500/10 text-red-300",
-                              )}
-                            >
-                              {logoUploadState === "uploading"
-                                ? "Uploading logo..."
-                                : logoUploadState === "success"
-                                  ? "Logo uploaded"
-                                  : "Logo upload failed"}
-                            </span>
-                            {logoUploadError ? (
-                              <span className="text-red-300">
-                                {logoUploadError}
-                              </span>
-                            ) : null}
-                          </div>
-                        )}
-
-                        <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-400">
-                          <span>@{selectedVideo.authorUsername}</span>
-                          <span>•</span>
-                          <span>{parseDate(selectedVideo.createdAt)}</span>
-                          <span>•</span>
-                          <span>{selectedVideo.cohort ?? "No cohort"}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        <div
-                          className={classNames(
-                            "rounded-full border px-3 py-2 text-xs font-medium",
-                            syncState === "saving" &&
-                              "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                            syncState !== "saving" &&
-                              selectedVideoSyncStatus === "synced" &&
-                              "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                            syncState !== "saving" &&
-                              selectedVideoSyncStatus === "unsynced" &&
-                              "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                            syncState !== "saving" &&
-                              selectedVideoSyncStatus === "missing" &&
-                              "border-zinc-700 bg-zinc-900 text-zinc-300",
-                            syncState === "error" &&
-                              "border-red-500/40 bg-red-500/10 text-red-300",
-                          )}
+                    {(selectedVideoSyncStatus === "missing" ||
+                      selectedVideoSyncStatus === "unsynced") && (
+                      <div className="pointer-events-none absolute bottom-0 left-0 z-50 flex h-20 w-full items-center justify-center bg-gradient-to-t from-black to-transparent">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const nextVideo =
+                              draftVideo &&
+                              draftVideo.postId === selectedVideo.postId
+                                ? draftVideo
+                                : selectedVideo;
+                            void handleEditPanelSave(nextVideo);
+                          }}
+                          className="pointer-events-auto w-[90%] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
                         >
-                          {syncState === "saving"
-                            ? "Syncing to Firebase..."
-                            : syncState === "error"
-                              ? "Sync failed"
-                              : selectedVideoSyncStatus === "synced"
-                                ? "Firebase synced"
-                                : selectedVideoSyncStatus === "unsynced"
-                                  ? "Firebase out of sync"
-                                  : "Missing from Firebase"}
-                        </div>
-                        <p className="max-w-xs text-xs text-zinc-500">
-                          Metadata sync: use{" "}
-                          <span className="text-zinc-300">Save changes</span> in
-                          the edit panel.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="grid gap-5 ">
-                      <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-black">
-                        {selectedVideo.videoUrl ? (
-                          <video
-                            ref={videoRef}
-                            src={selectedVideo.videoUrl}
-                            controls
-                            crossOrigin="anonymous"
-                            className="aspect-video w-full bg-black object-cover"
-                          />
-                        ) : selectedVideo.thumbnail ? (
-                          <img
-                            src={selectedVideo.thumbnail}
-                            alt={selectedVideo.name}
-                            className="aspect-video w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex aspect-video items-center justify-center text-sm text-zinc-500">
-                            Add a video URL or set a thumbnail
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="rounded-3xl border border-zinc-800 bg-black p-4">
-                        <div className=" space-y-3">
-                          <TextField
-                            label="Source Post URL"
-                            value={selectedVideo.postUrl}
-                            onChange={(value) =>
-                              patchSelectedVideo({postUrl: value})
-                            }
-                          />
-
-                          <button
-                            onClick={downloadSelectedVideo}
-                            disabled={
-                              downloadState === "downloading" ||
-                              !selectedVideo.postUrl
-                            }
-                            className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
-                          >
-                            {downloadState === "downloading"
-                              ? "Downloading and uploading video..."
-                              : selectedVideo.videoUrl
-                                ? "Re-download video"
-                                : "Download video"}
-                          </button>
-
-                          <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="video/*"
-                            onChange={handleManualVideoUpload}
-                            className="hidden"
-                          />
-
-                          <button
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={manualUploadState === "uploading"}
-                            className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
-                          >
-                            {manualUploadState === "uploading"
-                              ? "Uploading video..."
-                              : selectedVideo.videoUrl
-                                ? "Replace with manual upload"
-                                : "Upload video from computer"}
-                          </button>
-
-                          {selectedVideo.videoUrl && (
-                            <button
-                              onClick={setThumbnailFromCurrentFrame}
-                              className="w-full rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
-                            >
-                              Set frame as thumbnail
-                            </button>
+                          {syncState === "saving" ? (
+                            <Icons.loader className="mx-auto h-[20px] w-[20px] animate-spin" />
+                          ) : (
+                            "Save changes"
                           )}
-
-                          <div className="flex flex-wrap items-center gap-2 text-xs">
-                            <span
-                              className={classNames(
-                                "rounded-full border px-2.5 py-1",
-                                downloadState === "idle" &&
-                                  "border-zinc-700 bg-zinc-900 text-zinc-300",
-                                downloadState === "downloading" &&
-                                  "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                                downloadState === "success" &&
-                                  "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                                downloadState === "error" &&
-                                  "border-red-500/40 bg-red-500/10 text-red-300",
-                              )}
-                            >
-                              {downloadState === "idle"
-                                ? "Ready"
-                                : downloadState === "downloading"
-                                  ? "Processing"
-                                  : downloadState === "success"
-                                    ? "Video stored"
-                                    : "Failed"}
-                            </span>
-                            {downloadError ? (
-                              <span className="text-red-300">
-                                {downloadError}
-                              </span>
-                            ) : null}
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-2 text-xs">
-                            <span
-                              className={classNames(
-                                "rounded-full border px-2.5 py-1",
-                                manualUploadState === "idle" &&
-                                  "border-zinc-700 bg-zinc-900 text-zinc-300",
-                                manualUploadState === "uploading" &&
-                                  "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                                manualUploadState === "success" &&
-                                  "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                                manualUploadState === "error" &&
-                                  "border-red-500/40 bg-red-500/10 text-red-300",
-                              )}
-                            >
-                              {manualUploadState === "idle"
-                                ? "Ready for manual upload"
-                                : manualUploadState === "uploading"
-                                  ? "Uploading"
-                                  : manualUploadState === "success"
-                                    ? "Manual upload complete"
-                                    : "Manual upload failed"}
-                            </span>
-                            {manualUploadError ? (
-                              <span className="text-red-300">
-                                {manualUploadError}
-                              </span>
-                            ) : null}
-                          </div>
-                        </div>
+                        </button>
                       </div>
-                    </div>
-
-                    <div className="grid gap-5 ">
-                      <SectionCard title="Tag fields">
-                        <div className="space-y-4 grid grid-cols-2">
-                          {arrayFields.map((field) => (
-                            <div key={field}>
-                              <div className="mb-2 text-sm font-medium text-zinc-200">
-                                {titleCase(String(field))}
-                              </div>
-                              <TagList
-                                items={selectedVideo[field] as string[]}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      </SectionCard>
-                    </div>
-
-                    <button
-                      onClick={deleteSelected}
-                      className="w-full rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-300 transition hover:bg-red-500/20"
-                    >
-                      Delete
-                    </button>
-                  </div>
+                    )}
+                  </>
                 )}
               </div>
             </ScrollArea>
+            <div className="flex flex-col">
+              <div className="flex items-end absolute top-0 right-0">
+                {/*  */}
+              </div>
+              <ScrollArea
+                id="video-area-right"
+                className="h-[calc(100vh-16px)] min-h-0 w-full rounded-3xl border pb-6 border-zinc-800"
+              >
+                <ScrollBar orientation="vertical" />
+                <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
+
+                <div id="video-display">
+                  {!selectedVideo ? (
+                    <div className="flex h-full min-h-[500px] items-center justify-center rounded-3xl border border-dashed border-zinc-800 text-zinc-500">
+                      Select a video to view details
+                    </div>
+                  ) : (
+                    <div className="space-y-5 p-5 ">
+                      {selectedVideo &&
+                        !videoMatchesFilters(selectedVideo, filters) && (
+                          <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs text-amber-300">
+                            This row does not match the active filter. Adjust
+                            filters or edit the saved record in the list source.
+                          </div>
+                        )}
+
+                      <div className="flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                          <div className="flex flex-wrap items-start gap-4">
+                            <input
+                              ref={logoInputRef}
+                              type="file"
+                              accept="image/*"
+                              onChange={handleLogoUpload}
+                              className="hidden"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => logoInputRef.current?.click()}
+                              className="rounded-full transition hover:opacity-80"
+                              title="Upload logo"
+                            >
+                              <img
+                                src={
+                                  selectedVideo.logo ||
+                                  getFaviconUrl(selectedVideo.website ?? "")
+                                }
+                                alt={selectedVideo.name}
+                                className="h-8 w-8 shrink-0 rounded-full ring-[2px] ring-white/20 ring-offset-[4px] ring-offset-black"
+                              />
+                            </button>
+                            <h2 className="text-2xl font-semibold">
+                              {selectedVideo.name}
+                            </h2>
+                          </div>
+                          {(logoUploadState === "uploading" ||
+                            logoUploadState === "success" ||
+                            logoUploadState === "error") && (
+                            <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+                              <span
+                                className={classNames(
+                                  "rounded-full border px-2.5 py-1",
+                                  logoUploadState === "uploading" &&
+                                    "border-amber-500/40 bg-amber-500/10 text-amber-300",
+                                  logoUploadState === "success" &&
+                                    "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
+                                  logoUploadState === "error" &&
+                                    "border-red-500/40 bg-red-500/10 text-red-300",
+                                )}
+                              >
+                                {logoUploadState === "uploading"
+                                  ? "Uploading logo..."
+                                  : logoUploadState === "success"
+                                    ? "Logo uploaded"
+                                    : "Logo upload failed"}
+                              </span>
+                              {logoUploadError ? (
+                                <span className="text-red-300">
+                                  {logoUploadError}
+                                </span>
+                              ) : null}
+                            </div>
+                          )}
+
+                          <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-zinc-400">
+                            <span>@{selectedVideo.authorUsername}</span>
+                            <span>•</span>
+                            <span>{parseDate(selectedVideo.createdAt)}</span>
+                            <span>•</span>
+                            <span>{selectedVideo.cohort ?? "No cohort"}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-5 ">
+                        <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-black">
+                          {selectedVideo.videoUrl ? (
+                            <video
+                              ref={videoRef}
+                              src={selectedVideo.videoUrl}
+                              controls
+                              crossOrigin="anonymous"
+                              className="aspect-video w-full bg-black object-cover"
+                            />
+                          ) : selectedVideo.thumbnail ? (
+                            <img
+                              src={selectedVideo.thumbnail}
+                              alt={selectedVideo.name}
+                              className="aspect-video w-full object-cover"
+                            />
+                          ) : (
+                            <div className="flex aspect-video items-center justify-center text-sm text-zinc-500">
+                              Add a video URL or set a thumbnail
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="rounded-3xl border border-zinc-800 bg-black p-4">
+                          <div className=" space-y-3">
+                            <TextField
+                              label="Source Post URL"
+                              value={selectedVideo.postUrl}
+                              onChange={(value) =>
+                                patchSelectedVideo({postUrl: value})
+                              }
+                            />
+
+                            <button
+                              onClick={downloadSelectedVideo}
+                              disabled={
+                                downloadState === "downloading" ||
+                                !selectedVideo.postUrl
+                              }
+                              className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              {downloadState === "downloading"
+                                ? "Downloading and uploading video..."
+                                : selectedVideo.videoUrl
+                                  ? "Re-download video"
+                                  : "Download video"}
+                            </button>
+
+                            <input
+                              ref={fileInputRef}
+                              type="file"
+                              accept="video/*"
+                              onChange={handleManualVideoUpload}
+                              className="hidden"
+                            />
+
+                            <button
+                              onClick={() => fileInputRef.current?.click()}
+                              disabled={manualUploadState === "uploading"}
+                              className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              {manualUploadState === "uploading"
+                                ? "Uploading video..."
+                                : selectedVideo.videoUrl
+                                  ? "Replace with manual upload"
+                                  : "Upload video from computer"}
+                            </button>
+
+                            {selectedVideo.videoUrl && (
+                              <button
+                                onClick={setThumbnailFromCurrentFrame}
+                                className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+                              >
+                                Set frame as thumbnail
+                              </button>
+                            )}
+
+                            <div className="flex flex-wrap items-center gap-2 text-xs">
+                              {downloadState !== "idle" && (
+                                <span
+                                  className={classNames(
+                                    "rounded-full border px-2.5 py-1",
+                                    downloadState === "downloading" &&
+                                      "border-amber-500/40 bg-amber-500/10 text-amber-300",
+                                    downloadState === "success" &&
+                                      "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
+                                    downloadState === "error" &&
+                                      "border-red-500/40 bg-red-500/10 text-red-300",
+                                  )}
+                                >
+                                  {downloadState === "downloading"
+                                    ? "Processing"
+                                    : downloadState === "success"
+                                      ? "Video stored"
+                                      : "Failed"}
+                                </span>
+                              )}
+                              {downloadError ? (
+                                <span className="text-red-300">
+                                  {downloadError}
+                                </span>
+                              ) : null}
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-2 text-xs">
+                              {manualUploadError ? (
+                                <span className="text-red-300">
+                                  {manualUploadError}
+                                </span>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-5 ">
+                        <SectionCard title="Tag fields">
+                          <div className="space-y-4 grid grid-cols-2">
+                            {arrayFields.map((field) => (
+                              <div key={field}>
+                                <div className="mb-2 text-sm font-medium text-zinc-200">
+                                  {titleCase(String(field))}
+                                </div>
+                                <TagList
+                                  items={selectedVideo[field] as string[]}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </SectionCard>
+                      </div>
+
+                      <button
+                        onClick={deleteSelected}
+                        className="w-full rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-300 transition hover:bg-red-500/20"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
+            </div>
           </div>
         </div>
       </div>
@@ -1920,7 +1931,7 @@ const EditPanel = React.memo(function EditPanel({
   }
 
   return (
-    <div className="space-y-4 pr-1 pb-6">
+    <div className="space-y-4 pr-1 pb-4">
       <div>
         <div className="text-lg font-semibold">Edit video #{form.postId}</div>
         <div className="text-sm text-zinc-500">
@@ -1932,7 +1943,7 @@ const EditPanel = React.memo(function EditPanel({
       <button
         type="button"
         onClick={() => window.open(form.postUrl, "_blank")}
-        className="mt-4 h-10 w-full rounded-xl bg-white px-4 py-2 text-sm text-black"
+        className="w-full rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
       >
         open post
       </button>
@@ -2053,14 +2064,6 @@ const EditPanel = React.memo(function EditPanel({
         value={form.commentary ?? ""}
         onChange={(value) => update({commentary: value || null})}
       />
-
-      <button
-        type="button"
-        onClick={() => void onSave(form)}
-        className="w-full rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
-      >
-        Save changes
-      </button>
     </div>
   );
 });
