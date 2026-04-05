@@ -1233,7 +1233,7 @@ export default function Page() {
                               key={video.postId}
                               onClick={() => setSelectedId(video.postId)}
                               className={classNames(
-                                "box-border grid-cols-[178px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
+                                "box-border grid-cols-[128px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
                                 isActive
                                   ? "border-white bg-white/5"
                                   : "border-zinc-800 bg-zinc-950 hover:border-zinc-700 hover:bg-zinc-900",
@@ -1252,7 +1252,7 @@ export default function Page() {
                                   </div>
                                 )}
                               </div>
-                              <div className="min-w-0 flex-1 overflow-hidden">
+                              <div className="min-w-0 flex-1 ">
                                 <div className="flex min-w-0 items-start gap-2">
                                   <div className="flex min-w-0 flex-1 items-center gap-2">
                                     <img
