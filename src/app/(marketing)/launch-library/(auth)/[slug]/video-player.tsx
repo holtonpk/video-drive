@@ -12,6 +12,7 @@ import {
   Minimize,
   SkipBack,
   SkipForward,
+  LoaderCircleIcon,
 } from "lucide-react";
 import {useAuthGate} from "../auth-gate";
 
@@ -74,7 +75,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       /** Muted by default so autoplay works under browser policies (user can unmute). */
       autoPlay = true,
       playsInline = true,
-      muted = false,
+      muted = true,
       setCurrentTime,
       currentTime,
       videoRef,
@@ -94,6 +95,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
     const [showControlsState, setShowControlsState] = React.useState(false);
     const [showPlayPauseOverlay, setShowPlayPauseOverlay] =
       React.useState(false);
+    const [isBuffering, setIsBuffering] = React.useState(false);
 
     const [isScrubbing, setIsScrubbing] = React.useState(false);
     const [hoverTime, setHoverTime] = React.useState<number | null>(null);
@@ -105,6 +107,12 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
     const playPauseOverlayTimeoutRef = React.useRef<NodeJS.Timeout | null>(
       null,
     );
+    const hasUserInteractedRef = React.useRef(false);
+    const wantsUnmutedRef = React.useRef(false);
+    const lastReportedDurationRef = React.useRef<number>(0);
+    const bufferingTimeoutRef = React.useRef<ReturnType<
+      typeof setTimeout
+    > | null>(null);
 
     React.useImperativeHandle(ref, () => videoRef.current!, []);
 
@@ -119,7 +127,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
         .padStart(2, "0")}:${hundredths.toString().padStart(2, "0")}`;
     };
 
-    const showOverlayBriefly = () => {
+    const showOverlayBriefly = React.useCallback(() => {
       setShowPlayPauseOverlay(true);
 
       if (playPauseOverlayTimeoutRef.current) {
@@ -129,34 +137,132 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       playPauseOverlayTimeoutRef.current = setTimeout(() => {
         setShowPlayPauseOverlay(false);
       }, 750);
-    };
+    }, []);
+
+    const stopProgressLoop = React.useCallback(() => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    }, []);
+
+    const startProgressLoop = React.useCallback(() => {
+      stopProgressLoop();
+
+      const tick = () => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        setCurrentTime(video.currentTime || 0);
+
+        const actuallyPlaying =
+          !video.paused && !video.ended && video.readyState > 1;
+
+        if (actuallyPlaying) {
+          animationFrameRef.current = requestAnimationFrame(tick);
+        } else {
+          animationFrameRef.current = null;
+        }
+      };
+
+      animationFrameRef.current = requestAnimationFrame(tick);
+    }, [videoRef, setCurrentTime, stopProgressLoop]);
+
+    const syncUiFromVideo = React.useCallback(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const actuallyPlaying =
+        !video.paused && !video.ended && video.readyState > 1;
+
+      setIsPlaying(actuallyPlaying);
+      setCurrentTime(video.currentTime || 0);
+      const d = video.duration;
+      const nextDuration = Number.isFinite(d) && d > 0 ? d : 0;
+      setDuration(nextDuration);
+      if (
+        Number.isFinite(d) &&
+        d > 0 &&
+        d !== lastReportedDurationRef.current
+      ) {
+        lastReportedDurationRef.current = d;
+        onDurationChange?.(d);
+      }
+      setVolume(video.volume);
+      setIsMuted(video.muted);
+    }, [videoRef, setCurrentTime, onDurationChange]);
+
+    const syncTimeFromVideo = React.useCallback(() => {
+      const video = videoRef.current;
+      if (!video) return;
+      setCurrentTime(video.currentTime || 0);
+    }, [videoRef, setCurrentTime]);
+
+    const hardResync = React.useCallback(() => {
+      syncUiFromVideo();
+      const video = videoRef.current;
+      if (!video) {
+        stopProgressLoop();
+        return;
+      }
+      const actuallyPlaying =
+        !video.paused && !video.ended && video.readyState > 1;
+      if (actuallyPlaying) {
+        startProgressLoop();
+      } else {
+        stopProgressLoop();
+      }
+    }, [syncUiFromVideo, videoRef, startProgressLoop, stopProgressLoop]);
+
+    const registerUserInteraction = React.useCallback(() => {
+      hasUserInteractedRef.current = true;
+    }, []);
 
     const togglePlay = () => {
-      if (!videoRef.current) return;
+      const video = videoRef.current;
+      if (!video) return;
 
-      if (isPlaying) {
-        videoRef.current.pause();
+      if (video.paused) {
+        void video.play();
       } else {
-        void videoRef.current.play();
+        video.pause();
       }
+    };
+
+    const handleVideoClick = () => {
+      registerUserInteraction();
+      togglePlay();
     };
 
     const toggleMute = () => {
-      if (!videoRef.current) return;
+      const video = videoRef.current;
+      if (!video) return;
 
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+      registerUserInteraction();
+
+      const nextMuted = !video.muted;
+      video.muted = nextMuted;
+      setIsMuted(nextMuted);
+
+      wantsUnmutedRef.current = !nextMuted;
     };
 
     const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newVolume = parseFloat(e.target.value);
-      setVolume(newVolume);
+      const video = videoRef.current;
+      if (!video) return;
 
-      if (videoRef.current) {
-        videoRef.current.volume = newVolume;
-        videoRef.current.muted = newVolume === 0;
-        setIsMuted(newVolume === 0);
-      }
+      registerUserInteraction();
+
+      const newVolume = parseFloat(e.target.value);
+      video.volume = newVolume;
+
+      const nextMuted = newVolume === 0;
+      video.muted = nextMuted;
+
+      setVolume(newVolume);
+      setIsMuted(nextMuted);
+
+      wantsUnmutedRef.current = !nextMuted;
     };
 
     const clamp = (value: number, min: number, max: number) =>
@@ -172,6 +278,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
     };
 
     const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+      registerUserInteraction();
       const newTime = parseFloat(e.target.value);
       seekToTime(newTime);
     };
@@ -208,11 +315,13 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
 
     const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
+      registerUserInteraction();
       const {time} = getTimeFromClientX(e.clientX);
       seekToTime(time);
     };
 
     const skip = (seconds: number) => {
+      registerUserInteraction();
       if (!videoRef.current) return;
 
       const nextTime = Math.max(0, Math.min(duration, currentTime + seconds));
@@ -300,89 +409,130 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       const video = videoRef.current;
       if (!video) return;
 
-      const pushDuration = () => {
-        const d = video.duration;
-        if (!Number.isFinite(d) || d <= 0) return;
-        setDuration(d);
-        onDurationChange?.(d);
+      const showBuffering = () => {
+        if (bufferingTimeoutRef.current) return;
+        bufferingTimeoutRef.current = setTimeout(() => {
+          setIsBuffering(true);
+          bufferingTimeoutRef.current = null;
+        }, 120);
       };
 
-      const handleLoadedMetadata = () => {
-        pushDuration();
-      };
-
-      const handleTimeUpdate = () => {
-        setCurrentTime(video.currentTime);
+      const hideBuffering = () => {
+        if (bufferingTimeoutRef.current) {
+          clearTimeout(bufferingTimeoutRef.current);
+          bufferingTimeoutRef.current = null;
+        }
+        setIsBuffering(false);
       };
 
       const handlePlay = () => {
-        setIsPlaying(true);
         showOverlayBriefly();
+        hardResync();
       };
 
       const handlePause = () => {
-        setIsPlaying(false);
+        hideBuffering();
         setShowControlsState(true);
         showOverlayBriefly();
+        hardResync();
       };
 
-      const handleNativeVolumeChange = () => {
-        setVolume(video.volume);
-        setIsMuted(video.muted);
+      const handleCanPlay = () => {
+        hideBuffering();
+        hardResync();
       };
 
-      video.addEventListener("loadedmetadata", handleLoadedMetadata);
-      video.addEventListener("durationchange", pushDuration);
-      video.addEventListener("timeupdate", handleTimeUpdate);
+      const handlePlaying = () => {
+        hideBuffering();
+        hardResync();
+      };
+
+      const handleWaiting = () => {
+        showBuffering();
+        hardResync();
+      };
+
+      const handleSeeking = () => {
+        showBuffering();
+        hardResync();
+      };
+
+      const syncEvents = [
+        "loadedmetadata",
+        "durationchange",
+        "seeked",
+        "ended",
+        "ratechange",
+        "volumechange",
+      ] as const;
+
+      syncEvents.forEach((eventName) => {
+        video.addEventListener(eventName, hardResync);
+      });
+
+      video.addEventListener("timeupdate", syncTimeFromVideo);
       video.addEventListener("play", handlePlay);
       video.addEventListener("pause", handlePause);
-      video.addEventListener("volumechange", handleNativeVolumeChange);
+      video.addEventListener("canplay", handleCanPlay);
+      video.addEventListener("playing", handlePlaying);
+      video.addEventListener("waiting", handleWaiting);
+      video.addEventListener("seeking", handleSeeking);
 
-      if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
-        pushDuration();
-      }
+      hardResync();
 
       return () => {
-        video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-        video.removeEventListener("durationchange", pushDuration);
-        video.removeEventListener("timeupdate", handleTimeUpdate);
+        syncEvents.forEach((eventName) => {
+          video.removeEventListener(eventName, hardResync);
+        });
+        video.removeEventListener("timeupdate", syncTimeFromVideo);
         video.removeEventListener("play", handlePlay);
         video.removeEventListener("pause", handlePause);
-        video.removeEventListener("volumechange", handleNativeVolumeChange);
+        video.removeEventListener("canplay", handleCanPlay);
+        video.removeEventListener("playing", handlePlaying);
+        video.removeEventListener("waiting", handleWaiting);
+        video.removeEventListener("seeking", handleSeeking);
+        stopProgressLoop();
+        hideBuffering();
 
         if (playPauseOverlayTimeoutRef.current) {
           clearTimeout(playPauseOverlayTimeoutRef.current);
         }
       };
-    }, [videoRef, setCurrentTime, onDurationChange]);
+    }, [
+      videoRef,
+      hardResync,
+      showOverlayBriefly,
+      stopProgressLoop,
+      syncTimeFromVideo,
+    ]);
 
     React.useEffect(() => {
-      const video = videoRef.current;
-      if (!video) return;
-
-      const updateProgress = () => {
-        setCurrentTime(video.currentTime);
-        animationFrameRef.current = requestAnimationFrame(updateProgress);
+      const handleVisibilityOrFocus = () => {
+        hardResync();
       };
 
-      if (isPlaying) {
-        animationFrameRef.current = requestAnimationFrame(updateProgress);
-      } else if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
+      document.addEventListener("visibilitychange", handleVisibilityOrFocus);
+      window.addEventListener("focus", handleVisibilityOrFocus);
+      window.addEventListener("pageshow", handleVisibilityOrFocus);
 
       return () => {
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-          animationFrameRef.current = null;
-        }
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityOrFocus,
+        );
+        window.removeEventListener("focus", handleVisibilityOrFocus);
+        window.removeEventListener("pageshow", handleVisibilityOrFocus);
       };
-    }, [isPlaying, setCurrentTime, videoRef]);
+    }, [hardResync]);
 
     React.useEffect(() => {
       setIsMuted(muted);
+      wantsUnmutedRef.current = !muted;
     }, [muted]);
+
+    React.useEffect(() => {
+      lastReportedDurationRef.current = 0;
+    }, [src]);
 
     React.useEffect(() => {
       const video = videoRef.current;
@@ -580,10 +730,19 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
           playsInline={playsInline}
           muted={isMuted}
           className="w-full h-full object-cover lg:rounded-[12px]"
-          onClick={togglePlay}
+          onClick={handleVideoClick}
           crossOrigin="anonymous"
           {...props}
         />
+
+        {isBuffering && isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+            <LoaderCircleIcon
+              className="w-20 h-20 animate-spin text-white"
+              aria-hidden
+            />
+          </div>
+        )}
 
         {showControls && (
           <>
@@ -704,6 +863,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
+                        registerUserInteraction();
                         togglePlay();
                       }}
                       className="p-2 text-white hover:bg-white/20 rounded-[8px] transition-colors"
@@ -783,6 +943,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
+                        registerUserInteraction();
                         void toggleFullscreen();
                       }}
                       className="p-2 text-white hover:bg-white/20 rounded-[8px] transition-colors"

@@ -1,6 +1,6 @@
 "use client";
 import React, {Suspense, useEffect, useState} from "react";
-import {useSearchParams} from "next/navigation";
+import {usePathname, useSearchParams} from "next/navigation";
 import {Checkbox} from "./checkbox";
 import {
   ChevronLeftIcon,
@@ -293,6 +293,7 @@ function formatVideoTimeMmSs(totalSeconds: number): string {
 }
 
 const VideoPageInner = ({video}: {video: VideoData}) => {
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const tQuery = searchParams.get("t");
   const secondsFromUrl = React.useMemo(
@@ -309,6 +310,11 @@ const VideoPageInner = ({video}: {video: VideoData}) => {
   const [videoDuration, setVideoDuration] = React.useState(0);
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const appliedUrlSeekRef = React.useRef(false);
+
+  // Same layout segment keeps scroll on client nav between videos; reset to the hero/player.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     setVideoDuration(0);
@@ -866,11 +872,14 @@ const VideoDetails = ({
             alt={video.name}
             className="h-8 w-8 lg:h-10 lg:w-10 ml-[6px] mr-2 shrink-0 rounded-full ring-white/20 ring-[2px] ring-offset-[4px] ring-offset-black"
           />
-          <h1
-            className={`text-2xl lg:text-4xl font-semibold mr-4 ${h1Font.className}`}
+          <Link
+            href={video.website ?? ""}
+            className={`text-2xl lg:text-4xl font-semibold mr-4 hover:underline ${h1Font.className}`}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {video.name}
-          </h1>
+          </Link>
           <div className="ml-auto lg:ml-0">
             <StarRating score={video.score ?? 0} />
           </div>
@@ -1170,19 +1179,29 @@ function buildHoverPreviewSequence(
 
 const VideoPreviewSkeleton = () => {
   return (
-    <div className="grid w-full min-w-0 max-w-full grid-cols-[120px_1fr] gap-3 rounded-[12px] p-2 transition-all lg:grid-cols-[150px_1fr]">
-      <div className="relative h-[72px] w-[120px] overflow-hidden rounded-[12px] lg:h-[90px] lg:w-[150px]">
-        <div className="absolute inset-0 rounded-[12px] bg-white/10 animate-pulse" />
+    <div
+      className="
+      flex w-full min-w-0 max-w-full flex-col gap-3 transition-all
+      lg:grid lg:grid-cols-[150px_1fr] lg:rounded-[12px] lg:p-2
+    "
+    >
+      <div className="relative aspect-video w-full h-auto overflow-hidden bg-black lg:h-[90px] lg:w-[150px] lg:rounded-[12px]">
+        <div className="absolute inset-0 rounded-none bg-white/10 animate-pulse lg:rounded-[12px]" />
       </div>
 
-      <div className="flex min-w-0 flex-col gap-1 overflow-hidden lg:max-h-[90px]">
+      <div className="flex min-w-0 flex-col gap-2 overflow-hidden px-2 lg:max-h-[90px] lg:gap-1 lg:px-0">
         <div className="flex min-w-0 items-center gap-2 pl-[3px]">
-          <div className="h-5 w-5 shrink-0 rounded-full bg-white/10 animate-pulse" />
-          <div className="h-4 w-20 rounded-full bg-white/10 animate-pulse" />
+          <div className="h-6 w-6 shrink-0 rounded-full bg-white/10 animate-pulse lg:h-4 lg:w-4" />
+          <div className="h-6 min-w-0 flex-1 rounded-full bg-white/10 animate-pulse lg:h-4 lg:max-w-[10rem]" />
+          <div className="ml-auto block h-5 w-[4.5rem] shrink-0 rounded-full bg-white/10 animate-pulse lg:hidden" />
         </div>
-        <div className="h-4 w-16 rounded-full bg-white/10 animate-pulse" />
-        <div className="h-4 w-full rounded-full bg-white/10 animate-pulse" />
-        <div className="h-4 w-5/6 rounded-full bg-white/10 animate-pulse" />
+
+        <div className="hidden lg:block">
+          <div className="h-4 w-16 rounded-full bg-white/10 animate-pulse" />
+        </div>
+
+        <div className="h-3 w-full rounded-full bg-white/10 animate-pulse lg:h-4" />
+        <div className="h-3 w-5/6 rounded-full bg-white/10 animate-pulse lg:h-4" />
       </div>
     </div>
   );
