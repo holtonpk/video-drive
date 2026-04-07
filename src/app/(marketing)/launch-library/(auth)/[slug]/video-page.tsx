@@ -1304,6 +1304,7 @@ const VideoPreview = ({video}: {video: VideoData}) => {
   return (
     <Link
       href={href}
+      scroll
       className="
       flex flex-col w-full min-w-0 max-w-full gap-3 lg:rounded-[12px] lg:p-2 transition-all
       hover:bg-white/5
