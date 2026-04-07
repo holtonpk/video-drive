@@ -123,6 +123,9 @@ const VideoPage = ({video}: {video: VideoData}) => {
           size="full"
           className="md:rounded-[12px] h-fit  aspect-video shadow-lg shadow-black"
           name={video.name}
+          setCurrentTime={() => {}}
+          currentTime={0}
+          videoRef={React.createRef<HTMLVideoElement>()}
         />
         <div className="px-4 md:px-0 ">
           <FeedBackCard video={video} />
