@@ -713,6 +713,21 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
       videoSpriteFrameCount,
     ]);
 
+    const hoverPreviewLeftPx = React.useMemo(() => {
+      const el = progressContainerRef.current;
+      const previewWidth = hoverSpriteData?.width ?? 160;
+      if (!el) return null;
+
+      const trackWidth = el.clientWidth;
+      const rawLeft = (hoverPercent / 100) * trackWidth;
+      const clampedLeft = Math.max(
+        previewWidth / 2,
+        Math.min(trackWidth - previewWidth / 2, rawLeft),
+      );
+
+      return clampedLeft;
+    }, [hoverPercent, hoverSpriteData]);
+
     return (
       <div
         ref={containerRef}
@@ -782,7 +797,7 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
                       <>
                         <div
                           className="absolute bottom-full mb-2 -translate-x-1/2 pointer-events-none flex flex-col items-center gap-2"
-                          style={{left: `${hoverPercent}%`}}
+                          style={{left: hoverPreviewLeftPx ?? 0}}
                         >
                           {hoverSpriteData && (
                             <div

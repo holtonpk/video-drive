@@ -1,10 +1,13 @@
 import {NavBar} from "../../../navbar";
 import {Footer} from "../../../footer";
 import {LoaderCircleIcon} from "lucide-react";
+import ScrollToTop from "./scrollToTop";
 
 export default function Loading() {
   return (
     <div className="flex min-h-screen flex-col">
+      <ScrollToTop />
+
       <NavBar />
 
       <main className="flex flex-1 flex-col lg:px-6 pt-2 pb-[250px] lg:pb-10 text-white max-w-screen">

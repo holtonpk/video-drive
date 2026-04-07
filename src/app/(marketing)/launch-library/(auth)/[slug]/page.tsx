@@ -3,6 +3,8 @@ import {NavBar} from "../../../navbar";
 import {Footer} from "../../../footer";
 import {constructMetadata} from "@/lib/utils";
 import {baseSlugFromName, isNumericPostIdParam} from "@/lib/slug";
+import ScrollToTop from "./scrollToTop"; // imported scroll to top
+
 import VideoPage from "./video-page";
 import {
   getLaunchLibraryVideoByPostId,
@@ -109,6 +111,7 @@ export default async function Page({params}: Props) {
 
   return (
     <>
+      <ScrollToTop />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
