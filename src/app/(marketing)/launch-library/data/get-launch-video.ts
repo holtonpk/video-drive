@@ -13,10 +13,29 @@ import type {VideoData} from "./types";
 
 const COLLECTION = "launch-library";
 
-/** Full launch library dataset (for related videos, etc.). */
+let launchLibraryVideosCache: VideoData[] | null = null;
+let launchLibraryVideosInflight: Promise<VideoData[]> | null = null;
+
+/** Full launch library dataset (for related videos, etc.). Cached in-memory for the session. */
 export async function getLaunchLibraryVideos(): Promise<VideoData[]> {
-  const snapshot = await getDocs(collection(db, COLLECTION));
-  return snapshot.docs.map((docSnap) => docSnap.data() as VideoData);
+  if (launchLibraryVideosCache) {
+    return launchLibraryVideosCache;
+  }
+  if (launchLibraryVideosInflight) {
+    return launchLibraryVideosInflight;
+  }
+
+  launchLibraryVideosInflight = getDocs(collection(db, COLLECTION))
+    .then((snapshot) => {
+      const list = snapshot.docs.map((docSnap) => docSnap.data() as VideoData);
+      launchLibraryVideosCache = list;
+      return list;
+    })
+    .finally(() => {
+      launchLibraryVideosInflight = null;
+    });
+
+  return launchLibraryVideosInflight;
 }
 
 export async function getLaunchLibraryVideoByPostId(

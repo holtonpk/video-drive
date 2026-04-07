@@ -2,7 +2,7 @@ import type {VideoCardDisplay} from "./types";
 import type {LaunchLibraryFieldCategory} from "./field-routing";
 
 const TAG_FIELDS = [
-  {field: "cohort" as const, category: "cohort"},
+  // {field: "cohort" as const, category: "cohort"},
   {field: "industry" as const, category: "industry"},
   {field: "sector" as const, category: "sector"},
   {field: "creativeFormat" as const, category: "creative-format"},
@@ -20,7 +20,7 @@ export type VideoTag = {
 export const getVideoTags = (video: VideoCardDisplay): VideoTag[] => {
   const tags: VideoTag[] = [];
 
-  for (const { field, category } of TAG_FIELDS) {
+  for (const {field, category} of TAG_FIELDS) {
     const value = video[field];
 
     if (value == null) continue;
@@ -30,12 +30,10 @@ export const getVideoTags = (video: VideoCardDisplay): VideoTag[] => {
 
     if (Array.isArray(value)) {
       tags.push(
-        ...value
-          .filter(Boolean)
-          .map((item) => ({
-            label: formatLabel(item),
-            category,
-          })),
+        ...value.filter(Boolean).map((item) => ({
+          label: formatLabel(item),
+          category,
+        })),
       );
     } else {
       tags.push({
@@ -48,8 +46,7 @@ export const getVideoTags = (video: VideoCardDisplay): VideoTag[] => {
   return tags.filter(
     (tag, index, arr) =>
       arr.findIndex(
-        (other) =>
-          other.label === tag.label && other.category === tag.category,
+        (other) => other.label === tag.label && other.category === tag.category,
       ) === index,
   );
 };

@@ -11,6 +11,9 @@
     "start": "next start",
     "lint": "next lint",
     "backfill:launch-library-search": "tsx scripts/backfill-launch-library-search.ts",
+    "backfill:video-sprites": "tsx scripts/backfill-video-sprites.ts",
+    "backfill:video-sprites:sa": "GOOGLE_APPLICATION_CREDENTIALS=./service-account-key.json FIREBASE_STORAGE_BUCKET=video-drive-8d636.appspot.com tsx scripts/backfill-video-sprites.ts",
+    "backfill:video-sprites:local": "node --env-file=.env.local --import tsx scripts/backfill-video-sprites.ts",
     "verify:launch-library-search": "tsx scripts/verify-launch-library-search.ts"
   },
   "dependencies": {
@@ -77,6 +80,7 @@
     "next": "15.5.9",
     "next-themes": "^0.3.0",
     "openai": "^4.33.0",
+    "radix-ui": "^1.4.3",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
