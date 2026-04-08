@@ -3,7 +3,14 @@ import "../marketing-style.css";
 
 const LaunchLibraryLayout = ({children}: {children: React.ReactNode}) => {
   return (
-    <div className="dark" style={{backgroundColor: "#121212"}}>
+    <div
+      data-page-theme="dark"
+      className="dark  min-h-[100dvh]"
+      style={{
+        backgroundColor: "#121212",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+    >
       {children}
     </div>
   );

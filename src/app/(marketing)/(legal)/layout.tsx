@@ -3,7 +3,11 @@ import "../marketing-style.css";
 
 const Layout = ({children}: {children: React.ReactNode}) => {
   return (
-    <body className="dark" style={{backgroundColor: "#121212"}}>
+    <body
+      data-page-theme="dark"
+      className="dark"
+      style={{backgroundColor: "#121212"}}
+    >
       {children}
     </body>
   );

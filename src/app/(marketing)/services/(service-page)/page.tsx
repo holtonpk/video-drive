@@ -14,7 +14,11 @@ export const metadata = constructMetadata({
 
 const Page = () => {
   return (
-    <div id="hero" className="flex flex-col min-h-screen dark">
+    <div
+      data-page-theme="dark"
+      id="hero"
+      className="flex flex-col min-h-screen dark"
+    >
       <NavBar />
       <Hero />
       <Process Heading={<></>} />
