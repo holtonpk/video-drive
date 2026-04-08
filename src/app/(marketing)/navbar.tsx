@@ -201,20 +201,20 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
         {showContact && (
           <motion.div
             id="contact-button"
-            initial={{bottom: -100, right: -100}}
+            initial={{bottom: -120, right: -120}}
             animate={{bottom: 0, right: 0}}
-            exit={{bottom: -100, right: -100}}
+            exit={{bottom: -120, right: -120}}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 25,
               duration: 5,
             }}
-            className={`dark fixed z-[99] text-center sm:text-left group sm:bottom-0 sm:right-0 -translate-x-2 -translate-y-2 sm:translate-x-4 sm:translate-y-4  bg-theme-color1 rounded-full sm:rounded-r-none sm:rounded-bl-none sm:rounded-tl-full h-[120px] w-[120px] sm:w-[140px] sm:h-[150px] flex items-center justify-center text-background sm:pb-4  sm:pl-6 sm:pt-6 text-3xl sm:text-4xl ${bigFont.className}`}
+            className={`dark fixed z-[99] text-center sm:text-left group sm:bottom-0 sm:right-0 -translate-x-2 -translate-y-2 sm:translate-x-4 sm:translate-y-4  bg-theme-color1 rounded-full sm:rounded-r-none sm:rounded-bl-none sm:rounded-tl-full h-[100px] w-[100px] sm:w-[140px] sm:h-[150px] flex items-center justify-center text-background sm:pb-4 sm:pl-6 sm:pt-6 leading-[24px] text-2xl  sm:leading-[40px] sm:text-4xl ${bigFont.className}`}
           >
             <Link href={"/contact"}>
               Let&apos;s <br /> Talk
-              <div className="absolute top-[40%] left-0 sm:left-2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 sm:h-16 sm:w-16 sm:group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
+              <div className="absolute top-[40%] left-0 sm:left-2 -translate-x-1/2 -translate-y-1/2 h-12 w-12 sm:h-16 sm:w-16 sm:group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
                 <ChatIcon />
               </div>
             </Link>
