@@ -2,7 +2,7 @@
 import {LinkButton} from "@/components/ui/link";
 import {LucideProps, Menu, X} from "lucide-react";
 import Link from "next/link";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useLockBody} from "@/lib/hooks";
 import {motion, AnimatePresence} from "framer-motion";
 import localFont from "next/font/local";
@@ -30,9 +30,9 @@ const bodyLight = localFont({
 export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [isFixed, setIsFixed] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
   const [showContact, setShowContact] = useState(false);
+  const lastScrollY = useRef(0);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -61,12 +61,24 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, [lastScrollY]);
 
-  // showContact should be true when scroll is greater than 1000px
   useEffect(() => {
     const handleScroll = () => {
-      setShowContact(window.scrollY > 1000);
+      const currentY = window.scrollY;
+      const isMobile = window.innerWidth < 768;
+      const passedThreshold = currentY > 1000;
+      const scrollingDown = currentY > lastScrollY.current;
+
+      if (isMobile) {
+        setShowContact(passedThreshold && scrollingDown);
+      } else {
+        setShowContact(passedThreshold);
+      }
+
+      lastScrollY.current = currentY;
     };
-    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, {passive: true});
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -82,7 +94,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
             }`}
           >
             <div className="flex md:grid md:grid-cols-3 items-center w-full ">
-              <Link href="/" className="flex  items-center">
+              <Link href="/" className="flex items-center">
                 <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
                 <span
                   className={`text-3xl  font-bold whitespace-nowrap dark:text-theme-color1 text-primary ${h1Font.className}`}
@@ -116,7 +128,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
                   Services
                 </LinkButton>
                 <LinkButton
-                  href="/launch-library"
+                  href="/launch-library/#"
                   className={`text-primary hover:text-theme-color1 hover:underline bg-transparent hover:bg-transparent p-0 uppercase  text-lg ${h2Font.className}`}
                 >
                   Launch Library
@@ -138,7 +150,7 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
       ) : (
         <div className="flex flex-col w-full px-6 py-4  md:py-6  ">
           <div className="flex md:grid md:grid-cols-3 items-center w-full ">
-            <Link href="/" className="flex   items-center">
+            <Link href="/" className="flex w-fit items-center">
               <Logo className="w-[36px] h-[36px] dark:fill-theme-color1 fill-primary" />
               <span
                 className={`text-3xl  uppercase font-bold whitespace-nowrap dark:text-theme-color1 text-primary ${h1Font.className}`}
@@ -200,20 +212,20 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
       <AnimatePresence>
         {showContact && (
           <motion.div
-            initial={{bottom: -100, right: -100}}
-            animate={{bottom: 0, right: 0}}
-            exit={{bottom: -100, right: -100}}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 25,
-              duration: 5,
+            id="contact-button"
+            initial={{opacity: 0, y: 24}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: 24}}
+            transition={{duration: 0.25}}
+            className={`dark fixed z-[99] group bg-theme-color1 rounded-tl-full w-[140px] h-[150px] flex items-center justify-center text-background pb-4 pl-6 pt-6 text-4xl ${bigFont.className}`}
+            style={{
+              right: "max(0.75rem, env(safe-area-inset-right))",
+              bottom: "max(0.75rem, env(safe-area-inset-bottom))",
             }}
-            className={`dark fixed z-[99]  group bottom-0 right-0 translate-x-4 translate-y-4  bg-theme-color1 rounded-tl-full w-[140px] h-[150px] flex items-center justify-center text-background pb-4  pl-6 pt-6 text-4xl ${bigFont.className}`}
           >
-            <Link href={"/contact"}>
+            <Link href="/contact">
               Let&apos;s <br /> Talk
-              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 sm:group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
+              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 sm:group-hover:rotate-6 transition-transform origin-bottom-right">
                 <ChatIcon />
               </div>
             </Link>
