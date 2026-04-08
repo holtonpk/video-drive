@@ -792,10 +792,22 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       totalFollowers: getDataFromWeek("3-22-2026").totalFollowers,
       totalPosts: getDataFromWeek("3-22-2026").totalPosts,
     },
+    {
+      label: "Week 28",
+      date: "3-22-2026 - 4-05-2026",
+      reportDate: "4-05-2026",
+      body: `## Content Performance & Strategy Update
+  - Instagram: Great views with over 100K views. 
+  - Youtube: Had some video get shadow banned for some reason, that would be why you see the lower view count and follower growth. Those will be re-posted. But had a good break out video here with 5k views.
+  - Tiktok: Consistent as always with great views and follower growth.`,
+      totalEngagement: getDataFromWeek("4-05-2026").totalEngagement,
+      totalFollowers: getDataFromWeek("4-05-2026").totalFollowers,
+      totalPosts: getDataFromWeek("4-05-2026").totalPosts,
+    },
   ];
 
   const [selectedReport, setSelectedReport] = useState<Report | null>(
-    reports[26],
+    reports[27],
   );
 
   const tiktokData = require(
@@ -1426,27 +1438,27 @@ const ReportTable = () => {
 
 const data6 = [
   {
-    platform: "TikTok",
-    followers: "+1,836 (+82.7%)",
-    views: "+1,900,054 (+70.8%)",
-    likes: "+71,876 (+38.4%)",
-    comments: "+995 (+95.0%)",
+    "platform": "TikTok",
+    "followers": "+40 (+1.0%)",
+    "views": "+9,913 (+0.2%)",
+    "likes": "+280 (+0.1%)",
+    "comments": "-2 (-0.1%)"
   },
   {
-    platform: "YouTube",
-    followers: "+63 (+75.0%)",
-    views: "+363,345 (+203.2%)",
-    likes: "+2,451 (+145.6%)",
-    comments: "+112 (+800.0%)",
+    "platform": "YouTube",
+    "followers": "+19 (+12.7%)",
+    "views": "+41,769 (+7.4%)",
+    "likes": "+702 (+16.3%)",
+    "comments": "+6 (+4.5%)"
   },
   {
-    platform: "Instagram",
-    followers: "+310 (+738.1%)",
-    views: "+773,316 (+232.6%)",
-    likes: "+24,276 (+831.4%)",
-    comments: "+108 (+234.8%)",
-  },
-];
+    "platform": "Instagram",
+    "followers": "+74 (+14.9%)",
+    "views": "+70,478 (+5.2%)",
+    "likes": "+3,403 (+9.2%)",
+    "comments": "+5 (+2.9%)"
+  }
+]
 
 const ReportTable6 = () => {
   return (
