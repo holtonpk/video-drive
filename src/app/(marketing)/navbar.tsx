@@ -2,7 +2,7 @@
 import {LinkButton} from "@/components/ui/link";
 import {LucideProps, Menu, X} from "lucide-react";
 import Link from "next/link";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {useLockBody} from "@/lib/hooks";
 import {motion, AnimatePresence} from "framer-motion";
 import localFont from "next/font/local";
@@ -30,9 +30,9 @@ const bodyLight = localFont({
 export const NavBar = ({bgColor}: {bgColor?: string}) => {
   const [isFixed, setIsFixed] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const [showContact, setShowContact] = useState(false);
-  const lastScrollY = useRef(0);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -61,24 +61,12 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, [lastScrollY]);
 
+  // showContact should be true when scroll is greater than 1000px
   useEffect(() => {
     const handleScroll = () => {
-      const currentY = window.scrollY;
-      const isMobile = window.innerWidth < 768;
-      const passedThreshold = currentY > 1000;
-      const scrollingDown = currentY > lastScrollY.current;
-
-      if (isMobile) {
-        setShowContact(passedThreshold && scrollingDown);
-      } else {
-        setShowContact(passedThreshold);
-      }
-
-      lastScrollY.current = currentY;
+      setShowContact(window.scrollY > 1000);
     };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, {passive: true});
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -213,19 +201,20 @@ export const NavBar = ({bgColor}: {bgColor?: string}) => {
         {showContact && (
           <motion.div
             id="contact-button"
-            initial={{opacity: 0, y: 24}}
-            animate={{opacity: 1, y: 0}}
-            exit={{opacity: 0, y: 24}}
-            transition={{duration: 0.25}}
-            className={`dark fixed z-[99] group bg-theme-color1 rounded-tl-full w-[140px] h-[150px] flex items-center justify-center text-background pb-4 pl-6 pt-6 text-4xl ${bigFont.className}`}
-            style={{
-              right: "max(0.75rem, env(safe-area-inset-right))",
-              bottom: "max(0.75rem, env(safe-area-inset-bottom))",
+            initial={{bottom: -100, right: -100}}
+            animate={{bottom: 0, right: 0}}
+            exit={{bottom: -100, right: -100}}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 25,
+              duration: 5,
             }}
+            className={`dark fixed z-[99] text-center sm:text-left group sm:bottom-0 sm:right-0 -translate-x-2 -translate-y-2 sm:translate-x-4 sm:translate-y-4  bg-theme-color1 rounded-full sm:rounded-r-none sm:rounded-bl-none sm:rounded-tl-full h-[120px] w-[120px] sm:w-[140px] sm:h-[150px] flex items-center justify-center text-background sm:pb-4  sm:pl-6 sm:pt-6 text-3xl sm:text-4xl ${bigFont.className}`}
           >
-            <Link href="/contact">
+            <Link href={"/contact"}>
               Let&apos;s <br /> Talk
-              <div className="absolute top-[40%] left-2 -translate-x-1/2 -translate-y-1/2 h-16 w-16 sm:group-hover:rotate-6 transition-transform origin-bottom-right">
+              <div className="absolute top-[40%] left-0 sm:left-2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 sm:h-16 sm:w-16 sm:group-hover:rotate-6 transition-transform duration-200s origin-bottom-right">
                 <ChatIcon />
               </div>
             </Link>
