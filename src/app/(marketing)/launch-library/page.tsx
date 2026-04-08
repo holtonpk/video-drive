@@ -21,7 +21,13 @@ export default async function Page() {
   const homepageVideos = await getHomepageVideos();
 
   return (
-    <div id="hero" className="flex flex-col min-h-screen">
+    <div
+      id="launch-library"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
+      className="flex flex-col min-h-[100dvh] bg-[#121212]"
+    >
       <NavBar />
       <Hero />
       <LaunchLibrarySearchClient>
