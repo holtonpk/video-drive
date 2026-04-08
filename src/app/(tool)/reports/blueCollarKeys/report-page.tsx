@@ -1374,27 +1374,27 @@ const PlatformView = ({
 
 const data = [
   {
-    platform: "TikTok",
-    followers: "+18 (+0.4%)",
-    views: "+28,377 (+0.6%)",
-    likes: "+903 (+0.3%)",
-    comments: "+7 (+0.3%)",
+    "platform": "TikTok",
+    "followers": "+40 (+1.0%)",
+    "views": "+9,913 (+0.2%)",
+    "likes": "+280 (+0.1%)",
+    "comments": "-2 (-0.1%)"
   },
   {
-    platform: "YouTube",
-    followers: "0 (0%)",
-    views: "+14,345 (+2.6%)",
-    likes: "+100 (+2.4%)",
-    comments: "+6 (+4.7%)",
+    "platform": "YouTube",
+    "followers": "+19 (+12.7%)",
+    "views": "+41,769 (+7.4%)",
+    "likes": "+702 (+16.3%)",
+    "comments": "+6 (+4.5%)"
   },
   {
-    platform: "Instagram",
-    followers: "+38 (+7.4%)",
-    views: "+137,808 (+11.3%)",
-    likes: "+5,620 (+18.0%)",
-    comments: "+10 (+6.3%)",
-  },
-];
+    "platform": "Instagram",
+    "followers": "+74 (+14.9%)",
+    "views": "+70,478 (+5.2%)",
+    "likes": "+3,403 (+9.2%)",
+    "comments": "+5 (+2.9%)"
+  }
+]
 
 const ReportTable = () => {
   return (
@@ -1438,27 +1438,27 @@ const ReportTable = () => {
 
 const data6 = [
   {
-    "platform": "TikTok",
-    "followers": "+40 (+1.0%)",
-    "views": "+9,913 (+0.2%)",
-    "likes": "+280 (+0.1%)",
-    "comments": "-2 (-0.1%)"
+    platform: "TikTok",
+    followers: "+1,836 (+82.7%)",
+    views: "+1,900,054 (+70.8%)",
+    likes: "+71,876 (+38.4%)",
+    comments: "+995 (+95.0%)",
   },
   {
-    "platform": "YouTube",
-    "followers": "+19 (+12.7%)",
-    "views": "+41,769 (+7.4%)",
-    "likes": "+702 (+16.3%)",
-    "comments": "+6 (+4.5%)"
+    platform: "YouTube",
+    followers: "+63 (+75.0%)",
+    views: "+363,345 (+203.2%)",
+    likes: "+2,451 (+145.6%)",
+    comments: "+112 (+800.0%)",
   },
   {
-    "platform": "Instagram",
-    "followers": "+74 (+14.9%)",
-    "views": "+70,478 (+5.2%)",
-    "likes": "+3,403 (+9.2%)",
-    "comments": "+5 (+2.9%)"
-  }
-]
+    platform: "Instagram",
+    followers: "+310 (+738.1%)",
+    views: "+773,316 (+232.6%)",
+    likes: "+24,276 (+831.4%)",
+    comments: "+108 (+234.8%)",
+  },
+];
 
 const ReportTable6 = () => {
   return (
