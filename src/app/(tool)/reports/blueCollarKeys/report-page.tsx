@@ -797,9 +797,9 @@ Content is regularly going viral. We’re seeing strong consistency in reach and
       date: "3-22-2026 - 4-05-2026",
       reportDate: "4-05-2026",
       body: `## Content Performance & Strategy Update
-  - Instagram: Great views with over 100K views. 
-  - Youtube: Had some video get shadow banned for some reason, that would be why you see the lower view count and follower growth. Those will be re-posted. But had a good break out video here with 5k views.
-  - Tiktok: Consistent as always with great views and follower growth.`,
+  - Instagram: One of our recent style test posts performed exceptionally well, generating over 634K views and 42K shares. This format featured a clean white border with minimal branding, anchored by our handle. Given the strong performance, we’ll be leaning further into this style in upcoming posts on Instagram. Overall very pleased with the performance here. 
+  - Youtube: A standout performer was a meme featuring Theo Von. We’re seeing consistent traction with content that references the podcast space, so we’ll continue leaning into meme driven content aligned with this theme. While a few videos appear to have been “shadow banned” without a clear reason, our top performing content has more than offset this and continues to drive overall growth. We’ll be reposting the underperforming videos to give them another opportunity to gain traction.
+  - Tiktok: This is the first reporting period where TikTok was outperformed by both Instagram and YouTube. We believe our current meme format may be reaching saturation on the platform. Moving forward, we’ll begin testing more job site style UGC content that has performed well for us previously. If results don’t improve, we’ll pivot to launching a new series designed to feel more native to TikTok.`,
       totalEngagement: getDataFromWeek("4-05-2026").totalEngagement,
       totalFollowers: getDataFromWeek("4-05-2026").totalFollowers,
       totalPosts: getDataFromWeek("4-05-2026").totalPosts,
@@ -1374,34 +1374,34 @@ const PlatformView = ({
 
 const data = [
   {
-    "platform": "TikTok",
-    "followers": "+40 (+1.0%)",
-    "views": "+9,913 (+0.2%)",
-    "likes": "+280 (+0.1%)",
-    "comments": "-2 (-0.1%)"
+    platform: "TikTok",
+    followers: "+40 (+1.0%)",
+    views: "+9,913 (+0.2%)",
+    likes: "+280 (+0.1%)",
+    comments: "-2 (-0.1%)",
   },
   {
-    "platform": "YouTube",
-    "followers": "+19 (+12.7%)",
-    "views": "+41,769 (+7.4%)",
-    "likes": "+702 (+16.3%)",
-    "comments": "+6 (+4.5%)"
+    platform: "YouTube",
+    followers: "+19 (+12.7%)",
+    views: "+41,769 (+7.4%)",
+    likes: "+702 (+16.3%)",
+    comments: "+6 (+4.5%)",
   },
   {
-    "platform": "Instagram",
-    "followers": "+74 (+14.9%)",
-    "views": "+70,478 (+5.2%)",
-    "likes": "+3,403 (+9.2%)",
-    "comments": "+5 (+2.9%)"
-  }
-]
+    platform: "Instagram",
+    followers: "+74 (+14.9%)",
+    views: "+70,478 (+5.2%)",
+    likes: "+3,403 (+9.2%)",
+    comments: "+5 (+2.9%)",
+  },
+];
 
 const ReportTable = () => {
   return (
     <div className="mb-4 w-full max-w-3xl mx-auto mt-10 bg-white/5 border border-white/10 rounded-2xl shadow-md overflow-hidden">
       <h2 className="text-2xl font-semibold text-center text-[rgba(52,244,175)] py-4 border-b ">
         2 Week Performance Report
-        <h4 className="text-sm text-white/40">Last Updated 3/22</h4>
+        <h4 className="text-sm text-white/40">Last Updated 4/05</h4>
       </h2>
 
       <div className="overflow-x-auto">
