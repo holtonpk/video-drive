@@ -179,7 +179,7 @@ These are the pillars that will guide the content we create.
 The content within each pillar needs:
 
 - Strong hooks
-- Fast paced
+- Fast pacing
 - Clear value in under 10 seconds
 
 ---
