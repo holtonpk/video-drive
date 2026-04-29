@@ -49,102 +49,21 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 };
 
 const OverViewBody = `
+This brief outlines a strategic approach to building and scaling Zing’s organic content presence across social platforms.
 
-## What Service We Will Provide
+It is based on analysis of high-performing companies in similar markets, along with proven content systems used to drive consistent growth.
 
-- Creative strategy
-- Production
-- Posting
-- Community management
-- Reporting
+## Goal
 
-## Strategy and Ramping
+The goal is to create a repeatable, scalable content engine that:
 
-### Posting Volume
+- Attracts attention from small business owners
+- Builds trust through valuable, relevant content
+- Drives sustained growth across multiple industries
 
-- Define how much content we will be posting each week/month
-- Ramp volume based on performance and production capacity
+## Research Approach
 
-### Platforms
+Our team spent hours analyzing strong strategies in the space.
 
-- Define where we will post content
-- Prioritize the platforms that best match Zing’s ICP
-
-### Content Verticals
-
-- Educational content
-- Pain point / relatable content
-- Product demo content
-- UGC-style content
-- Comparison content
-- Lead magnet content
-
-## Messaging Focus Along the Funnel
-
-### Top of Funnel
-
-Focus on awareness, education, and relatability.
-
-- Educational value for the ICP
-- Relatability with pain points
-- Show common problems Zing solves
-- Create content that feels helpful before it feels salesy
-
-### Bottom of Funnel
-
-Focus on product clarity, conversion, and trust.
-
-- What is Zing?
-- “We get your business found.”
-- Affordable way to get more customers
-- Fast and lightweight:
-  - “You don’t have time? Good, that’s why we exist.”
-
-## Lead Magnet
-
-### Core Offer
-
-**Build a website in 90 seconds, completely free.**
-
-### Content Ideas
-
-- UI showcase
-- Build out demos
-- “Are you a ___? Here’s how you can build a completely free website in 90 seconds.”
-- “I own a ___ business. Here’s how I just created a brand new website in 90 seconds.”
-
-## UGC Use
-
-Use UGC-style content to make Zing feel simple, fast, and approachable.
-
-### Example Angles
-
-- “I own a ___ business, and here’s how I just created a brand new website in 90 seconds.”
-- “I didn’t have time to build a website, so I used Zing.”
-- “Here’s how I got my business online for free in under two minutes.”
-
-## Product Education
-
-### How to Use Zing
-
-- Step-by-step walkthroughs
-- Screen recordings
-- Before/after examples
-- Business-specific website demos
-
-### Zing vs. Alternatives
-
-Compare Zing against common alternatives:
-
-- DIY website builders
-- Freelancers/agencies
-- Expensive website platforms
-- Doing nothing / staying offline
-
-Focus the comparison on:
-
-- Speed
-- Cost
-- Ease of use
-- Getting found online
-- Helping small businesses get more customers`;
+The following key insights are designed to maximize the likelihood of success.
+`;

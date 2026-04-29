@@ -35,12 +35,39 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
           h2: ({children}) => <h2 className={h2Font.className}>{children}</h2>,
           h3: ({children}) => <h3 className={h2Font.className}>{children}</h3>,
           h4: ({children}) => <h4 className={h2Font.className}>{children}</h4>,
-          p: ({children}) => <p className={bodyFont.className}>{children}</p>,
+
+          p: ({children}) => {
+            const text = String(children).trim();
+
+            const isImageUrl =
+              text.startsWith("https://firebasestorage.googleapis.com/") &&
+              /\.(png|jpg|jpeg|webp|gif)(\?|$)/i.test(text);
+
+            if (isImageUrl) {
+              return (
+                <img
+                  src={text}
+                  alt=""
+                  className="markdown-image border border-black/10 shadow-sm rounded-[16px]"
+                />
+              );
+            }
+
+            return <p className={bodyFont.className}>{children}</p>;
+          },
+
           li: ({children}) => (
             <li className={bodyFont.className}>{children}</li>
           ),
+
           strong: ({children}) => (
             <strong className={h2Font.className}>{children}</strong>
+          ),
+
+          a: ({href, children}) => (
+            <a href={href} target="_blank" rel="noreferrer">
+              {children}
+            </a>
           ),
         }}
       >
@@ -66,21 +93,30 @@ What this looks like for Zing:
 - Team-led education, product explanations, and founder-style content
 - Content that feels useful, direct, and human
 
+For this type of content we would provide detailed SOPs on how to film, scripting and video editing.
+
+*if this is something your team isn't able to do we can sources this type of content but its raises costs and can lack customer connection.
+
 ---
 
 ### 2. One Account Cannot Effectively Target Every Audience
 
-Trying to speak to multiple industries from a single account leads to diluted messaging and lower engagement.
+Trying to speak to multiple industries from a single account through organic content leads to diluted messaging and lower engagement.
 
 Platform behavior:
 
 - Instagram rewards specific, niche-focused content
 - Broader targeting can work on TikTok
-- Instagram usually requires more precision and clearer audience signals
 
-This creates an opportunity for a multi-account satellite strategy to reach different audiences more effectively.
+So if the goal is to reach several niches through an organic strategy we recommend a satellite strategy. 
 
-More on this later in the niche and satellite account strategy.
+https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingInstagram.png?alt=media&token=ad0647b5-2eef-448c-b272-32ec1282be74
+
+The alternative would be to post broader organic content consistently from one main account, while occasionally mixing in niche, targeted content.
+
+The tradeoff is that the niche content likely would not perform as well organically because the account would not be clearly categorized around that specific audience.
+
+That target demographic could still be reached by boosting posts to a specific audience, but at that point, it becomes more of a paid distribution strategy rather than a purely organic one.
 
 ---
 
@@ -103,6 +139,8 @@ It should be created in two ways:
 
 - **Repurposed short-form:** Clips from long-form content, optimized for vertical format consumption
 - **Native short-form:** Content designed specifically for social platforms, usually higher engagement and more creative
+
+https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingContent.png?alt=media&token=5a727157-bbb2-475b-95dc-5b79aded9b1b
 
 ---
 

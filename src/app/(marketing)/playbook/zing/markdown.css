@@ -174,3 +174,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+.markdown-content .markdown-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px 0 28px;
+  border-radius: 14px;
+}

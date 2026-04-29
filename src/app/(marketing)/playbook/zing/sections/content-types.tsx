@@ -178,9 +178,12 @@ These are the pillars that will guide the content we create.
 
 The content within each pillar needs:
 
-- Strong hooks: pain or curiosity
-- Fast payoff: build or outcome
+- Strong hooks
+- Fast paced
 - Clear value in under 10 seconds
+
+---
+
 `;
 
 const CONTENT_TYPE_SECTIONS = [
@@ -273,6 +276,9 @@ Examples:
 [Example 1](https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingExample7.mp4?alt=media&token=a9a129bc-e1d5-4ef0-8c8c-d5e6f2cf6b54)
 [Example 2](https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingExample8.mp4?alt=media&token=53eaa5ef-112e-4fcc-b0f5-c48841c3e96f)
 ::
+
+---
+
 `,
   },
   {
@@ -317,7 +323,7 @@ Content angles:
     label: "3.) Build: Product in Action",
     markdown: `
 
-**Goal:** Clearly show Zing’s value through quality, speed, and affordability.
+**Goal:** Clearly show Zing’s value.
 
 The main points to communicate:
 
@@ -359,6 +365,8 @@ Examples:
 - [Example 2](https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingExample13.mp4?alt=media&token=2b85035e-cf01-453c-997c-3111a06da723)
 ::
 
+---
+
 `,
   },
   {
@@ -367,7 +375,7 @@ Examples:
     markdown: `
 
 
-For the organic content strategy, we are going to have to narrow down TAM to 5 verticals.
+For the organic content strategy, we are going to have to narrow down target ICPs tso ~5 niches.
 
 It would make sense to focus on the 5 verticals with the highest LTV or wherever growth goals align.
 
@@ -377,20 +385,23 @@ For each niche that is decided, we will create a satellite account that collabor
 
 ### Example Niche: Home Services / House Painting
 
-#### Education
+#### Credibility building
 
 - **Format 1:** “If you run a house painting business, this is all you need to get clients online.”
 - **Format 3:** “This is ____ with ____ House Painting. Here is how he added 5 leads per week with Zing.”
 
-#### Pain Point
+#### Relatability 
 
 - **Format 1:** Meme that is relatable to house painters.
 - **Format 2:** Highlight the pain of DIY platforms, agencies, or not having a working online funnel.
 
-#### Build
+#### Build Product in action 
 
 - **Format 1:** “Build a house painting website in 90 seconds.”
 - **Format 2:** “Set up booking for a house painting business.”
+
+---
+
 `,
   },
 ];

@@ -80,10 +80,11 @@ Establishes a consistent content system and identifies what resonates with your 
 
 #### Supporting Written Content
 
-- 1–2 blog posts per week
+- 2 blog posts per week
 - Optimized for keywords
 - Ready for the website
 - Repurposed and distributed across LinkedIn and Facebook with written posts
+- 2 LinkedIn posts and 2 Facebook posts per week
 
 ### What to Expect
 
@@ -91,10 +92,8 @@ Establishes a consistent content system and identifies what resonates with your 
 - Early audience growth
 - Clear insight into high-performing content
 
-### Best For
 
-Generating an organic presence and testing the water with content.
-
+---
 
 ## Offer 2: Growth Engine
 
@@ -110,7 +109,7 @@ Expands content output and targets multiple niches simultaneously to maximize re
 
 #### High-Volume Short-Form Content
 
-- 120–140 videos per month
+- 132 videos per month
 
 #### Multi-Account Instagram Strategy
 
@@ -134,19 +133,20 @@ Each satellite account:
 #### TikTok
 
 - All content will be posted on the main Zing TikTok account
-- 120–140 videos per month
+- 132 videos per month
 
 #### Long-Form Content: YouTube
 
-- 4–6 videos per month
+- 4 videos per month
 - Repurposed into short-form
 
 #### Supporting Written Content
 
-- 1–2 blog posts per week
+- 2 blog posts per week
 - Optimized for keywords
 - Ready for the website
 - Repurposed and distributed across LinkedIn and Facebook with written posts
+- 2 LinkedIn posts and 2 Facebook posts per week
 
 ### What to Expect
 
@@ -154,10 +154,7 @@ Each satellite account:
 - Multiple niche audiences growing in parallel
 - Faster content iteration and learning
 
-### Best For
-
-Teams looking to aggressively grow organic acquisition.
-
+---
 
 ## Offer 3: Scale Partnership
 
@@ -186,10 +183,7 @@ Organic growth compounds over time. With a longer commitment, we can:
 
 - Better overall ROI
 
-### Best For
-
-Teams committed to making organic a core growth channel.
-
+---
 
 ## How to Think About These Options
 

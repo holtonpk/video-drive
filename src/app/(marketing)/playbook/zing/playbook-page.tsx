@@ -27,6 +27,10 @@ const sections: PlaybookSection[] = [
     label: "Overview",
   },
   {
+    id: "key-insights",
+    label: "Key Insights",
+  },
+  {
     id: "content-types",
     label: "Content Types",
     children: [
@@ -51,10 +55,6 @@ const sections: PlaybookSection[] = [
   {
     id: "offer-packages",
     label: "Offer / Packages",
-  },
-  {
-    id: "key-insights",
-    label: "Key Insights",
   },
 ];
 
@@ -216,23 +216,21 @@ export const PlaybookPage = () => {
               />
             </div>
 
-            <div className="flex w-full flex-col gap-8 items-center pb-8">
+            <div className="flex w-full flex-col gap-16 items-center pb-8">
               <section id="overview" className="w-full scroll-mt-24">
                 <Overview />
               </section>
-              <div className="w-full h-[1px] bg-[#7F44F8] my-4" />
+
+              <section id="key-insights" className="w-full scroll-mt-24 ">
+                <KeyInsights />
+              </section>
 
               <section id="content-types" className="w-full scroll-mt-24">
                 <ContentTypes />
               </section>
-              <div className="w-full h-[1px] bg-[#7F44F8] my-4" />
 
               <section id="offer-packages" className="w-full scroll-mt-24">
                 <OfferPackages />
-              </section>
-              <div className="w-full h-[1px] bg-[#7F44F8] my-4" />
-              <section id="key-insights" className="w-full scroll-mt-24">
-                <KeyInsights />
               </section>
             </div>
           </div>
@@ -294,7 +292,7 @@ const Sidecar = React.forwardRef<
                 >
                   <span
                     className={`absolute -left-[13px] top-1/2 h-[5px] w-[5px] -translate-y-1/2 rounded-full transition-all ${
-                      parentActive ? "bg-[#00AEFF]" : "bg-transparent"
+                      parentActive ? "bg-[#7F44F8]" : "bg-transparent"
                     }`}
                   />
 
@@ -318,7 +316,7 @@ const Sidecar = React.forwardRef<
                         >
                           <span
                             className={`absolute -left-[13px] top-1/2 h-[5px] w-[5px] -translate-y-1/2 rounded-full transition-all ${
-                              childActive ? "bg-[#00AEFF]" : "bg-transparent"
+                              childActive ? "bg-[#7F44F8]" : "bg-transparent"
                             }`}
                           />
 
