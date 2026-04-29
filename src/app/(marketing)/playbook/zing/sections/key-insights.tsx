@@ -80,9 +80,9 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 const KeyInsightsBody = `
 ## Key Insights from Competitor & Market Analysis
 
-### 1. In-House Presence Drives Trust and Performance
+### 1. In House Presence Drives Trust and Performance
 
-Across top-performing companies, content consistently features real team members on camera.
+Across top performing companies, content consistently features real team members on camera.
 
 This builds credibility, humanizes the brand, and performs better than overly produced or faceless content.
 
@@ -90,7 +90,7 @@ What this looks like for Zing:
 
 - One person from the Zing team in front of the camera
 - Multiple team members giving quick takes or opinions
-- Team-led education, product explanations, and founder-style content
+- Team led education, product explanations, and founder style content
 - Content that feels useful, direct, and human
 
 For this type of content we would provide detailed SOPs on how to film, scripting and video editing.
@@ -105,7 +105,7 @@ Trying to speak to multiple industries from a single account through organic con
 
 Platform behavior:
 
-- Instagram rewards specific, niche-focused content
+- Instagram rewards specific, niche focused content
 - Broader targeting can work on TikTok
 
 So if the goal is to reach several niches through an organic strategy we recommend a satellite strategy. 
@@ -122,23 +122,23 @@ That target demographic could still be reached by boosting posts to a specific a
 
 ### 3. Volume and Consistency Require a Structured Content System
 
-High-performing teams do not create content ad hoc. They operate from a repeatable production process that enables scale.
+High performing teams do not create content ad hoc. They operate from a repeatable production process that enables scale.
 
-The most effective systems start with high-value, information-dense content and then repurpose and distribute from there.
+The most effective systems start with high-value, information dense content and then repurpose and distribute from there.
 
 Content engine structure:
 
 - **Blog content:** Foundation for depth, authority, and SEO
-- **Long-form video:** Visual, engaging delivery of core ideas on YouTube
+- **Long form video:** Visual, engaging delivery of core ideas on YouTube
 - **Written posts:** Repurposed distribution of blog topics across LinkedIn and Facebook
-- **Short-form content:** Primary growth driver across Instagram, TikTok, and YouTube Shorts
+- **Short form content:** Primary growth driver across Instagram, TikTok, and YouTube Shorts
 
-Short-form requires a hybrid approach.
+Short form requires a hybrid approach.
 
 It should be created in two ways:
 
-- **Repurposed short-form:** Clips from long-form content, optimized for vertical format consumption
-- **Native short-form:** Content designed specifically for social platforms, usually higher engagement and more creative
+- **Repurposed short form:** Clips from long form content, optimized for vertical format consumption
+- **Native short form:** Content designed specifically for social platforms, usually higher engagement and more creative
 
 https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing%20playbook%20examples%2FzingContent.png?alt=media&token=5a727157-bbb2-475b-95dc-5b79aded9b1b
 
@@ -148,9 +148,9 @@ https://firebasestorage.googleapis.com/v0/b/video-drive-8d636.appspot.com/o/zing
 
 Effective organic strategies are focused on:
 
-- **Human-led content:** In-house presence
-- **Focused audience targeting:** Not one-size-fits-all messaging
+- **Human led content:** In house presence
+- **Focused audience targeting:** Not one size fits all messaging
 - **Scalable systems:** Structured content production
-- **Multi-format distribution:** Long-form to short-form
-- **Platform-native execution:** Especially for short-form
+- **Multi format distribution:** Long form to short form
+- **Platform native execution:** Especially for short form
 `;

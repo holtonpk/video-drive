@@ -51,7 +51,7 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 const OverViewBody = `
 This brief outlines a strategic approach to building and scaling Zing’s organic content presence across social platforms.
 
-It is based on analysis of high-performing companies in similar markets, along with proven content systems used to drive consistent growth.
+It is based on analysis of high performing companies in similar markets, along with proven content systems used to drive consistent growth.
 
 ## Goal
 

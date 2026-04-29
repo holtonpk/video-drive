@@ -53,7 +53,7 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 const OfferPackagesBody = `
 ## Zing Organic Growth Strategy
 
-We build and scale a content engine designed to bring in consistent, high-quality attention from small business owners across multiple industries.
+We build and scale a content engine designed to bring in consistent, high quality attention from small business owners across multiple industries.
 
 
 ## Offer 1: Foundation Engine
@@ -68,15 +68,15 @@ Establishes a consistent content system and identifies what resonates with your 
 
 ### What’s Included
 
-#### Short-Form Video Content
+#### Short Form Video Content
 
 - 30 videos per month across Instagram, TikTok, and YouTube
 
-#### Long-Form Content: YouTube
+#### Long Form Content: YouTube
 
 - 4 videos per month
 - Content can include education, customer stories, and product breakdowns
-- Repurposed into short-form clips
+- Repurposed into short form clips
 
 #### Supporting Written Content
 
@@ -90,7 +90,7 @@ Establishes a consistent content system and identifies what resonates with your 
 
 - Consistent posting cadence
 - Early audience growth
-- Clear insight into high-performing content
+- Clear insight into high performing content
 
 
 ---
@@ -107,13 +107,13 @@ Expands content output and targets multiple niches simultaneously to maximize re
 
 ### What’s Included
 
-#### High-Volume Short-Form Content
+#### High Volume Short Form Content
 
 - 132 videos per month
 
-#### Multi-Account Instagram Strategy
+#### Multi Account Instagram Strategy
 
-One main Zing account plus niche-specific satellite accounts.
+One main Zing account plus niche specific satellite accounts.
 
 Example niches:
 
@@ -126,7 +126,7 @@ Example niches:
 Each satellite account:
 
 - Targets a specific audience
-- Focuses on top-of-funnel, high-engagement content
+- Focuses on top of funnel, high engagement content
 - Drives traffic back to the main Zing account
 - Includes subtle Zing branding across all content
 
@@ -135,10 +135,10 @@ Each satellite account:
 - All content will be posted on the main Zing TikTok account
 - 132 videos per month
 
-#### Long-Form Content: YouTube
+#### Long Form Content: YouTube
 
 - 4 videos per month
-- Repurposed into short-form
+- Repurposed into short form
 
 #### Supporting Written Content
 
@@ -161,7 +161,7 @@ Each satellite account:
 **$7,500/month**  
 **6-month commitment**
 
-Build long-term, compounding organic growth.
+Build long term, compounding organic growth.
 
 ### What This Does
 

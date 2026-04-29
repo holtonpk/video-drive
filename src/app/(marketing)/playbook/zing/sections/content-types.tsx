@@ -221,7 +221,7 @@ The focus of this format will be providing value to the ICP.
 - “If you run a _____ business, this is all you need to get clients online.”
 - “You only need 3 things to get customers online.”
 - “This is the simplest way to grow your _____ business online in 2026.”
-- “Most people overcomplicate this. Here’s what actually matters.”
+- “Most people over complicate this. Here’s what actually matters.”
 - “Succeeding as a _____ business is as easy as _____.”
 
 Make the viewer think:
@@ -238,13 +238,13 @@ Examples:
 
 ### Format 2: Meet the Team
 
-Raw, fast-paced cameos of different team members giving their opinion.
+Raw, fast paced cameos of different team members giving their opinion.
 
 Example concept:
 
 **“What are the biggest design trends of 2026?”**
 
-The interviewer would ask different team members for their opinion. Another version could be personality-based, similar to the feel of Barstool Sports. Base44 also does a great job with this style.
+The interviewer would ask different team members for their opinion. Another version could be personality based, similar to the feel of Barstool Sports. Base44 also does a great job with this style.
 
 We like this format because it puts a face to the brand, generating trust and familiarity.
 
@@ -258,7 +258,7 @@ Examples:
 
 ### Format 3: Highlight Customer Testimonials
 
-Zoom call or in-person interviews with customers.
+Zoom call or in person interviews with customers.
 
 The story should focus on:
 
@@ -268,7 +268,7 @@ The story should focus on:
 
 Editing is key with these so they stand out and feel like engaging stories. We will provide the SOP for recording and scripting.
 
-If a client has a social media presence, these videos can be co-posted, giving mutually beneficial exposure for both accounts.
+If a client has a social media presence, these videos can be co posted, giving mutually beneficial exposure for both accounts.
 
 Examples:
 
@@ -289,13 +289,13 @@ Examples:
 
 **Goal:** Stop the scroll and create the “that’s me” moment.
 
-### Format 1: Micro Pain Scenarios and Niche-Specific Humor
+### Format 1: Micro Pain Scenarios and Niche Specific Humor
 
 Relatable and highly shareable content that will resonate with ICPs.
 
 Focus areas:
 
-- Busy founder / owner-operator relatability
+- Busy founder / owner operator relatability
 - Insider pain points about the job in a specific niche
 - Simple, funny moments that make the audience feel seen
 
@@ -304,7 +304,7 @@ Examples:
 - [House painter meme account](https://www.instagram.com/pennsylvaniapainter/reels/)
 - [Small account getting 1M+ views](https://www.instagram.com/reel/DW9bFyWDeYC/)
 
-This shows the leverage of niche-specific content. An account with around 2K followers can still generate 1M+ views when the content is relatable enough.
+This shows the leverage of niche specific content. An account with around 2K followers can still generate 1M+ views when the content is relatable enough.
 
 ### Format 2: Highlight Pain with Other Solutions
 
@@ -337,10 +337,10 @@ Engaging and aesthetic demos of websites made by Zing.
 
 This can include:
 
-- Product demos of the 90-second website builder
+- Product demos of the 90 second website builder
 - Website before/after transformations
-- Build-in-public style screen recordings
-- Niche-specific website builds
+- Build in public style screen recordings
+- Niche specific website builds
 
 Examples:
 ::videos
