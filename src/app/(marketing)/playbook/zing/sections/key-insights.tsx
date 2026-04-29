@@ -88,7 +88,7 @@ This builds credibility, humanizes the brand, and performs better than overly pr
 
 What this looks like for Zing:
 
-- One person from the Zing team in front of the camera
+- A person from the Zing team in front of the camera
 - Multiple team members giving quick takes or opinions
 - Team led education, product explanations, and founder style content
 - Content that feels useful, direct, and human

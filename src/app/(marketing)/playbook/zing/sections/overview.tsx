@@ -65,5 +65,5 @@ The goal is to create a repeatable, scalable content engine that:
 
 Our team spent hours analyzing strong strategies in the space.
 
-The following key insights are designed to maximize the likelihood of success.
+Based on that research, the following key insights highlight the clearest opportunities to maximize the likelihood of success.
 `;
