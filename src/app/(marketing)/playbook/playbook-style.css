@@ -1,0 +1,949 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Comic+Relief:wght@400;700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@config "../tailwind.marketing.config.ts";
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 0, 0%, 100%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 7%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240, 4%, 16%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --color1: 85 79% 76%;
+    --color2: 183 78% 68%;
+    --color3: 328 100% 85%;
+  }
+}
+
+.dark {
+  --background: 0, 0%, 7%;
+  --foreground: 0, 0%, 100%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 0 0% 70%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240, 4%, 16%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+  --color1: 85 79% 76%;
+  --color2: 183 78% 68%;
+  --color3: 328 100% 85%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  background: white;
+}
+
+html:has([data-page-theme="dark"]),
+body:has([data-page-theme="dark"]) {
+  background: #121212 !important;
+}
+
+.header-background {
+  /* global 92%+ browsers support */
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(155, 186, 210, 1) 29%,
+    rgba(205, 218, 230, 1) 100%
+  );
+}
+
+.font1-extra-bold {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.font1-bold {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font1 {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.font1-light {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.big-text-bold {
+  /* bebas neue */
+  font-family: "Bebas Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+.big-text {
+  /* bebas neue */
+  font-family: "Bebas Neue", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.small-text {
+  /* montserrat */
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.b-b {
+  border: 1px solid rgb(0, 0, 255);
+}
+
+.b-r {
+  border: 1px solid red;
+}
+.b-y {
+  border: 1px solid yellow;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px #23232329;
+}
+
+.blurBack {
+  backdrop-filter: blur(10px);
+}
+
+.test-grad-left {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    270deg,
+    hsl(var(--background) / 0) 0%,
+    hsl(var(--background) / 1) 80%
+  );
+}
+
+.test-grad-right {
+  /* global 94%+ browsers support */
+  background: linear-gradient(
+    90deg,
+    hsl(var(--background) / 0) 0%,
+    hsl(var(--background) / 1) 80%
+  );
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonial-container {
+  width: 100%;
+  max-width: 100vw;
+  height: 250px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  snap-type: x mandatory;
+  margin-left: auto;
+}
+
+.testimonial-item {
+  transition: height 0.5s ease-in-out;
+  width: 700px;
+  flex: none;
+  position: relative;
+}
+
+.centered {
+  height: 250px;
+}
+
+.not-centered {
+  height: 150px;
+}
+
+.videoShadow {
+  box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+  -webkit-box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+  -moz-box-shadow: 0px 0px 20px 5px rgba(52, 244, 175, 0.65);
+}
+
+.rotating-text {
+  transform: translateX(0px);
+
+  p {
+    display: inline-flex;
+    margin: 0;
+    vertical-align: top;
+
+    .word {
+      position: absolute;
+      display: flex;
+      opacity: 0;
+
+      .letter {
+        transform-origin: center center 25px;
+
+        &.out {
+          transform: rotateX(90deg);
+          transition: 0.32s cubic-bezier(0.6, 0, 0.7, 0.2);
+        }
+        &.in {
+          transition: 0.38s ease;
+        }
+        &.behind {
+          transform: rotateX(-90deg);
+        }
+      }
+    }
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+@keyframes jumbo {
+  from {
+    background-position:
+      50% 50%,
+      50% 50%;
+  }
+  to {
+    background-position:
+      350% 50%,
+      350% 50%;
+  }
+}
+
+.jumbo {
+  --stripes: repeating-linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 7%,
+    transparent 10%,
+    transparent 12%,
+    #fff 16%
+  );
+  --stripesDark: repeating-linear-gradient(
+    100deg,
+    #000 0%,
+    #000 7%,
+    transparent 10%,
+    transparent 12%,
+    #000 16%
+  );
+  --rainbow: repeating-linear-gradient(
+    100deg,
+    #60a5fa 10%,
+    #e879f9 15%,
+    #60a5fa 20%,
+    #5eead4 25%,
+    #60a5fa 30%
+  );
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 300%, 200%;
+  background-position:
+    50% 50%,
+    50% 50%;
+
+  filter: blur(10px) invert(100%);
+
+  mask-image: radial-gradient(ellipse at 100% 0%, black 40%, transparent 70%);
+  opacity: 30%;
+  pointer-events: none;
+}
+
+.jumbo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--stripes), var(--rainbow);
+  background-size: 200%, 100%;
+  animation: jumbo 60s linear infinite;
+  background-attachment: fixed;
+  mix-blend-mode: difference;
+}
+
+.dark .jumbo {
+  background-image: var(--stripesDark), var(--rainbow);
+  filter: blur(10px) opacity(50%) saturate(200%);
+}
+.dark .jumbo::after {
+  background-image: var(--stripesDark), var(--rainbow);
+}
+
+.rotate {
+  transform-origin: 50% 16px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.oldSkill-animation {
+  animation: old-skill 1s ease-in-out forwards;
+}
+
+@keyframes old-skill {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.newSkill-animation {
+  animation: new-skill 1s ease-in-out forwards;
+}
+
+@keyframes new-skill {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.cyan-blob {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 70%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #00e3ffeb, transparent);
+  /* background: red; */
+  mix-blend-mode: multiply;
+}
+.blue-blob {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 80%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #2200ff33, transparent);
+  /* background: blue; */
+  mix-blend-mode: multiply;
+}
+.purple-blob {
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 50%;
+  height: 200%;
+  background: radial-gradient(farthest-side, #d900ff8f, transparent);
+  /* background: purple; */
+}
+
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+
+/* Style the back side */
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+.stat-animation {
+  transform: rotateY(90deg); /* Start from just outside the visible area */
+  animation: slideIn 1000ms ease-in-out forwards;
+}
+
+#stat-container > div:nth-child(5) {
+  animation-delay: 1000ms; /* Delays the animation of the first child by 3200ms */
+}
+
+#stat-container > div:nth-child(4) {
+  animation-delay: 800ms; /* Delays the animation of the second child by 2400ms */
+}
+
+#stat-container > div:nth-child(3) {
+  animation-delay: 600ms; /* Delays the animation of the third child by 1600ms */
+}
+
+#stat-container > div:nth-child(2) {
+  animation-delay: 600ms; /* Delays the animation of the fourth child by 800ms */
+}
+
+#stat-container > div:nth-child(1) {
+  animation-delay: 200ms; /* Delays the animation of the fifth child immediately */
+}
+
+@keyframes slideIn {
+  from {
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
+.stroke {
+  /* font: 800 80px Arial;
+   */
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 150px; */
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px;
+}
+
+.normal {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  /* font-size: 150px; */
+}
+
+.cred-carousel-animation {
+  animation: cred-carousel 300s linear infinite;
+}
+
+@keyframes cred-carousel {
+  0% {
+    transform: translate(0%, -50%);
+  }
+  100% {
+    transform: translate(-80%, -50%);
+  }
+}
+
+.hero-animate-spin {
+  animation: spin 10s reverse linear infinite;
+}
+
+.loading-screen-animation {
+  animation: loading-screen 1s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes loading-screen {
+  from {
+    transform: translate(0);
+  }
+  to {
+    transform: translate(-100%);
+    display: hidden;
+  }
+}
+
+.loading-screen-loader {
+  animation: loading-screen-loader 2s ease-in-out forwards;
+}
+
+@keyframes loading-screen-loader {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.testimonial-animation {
+  animation: testimonial-animation-1 4s linear forwards;
+}
+
+@keyframes testimonial-animation-1 {
+  0% {
+    filter: blur(2px);
+    transform: translateX(100%);
+  }
+  10% {
+    filter: blur(0px);
+
+    transform: translateX(20%);
+  }
+  90% {
+    filter: blur(0px);
+
+    transform: translateX(-20%);
+  }
+  100% {
+    filter: blur(2px);
+
+    transform: translateX(-120%);
+  }
+}
+
+.card-bg {
+  background-color: transparent;
+  opacity: 0.8;
+  background-image: radial-gradient(#444cf7 1px, transparent 0.4px);
+  background-size: 8px 8px;
+}
+
+.inlay-shadow {
+  box-shadow:
+    4px 4px 10px rgba(52, 244, 175, 0.3),
+    -4px -4px 10px rgba(52, 244, 175, 0.2);
+}
+
+.card-shadow2 {
+  box-shadow:
+    inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+    inset -4px -4px 10px rgba(52, 244, 175, 0.2),
+    0 0 20px 5px rgb(0, 0, 0); /* Outer black shadow */
+  animation: card-shadow-animation 3s ease forwards;
+  animation-delay: 4s;
+}
+
+@keyframes card-shadow-animation {
+  0% {
+    box-shadow:
+      inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+      inset -4px -4px 10px rgba(52, 244, 175, 0.2),
+      0 0 20px 5px rgb(0, 0, 0); /* Outer black shadow */
+  }
+  100% {
+    box-shadow:
+      inset 4px 4px 10px rgba(52, 244, 175, 0.3),
+      inset -4px -4px 10px rgba(52, 244, 175, 0.2),
+      0 0 20px 200px rgb(0, 0, 0); /* Outer black shadow */
+  }
+}
+.white-filter {
+  filter: brightness(100%) invert(100%);
+  mix-blend-mode: difference; /* Ensures proper blending for a pure white effect */
+}
+
+/* phone input */
+
+/* CSS variables. */
+:root {
+  --PhoneInput-color--focus: #34f4af;
+  --PhoneInputInternationalIconPhone-opacity: 0.8;
+  --PhoneInputInternationalIconGlobe-opacity: 0.65;
+  --PhoneInputCountrySelect-marginRight: 0.35em;
+  --PhoneInputCountrySelectArrow-width: 0.5em;
+  --PhoneInputCountrySelectArrow-marginLeft: var(
+    --PhoneInputCountrySelect-marginRight
+  );
+  --PhoneInputCountrySelectArrow-borderWidth: 1px;
+  --PhoneInputCountrySelectArrow-opacity: 0.45;
+  --PhoneInputCountrySelectArrow-color: currentColor;
+  --PhoneInputCountrySelectArrow-color--focus: var(--PhoneInput-color--focus);
+  --PhoneInputCountrySelectArrow-transform: rotate(45deg);
+  --PhoneInputCountryFlag-aspectRatio: 1.5;
+  --PhoneInputCountryFlag-height: 1em;
+  --PhoneInputCountryFlag-borderWidth: 1px;
+  --PhoneInputCountryFlag-borderColor: rgba(0, 0, 0, 0.5);
+  --PhoneInputCountryFlag-borderColor--focus: var(--PhoneInput-color--focus);
+  --PhoneInputCountryFlag-backgroundColor--loading: rgba(0, 0, 0, 0.1);
+}
+
+.PhoneInput {
+  /* This is done to stretch the contents of this component. */
+  display: flex;
+  align-items: center;
+  border: 1px solid hsl(var(--input));
+  border-radius: 1rem;
+  /* overflow: hidden; */
+
+  gap: 0px;
+  /* --tw-ring-offset-width: 2px;
+  --tw-ring-color: #34f4af;
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+    calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000); */
+}
+
+.PhoneInputInput {
+  /* The phone number input stretches to fill all empty space */
+  flex: 1;
+  /* The phone number input should shrink
+	   to make room for the extension input */
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  min-width: 0;
+  background-color: rgb(255 255 255 / 0.05);
+  font-size: 1.5rem /* 24px */;
+  line-height: 2rem /* 32px */;
+  padding-left: 0.75rem /* 12px */;
+  padding-right: 0.75rem /* 12px */;
+  padding-top: 1rem /* 16px */;
+  padding-bottom: 1rem /* 16px */;
+}
+
+.PhoneInputInput:focus {
+  outline: none;
+}
+
+.PhoneInput:focus-within {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0
+    var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0
+    calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow:
+    var(--tw-ring-offset-shadow), var(--tw-ring-shadow),
+    var(--tw-shadow, 0 0 #0000);
+  --tw-ring-offset-width: 2px;
+}
+
+.PhoneInputCountryIcon {
+  width: calc(
+    var(--PhoneInputCountryFlag-height) *
+      var(--PhoneInputCountryFlag-aspectRatio)
+  );
+  height: var(--PhoneInputCountryFlag-height);
+}
+
+.PhoneInputCountryIcon--square {
+  width: var(--PhoneInputCountryFlag-height);
+}
+
+.PhoneInputCountryIcon--border {
+  background-color: var(--PhoneInputCountryFlag-backgroundColor--loading);
+}
+
+.PhoneInputCountryIconImg {
+  /* Fixes weird vertical space above the flag icon. */
+  /* https://gitlab.com/catamphetamine/react-phone-number-input/-/issues/7#note_348586559 */
+  display: block;
+  /* 3rd party <SVG/> flag icons won't stretch if they have `width` and `height`.
+	   Also, if an <SVG/> icon's aspect ratio was different, it wouldn't fit too. */
+  width: 100%;
+  height: 100%;
+}
+
+.PhoneInputInternationalIconPhone {
+  opacity: var(--PhoneInputInternationalIconPhone-opacity);
+}
+
+.PhoneInputInternationalIconGlobe {
+  opacity: var(--PhoneInputInternationalIconGlobe-opacity);
+}
+
+/* Styling native country `<select/>`. */
+
+.PhoneInputCountry {
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+
+  background-color: rgb(255 255 255 / 0.05);
+  border-right: 2px solid hsl(var(--border));
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: 0.5rem;
+  position: relative;
+  align-self: stretch;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  /* margin-right: var(--PhoneInputCountrySelect-marginRight); */
+}
+
+.PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.PhoneInputCountrySelect[disabled],
+.PhoneInputCountrySelect[readonly] {
+  cursor: default;
+}
+
+.PhoneInputCountrySelectArrow {
+  display: block;
+  content: "";
+  width: var(--PhoneInputCountrySelectArrow-width);
+  height: var(--PhoneInputCountrySelectArrow-width);
+  margin-left: var(--PhoneInputCountrySelectArrow-marginLeft);
+  border-style: solid;
+  border-color: var(--PhoneInputCountrySelectArrow-color);
+  border-top-width: 0;
+  border-bottom-width: var(--PhoneInputCountrySelectArrow-borderWidth);
+  border-left-width: 0;
+  border-right-width: var(--PhoneInputCountrySelectArrow-borderWidth);
+  transform: var(--PhoneInputCountrySelectArrow-transform);
+  opacity: var(--PhoneInputCountrySelectArrow-opacity);
+}
+
+.PhoneInputCountrySelect:focus
+  + .PhoneInputCountryIcon
+  + .PhoneInputCountrySelectArrow {
+  opacity: 1;
+  color: var(--PhoneInputCountrySelectArrow-color--focus);
+}
+
+/* .PhoneInputCountrySelect:focus + .PhoneInputCountryIcon--border {
+  box-shadow: 0 0 0 var(--PhoneInputCountryFlag-borderWidth)
+      var(--PhoneInputCountryFlag-borderColor--focus),
+    inset 0 0 0 var(--PhoneInputCountryFlag-borderWidth)
+      var(--PhoneInputCountryFlag-borderColor--focus);
+} */
+
+.PhoneInputCountrySelect:focus
+  + .PhoneInputCountryIcon
+  .PhoneInputInternationalIconGlobe {
+  opacity: 1;
+  color: var(--PhoneInputCountrySelectArrow-color--focus);
+}
+
+.content-plan-input:-webkit-autofill,
+.content-plan-input:-webkit-autofill:hover,
+.content-plan-input:-webkit-autofill:focus,
+.content-plan-input:-webkit-autofill::first-line {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
+}
+
+.play-ping-animation {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  50%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.hyphenate {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+/* it should rotate 30 degrees */
+@keyframes float {
+  0% {
+    transform: translateY(0), rotate(0deg);
+  }
+  25% {
+    transform: translateY(10px) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-10deg);
+  }
+  75% {
+    transform: translateY(10px) rotate(-8deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+#review-container-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#review-container-desktop {
+  margin: 0 auto;
+  height: 800px;
+  width: 100%;
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
+  column-count: 3;
+  -moz-column-gap: 16px;
+  -webkit-column-gap: 16px;
+  column-gap: 16px;
+}
+
+.review-box {
+  width: 100%;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.text-10xl {
+  font-size: 150px;
+  line-height: 150px;
+}
+
+.dark-grad-right {
+  /* global 94%+ browsers support */
+
+  background: linear-gradient(
+    90deg,
+    hsla(0, 0%, 7%, 100%) 0%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+.dark-grad-left {
+  /* global 94%+ browsers support */
+
+  background: linear-gradient(
+    270deg,
+    hsla(0, 0%, 7%, 100%) 0%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+
+.rad-grad-shadow {
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsla(0, 0%, 7%, 100%) 80%,
+    hsla(0, 0%, 7%, 0%) 80%
+  );
+}
+
+.big-shadow {
+  -webkit-box-shadow: 0px 0px 15px 10px #000000;
+  box-shadow: 0px 0px 15px 10px #000000;
+}
+
+.duration-20 {
+  animation-duration: 20s;
+}
+.duration-25 {
+  animation-duration: 25s;
+}
+.duration-30 {
+  animation-duration: 30s;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hero-animate-scroll-left {
+  /* JS controls animation via Web Animations API to avoid restarts */
+  will-change: transform;
+}
+
+.blurred-img {
+  /* filter: blur(6px); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  object-fit: cover;
+}
