@@ -223,7 +223,7 @@ const Layout = ({children}: {children: React.ReactNode}) => {
 
 export default Layout;
 
-export const Logo = ({...props}: LucideProps) => (
+const Logo = ({...props}: LucideProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     {...props}
