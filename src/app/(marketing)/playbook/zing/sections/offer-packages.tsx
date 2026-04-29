@@ -110,8 +110,10 @@ Expands content output and targets multiple niches simultaneously to maximize re
 #### High Volume Short Form Content
 
 - 5 satellite accounts with 6 posts each per week 
-- 3 main account posts per week
+- 3 main account posts per week 
 - 132 total videos posted per month
+
+*top performers from satellite accounts will be co-posted with the main account
 
 #### Multi Account Instagram Strategy
 
