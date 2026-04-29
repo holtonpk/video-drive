@@ -20,14 +20,11 @@ const h2Font = localFont({
 const ContentTypes = () => {
   return (
     <>
-      <Section
-        header="Content Types"
-        children={
-          <div className="flex w-full flex-col">
-            <MarkdownRenderer markdown={ContentTypesIntro} />
-          </div>
-        }
-      />
+      <Section header="Content Types">
+        <div className="flex w-full flex-col">
+          <MarkdownRenderer markdown={ContentTypesIntro} />
+        </div>
+      </Section>
       {CONTENT_TYPE_SECTIONS.map((section) => (
         <Section
           className="mt-8"
@@ -35,8 +32,9 @@ const ContentTypes = () => {
           id={section.id}
           key={section.id}
           header={section.label}
-          children={<MarkdownRenderer markdown={section.markdown} />}
-        />
+        >
+          <MarkdownRenderer markdown={section.markdown} />
+        </Section>
       ))}
     </>
   );

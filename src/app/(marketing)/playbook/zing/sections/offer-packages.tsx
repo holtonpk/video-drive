@@ -18,10 +18,9 @@ const h2Font = localFont({
 
 const OfferPackages = () => {
   return (
-    <Section
-      header="Offer / Packages"
-      children={<MarkdownRenderer markdown={OfferPackagesBody} />}
-    />
+    <Section header="Offer / Packages">
+      <MarkdownRenderer markdown={OfferPackagesBody} />
+    </Section>
   );
 };
 

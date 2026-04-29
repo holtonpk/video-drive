@@ -17,10 +17,9 @@ const h2Font = localFont({
 });
 const ContentTypes = () => {
   return (
-    <Section
-      header="Overview"
-      children={<MarkdownRenderer markdown={OverViewBody} />}
-    />
+    <Section header="Overview">
+      <MarkdownRenderer markdown={OverViewBody} />
+    </Section>
   );
 };
 

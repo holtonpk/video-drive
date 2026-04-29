@@ -18,10 +18,9 @@ const h2Font = localFont({
 
 const KeyInsights = () => {
   return (
-    <Section
-      header="Key Insights"
-      children={<MarkdownRenderer markdown={KeyInsightsBody} />}
-    />
+    <Section header="Key Insights">
+      <MarkdownRenderer markdown={KeyInsightsBody} />
+    </Section>
   );
 };
 
