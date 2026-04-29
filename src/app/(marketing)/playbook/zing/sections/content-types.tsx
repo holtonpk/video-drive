@@ -240,9 +240,14 @@ Examples:
 
 Raw, fast paced cameos of different team members giving their opinion.
 
-Example concept:
+Example concepts:
 
-**“What are the biggest design trends of 2026?”**
+What are the biggest design trends of 2026?
+
+What is one thing most brands get wrong with their website?
+
+What is one piece of advice you would give to a business owner trying to improve their online presence?
+
 
 The interviewer would ask different team members for their opinion. Another version could be personality based, similar to the feel of Barstool Sports. Base44 also does a great job with this style.
 
@@ -375,9 +380,9 @@ Examples:
     markdown: `
 
 
-For the organic content strategy, we are going to have to narrow down target ICPs tso ~5 niches.
+For the organic content strategy, we are going to have to narrow down target ICPs to 3-5 niches.
 
-It would make sense to focus on the 5 verticals with the highest LTV or wherever growth goals align.
+It would make sense to focus on the verticals with the highest LTV or wherever growth goals align.
 
 Organic on Instagram performs best when it can clearly categorize your content and understand who it should be shown to. By creating satellite accounts around a specific vertical, we give the platform a stronger signal and make it easier to reach the right audience consistently.
 

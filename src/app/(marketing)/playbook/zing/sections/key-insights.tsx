@@ -124,7 +124,7 @@ That target demographic could still be reached by boosting posts to a specific a
 
 High performing teams do not create content ad hoc. They operate from a repeatable production process that enables scale.
 
-The most effective systems start with high-value, information dense content and then repurpose and distribute from there.
+The most effective systems start with high value, information dense content and then repurpose and distribute from there.
 
 Content engine structure:
 
