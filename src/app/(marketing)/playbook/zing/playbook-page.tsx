@@ -80,10 +80,6 @@ const sections2: PlaybookSection[] = [
     id: "measurement",
     label: "Measurement and Success",
   },
-  {
-    id: "offer-packages",
-    label: "Offer / Packages",
-  },
 ];
 
 const flatSections = sections.flatMap((section) => [
