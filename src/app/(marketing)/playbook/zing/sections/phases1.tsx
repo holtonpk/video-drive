@@ -68,13 +68,11 @@ These videos will focus on testing different ways to position the 90 second webs
 Content will test multiple creative angles, including:
 
 - Product led website builder demos
-- Niche specific website buildouts
-- UGC style “I built my website in 90 seconds” content
+- Niche specific website build outs
 - In house team led website builder explainers
 - Pain first hooks around not having a website
 - Before / after website transformations
 
-The purpose of the UGC style content will be to position the builder as something independent creators and business owners are using.
 
 ### Primary Distribution
 
