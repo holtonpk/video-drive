@@ -3,9 +3,14 @@
 import React, {useEffect, useRef, useState} from "react";
 import localFont from "next/font/local";
 import Overview from "./sections/overview";
+import Overview2 from "./sections/overview2";
 import ContentTypes from "./sections/content-types";
 import OfferPackages from "./sections/offer-packages";
+import Phases1 from "./sections/phases1";
+import Phases2 from "./sections/phases2";
 import KeyInsights from "./sections/key-insights";
+import Summary from "./sections/summary";
+import Measurement from "./sections/measurement";
 
 const bodyFont = localFont({
   src: "../fonts/proximanova_regular.ttf",
@@ -58,6 +63,29 @@ const sections: PlaybookSection[] = [
   },
 ];
 
+const sections2: PlaybookSection[] = [
+  {
+    id: "overview2",
+    label: "Overview",
+  },
+  {
+    id: "phases1",
+    label: "Phase 1",
+  },
+  {
+    id: "phases2",
+    label: "Phase 2",
+  },
+  {
+    id: "measurement",
+    label: "Measurement and Success",
+  },
+  {
+    id: "offer-packages",
+    label: "Offer / Packages",
+  },
+];
+
 const flatSections = sections.flatMap((section) => [
   {
     id: section.id,
@@ -66,8 +94,18 @@ const flatSections = sections.flatMap((section) => [
   ...(section.children ?? []),
 ]);
 
+const flatSections2 = sections2.flatMap((section) => [
+  {
+    id: section.id,
+    label: section.label,
+  },
+  ...(section.children ?? []),
+]);
+
+const allFlatSections = [...flatSections2, ...flatSections];
+
 export const PlaybookPage = () => {
-  const [activeSection, setActiveSection] = useState(flatSections[0].id);
+  const [activeSection, setActiveSection] = useState(allFlatSections[0].id);
 
   const clickedSectionRef = useRef<string | null>(null);
   const sidecarRef = useRef<HTMLElement | null>(null);
@@ -152,9 +190,9 @@ export const PlaybookPage = () => {
       const offset = 120;
       const trackingPoint = window.scrollY + offset;
 
-      let currentSection = flatSections[0].id;
+      let currentSection = allFlatSections[0].id;
 
-      flatSections.forEach((section) => {
+      allFlatSections.forEach((section) => {
         const element = document.getElementById(section.id);
 
         if (!element) return;
@@ -206,9 +244,9 @@ export const PlaybookPage = () => {
           <div
             id="body-container"
             ref={bodyContainerRef}
-            className="grid lg:grid-cols-[240px_1fr] px-6 lg:px-0 items-start gap-4 pt-6"
+            className="grid items-start gap-4 px-6 pt-6 lg:grid-cols-[240px_1fr] lg:px-0"
           >
-            <div className="relative hidden min-h-full w-[240px]  lg:block">
+            <div className="relative hidden min-h-full w-[240px] lg:block">
               <Sidecar
                 ref={sidecarRef}
                 activeSection={activeSection}
@@ -216,12 +254,36 @@ export const PlaybookPage = () => {
               />
             </div>
 
-            <div className="flex w-full flex-col gap-16 items-center pb-8">
-              <section id="overview" className="w-full scroll-mt-24">
+            <div className="flex w-full flex-col items-center gap-16 pb-8">
+              <section id="overview2" className="w-full scroll-mt-24">
+                <Overview2 />
+              </section>
+
+              <section id="phases1" className="w-full scroll-mt-24">
+                <Phases1 />
+              </section>
+
+              <section id="phases2" className="w-full scroll-mt-24">
+                <Phases2 />
+              </section>
+
+              <section id="measurement" className="w-full scroll-mt-24">
+                <Measurement />
+              </section>
+
+              <section id="summary" className="w-full scroll-mt-24">
+                <Summary />
+              </section>
+              <div className="flex flex-col items-center w-full">
+                <div className="w-full h-1 border-t-4 border-t-[#7F44F8]/20 border-dashed" />
+                <p className="text-[#7F44F8]/20 text-lg">End of Plan 2</p>
+              </div>
+
+              <section id="overview" className="w-full scroll-mt-24 mt-10">
                 <Overview />
               </section>
 
-              <section id="key-insights" className="w-full scroll-mt-24 ">
+              <section id="key-insights" className="w-full scroll-mt-24">
                 <KeyInsights />
               </section>
 
@@ -242,10 +304,10 @@ export const PlaybookPage = () => {
 
 const Header = () => {
   return (
-    <div className="relative flex lg:h-[250px] h-fit lg:w-full flex-col items-center justify-center overflow-hidden lg:rounded-[16px] border border-black/10 lg:p-4 shadow-sm">
+    <div className="relative flex h-fit flex-col items-center justify-center overflow-hidden border border-black/10 shadow-sm lg:h-[250px] lg:w-full lg:rounded-[16px] lg:p-4">
       <img
         src="/playbook/zing-header.png"
-        className="lg:absolute lg:left-1/2 lg:top-1/2 w-full lg:-translate-x-1/2 lg:-translate-y-1/2"
+        className="w-full lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
       />
     </div>
   );
@@ -268,11 +330,85 @@ const Sidecar = React.forwardRef<
   return (
     <aside
       ref={ref}
-      className="absolute left-0 top-0 z-50 hidden h-fit w-[240px] overflow-y-auto rounded-[16px] px-4  lg:block"
+      className="absolute left-0 top-0 z-50 hidden h-fit w-[240px] overflow-y-auto rounded-[16px] px-4 lg:block"
     >
       <div>
-        <h1 className={`${bodyFontLight.className} text-sm text-[#040537]`}>
+        <h1
+          className={`${bodyFontLight.className} mb-4 text-sm text-[#040537]`}
+        >
           Table of contents
+        </h1>
+
+        <h1
+          className={`${bodyFontLight.className} flex w-full items-center gap-1 whitespace-nowrap text-sm text-[#7F44F8]/40`}
+        >
+          <div className="h-[1px] w-6 bg-[#7F44F8]/20" />
+          Plan 2
+          <div className="h-[1px] w-full bg-[#7F44F8]/20" />
+        </h1>
+
+        <div className="mt-2 flex flex-col gap-2 pl-3">
+          {sections2.map((section) => {
+            const parentActive = isSectionActive(section);
+            const hasChildren = Boolean(section.children?.length);
+
+            return (
+              <div key={section.id} className="flex flex-col gap-2">
+                <button
+                  onClick={() => onTabClick(section.id)}
+                  className={`${bodyFont.className} relative text-left text-base transition-colors ${
+                    parentActive
+                      ? "font-semibold text-black"
+                      : "text-black/45 hover:text-black"
+                  }`}
+                >
+                  <span
+                    className={`absolute -left-[13px] top-1/2 h-[5px] w-[5px] -translate-y-1/2 rounded-full transition-all ${
+                      parentActive ? "bg-[#7F44F8]" : "bg-transparent"
+                    }`}
+                  />
+
+                  <span className="block truncate">{section.label}</span>
+                </button>
+
+                {hasChildren && (
+                  <div className="ml-5 flex flex-col gap-2 pl-3">
+                    {section.children?.map((child) => {
+                      const childActive = activeSection === child.id;
+
+                      return (
+                        <button
+                          key={child.id}
+                          onClick={() => onTabClick(child.id)}
+                          className={`${bodyFont.className} relative text-left text-base transition-colors ${
+                            childActive
+                              ? "font-semibold text-black"
+                              : "text-black/40 hover:text-black"
+                          }`}
+                        >
+                          <span
+                            className={`absolute -left-[13px] top-1/2 h-[5px] w-[5px] -translate-y-1/2 rounded-full transition-all ${
+                              childActive ? "bg-[#7F44F8]" : "bg-transparent"
+                            }`}
+                          />
+
+                          <span className="block truncate">{child.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <h1
+          className={`${bodyFontLight.className} mt-4 flex w-full items-center gap-1 whitespace-nowrap text-sm text-[#7F44F8]/40`}
+        >
+          <div className="h-[1px] w-6 bg-[#7F44F8]/20" />
+          Plan 1
+          <div className="h-[1px] w-full bg-[#7F44F8]/20" />
         </h1>
 
         <div className="mt-2 flex flex-col gap-2 pl-3">

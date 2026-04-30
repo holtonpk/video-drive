@@ -17,7 +17,7 @@ const h2Font = localFont({
 });
 const ContentTypes = () => {
   return (
-    <Section header="Plan 1 Overview">
+    <Section header="Plan 2 Overview" id="overview2">
       <MarkdownRenderer markdown={OverViewBody} />
     </Section>
   );
@@ -49,21 +49,29 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 };
 
 const OverViewBody = `
-This brief outlines a strategic approach to building and scaling Zing’s organic content presence across social platforms.
 
-It is based on analysis of high performing companies in similar markets, along with proven content systems used to drive consistent growth.
+The primary goal of this strategy is to use organic content to drive business owners to create a free website through Zing’s 90-second website builder.
 
-## Goal
+After our conversation, it is clear that the website builder should be the central focus of Zing’s organic content. Rather than creating content for awareness alone, the content system will be built around one primary action:
 
-The goal is to create a repeatable, scalable content engine that:
+**Getting business owners to create a free website through Zing.**
 
-- Attracts attention from small business owners
-- Builds trust through valuable, relevant content
-- Drives sustained growth across multiple industries
+Success will be measured by the ability to move business owners through the following path:
 
-## Research Approach
+**Content engagement → website builder landing page → free website creation → qualified lead**
 
-Our team spent hours analyzing strong strategies in the space.
+To accomplish this, we need to identify the strongest messaging, hooks, formats, and creative angles for getting business owners to take action.
 
-Based on that research, the following key insights highlight the clearest opportunities to maximize the likelihood of success.
+## Strategy Phases
+
+The strategy is structured across two phases:
+
+### Phase 1: Test
+
+Build the foundation, test creative direction, and establish the in house content production process.
+
+### Phase 2: Scale
+
+Use performance data to double down on winning formats, continue Zing’s in-house thought leadership content, introduce UGC / creator content, and begin paid amplification on content validated through organic traction.
+
 `;

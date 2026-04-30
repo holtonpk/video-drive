@@ -17,7 +17,7 @@ const h2Font = localFont({
 });
 const ContentTypes = () => {
   return (
-    <Section header="Plan 1 Overview">
+    <Section header="Measurement and Success">
       <MarkdownRenderer markdown={OverViewBody} />
     </Section>
   );
@@ -49,21 +49,23 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 };
 
 const OverViewBody = `
-This brief outlines a strategic approach to building and scaling Zing’s organic content presence across social platforms.
 
-It is based on analysis of high performing companies in similar markets, along with proven content systems used to drive consistent growth.
+The primary measure of success is:
 
-## Goal
+**Free websites created through Zing’s 90 second website builder.**
 
-The goal is to create a repeatable, scalable content engine that:
+Supporting metrics may include:
 
-- Attracts attention from small business owners
-- Builds trust through valuable, relevant content
-- Drives sustained growth across multiple industries
+- Video views
+- Watch time / retention
+- Engagement rate
+- Profile visits
+- CTR
+- Website builder landing page visits
+- Free website creation conversion rate
+- Qualified leads generated
 
-## Research Approach
+The goal is to connect organic content performance directly to lead generation and customer acquisition. We will be tracking all available data across social platforms.
 
-Our team spent hours analyzing strong strategies in the space.
 
-Based on that research, the following key insights highlight the clearest opportunities to maximize the likelihood of success.
 `;

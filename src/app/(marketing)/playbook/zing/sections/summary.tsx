@@ -17,7 +17,7 @@ const h2Font = localFont({
 });
 const ContentTypes = () => {
   return (
-    <Section header="Plan 1 Overview">
+    <Section header="Summary" id="summary">
       <MarkdownRenderer markdown={OverViewBody} />
     </Section>
   );
@@ -49,21 +49,15 @@ const MarkdownRenderer = ({markdown}: {markdown: string}) => {
 };
 
 const OverViewBody = `
-This brief outlines a strategic approach to building and scaling Zing’s organic content presence across social platforms.
 
-It is based on analysis of high performing companies in similar markets, along with proven content systems used to drive consistent growth.
+This strategy is designed to turn Zing’s 90 second website builder into a measurable organic acquisition channel.
 
-## Goal
+Month 1 focuses on testing the strongest ways to position the website builder, while also establishing Zing’s in house content presence.
 
-The goal is to create a repeatable, scalable content engine that:
+Month 2 focuses on scaling what works, continuing in house thought leadership, introducing third party UGC / creator content, and identifying which content is ready for paid amplification.
 
-- Attracts attention from small business owners
-- Builds trust through valuable, relevant content
-- Drives sustained growth across multiple industries
+The result is a content system built around a clear business objective:
 
-## Research Approach
+**Getting more business owners to create free websites through Zing.**
 
-Our team spent hours analyzing strong strategies in the space.
-
-Based on that research, the following key insights highlight the clearest opportunities to maximize the likelihood of success.
 `;
