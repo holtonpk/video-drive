@@ -134,7 +134,7 @@ const Page = () => {
         <p
           className={`text-lg md:text-xl text-[#121212]/60 max-w-[560px] ${bodyFont.className}`}
         >
-          Brands trusted us with their biggest moments. Here's what we made
+          Brands trusted us with their biggest moments. Here&apos;s what we made
           together.
         </p>
         <div className="w-24 h-1 rounded-full bg-theme-color1 mt-2" />
