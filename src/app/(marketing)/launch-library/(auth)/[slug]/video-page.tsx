@@ -128,6 +128,7 @@ const getRelatedScore = (source: VideoData, candidate: VideoData) => {
 
 const getRelatedVideos = (video: VideoData, allVideos: VideoData[]) => {
   return allVideos
+    .filter((candidate) => !!candidate.videoUrl && !!candidate.thumbnail)
     .map((candidate) => ({
       video: candidate,
       score: getRelatedScore(video, candidate),

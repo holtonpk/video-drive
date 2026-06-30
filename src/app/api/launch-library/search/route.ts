@@ -53,6 +53,24 @@ function asStringArray(v: unknown): string[] {
   return Array.isArray(v) ? v.map(String).filter(Boolean) : [];
 }
 
+/**
+ * A doc is only returned to the client if it has both a videoUrl and a
+ * thumbnail (thumbnailUrl or thumbnail) present and non-empty.
+ */
+function hasPlayableMedia(docSnap: QueryDocumentSnapshot): boolean {
+  const data = docSnap.data();
+
+  const hasVideo =
+    typeof data.videoUrl === "string" && data.videoUrl.trim().length > 0;
+
+  const hasThumbnail =
+    (typeof data.thumbnailUrl === "string" &&
+      data.thumbnailUrl.trim().length > 0) ||
+    (typeof data.thumbnail === "string" && data.thumbnail.trim().length > 0);
+
+  return hasVideo && hasThumbnail;
+}
+
 function matchesFilters(doc: Record<string, unknown>, filters: Filters) {
   return LAUNCH_LIBRARY_FILTER_FIELDS.every(
     (field: LaunchLibraryFilterField) => {
@@ -353,6 +371,8 @@ export async function POST(req: NextRequest) {
         ...fallbackSnapshot.docs,
       ]);
 
+      candidates = candidates.filter(hasPlayableMedia);
+
       if (hasActiveFilters) {
         candidates = candidates.filter((docSnap) =>
           matchesFilters(rowForFilterMatch(docSnap), filters),
@@ -399,16 +419,36 @@ export async function POST(req: NextRequest) {
     const pageSize = requestedLimit;
 
     if (!hasActiveFilters) {
-      if (cursorSnap) {
-        browseConstraints.push(startAfter(cursorSnap));
-      }
-      browseConstraints.push(limit(pageSize + 1));
+      // Media-presence filtering happens in-memory, so this branch now
+      // scans batches similarly to the filtered branch below rather than
+      // relying on a single fixed-size Firestore fetch.
+      let matches: QueryDocumentSnapshot[] = [];
+      let readAfter: DocumentSnapshot | null = cursorSnap;
 
-      const snapshot = await getDocs(query(colRef, ...browseConstraints));
-      const docs = snapshot.docs;
-      const pageDocs = docs.slice(0, pageSize);
+      while (matches.length < pageSize + 1) {
+        const batchConstraints: QueryConstraint[] = [...browseConstraints];
+        if (readAfter) {
+          batchConstraints.push(startAfter(readAfter));
+        }
+        batchConstraints.push(limit(FILTER_FETCH));
+
+        const batch = await getDocs(query(colRef, ...batchConstraints));
+        if (batch.empty) break;
+
+        for (const docSnap of batch.docs) {
+          if (hasPlayableMedia(docSnap)) {
+            matches.push(docSnap);
+            if (matches.length >= pageSize + 1) break;
+          }
+        }
+
+        readAfter = batch.docs[batch.docs.length - 1]!;
+        if (batch.docs.length < FILTER_FETCH) break;
+      }
+
+      const pageDocs = matches.slice(0, pageSize);
       const hits = pageDocs.map(slimResult);
-      const hasMore = docs.length > pageSize;
+      const hasMore = matches.length > pageSize;
       const nextCursor =
         hasMore && pageDocs.length > 0
           ? pageDocs[pageDocs.length - 1].id
@@ -434,7 +474,10 @@ export async function POST(req: NextRequest) {
       if (batch.empty) break;
 
       for (const docSnap of batch.docs) {
-        if (matchesFilters(rowForFilterMatch(docSnap), filters)) {
+        if (
+          hasPlayableMedia(docSnap) &&
+          matchesFilters(rowForFilterMatch(docSnap), filters)
+        ) {
           matches.push(docSnap);
           if (matches.length >= pageSize + 1) break;
         }
