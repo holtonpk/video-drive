@@ -8,6 +8,7 @@ import {HARD_CODED_FILTER_OPTION_COUNTS, localData, VideoData} from "./data";
 import Link from "next/link";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 import {Icons} from "@/components/icons";
+import {VideoPlayer} from "./video-player";
 
 const LAUNCH_LIBRARY_DISMISSED_LOCAL_KEY =
   "launch-library-dismissed-local-videos";
@@ -62,6 +63,10 @@ function ensureNullableString(value: unknown): string | null {
   return typeof value === "string" ? value : null;
 }
 
+function ensureNullableNumber(value: unknown): number | null {
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
 function ensureStringArray(value: unknown): string[] {
   return Array.isArray(value)
     ? value.filter((item): item is string => typeof item === "string")
@@ -100,6 +105,12 @@ function normalizeVideoData(
     thumbnail: ensureNullableString(video.thumbnail),
     videoUrl: ensureNullableString(video.videoUrl),
     logo: ensureNullableString(video.logo),
+    videoSprite: ensureNullableString(video.videoSprite),
+    videoSpriteInterval: ensureNullableNumber(video.videoSpriteInterval),
+    videoSpriteColumns: ensureNullableNumber(video.videoSpriteColumns),
+    videoSpriteFrameWidth: ensureNullableNumber(video.videoSpriteFrameWidth),
+    videoSpriteFrameHeight: ensureNullableNumber(video.videoSpriteFrameHeight),
+    videoSpriteFrameCount: ensureNullableNumber(video.videoSpriteFrameCount),
   };
 }
 
@@ -447,6 +458,9 @@ export default function Page() {
     }
   });
   const [filtersPopoverOpen, setFiltersPopoverOpen] = useState(false);
+  const [videoManagerExpanded, setVideoManagerExpanded] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [videoDuration, setVideoDuration] = useState(0);
   const [batchSyncState, setBatchSyncState] = useState<BatchSyncState>({
     status: "idle",
     total: 0,
@@ -1068,552 +1082,491 @@ export default function Page() {
     );
   }
 
+  console.log("Videos ===", videos);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="mx-auto max-w-[1700px]">
-        {/* <div className="mb-6 flex flex-col gap-4 border border-zinc-800 bg-zinc-950 p-5 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <div className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-              Video data manager
-            </div>
-            <h1 className="mt-2 text-3xl font-semibold">
-              YC launch video library
-            </h1>
-            <p className="mt-2 max-w-3xl text-sm text-zinc-400">
-              Search every field, edit metadata, push changes to Firebase when
-              ready, set thumbnails from video frames, and download videos from
-              X posts.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2 text-xs">
-              <span
-                className={classNames(
-                  "rounded-full border px-2.5 py-1",
-                  libraryLoadingState === "loading" &&
-                    "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                  libraryLoadingState === "ready" &&
-                    "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                  libraryLoadingState === "error" &&
-                    "border-red-500/40 bg-red-500/10 text-red-300",
-                )}
-              >
-                {libraryLoadingState === "loading"
-                  ? "Loading Firebase library"
-                  : libraryLoadingState === "ready"
-                    ? "Firebase library ready"
-                    : "Using local data only"}
-              </span>
-              <span className="rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
-                Local source: ./data
-              </span>
-              <span className="rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
-                {unsyncedVideos.length} unsynced
-              </span>
-
-              <span className="rounded-full border border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
-                {missingVideoCount} missing video
-              </span>
-
-              <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300">
-                {missingThumbnailCount} missing thumbnail
-              </span>
-            </div>
-          </div>
-
-          <div className="flex w-full max-w-md flex-col gap-3">
-            <button
-              onClick={syncAllUnsyncedVideos}
-              disabled={
-                batchSyncState.status === "syncing" || !unsyncedVideos.length
-              }
-              className="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {batchSyncState.status === "syncing"
-                ? `Syncing ${batchSyncState.completed} / ${batchSyncState.total}`
-                : "Sync all"}
-            </button>
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-zinc-400">
-                <span>Batch sync status</span>
-                <span>
-                  {batchSyncState.status === "idle" && "Idle"}
-                  {batchSyncState.status === "syncing" &&
-                    `${batchSyncState.completed} / ${batchSyncState.total}`}
-                  {batchSyncState.status === "success" &&
-                    `Done ${batchSyncState.completed} / ${batchSyncState.total}`}
-                  {batchSyncState.status === "error" &&
-                    `Completed ${batchSyncState.completed} / ${batchSyncState.total} · Failed ${batchSyncState.failed}`}
-                </span>
-              </div>
-
-              <div className="h-2 overflow-hidden rounded-full bg-zinc-900">
-                <div
-                  className={classNames(
-                    "h-full rounded-full transition-all",
-                    batchSyncState.status === "error" && "bg-red-400",
-                    batchSyncState.status !== "error" && "bg-white",
-                  )}
-                  style={{
-                    width:
-                      batchSyncState.total > 0
-                        ? `${(batchSyncState.completed / batchSyncState.total) * 100}%`
-                        : "0%",
-                  }}
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2 text-xs">
-                <span
-                  className={classNames(
-                    "rounded-full border px-2.5 py-1",
-                    batchSyncState.status === "idle" &&
-                      "border-zinc-700 bg-zinc-900 text-zinc-300",
-                    batchSyncState.status === "syncing" &&
-                      "border-amber-500/40 bg-amber-500/10 text-amber-300",
-                    batchSyncState.status === "success" &&
-                      "border-emerald-500/40 bg-emerald-500/10 text-emerald-300",
-                    batchSyncState.status === "error" &&
-                      "border-red-500/40 bg-red-500/10 text-red-300",
-                  )}
-                >
-                  {batchSyncState.status === "idle"
-                    ? "Ready"
-                    : batchSyncState.status === "syncing"
-                      ? "Batch syncing"
-                      : batchSyncState.status === "success"
-                        ? "Batch sync complete"
-                        : "Batch sync finished with errors"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
         <div className="py-2">
           <div
             id="workspace"
-            className="sticky top-2 px-2 grid h-[calc(100vh-16px)] grid-cols-1 gap-6 lg:grid-cols-3"
+            className="sticky top-2 px-2 grid h-[calc(100vh-16px)] grid-cols-1 gap-6 lg:grid-cols-6"
           >
-            <PageErrorBoundary fallbackTitle="Video list failed to render">
-              <div
-                id="videos-display"
-                className="flex h-full min-h-0 flex-col rounded-3xl border border-zinc-800 bg-zinc-950/60"
-              >
-                <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
+            <div className="lg:col-span-2 h-full min-h-0">
+              <PageErrorBoundary fallbackTitle="Video list failed to render">
+                <div
+                  id="videos-display"
+                  className="flex h-full min-h-0 flex-col rounded-3xl border border-zinc-800 bg-zinc-950/60"
+                >
+                  <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
 
-                <div className="flex min-h-0 flex-1 flex-col">
-                  <div className="relative flex h-[150px] shrink-0 flex-col gap-2 rounded-3xl border-zinc-800 bg-black p-4">
-                    <div className="flex flex-wrap items-center  gap-2 text-xs">
-                      {/* <div className="text-sm font-medium text-white px-4  flex items-center justify-between">
+                  <div className="flex min-h-0 flex-1 flex-col">
+                    <div className="relative flex h-[150px] shrink-0 flex-col gap-2 rounded-3xl border-zinc-800 bg-black p-4">
+                      <div className="flex flex-wrap items-center  gap-2 text-xs">
+                        {/* <div className="text-sm font-medium text-white px-4  flex items-center justify-between">
                       {filteredVideos.length} total videos
                     </div> */}
-                      <button className="rounded-xl border flex items-center justify-center gap-2 border-zinc-700 px-4 py-2 text-sm font-medium  transition bg-white text-black disabled:cursor-not-allowed disabled:opacity-50">
-                        <Icons.add className="w-4 h-4" />
-                        New Video
-                      </button>
-                      <span className="rounded-full h-fit border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
-                        {videos.length} total videos
-                      </span>
-                      {/* {unsyncedVideos.length > 0 && ( */}
-                      <span className="rounded-full border h-fit border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
-                        {unsyncedVideos.length} unsynced
-                      </span>
-                      {/* )} */}
-
-                      {/* {missingVideoCount > 0 && ( */}
-                      <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
-                        {missingVideoCount} missing video
-                      </span>
-                      {/* )} */}
-                      {/* {missingCommentaryCount > 0 && ( */}
-                      <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
-                        {missingCommentaryCount} missing commentary
-                      </span>
-                      {/* )} */}
-
-                      {/* {missingThumbnailCount > 0 && ( */}
-                      <span className="rounded-full border h-fit border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300">
-                        {missingThumbnailCount} missing thumbnail
-                      </span>
-                      {/* )} */}
-                    </div>
-                    <div className="flex flex-col gap-3  ">
-                      <div className="flex gap-3">
-                        <input
-                          value={filters.query}
-                          onChange={(e) =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              query: e.target.value,
-                            }))
-                          }
-                          placeholder="Search by any field..."
-                          className="w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm outline-none placeholder:text-zinc-500"
-                        />
-
-                        <button
-                          type="button"
-                          onClick={() => setFiltersPopoverOpen((prev) => !prev)}
-                          className="rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-200 transition hover:bg-zinc-900"
-                        >
-                          Filters{" "}
-                          {activeFilterEntries.length > 0 &&
-                            `(${activeFilterEntries.length})`}
+                        <button className="rounded-xl border flex items-center justify-center gap-2 border-zinc-700 px-4 py-2 text-sm font-medium  transition bg-white text-black disabled:cursor-not-allowed disabled:opacity-50">
+                          <Icons.add className="w-4 h-4" />
+                          New Video
                         </button>
-                      </div>
-                    </div>
+                        <span className="rounded-full h-fit border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
+                          {videos.length} total videos
+                        </span>
+                        {/* {unsyncedVideos.length > 0 && ( */}
+                        <span className="rounded-full border h-fit border-zinc-700 bg-zinc-900 px-2.5 py-1 text-zinc-300">
+                          {unsyncedVideos.length} unsynced
+                        </span>
+                        {/* )} */}
 
-                    {activeFilterEntries.length > 0 && (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {activeFilterEntries.map(([key, value]) => (
-                          <span
-                            key={key}
-                            className="rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-xs text-zinc-200"
+                        {/* {missingVideoCount > 0 && ( */}
+                        <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
+                          {missingVideoCount} missing video
+                        </span>
+                        {/* )} */}
+                        {/* {missingCommentaryCount > 0 && ( */}
+                        <span className="rounded-full border h-fit border-red-500/40 bg-red-500/10 px-2.5 py-1 text-red-300">
+                          {missingCommentaryCount} missing commentary
+                        </span>
+                        {/* )} */}
+
+                        {/* {missingThumbnailCount > 0 && ( */}
+                        <span className="rounded-full border h-fit border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-amber-300">
+                          {missingThumbnailCount} missing thumbnail
+                        </span>
+                        {/* )} */}
+                      </div>
+                      <div className="flex flex-col gap-3  ">
+                        <div className="flex gap-3">
+                          <input
+                            value={filters.query}
+                            onChange={(e) =>
+                              setFilters((prev) => ({
+                                ...prev,
+                                query: e.target.value,
+                              }))
+                            }
+                            placeholder="Search by any field..."
+                            className="w-full rounded-2xl border border-zinc-800 bg-zinc-950 px-4 py-3 text-sm outline-none placeholder:text-zinc-500"
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setFiltersPopoverOpen((prev) => !prev)
+                            }
+                            className="rounded-xl border border-zinc-700 px-4 py-3 text-sm text-zinc-200 transition hover:bg-zinc-900"
                           >
-                            {titleCase(key)}: {value}
-                          </span>
-                        ))}
+                            Filters{" "}
+                            {activeFilterEntries.length > 0 &&
+                              `(${activeFilterEntries.length})`}
+                          </button>
+                        </div>
                       </div>
-                    )}
 
-                    {filtersPopoverOpen && (
-                      <div className="absolute top-[calc(100%+12px)] right-4 z-50 w-full max-w-[720px] rounded-3xl border border-zinc-800 bg-zinc-950 p-4 shadow-2xl">
-                        <div className="mb-4 flex items-center justify-between">
-                          <div>
-                            <div className="text-sm font-medium text-white">
-                              Filters
+                      {activeFilterEntries.length > 0 && (
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {activeFilterEntries.map(([key, value]) => (
+                            <span
+                              key={key}
+                              className="rounded-full border border-zinc-700 bg-zinc-900 px-2.5 py-1 text-xs text-zinc-200"
+                            >
+                              {titleCase(key)}: {value}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {filtersPopoverOpen && (
+                        <div className="absolute top-[calc(100%+12px)] right-4 z-50 w-full max-w-[720px] rounded-3xl border border-zinc-800 bg-zinc-950 p-4 shadow-2xl">
+                          <div className="mb-4 flex items-center justify-between">
+                            <div>
+                              <div className="text-sm font-medium text-white">
+                                Filters
+                              </div>
+                              <div className="text-xs text-zinc-500">
+                                Narrow the displayed results
+                              </div>
                             </div>
-                            <div className="text-xs text-zinc-500">
-                              Narrow the displayed results
-                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => setFiltersPopoverOpen(false)}
+                              className="rounded-lg border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-300 transition hover:bg-zinc-900"
+                            >
+                              Close
+                            </button>
                           </div>
 
+                          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                            <FilterSelect
+                              label="Cohort"
+                              value={filters.cohort}
+                              options={filterOptions.cohort}
+                              onChange={(value) =>
+                                setFilters((prev) => ({...prev, cohort: value}))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Score"
+                              value={filters.score}
+                              options={filterOptions.score}
+                              onChange={(value) =>
+                                setFilters((prev) => ({...prev, score: value}))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Industry"
+                              value={filters.industry}
+                              options={filterOptions.industry}
+                              onChange={(value) =>
+                                setFilters((prev) => ({
+                                  ...prev,
+                                  industry: value,
+                                }))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Sector"
+                              value={filters.sector}
+                              options={filterOptions.sector}
+                              onChange={(value) =>
+                                setFilters((prev) => ({...prev, sector: value}))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Creative Format"
+                              value={filters.creativeFormat}
+                              options={filterOptions.creativeFormat}
+                              onChange={(value) =>
+                                setFilters((prev) => ({
+                                  ...prev,
+                                  creativeFormat: value,
+                                }))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Tone"
+                              value={filters.tone}
+                              options={filterOptions.tone}
+                              onChange={(value) =>
+                                setFilters((prev) => ({...prev, tone: value}))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Production"
+                              value={filters.production}
+                              options={filterOptions.production}
+                              onChange={(value) =>
+                                setFilters((prev) => ({
+                                  ...prev,
+                                  production: value,
+                                }))
+                              }
+                            />
+
+                            <FilterSelect
+                              label="Hook"
+                              value={filters.hook}
+                              options={filterOptions.hook}
+                              onChange={(value) =>
+                                setFilters((prev) => ({...prev, hook: value}))
+                              }
+                            />
+                          </div>
+                          {activeFilterEntries.length > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFilters(DEFAULT_FILTERS);
+                                setFiltersPopoverOpen(false);
+                              }}
+                              className="rounded-xl border border-zinc-700 px-4 py-3 mt-2 w-full text-sm text-zinc-200 transition hover:bg-zinc-900"
+                            >
+                              Clear Filters
+                            </button>
+                          )}
                           <button
                             type="button"
-                            onClick={() => setFiltersPopoverOpen(false)}
-                            className="rounded-lg border border-zinc-700 px-2.5 py-1.5 text-xs text-zinc-300 transition hover:bg-zinc-900"
+                            onClick={exportSavedFirebaseFilterCounts}
+                            disabled={libraryLoadingState !== "ready"}
+                            className="rounded-xl border border-zinc-700 px-4 py-3 mt-2 w-full text-sm text-black bg-white transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
                           >
-                            Close
+                            Filter Export
                           </button>
                         </div>
+                      )}
+                    </div>
 
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                          <FilterSelect
-                            label="Cohort"
-                            value={filters.cohort}
-                            options={filterOptions.cohort}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, cohort: value}))
-                            }
-                          />
+                    <div className="relative min-h-0 flex-1 rounded-b-3xl border border-zinc-800 bg-black">
+                      <ScrollArea className="h-full w-full ">
+                        <div className="w-full min-w-0 px-4 pb-4 pt-3">
+                          <div className="flex w-full min-w-0 flex-col gap-3">
+                            {filteredVideos.map((video) => {
+                              const isActive = video.postId === selectedId;
+                              const isLocalOnly = isLocalOnlyVideo(
+                                video,
+                                firebaseVideosById,
+                              );
 
-                          <FilterSelect
-                            label="Score"
-                            value={filters.score}
-                            options={filterOptions.score}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, score: value}))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Industry"
-                            value={filters.industry}
-                            options={filterOptions.industry}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, industry: value}))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Sector"
-                            value={filters.sector}
-                            options={filterOptions.sector}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, sector: value}))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Creative Format"
-                            value={filters.creativeFormat}
-                            options={filterOptions.creativeFormat}
-                            onChange={(value) =>
-                              setFilters((prev) => ({
-                                ...prev,
-                                creativeFormat: value,
-                              }))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Tone"
-                            value={filters.tone}
-                            options={filterOptions.tone}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, tone: value}))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Production"
-                            value={filters.production}
-                            options={filterOptions.production}
-                            onChange={(value) =>
-                              setFilters((prev) => ({
-                                ...prev,
-                                production: value,
-                              }))
-                            }
-                          />
-
-                          <FilterSelect
-                            label="Hook"
-                            value={filters.hook}
-                            options={filterOptions.hook}
-                            onChange={(value) =>
-                              setFilters((prev) => ({...prev, hook: value}))
-                            }
-                          />
-                        </div>
-                        {activeFilterEntries.length > 0 && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setFilters(DEFAULT_FILTERS);
-                              setFiltersPopoverOpen(false);
-                            }}
-                            className="rounded-xl border border-zinc-700 px-4 py-3 mt-2 w-full text-sm text-zinc-200 transition hover:bg-zinc-900"
-                          >
-                            Clear Filters
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          onClick={exportSavedFirebaseFilterCounts}
-                          disabled={libraryLoadingState !== "ready"}
-                          className="rounded-xl border border-zinc-700 px-4 py-3 mt-2 w-full text-sm text-black bg-white transition hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                          Filter Export
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="relative min-h-0 flex-1 rounded-b-3xl border border-zinc-800 bg-black">
-                    <ScrollArea className="h-full w-full ">
-                      <div className="w-full min-w-0 px-4 pb-4 pt-3">
-                        <div className="flex w-full min-w-0 flex-col gap-3">
-                          {filteredVideos.map((video) => {
-                            const isActive = video.postId === selectedId;
-                            const isLocalOnly = isLocalOnlyVideo(
-                              video,
-                              firebaseVideosById,
-                            );
-
-                            return (
-                              <button
-                                id="select-video-button"
-                                key={video.postId}
-                                onClick={() => setSelectedId(video.postId)}
-                                className={classNames(
-                                  "box-border grid-cols-[128px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
-                                  isActive
-                                    ? "border-white bg-white/5"
-                                    : "border-zinc-800 bg-zinc-950 hover:border-zinc-700 hover:bg-zinc-900",
-                                )}
-                              >
-                                <div className="h-20 w-32 shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
-                                  {video.thumbnail ? (
-                                    <img
-                                      src={video.thumbnail}
-                                      alt={video.name}
-                                      className="h-full w-full object-cover"
-                                      onError={(e) => {
-                                        console.error(
-                                          "Thumbnail failed to load",
-                                          {
-                                            postId: video.postId,
-                                            thumbnail: video.thumbnail,
-                                          },
-                                        );
-                                        e.currentTarget.style.display = "none";
-                                      }}
-                                    />
-                                  ) : (
-                                    <div className="flex h-full items-center justify-center text-xs text-zinc-500">
-                                      No thumbnail
-                                    </div>
+                              return (
+                                <button
+                                  id="select-video-button"
+                                  key={video.postId}
+                                  onClick={() => setSelectedId(video.postId)}
+                                  className={classNames(
+                                    "box-border grid-cols-[128px_1fr] gap-3 w-full grid min-w-0 max-w- rounded-2xl border p-3 text-left transition",
+                                    isActive
+                                      ? "border-white bg-white/5"
+                                      : "border-zinc-800 bg-zinc-950 hover:border-zinc-700 hover:bg-zinc-900",
                                   )}
-                                </div>
-                                <div className="min-w-0 flex-1 ">
-                                  <div className="flex min-w-0 items-start gap-2">
-                                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                                >
+                                  <div className="h-20 w-32 shrink-0 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+                                    {video.thumbnail ? (
                                       <img
-                                        src={
-                                          video.logo ||
-                                          getFaviconUrl(video.website ?? "")
-                                        }
+                                        src={video.thumbnail}
                                         alt={video.name}
-                                        className="h-4 w-4 shrink-0 rounded-full ring-white/20 ring-[1px] ring-offset-[2px] ring-offset-black"
+                                        className="h-full w-full object-cover"
                                         onError={(e) => {
-                                          console.error("Logo failed to load", {
-                                            postId: video.postId,
-                                            logo: video.logo,
-                                            website: video.website,
-                                          });
-                                          e.currentTarget.style.visibility =
-                                            "hidden";
+                                          console.error(
+                                            "Thumbnail failed to load",
+                                            {
+                                              postId: video.postId,
+                                              thumbnail: video.thumbnail,
+                                            },
+                                          );
+                                          e.currentTarget.style.display =
+                                            "none";
                                         }}
                                       />
-                                      <div className="truncate text-sm font-semibold text-white">
-                                        {video.name || video.postId}
+                                    ) : (
+                                      <div className="flex h-full items-center justify-center text-xs text-zinc-500">
+                                        No thumbnail
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="min-w-0 flex-1 ">
+                                    <div className="flex min-w-0 items-start gap-2">
+                                      <div className="flex min-w-0 flex-1 items-center gap-2">
+                                        <img
+                                          src={
+                                            video.logo ||
+                                            getFaviconUrl(video.website ?? "")
+                                          }
+                                          alt={video.name}
+                                          className="h-4 w-4 shrink-0 rounded-full ring-white/20 ring-[1px] ring-offset-[2px] ring-offset-black"
+                                          onError={(e) => {
+                                            console.error(
+                                              "Logo failed to load",
+                                              {
+                                                postId: video.postId,
+                                                logo: video.logo,
+                                                website: video.website,
+                                              },
+                                            );
+                                            e.currentTarget.style.visibility =
+                                              "hidden";
+                                          }}
+                                        />
+                                        <div className="truncate text-sm font-semibold text-white">
+                                          {video.name || video.postId}
+                                        </div>
+                                      </div>
+
+                                      <div className="shrink-0 rounded-full border border-zinc-700 px-2 py-0.5 text-xs text-zinc-300">
+                                        {video.score != null
+                                          ? `${video.score}/5`
+                                          : "no score"}
                                       </div>
                                     </div>
 
-                                    <div className="shrink-0 rounded-full border border-zinc-700 px-2 py-0.5 text-xs text-zinc-300">
-                                      {video.score != null
-                                        ? `${video.score}/5`
-                                        : "no score"}
+                                    <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+                                      <span
+                                        className={classNames(
+                                          "rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide",
+                                          isLocalOnly
+                                            ? "border-blue-500/40 bg-blue-500/10 text-blue-300"
+                                            : "border-zinc-700 bg-zinc-900 text-zinc-300",
+                                        )}
+                                      >
+                                        {isLocalOnly ? "Local" : "Firebase"}
+                                      </span>
+
+                                      <SyncBadge
+                                        status={getDisplaySyncStatus(video)}
+                                      />
+                                      <HasVideoBadge
+                                        hasVideo={!!video.videoUrl}
+                                      />
+
+                                      {!hasCommentary(video) ? (
+                                        <span className="rounded-full border border-red-500/40 bg-red-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-red-300">
+                                          No commentary
+                                        </span>
+                                      ) : null}
+                                    </div>
+
+                                    <div className="mt-2 line-clamp-2 text-xs text-zinc-400">
+                                      {video.commentary ?? "No commentary yet."}
                                     </div>
                                   </div>
-
-                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                                    <span
-                                      className={classNames(
-                                        "rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide",
-                                        isLocalOnly
-                                          ? "border-blue-500/40 bg-blue-500/10 text-blue-300"
-                                          : "border-zinc-700 bg-zinc-900 text-zinc-300",
-                                      )}
-                                    >
-                                      {isLocalOnly ? "Local" : "Firebase"}
-                                    </span>
-
-                                    <SyncBadge
-                                      status={getDisplaySyncStatus(video)}
-                                    />
-                                    <HasVideoBadge
-                                      hasVideo={!!video.videoUrl}
-                                    />
-
-                                    {!hasCommentary(video) ? (
-                                      <span className="rounded-full border border-red-500/40 bg-red-500/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-red-300">
-                                        No commentary
-                                      </span>
-                                    ) : null}
-                                  </div>
-
-                                  <div className="mt-2 line-clamp-2 text-xs text-zinc-400">
-                                    {video.commentary ?? "No commentary yet."}
-                                  </div>
-                                </div>
-                              </button>
-                            );
-                          })}
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
 
-                      <ScrollBar orientation="vertical" />
-                    </ScrollArea>
+                        <ScrollBar orientation="vertical" />
+                      </ScrollArea>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </PageErrorBoundary>
-            <PageErrorBoundary fallbackTitle="Edit panel failed to render">
-              <ScrollArea
-                id="video-area"
-                className={classNames(
-                  " h-[calc(100vh-16px)] min-h-0 w-full pb-6 rounded-3xl  border bg-zinc-950/60  transition-colors",
+              </PageErrorBoundary>
+            </div>
+            <div
+              className={classNames(
+                videoManagerExpanded ? "lg:col-span-1" : "lg:col-span-2",
+                "h-full min-h-0",
+              )}
+            >
+              <PageErrorBoundary fallbackTitle="Edit panel failed to render">
+                <ScrollArea
+                  id="video-area"
+                  className={classNames(
+                    " h-[calc(100vh-16px)] min-h-0 w-full pb-6 rounded-3xl  border bg-zinc-950/60  transition-colors",
 
-                  selectedVideoSyncStatus === "missing" && "border-red-500/60",
+                    selectedVideoSyncStatus === "missing" &&
+                      "border-red-500/60",
 
-                  selectedVideoSyncStatus === "unsynced" &&
-                    "border-amber-500/60",
+                    selectedVideoSyncStatus === "unsynced" &&
+                      "border-amber-500/60",
 
-                  selectedVideoSyncStatus === "synced" &&
-                    "border-emerald-500/60",
+                    selectedVideoSyncStatus === "synced" &&
+                      "border-emerald-500/60",
 
-                  !selectedVideo && "border-zinc-800",
-                )}
-              >
-                <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
-                <ScrollBar orientation="vertical" />
-
-                <div id="edit-panel" className={classNames("p-5")}>
-                  {selectedVideo && (
-                    <div
-                      className={classNames(
-                        "mb-4 rounded-xl px-3 py-2 text-xs font-medium",
-                        selectedVideoSyncStatus === "missing" &&
-                          "bg-red-500/10 text-red-300",
-                        selectedVideoSyncStatus === "unsynced" &&
-                          "bg-amber-500/10 text-amber-300",
-                        selectedVideoSyncStatus === "synced" &&
-                          "bg-emerald-500/10 text-emerald-300",
-                      )}
-                    >
-                      {selectedVideoSyncStatus === "missing" &&
-                        "Not in Database"}
-                      {selectedVideoSyncStatus === "unsynced" &&
-                        "Out of sync with Database"}
-                      {selectedVideoSyncStatus === "synced" &&
-                        "Synced with Database"}
-                    </div>
+                    !selectedVideo && "border-zinc-800",
                   )}
-                  {!selectedVideo ? (
-                    <div className="flex h-full min-h-[500px] items-center justify-center text-zinc-500">
-                      Choose a record to edit
-                    </div>
-                  ) : (
-                    <>
-                      <EditPanel
-                        key={selectedVideo.postId}
-                        selectedVideo={selectedVideo}
-                        editOptions={editOptions}
-                        onSave={handleEditPanelSave}
-                        onChange={setDraftVideo}
-                        showNotALaunch={isLocalOnlyVideo(
-                          selectedVideo,
-                          firebaseVideosById,
+                >
+                  <div className="absolute bottom-0 h-10 w-full z-20 pointer-events-none bg-gradient-to-t from-black to-transparent" />
+                  <ScrollBar orientation="vertical" />
+
+                  <div id="edit-panel" className={classNames("p-5")}>
+                    {selectedVideo && (
+                      <div
+                        className={classNames(
+                          "mb-4 rounded-xl px-3 py-2 text-xs font-medium",
+                          selectedVideoSyncStatus === "missing" &&
+                            "bg-red-500/10 text-red-300",
+                          selectedVideoSyncStatus === "unsynced" &&
+                            "bg-amber-500/10 text-amber-300",
+                          selectedVideoSyncStatus === "synced" &&
+                            "bg-emerald-500/10 text-emerald-300",
                         )}
-                        onNotALaunch={() =>
-                          dismissLocalVideo(selectedVideo.postId)
-                        }
-                      />
+                      >
+                        {selectedVideoSyncStatus === "missing" &&
+                          "Not in Database"}
+                        {selectedVideoSyncStatus === "unsynced" &&
+                          "Out of sync with Database"}
+                        {selectedVideoSyncStatus === "synced" &&
+                          "Synced with Database"}
+                      </div>
+                    )}
+                    {!selectedVideo ? (
+                      <div className="flex h-full min-h-[500px] items-center justify-center text-zinc-500">
+                        Choose a record to edit
+                      </div>
+                    ) : (
+                      <>
+                        <EditPanel
+                          key={selectedVideo.postId}
+                          selectedVideo={selectedVideo}
+                          editOptions={editOptions}
+                          onSave={handleEditPanelSave}
+                          onChange={setDraftVideo}
+                          showNotALaunch={isLocalOnlyVideo(
+                            selectedVideo,
+                            firebaseVideosById,
+                          )}
+                          onNotALaunch={() =>
+                            dismissLocalVideo(selectedVideo.postId)
+                          }
+                        />
 
-                      {(selectedVideoSyncStatus === "missing" ||
-                        selectedVideoSyncStatus === "unsynced") && (
-                        <div className="pointer-events-none absolute bottom-0 left-0 z-50 flex h-20 w-full items-center justify-center bg-gradient-to-t from-black to-transparent">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const nextVideo =
-                                draftVideo &&
-                                draftVideo.postId === selectedVideo.postId
-                                  ? draftVideo
-                                  : selectedVideo;
-                              void handleEditPanelSave(nextVideo);
-                            }}
-                            className="pointer-events-auto w-[90%] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
-                          >
-                            {syncState === "saving" ? (
-                              <Icons.loader className="mx-auto h-[20px] w-[20px] animate-spin" />
-                            ) : (
-                              "Save changes"
-                            )}
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-              </ScrollArea>
-            </PageErrorBoundary>
-            <div className="flex flex-col">
-              <div className="flex items-end absolute top-0 right-0">
-                {/*  */}
-              </div>
+                        {(selectedVideoSyncStatus === "missing" ||
+                          selectedVideoSyncStatus === "unsynced") && (
+                          <div className="pointer-events-none absolute bottom-0 left-0 z-50 flex h-20 w-full items-center justify-center bg-gradient-to-t from-black to-transparent">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const nextVideo =
+                                  draftVideo &&
+                                  draftVideo.postId === selectedVideo.postId
+                                    ? draftVideo
+                                    : selectedVideo;
+                                void handleEditPanelSave(nextVideo);
+                              }}
+                              className="pointer-events-auto w-[90%] rounded-xl bg-white px-4 py-2 text-sm font-semibold text-black transition hover:opacity-90"
+                            >
+                              {syncState === "saving" ? (
+                                <Icons.loader className="mx-auto h-[20px] w-[20px] animate-spin" />
+                              ) : (
+                                "Save changes"
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </ScrollArea>
+              </PageErrorBoundary>
+            </div>
+            <div
+              id="video-manager-panel"
+              className={classNames(
+                videoManagerExpanded ? "lg:col-span-3" : "lg:col-span-2",
+                "relative flex flex-col",
+              )}
+            >
+              <button
+                type="button"
+                onClick={() => setVideoManagerExpanded((prev) => !prev)}
+                className="absolute top-3 right-3 z-30 flex items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900/90 px-2.5 py-1.5 text-xs text-zinc-300 backdrop-blur-sm transition hover:bg-zinc-800"
+              >
+                {videoManagerExpanded ? (
+                  <>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M8 2L4 6L8 10"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Collapse
+                  </>
+                ) : (
+                  <>
+                    Expand
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M4 2L8 6L4 10"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </>
+                )}
+              </button>
               <PageErrorBoundary fallbackTitle="Video details failed to render">
                 <ScrollArea
                   id="video-area-right"
@@ -1717,27 +1670,54 @@ export default function Page() {
                         <div className="grid gap-5 ">
                           <div className="overflow-hidden rounded-3xl border border-zinc-800 bg-black">
                             {selectedVideo.videoUrl ? (
-                              <video
-                                ref={videoRef}
-                                src={selectedVideo.videoUrl}
-                                controls
-                                crossOrigin="anonymous"
-                                className="aspect-video w-full bg-black object-cover"
-                                onError={(e) => {
-                                  const target = e.currentTarget;
-                                  const mediaErr = target.error;
-                                  const message = mediaErr
-                                    ? `Video failed to load. code=${mediaErr.code} networkState=${target.networkState} readyState=${target.readyState}`
-                                    : "Video failed to load for an unknown reason.";
+                              // <video
+                              //   ref={videoRef}
+                              //   src={selectedVideo.videoUrl}
+                              //   controls
+                              //   crossOrigin="anonymous"
+                              //   className="aspect-video w-full bg-black object-cover"
+                              //   onError={(e) => {
+                              //     const target = e.currentTarget;
+                              //     const mediaErr = target.error;
+                              //     const message = mediaErr
+                              //       ? `Video failed to load. code=${mediaErr.code} networkState=${target.networkState} readyState=${target.readyState}`
+                              //       : "Video failed to load for an unknown reason.";
 
-                                  console.error("Video element error", {
-                                    message,
-                                    src: selectedVideo.videoUrl,
-                                    postId: selectedVideo.postId,
-                                  });
+                              //     console.error("Video element error", {
+                              //       message,
+                              //       src: selectedVideo.videoUrl,
+                              //       postId: selectedVideo.postId,
+                              //     });
 
-                                  setMediaError(message);
-                                }}
+                              //     setMediaError(message);
+                              //   }}
+                              // />
+                              <VideoPlayer
+                                src={selectedVideo.videoUrl ?? ""}
+                                poster={selectedVideo.thumbnail ?? undefined}
+                                size="full"
+                                className="lg:rounded-[12px] h-fit aspect-video shadow-lg shadow-black"
+                                name="preview"
+                                setCurrentTime={setCurrentTime}
+                                currentTime={currentTime}
+                                videoRef={videoRef}
+                                videoSprite={selectedVideo.videoSprite}
+                                videoSpriteInterval={
+                                  selectedVideo.videoSpriteInterval
+                                }
+                                videoSpriteColumns={
+                                  selectedVideo.videoSpriteColumns
+                                }
+                                videoSpriteFrameWidth={
+                                  selectedVideo.videoSpriteFrameWidth
+                                }
+                                videoSpriteFrameHeight={
+                                  selectedVideo.videoSpriteFrameHeight
+                                }
+                                videoSpriteFrameCount={
+                                  selectedVideo.videoSpriteFrameCount
+                                }
+                                onDurationChange={setVideoDuration}
                               />
                             ) : selectedVideo.thumbnail ? (
                               <img

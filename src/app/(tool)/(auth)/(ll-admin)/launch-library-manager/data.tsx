@@ -25,6 +25,12 @@ export type VideoData = {
   thumbnail: string | null;
   videoUrl: string | null;
   logo?: string | null;
+  videoSprite?: string | null;
+  videoSpriteInterval?: number | null;
+  videoSpriteColumns?: number | null;
+  videoSpriteFrameWidth?: number | null;
+  videoSpriteFrameHeight?: number | null;
+  videoSpriteFrameCount?: number | null;
 };
 export const localData: VideoData[] = [
   {
@@ -17807,4 +17813,4 @@ export const dummyData2: VideoData[] = [
   },
 ];
 
-// RippleToDaM00n2
+
