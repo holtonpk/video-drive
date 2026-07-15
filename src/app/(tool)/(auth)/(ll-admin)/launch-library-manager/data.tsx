@@ -5842,25 +5842,6 @@ export const HARD_CODED_FILTER_OPTION_COUNTS: Record<
   LaunchLibraryFilterField,
   Record<string, number>
 > = {
-  cohort: {
-    "Winter 2026": 128,
-    "Fall 2025": 84,
-    "Summer 2025": 73,
-    "Spring 2025": 59,
-    "Winter 2025": 34,
-    "Summer 2024": 13,
-    "Winter 2024": 10,
-    "Winter 2023": 10,
-    "Summer 2023": 7,
-    "Winter 2022": 6,
-    "Summer 2021": 5,
-    "Fall 2024": 4,
-    "Winter 2020": 3,
-    "Summer 2022": 3,
-    "Winter 2021": 1,
-    "Summer 2020": 1,
-    "Spring 2026": 1,
-  },
   industry: {
     B2B: 313,
     Industrials: 42,
@@ -17812,5 +17793,3 @@ export const dummyData2: VideoData[] = [
     videoUrl: null,
   },
 ];
-
-
