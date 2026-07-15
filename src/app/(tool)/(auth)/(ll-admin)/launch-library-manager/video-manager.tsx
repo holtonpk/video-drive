@@ -197,7 +197,6 @@ function getFilterCounts(
   videos: VideoData[],
 ): Record<LaunchLibraryFilterField, Record<string, number>> {
   const fields: LaunchLibraryFilterField[] = [
-    "cohort",
     "industry",
     "sector",
     "creativeFormat",
@@ -574,7 +573,6 @@ export default function Page() {
 
   const editOptions = useMemo(
     () => ({
-      cohort: getHardcodedOptions("cohort"),
       industry: getHardcodedOptions("industry"),
       sector: getHardcodedOptions("sector"),
       creativeFormat: getHardcodedOptions("creativeFormat"),
@@ -1199,15 +1197,6 @@ export default function Page() {
                           </div>
 
                           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                            <FilterSelect
-                              label="Cohort"
-                              value={filters.cohort}
-                              options={filterOptions.cohort}
-                              onChange={(value) =>
-                                setFilters((prev) => ({...prev, cohort: value}))
-                              }
-                            />
-
                             <FilterSelect
                               label="Score"
                               value={filters.score}
@@ -2125,7 +2114,6 @@ function TextAreaField({
 }
 
 type EditPanelOptions = {
-  cohort: string[];
   industry: string[];
   sector: string[];
   creativeFormat: string[];
@@ -2196,13 +2184,6 @@ const EditPanel = React.memo(function EditPanel({
         label="Company Name"
         value={form.name}
         onChange={(value) => update({name: value})}
-      />
-
-      <SingleValueSelect
-        label="Cohort"
-        value={form.cohort ?? ""}
-        options={editOptions.cohort}
-        onChange={(value) => update({cohort: value || null})}
       />
 
       <TextField

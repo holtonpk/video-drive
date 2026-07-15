@@ -122,7 +122,7 @@ export type VideoRowConfig = {
 
 /** Fields exposed in launch library search / filter UI */
 export type LaunchLibraryFilterField =
-  | "cohort"
+  // | "cohort"
   | "industry"
   | "sector"
   | "creativeFormat"
@@ -136,7 +136,7 @@ export type LaunchLibraryActiveFilters = Partial<
 >;
 
 export const LAUNCH_LIBRARY_FILTER_FIELDS: LaunchLibraryFilterField[] = [
-  "cohort",
+  // "cohort",
   "industry",
   "sector",
   "creativeFormat",
