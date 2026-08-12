@@ -10,6 +10,7 @@ import {
 } from "./data/header-data";
 import {
   type LaunchLibraryActiveFilters,
+  type LaunchLibraryFacetCounts,
   type LaunchLibraryFilterField,
 } from "./data/types";
 import {LAUNCH_LIBRARY_FILTERS_STORAGE_KEY} from "./launch-library-storage";
@@ -34,22 +35,19 @@ const FILTER_ORDER: LaunchLibraryFilterField[] = [
   ).filter((field) => field !== "score"),
 ];
 
-function renderStarRow(activeCount: number, hoverCount = 0) {
-  const filled = hoverCount || activeCount;
+function renderStarRow(activeCount: number, tone: "muted" | "onActive" = "muted") {
+  const filledClassName =
+    tone === "onActive" ? "text-black drop-shadow-sm" : "text-theme-color1 drop-shadow-sm";
+  const emptyClassName = tone === "onActive" ? "text-black/30" : "text-white/20";
 
   return (
     <span className="flex items-center gap-1">
       {Array.from({length: 5}).map((_, i) => {
         const starNumber = i + 1;
-        const isFilled = starNumber <= filled;
+        const isFilled = starNumber <= activeCount;
 
         return (
-          <span
-            key={starNumber}
-            className={
-              isFilled ? "text-theme-color1 drop-shadow-sm" : "text-white/20"
-            }
-          >
+          <span key={starNumber} className={isFilled ? filledClassName : emptyClassName}>
             ★
           </span>
         );
@@ -58,12 +56,29 @@ function renderStarRow(activeCount: number, hoverCount = 0) {
   );
 }
 
-function getActiveScoreValue(
+/**
+ * Count + whether it's a live (facet) count vs. the hardcoded fallback.
+ * Facets only apply to fields with no active selection of their own — a
+ * field's own options always keep the hardcoded count, since they're OR
+ * alternatives within that field rather than a further narrowing.
+ */
+function getPillCount(
+  field: LaunchLibraryFilterField,
+  option: string,
   activeFilters: LaunchLibraryActiveFilters,
-): number {
-  const raw = activeFilters.score?.[0];
-  const parsed = Number(raw);
-  return Number.isFinite(parsed) && parsed >= 1 && parsed <= 5 ? parsed : 0;
+  facetCounts: LaunchLibraryFacetCounts | null,
+): {count: number; isLive: boolean} {
+  const fieldHasActiveSelection = (activeFilters[field]?.length ?? 0) > 0;
+  const liveBucket = fieldHasActiveSelection ? undefined : facetCounts?.[field];
+
+  if (liveBucket) {
+    return {count: liveBucket[option] ?? 0, isLive: true};
+  }
+
+  return {
+    count: HARD_CODED_FILTER_OPTION_COUNTS[field][option] ?? 0,
+    isLive: false,
+  };
 }
 
 const VideoRowHeader = ({
@@ -72,15 +87,16 @@ const VideoRowHeader = ({
   onSearchSubmit,
   activeFilters,
   onFiltersChange,
+  facetCounts = null,
 }: {
   searchValue: string;
   onSearchChange: (value: string) => void;
   onSearchSubmit?: () => void;
   activeFilters: LaunchLibraryActiveFilters;
   onFiltersChange: (filters: LaunchLibraryActiveFilters) => void;
+  facetCounts?: LaunchLibraryFacetCounts | null;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [hoveredScore, setHoveredScore] = useState(0);
   const filterMenuRef = useRef<HTMLDivElement | null>(null);
 
   const activeCount = useMemo(() => {
@@ -125,16 +141,6 @@ const VideoRowHeader = ({
     onFiltersChange({
       ...activeFilters,
       [field]: nextValues,
-    });
-  };
-
-  const setScoreFilter = (value: number) => {
-    const current = activeFilters.score?.[0];
-    const nextScore = current === String(value) ? [] : [String(value)];
-
-    onFiltersChange({
-      ...activeFilters,
-      score: nextScore,
     });
   };
 
@@ -223,69 +229,75 @@ const VideoRowHeader = ({
                     </div>
 
                     {field === "score" ? (
-                      <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                        <div
-                          className="flex items-center gap-1"
-                          onMouseLeave={() => setHoveredScore(0)}
-                        >
-                          {Array.from({length: 5}).map((_, i) => {
-                            const starValue = i + 1;
-                            const activeScore =
-                              getActiveScoreValue(activeFilters);
-                            const filled = hoveredScore || activeScore;
-                            const isFilled = starValue <= filled;
+                      <div className="flex flex-wrap gap-2">
+                        {HARD_CODED_FILTER_OPTIONS.score.map((value) => {
+                          const isActive =
+                            activeFilters.score?.includes(value) ?? false;
+                          const {count, isLive} = getPillCount(
+                            "score",
+                            value,
+                            activeFilters,
+                            facetCounts,
+                          );
+                          const isDisabled = isLive && count === 0 && !isActive;
 
-                            return (
-                              <button
-                                key={starValue}
-                                type="button"
-                                onMouseEnter={() => setHoveredScore(starValue)}
-                                onFocus={() => setHoveredScore(starValue)}
-                                onClick={() => setScoreFilter(starValue)}
-                                className="text-2xl leading-none transition-transform hover:scale-110"
-                                aria-label={`Filter by ${starValue} star${starValue > 1 ? "s" : ""}`}
+                          return (
+                            <button
+                              key={value}
+                              type="button"
+                              disabled={isDisabled}
+                              onClick={() => toggleFilterValue("score", value)}
+                              className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs transition-colors ${
+                                isActive
+                                  ? "border-theme-color1 bg-theme-color1 text-black"
+                                  : isDisabled
+                                    ? "border-white/5 bg-white/5 text-white/30"
+                                    : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                              } disabled:cursor-not-allowed`}
+                            >
+                              {renderStarRow(
+                                Number(value),
+                                isActive ? "onActive" : "muted",
+                              )}
+                              <span
+                                className={
+                                  isActive ? "text-black/70" : "text-white/40"
+                                }
                               >
-                                <span
-                                  className={
-                                    isFilled
-                                      ? "text-theme-color1 drop-shadow-sm"
-                                      : "text-white/20"
-                                  }
-                                >
-                                  ★
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        <div className="text-xs text-white/60">
-                          {getActiveScoreValue(activeFilters) > 0
-                            ? `${HARD_CODED_FILTER_OPTION_COUNTS.score[String(getActiveScoreValue(activeFilters))] ?? 0} videos`
-                            : "Select rating"}
-                        </div>
+                                ({count})
+                              </span>
+                            </button>
+                          );
+                        })}
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2">
                         {HARD_CODED_FILTER_OPTIONS[field].map((option) => {
                           const isActive =
                             activeFilters[field]?.includes(option) ?? false;
+                          const {count, isLive} = getPillCount(
+                            field,
+                            option,
+                            activeFilters,
+                            facetCounts,
+                          );
+                          const isDisabled = isLive && count === 0 && !isActive;
 
                           return (
                             <button
                               key={`${field}-${option}`}
                               type="button"
+                              disabled={isDisabled}
                               onClick={() => toggleFilterValue(field, option)}
                               className={`rounded-full flex flex-col items-center justify-center border px-3 py-1 text-xs transition-colors ${
                                 isActive
                                   ? "border-theme-color1 bg-theme-color1 text-black"
-                                  : "border-white/10 bg-white/5 text-white hover:bg-white/10"
-                              }`}
+                                  : isDisabled
+                                    ? "border-white/5 bg-white/5 text-white/30"
+                                    : "border-white/10 bg-white/5 text-white hover:bg-white/10"
+                              } disabled:cursor-not-allowed`}
                             >
-                              {option} (
-                              {HARD_CODED_FILTER_OPTION_COUNTS[field][option] ??
-                                0}
-                              )
+                              {option} ({count})
                             </button>
                           );
                         })}

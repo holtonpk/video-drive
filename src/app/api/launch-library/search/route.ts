@@ -12,6 +12,8 @@ import {
   startAt,
   endAt,
   where,
+  type CollectionReference,
+  type DocumentData,
   type QueryConstraint,
   type QueryDocumentSnapshot,
   type DocumentSnapshot,
@@ -19,6 +21,7 @@ import {
 import {
   LAUNCH_LIBRARY_FILTER_FIELDS,
   type LaunchLibraryActiveFilters,
+  type LaunchLibraryFacetCounts,
   type LaunchLibraryFilterField,
 } from "@/src/app/(marketing)/launch-library/data/types";
 import type {LaunchLibrarySearchHit} from "@/lib/launch-library/search-hit-to-video";
@@ -301,6 +304,88 @@ async function getCursorSnap(
   return snap.exists() ? snap : null;
 }
 
+/** Fields with no active selection of their own — the ones facet counts are worth computing for. */
+function facetFieldsFor(filters: Filters): LaunchLibraryFilterField[] {
+  return LAUNCH_LIBRARY_FILTER_FIELDS.filter(
+    (field) => !(filters[field]?.length),
+  );
+}
+
+function emptyFacets(fields: LaunchLibraryFilterField[]): LaunchLibraryFacetCounts {
+  const facets: LaunchLibraryFacetCounts = {};
+  for (const field of fields) {
+    facets[field] = {};
+  }
+  return facets;
+}
+
+/** Increments facet[field][value] for every facet field present on `row`. */
+function tallyFacetValues(
+  facets: LaunchLibraryFacetCounts,
+  facetFields: LaunchLibraryFilterField[],
+  row: Record<string, unknown>,
+) {
+  for (const field of facetFields) {
+    const raw = row[field];
+    const values = Array.isArray(raw)
+      ? raw.filter((v): v is string => typeof v === "string")
+      : typeof raw === "string" || typeof raw === "number"
+        ? [String(raw)]
+        : [];
+
+    const bucket = facets[field]!;
+    for (const value of values) {
+      bucket[value] = (bucket[value] ?? 0) + 1;
+    }
+  }
+}
+
+/**
+ * Scans the full collection to count every doc matching the current browse
+ * constraints/filters (rather than stopping at a page boundary), and — when
+ * filters are active — tallies per-option facet counts for every field that
+ * doesn't have a selection of its own. Only worth running on the first page
+ * of a query — the result is stable across that query's pages, so it's not
+ * recomputed on subsequent "load more" calls.
+ */
+async function scanBrowseTotals(
+  colRef: CollectionReference<DocumentData>,
+  browseConstraints: QueryConstraint[],
+  filters: Filters,
+  hasActiveFilters: boolean,
+): Promise<{total: number; facets: LaunchLibraryFacetCounts}> {
+  const facetFields = hasActiveFilters ? facetFieldsFor(filters) : [];
+  const facets = emptyFacets(facetFields);
+  let total = 0;
+  let readAfter: DocumentSnapshot | null = null;
+
+  for (;;) {
+    const batchConstraints: QueryConstraint[] = [...browseConstraints];
+    if (readAfter) {
+      batchConstraints.push(startAfter(readAfter));
+    }
+    batchConstraints.push(limit(FILTER_FETCH));
+
+    const batch = await getDocs(query(colRef, ...batchConstraints));
+    if (batch.empty) break;
+
+    for (const docSnap of batch.docs) {
+      if (!hasPlayableMedia(docSnap)) continue;
+
+      const row = rowForFilterMatch(docSnap);
+      if (hasActiveFilters && !matchesFilters(row, filters)) continue;
+
+      total += 1;
+      tallyFacetValues(facets, facetFields, row);
+    }
+
+    readAfter = batch.docs[batch.docs.length - 1]!;
+    if (batch.docs.length < FILTER_FETCH) break;
+  }
+
+  return {total, facets};
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as {
@@ -379,6 +464,14 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      const facetFields = hasActiveFilters ? facetFieldsFor(filters) : [];
+      const facets = hasActiveFilters ? emptyFacets(facetFields) : null;
+      if (facets) {
+        for (const docSnap of candidates) {
+          tallyFacetValues(facets, facetFields, rowForFilterMatch(docSnap));
+        }
+      }
+
       const ranked = candidates
         .map((docSnap) => ({
           doc: docSnap,
@@ -401,6 +494,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         results,
         nextCursor,
+        total: ranked.length,
+        ...(facets ? {facets} : {}),
       });
     }
 
@@ -417,6 +512,13 @@ export async function POST(req: NextRequest) {
     })();
 
     const pageSize = requestedLimit;
+
+    // The exact total (and facet counts) are stable for the lifetime of a
+    // query, so it's only worth scanning the full collection on the first page.
+    const totalsPromise =
+      cursor === null
+        ? scanBrowseTotals(colRef, browseConstraints, filters, hasActiveFilters)
+        : null;
 
     if (!hasActiveFilters) {
       // Media-presence filtering happens in-memory, so this branch now
@@ -453,10 +555,12 @@ export async function POST(req: NextRequest) {
         hasMore && pageDocs.length > 0
           ? pageDocs[pageDocs.length - 1].id
           : null;
+      const totals = await totalsPromise;
 
       return NextResponse.json({
         results: hits,
         nextCursor,
+        ...(totals ? {total: totals.total, facets: totals.facets} : {}),
       });
     }
 
@@ -492,10 +596,12 @@ export async function POST(req: NextRequest) {
     const hasMore = matches.length > pageSize;
     const nextCursor =
       hasMore && pageDocs.length > 0 ? pageDocs[pageDocs.length - 1].id : null;
+    const totals = await totalsPromise;
 
     return NextResponse.json({
       results: hits,
       nextCursor,
+      ...(totals ? {total: totals.total, facets: totals.facets} : {}),
     });
   } catch (e) {
     console.error("launch-library search", e);

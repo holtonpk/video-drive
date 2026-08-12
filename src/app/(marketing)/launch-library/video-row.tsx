@@ -32,6 +32,10 @@ const CARD_WIDTH_MOBILE = 311;
 const GAP = 16;
 const EDGE_PEEK = 24;
 
+const PREVIEW_WIDTH = 350;
+const PREVIEW_HEIGHT_ESTIMATE = 400;
+const PREVIEW_EDGE_PADDING = 16;
+
 const getCardWidth = () =>
   typeof window !== "undefined" && window.innerWidth < 768
     ? CARD_WIDTH_MOBILE
@@ -74,6 +78,7 @@ export const VideoCard = ({
   };
 
   const cardRef = useRef<HTMLAnchorElement | null>(null);
+  const previewRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const exitTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -133,10 +138,31 @@ export const VideoCard = ({
     if (!cardRef.current) return;
 
     const rect = cardRef.current.getBoundingClientRect();
+    const centerLeft = rect.left + rect.width / 2;
+    const centerTop = rect.top + rect.height / 2;
+
+    // The preview is centered on this point via translate(-50%, -50%), so
+    // clamping the center keeps the box's edges off the viewport edges —
+    // otherwise a card near the left/right/top/bottom of the page pops its
+    // preview flush against that edge with no breathing room.
+    const previewWidth = previewRef.current?.offsetWidth || PREVIEW_WIDTH;
+    const previewHeight =
+      previewRef.current?.offsetHeight || PREVIEW_HEIGHT_ESTIMATE;
+
+    const halfWidth = previewWidth / 2 + PREVIEW_EDGE_PADDING;
+    const halfHeight = previewHeight / 2 + PREVIEW_EDGE_PADDING;
+
+    const minLeft = Math.min(halfWidth, window.innerWidth / 2);
+    const maxLeft = Math.max(window.innerWidth - halfWidth, window.innerWidth / 2);
+    const minTop = Math.min(halfHeight, window.innerHeight / 2);
+    const maxTop = Math.max(
+      window.innerHeight - halfHeight,
+      window.innerHeight / 2,
+    );
 
     setPreviewPos({
-      left: rect.left + rect.width / 2,
-      top: rect.top + rect.height / 2,
+      left: Math.min(Math.max(centerLeft, minLeft), maxLeft),
+      top: Math.min(Math.max(centerTop, minTop), maxTop),
     });
   };
 
@@ -232,6 +258,10 @@ export const VideoCard = ({
 
     const handleUpdate = () => updatePreviewPosition();
 
+    // Re-clamp now that the preview is actually in the DOM and its real
+    // height (not the estimate) can be measured via previewRef.
+    handleUpdate();
+
     window.addEventListener("scroll", handleUpdate, true);
     window.addEventListener("resize", handleUpdate);
 
@@ -316,6 +346,7 @@ export const VideoCard = ({
         isPreviewMounted &&
         createPortal(
           <div
+            ref={previewRef}
             id="video-card-preview"
             className="fixed z-[9999] overflow-hidden flex w-[350px] cursor-pointer flex-col rounded-xl bg-black shadow-black shadow-2xl pointer-events-auto transition-[opacity,transform] duration-200 ease-out"
             style={{

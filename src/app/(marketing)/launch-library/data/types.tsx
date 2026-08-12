@@ -145,3 +145,13 @@ export const LAUNCH_LIBRARY_FILTER_FIELDS: LaunchLibraryFilterField[] = [
   "hook",
   "score",
 ];
+
+/**
+ * Live per-option counts for filter fields that have no active selection of
+ * their own, scoped to whatever filters *are* currently active. Only
+ * populated when at least one filter is active — otherwise the UI falls
+ * back to the hardcoded counts.
+ */
+export type LaunchLibraryFacetCounts = Partial<
+  Record<LaunchLibraryFilterField, Record<string, number>>
+>;
