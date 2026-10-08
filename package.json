@@ -6,10 +6,10 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "node ./node_modules/next/dist/bin/next dev",
+    "build": "node ./node_modules/next/dist/bin/next build",
+    "start": "node ./node_modules/next/dist/bin/next start",
+    "lint": "node ./node_modules/next/dist/bin/next lint",
     "backfill:launch-library-search": "tsx scripts/backfill-launch-library-search.ts",
     "backfill:video-sprites": "tsx scripts/backfill-video-sprites.ts",
     "backfill:video-sprites:sa": "GOOGLE_APPLICATION_CREDENTIALS=./service-account-key.json FIREBASE_STORAGE_BUCKET=video-drive-8d636.appspot.com tsx scripts/backfill-video-sprites.ts",

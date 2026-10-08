@@ -271,9 +271,9 @@ export function AuthGate({children}: {children: React.ReactNode}) {
     }
   }
 
-  if (!mounted || !authResolved) {
-    return <div className="min-h-screen bg-[#121212]" />;
-  }
+  // Render the page right away (server HTML included) instead of a blank screen
+  // while Firebase auth resolves, so the video starts loading immediately.
+  // `locked` stays false until auth resolves; the gate appears only if signed out.
 
   return (
     <AuthGateContext.Provider value={{locked}}>

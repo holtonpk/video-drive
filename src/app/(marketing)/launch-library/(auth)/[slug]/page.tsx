@@ -1,4 +1,5 @@
 import {notFound, permanentRedirect} from "next/navigation";
+import ReactDOM from "react-dom";
 import {NavBar} from "../../../navbar";
 import {Footer} from "../../../footer";
 import {constructMetadata} from "@/lib/utils";
@@ -7,9 +8,13 @@ import ScrollToTop from "./scrollToTop"; // imported scroll to top
 
 import VideoPage from "./video-page";
 import {
-  getLaunchLibraryVideoByPostId,
-  getLaunchLibraryVideoBySlug,
-} from "../../data/get-launch-video";
+  getLaunchLibraryCatalog,
+  getLaunchVideoByPostId,
+  getLaunchVideoBySlug,
+  launchLibraryThumbnailUrl,
+} from "@/lib/launch-library/catalog";
+import {buildRelatedVideos} from "../../data/related-videos";
+import type {VideoData} from "../../data/types";
 import {
   absoluteMediaUrl,
   buildLaunchVideoJsonLd,
@@ -17,9 +22,24 @@ import {
   buildLaunchVideoOgDescription,
 } from "../../data/video-seo";
 
+// Cache rendered video pages (ISR); pages are generated on first visit.
+export const revalidate = 600;
+
+export function generateStaticParams() {
+  return [];
+}
+
 type Props = {
   params: Promise<{slug: string}>;
 };
+
+/** SEO tags need a real image URL, not the stored base64 data URI. */
+function withSeoThumbnail(video: VideoData): VideoData {
+  return {
+    ...video,
+    thumbnail: launchLibraryThumbnailUrl(video.postId, video.thumbnail),
+  };
+}
 
 function siteOrigin(): string {
   return (
@@ -35,9 +55,9 @@ export async function generateMetadata({params}: Props) {
   let video = null;
 
   if (isNumericPostIdParam(slug)) {
-    video = await getLaunchLibraryVideoByPostId(slug);
+    video = await getLaunchVideoByPostId(slug);
   } else {
-    video = await getLaunchLibraryVideoBySlug(slug);
+    video = await getLaunchVideoBySlug(slug);
   }
 
   if (!video) {
@@ -50,7 +70,7 @@ export async function generateMetadata({params}: Props) {
   const origin = siteOrigin();
   const pathSlug = video.slug?.trim() || slug;
   const canonicalUrl = `${origin}/launch-library/${pathSlug}`;
-  const ogImage = absoluteMediaUrl(video.thumbnail, origin);
+  const ogImage = absoluteMediaUrl(withSeoThumbnail(video).thumbnail, origin);
   const description = buildLaunchVideoMetaDescription(video);
   const openGraphDescription = buildLaunchVideoOgDescription(video);
 
@@ -83,7 +103,7 @@ export default async function Page({params}: Props) {
   const slug = decodeURIComponent(rawSlug).trim();
 
   if (isNumericPostIdParam(slug)) {
-    const byId = await getLaunchLibraryVideoByPostId(slug);
+    const byId = await getLaunchVideoByPostId(slug);
 
     if (byId) {
       const canonical = byId.slug?.trim() || baseSlugFromName(byId.name);
@@ -93,21 +113,32 @@ export default async function Page({params}: Props) {
     notFound();
   }
 
-  // const [video, allVideos] = await Promise.all([
-  //   getLaunchLibraryVideoBySlug(slug),
-  //   getLaunchLibraryVideos(),
-  // ]);
-
-  const [video] = await Promise.all([getLaunchLibraryVideoBySlug(slug)]);
+  const [video, catalog] = await Promise.all([
+    getLaunchVideoBySlug(slug),
+    getLaunchLibraryCatalog(),
+  ]);
 
   if (!video) {
     notFound();
   }
 
+  // Open the connection to the video host while the page is still loading.
+  if (video.videoUrl) {
+    ReactDOM.preconnect(new URL(video.videoUrl).origin, {
+      crossOrigin: "anonymous",
+    });
+  }
+
+  const related = buildRelatedVideos(video, catalog);
+
   const origin = siteOrigin();
   const pathSlug = video.slug?.trim() || slug;
   const canonicalUrl = `${origin}/launch-library/${pathSlug}`;
-  const jsonLd = buildLaunchVideoJsonLd(video, canonicalUrl, origin);
+  const jsonLd = buildLaunchVideoJsonLd(
+    withSeoThumbnail(video),
+    canonicalUrl,
+    origin,
+  );
 
   return (
     <>
@@ -118,7 +149,7 @@ export default async function Page({params}: Props) {
       />
       <div className="flex min-h-screen flex-col">
         <NavBar />
-        <VideoPage video={video} />
+        <VideoPage video={video} related={related} />
         <Footer />
       </div>
     </>

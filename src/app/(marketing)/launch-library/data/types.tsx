@@ -74,6 +74,43 @@ export type VideoCardDisplay = {
   commentary: string | null;
 };
 
+/**
+ * Related-video card on the video page. Thumbnail is a URL (never a base64 data URI)
+ * so the RSC payload stays small and the browser can lazy-load + cache it.
+ */
+export type RelatedVideoCard = {
+  postId: string;
+  slug: string;
+  name: string;
+  score: VideoData["score"];
+  commentary: string | null;
+  logo: string | null;
+  website: string | null;
+  thumbnailUrl: string | null;
+  videoSprite: string | null;
+  videoSpriteInterval: number | null;
+  videoSpriteColumns: number | null;
+  videoSpriteFrameWidth: number | null;
+  videoSpriteFrameHeight: number | null;
+  videoSpriteFrameCount: number | null;
+};
+
+/** Server-side slim index of the whole library (no thumbnails / descriptions). */
+export type LaunchLibraryCatalogEntry = RelatedVideoCard & {
+  docId: string;
+  cohort: string | null;
+  industry: string[];
+  sector: string[];
+  creativeFormat: string[];
+  tone: string[];
+  production: string[];
+  hook: string[];
+  viewCount: number;
+  likeCount: number;
+  /** Has both a videoUrl and a thumbnail (eligible as a related video). */
+  hasMedia: boolean;
+};
+
 /** Homepage-only: slim doc for ISR/static (truncated commentary, no description). */
 export type HomepageVideoCardData = VideoCardDisplay & {
   score: VideoData["score"];

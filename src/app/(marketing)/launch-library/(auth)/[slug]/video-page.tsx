@@ -1,6 +1,6 @@
 "use client";
-import React, {Suspense, useEffect, useState} from "react";
-import {usePathname, useSearchParams} from "next/navigation";
+import React, {useEffect, useState} from "react";
+import {usePathname} from "next/navigation";
 import {Checkbox} from "./checkbox";
 import {
   ChevronLeftIcon,
@@ -8,7 +8,7 @@ import {
   LoaderCircleIcon,
   Star,
 } from "lucide-react";
-import {VideoData} from "../../data/types";
+import {RelatedVideoCard, VideoData} from "../../data/types";
 import Link from "next/link";
 import localFont from "next/font/local";
 import {VideoPlayer} from "./video-player";
@@ -39,12 +39,15 @@ import {
   DialogTitle,
 } from "./dialog";
 
-import {getLaunchLibraryVideos} from "../../data/get-launch-video";
+import {
+  relatedFilterKey,
+  type RelatedVideoFilter,
+  type RelatedVideosPayload,
+} from "../../data/related-videos";
 import {
   LaunchLibraryFieldCategory,
   slugifyFieldValue,
 } from "../../data/field-routing";
-import {baseSlugFromName} from "@/lib/slug";
 
 const h1Font = localFont({
   src: "../../../fonts/HeadingNow-56Bold.ttf",
@@ -73,180 +76,6 @@ const getFaviconUrl = (url: string) => {
     return "invalid";
   }
 };
-
-const RELATED_WEIGHTS = {
-  cohort: 4,
-  industry: 8,
-  sector: 10,
-  creativeFormat: 6,
-  tone: 7,
-  production: 6,
-} as const;
-
-const getSharedCount = (a?: string[] | null, b?: string[] | null) => {
-  if (!a?.length || !b?.length) return 0;
-  const setB = new Set(b);
-  return a.filter((item) => setB.has(item)).length;
-};
-
-const getRelatedScore = (source: VideoData, candidate: VideoData) => {
-  if (source.postId === candidate.postId) return -1;
-
-  let score = 0;
-
-  if (source.cohort && candidate.cohort && source.cohort === candidate.cohort) {
-    score += RELATED_WEIGHTS.cohort;
-  }
-
-  score +=
-    getSharedCount(source.industry, candidate.industry) *
-    RELATED_WEIGHTS.industry;
-
-  score +=
-    getSharedCount(source.sector, candidate.sector) * RELATED_WEIGHTS.sector;
-
-  score +=
-    getSharedCount(source.creativeFormat, candidate.creativeFormat) *
-    RELATED_WEIGHTS.creativeFormat;
-
-  score += getSharedCount(source.tone, candidate.tone) * RELATED_WEIGHTS.tone;
-
-  score +=
-    getSharedCount(source.production, candidate.production) *
-    RELATED_WEIGHTS.production;
-
-  // tie breakers
-  if (source.score && candidate.score) {
-    score += Math.max(0, 3 - Math.abs(source.score - candidate.score));
-  }
-
-  score += Math.min(candidate.viewCount / 100000, 3);
-  score += Math.min(candidate.likeCount / 1000, 2);
-
-  return score;
-};
-
-const getRelatedVideos = (video: VideoData, allVideos: VideoData[]) => {
-  return allVideos
-    .filter((candidate) => !!candidate.videoUrl && !!candidate.thumbnail)
-    .map((candidate) => ({
-      video: candidate,
-      score: getRelatedScore(video, candidate),
-    }))
-    .filter((item) => item.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map((item) => item.video);
-};
-
-function dedupeVideos(videos: VideoData[]) {
-  const seen = new Set<string>();
-
-  return videos.filter((v) => {
-    const key = v.postId || v.slug || v.name;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-type RelatedVideoFilter =
-  | {type: "all"; label: "All"}
-  | {
-      type: "tag";
-      label: string;
-      fieldCategory: LaunchLibraryFieldCategory;
-      value: string;
-    };
-
-function getVideoFieldValuesByCategory(
-  video: VideoData,
-  fieldCategory: LaunchLibraryFieldCategory,
-): string[] {
-  switch (fieldCategory) {
-    case "cohort":
-      return video.cohort ? [video.cohort] : [];
-    case "industry":
-      return video.industry ?? [];
-    case "sector":
-      return video.sector ?? [];
-    case "creative-format":
-      return video.creativeFormat ?? [];
-    case "tone":
-      return video.tone ?? [];
-    case "production":
-      return video.production ?? [];
-    case "hook":
-      return video.hook ?? [];
-    case "score":
-      return video.score != null ? [String(video.score)] : [];
-    default:
-      return [];
-  }
-}
-
-function getFilterBoost(
-  candidate: VideoData,
-  filter: RelatedVideoFilter,
-): number {
-  if (filter.type === "all") return 0;
-
-  const values = getVideoFieldValuesByCategory(candidate, filter.fieldCategory);
-
-  if (!values.includes(filter.value)) return Number.NEGATIVE_INFINITY;
-
-  let boost = 100;
-
-  switch (filter.fieldCategory) {
-    case "sector":
-      boost += 20;
-      break;
-    case "creative-format":
-    case "tone":
-    case "production":
-      boost += 12;
-      break;
-    case "industry":
-      boost += 10;
-      break;
-    case "cohort":
-      boost += 8;
-      break;
-    case "hook":
-      boost += 6;
-      break;
-    case "score":
-      boost += 4;
-      break;
-    default:
-      break;
-  }
-
-  return boost;
-}
-
-function getUniqueRelatedFilters(video: VideoData): RelatedVideoFilter[] {
-  const tags = getVideoTags(video);
-  const seen = new Set<string>();
-
-  const dynamicFilters: RelatedVideoFilter[] = tags
-    .map((tag) => {
-      const normalizedValue = tag.label.replace(/ hook$/i, "");
-      const key = `${tag.category}::${normalizedValue}`;
-
-      if (seen.has(key)) return null;
-      seen.add(key);
-
-      return {
-        type: "tag" as const,
-        label: tag.label,
-        fieldCategory: tag.category,
-        value: normalizedValue,
-      };
-    })
-    .filter(Boolean) as RelatedVideoFilter[];
-
-  return [{type: "all", label: "All"}, ...dynamicFilters];
-}
 
 /**
  * Deep-link time from the URL query `?t=` (seconds, integer or decimal).
@@ -293,17 +122,25 @@ function formatVideoTimeMmSs(totalSeconds: number): string {
   return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
-const VideoPageInner = ({video}: {video: VideoData}) => {
+const VideoPageInner = ({
+  video,
+  related,
+}: {
+  video: VideoData;
+  related: RelatedVideosPayload;
+}) => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const tQuery = searchParams.get("t");
+  // Read `?t=` after mount instead of useSearchParams so the page can be
+  // statically cached and still server-render the player.
+  const [tQuery, setTQuery] = useState<string | null>(null);
+  useEffect(() => {
+    setTQuery(new URLSearchParams(window.location.search).get("t"));
+  }, [pathname]);
   const secondsFromUrl = React.useMemo(
     () => parseLaunchLibraryTimeParam(tQuery),
     [tQuery],
   );
 
-  const [allVideos, setAllVideos] = useState<VideoData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [activeRelatedFilter, setActiveRelatedFilter] =
     useState<RelatedVideoFilter>({type: "all", label: "All"});
 
@@ -379,35 +216,10 @@ const VideoPageInner = ({video}: {video: VideoData}) => {
   );
 
   useEffect(() => {
-    let cancelled = false;
-
     setActiveRelatedFilter({type: "all", label: "All"});
+  }, [video.postId]);
 
-    async function fetchAllVideos() {
-      setIsLoading(true);
-
-      try {
-        const videos = await getLaunchLibraryVideos();
-        if (cancelled) return;
-        setAllVideos(videos);
-      } finally {
-        if (!cancelled) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    fetchAllVideos();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [video.slug]);
-
-  const relatedVideoFilters = React.useMemo(
-    () => getUniqueRelatedFilters(video),
-    [video],
-  );
+  const relatedVideoFilters = related.filters;
 
   useEffect(() => {
     const el = filtersScrollRef.current;
@@ -440,54 +252,13 @@ const VideoPageInner = ({video}: {video: VideoData}) => {
     };
   }, [updateFilterScrollState]);
 
-  const displayedRelatedVideos = React.useMemo(() => {
-    if (!allVideos.length) return [];
-
-    const baseRelated = dedupeVideos(getRelatedVideos(video, allVideos));
-    const allResults = baseRelated.slice(0, 20);
-
-    if (activeRelatedFilter.type === "all") {
-      return allResults;
-    }
-
-    type Ranked = {video: VideoData; score: number};
-
-    const ranked: Ranked[] = baseRelated
-      .map((candidate, index) => {
-        const boost = getFilterBoost(candidate, activeRelatedFilter);
-
-        if (boost === Number.NEGATIVE_INFINITY) return null;
-
-        return {
-          video: candidate,
-          score: boost + (1000 - index),
-        };
-      })
-      .filter((item): item is Ranked => item != null)
-      .sort((a, b) => b.score - a.score);
-
-    const filteredRanked = ranked.map((item) => item.video);
-    const filteredResults = filteredRanked.slice(0, 20);
-
-    const sameAsAll =
-      filteredResults.length === allResults.length &&
-      filteredResults.every(
-        (item, index) => item.postId === allResults[index]?.postId,
-      );
-
-    if (sameAsAll) {
-      const allIds = new Set(allResults.map((item) => item.postId));
-      const uniqueToFilter = filteredRanked.filter(
-        (item) => !allIds.has(item.postId),
-      );
-
-      if (uniqueToFilter.length > 0) {
-        return uniqueToFilter.slice(0, 20);
-      }
-    }
-
-    return filteredResults;
-  }, [video, allVideos, activeRelatedFilter]);
+  const displayedRelatedVideos = React.useMemo(
+    () =>
+      (related.idsByFilter[relatedFilterKey(activeRelatedFilter)] ?? [])
+        .map((postId) => related.cards[postId])
+        .filter(Boolean),
+    [related, activeRelatedFilter],
+  );
 
   return (
     <main className="flex flex-1 flex-col lg:px-6 pt-2 lg:pb-10 text-white max-w-screen">
@@ -621,22 +392,9 @@ const VideoPageInner = ({video}: {video: VideoData}) => {
           </div>
 
           <div className="mt-2 flex flex-col lg:grid min-w-0 w-full grid-cols-1 gap-8 lg:gap-0 place-items-center">
-            {isLoading ? (
-              <>
-                {Array.from({length: 20}).map((_, i) => (
-                  <VideoPreviewSkeleton key={i} />
-                ))}
-              </>
-            ) : (
-              <>
-                {displayedRelatedVideos.map((relatedVideo) => (
-                  <VideoPreview
-                    key={relatedVideo.postId}
-                    video={relatedVideo}
-                  />
-                ))}
-              </>
-            )}
+            {displayedRelatedVideos.map((relatedVideo) => (
+              <VideoPreview key={relatedVideo.postId} video={relatedVideo} />
+            ))}
           </div>
         </div>
       </div>
@@ -644,20 +402,14 @@ const VideoPageInner = ({video}: {video: VideoData}) => {
   );
 };
 
-function VideoPageSuspenseFallback() {
-  return (
-    <main className="flex flex-1 flex-col lg:px-6 pt-2 lg:pb-10 text-white">
-      <div className="aspect-video w-full max-w-full animate-pulse rounded-[12px] bg-white/10 shadow-lg shadow-black" />
-    </main>
-  );
-}
-
-export default function VideoPage({video}: {video: VideoData}) {
-  return (
-    <Suspense fallback={<VideoPageSuspenseFallback />}>
-      <VideoPageInner video={video} />
-    </Suspense>
-  );
+export default function VideoPage({
+  video,
+  related,
+}: {
+  video: VideoData;
+  related: RelatedVideosPayload;
+}) {
+  return <VideoPageInner video={video} related={related} />;
 }
 
 const StarRating = ({score = 0}: {score?: number}) => {
@@ -1178,42 +930,15 @@ function buildHoverPreviewSequence(
   return [...startFrames, ...middleFrames, ...endFrames];
 }
 
-const VideoPreviewSkeleton = () => {
-  return (
-    <div
-      className="
-      flex w-full min-w-0 max-w-full flex-col gap-3 transition-all
-      lg:grid lg:grid-cols-[150px_1fr] lg:rounded-[12px] lg:p-2
-    "
-    >
-      <div className="relative aspect-video w-full h-auto overflow-hidden bg-black lg:h-[90px] lg:w-[150px] lg:rounded-[12px]">
-        <div className="absolute inset-0 rounded-none bg-white/10 animate-pulse lg:rounded-[12px]" />
-      </div>
-
-      <div className="flex min-w-0 flex-col gap-2 overflow-hidden px-2 lg:max-h-[90px] lg:gap-1 lg:px-0">
-        <div className="flex min-w-0 items-center gap-2 pl-[3px]">
-          <div className="h-6 w-6 shrink-0 rounded-full bg-white/10 animate-pulse lg:h-4 lg:w-4" />
-          <div className="h-6 min-w-0 flex-1 rounded-full bg-white/10 animate-pulse lg:h-4 lg:max-w-[10rem]" />
-          <div className="ml-auto block h-5 w-[4.5rem] shrink-0 rounded-full bg-white/10 animate-pulse lg:hidden" />
-        </div>
-
-        <div className="hidden lg:block">
-          <div className="h-4 w-16 rounded-full bg-white/10 animate-pulse" />
-        </div>
-
-        <div className="h-3 w-full rounded-full bg-white/10 animate-pulse lg:h-4" />
-        <div className="h-3 w-5/6 rounded-full bg-white/10 animate-pulse lg:h-4" />
-      </div>
-    </div>
-  );
-};
-
-const VideoPreview = ({video}: {video: VideoData}) => {
+const VideoPreview = ({video}: {video: RelatedVideoCard}) => {
   const [isHovered, setIsHovered] = React.useState(false);
+  // Sprites are 2-5MB each; only fetch one once its card is hovered so 20
+  // sprites don't compete with the main video for bandwidth.
+  const [spriteRequested, setSpriteRequested] = React.useState(false);
   const [spriteReady, setSpriteReady] = React.useState(false);
   const [frameCursor, setFrameCursor] = React.useState(0);
 
-  const href = `/launch-library/${video.slug ?? baseSlugFromName(video.name)}`;
+  const href = `/launch-library/${video.slug}`;
 
   const spriteUrl = video.videoSprite ?? null;
   const frameWidth = video.videoSpriteFrameWidth ?? PREVIEW_WIDTH;
@@ -1226,10 +951,10 @@ const VideoPreview = ({video}: {video: VideoData}) => {
     return buildHoverPreviewSequence(frameCount, interval);
   }, [frameCount, interval]);
 
-  // Preload sprite once
+  // Load sprite on first hover
   React.useEffect(() => {
-    if (!spriteUrl) {
-      setSpriteReady(false);
+    setSpriteReady(false);
+    if (!spriteUrl || !spriteRequested) {
       return;
     }
 
@@ -1253,7 +978,7 @@ const VideoPreview = ({video}: {video: VideoData}) => {
     return () => {
       cancelled = true;
     };
-  }, [spriteUrl]);
+  }, [spriteUrl, spriteRequested]);
 
   // Set first valid frame immediately on hover
   React.useEffect(() => {
@@ -1311,19 +1036,24 @@ const VideoPreview = ({video}: {video: VideoData}) => {
       hover:bg-white/5
      lg:grid lg:grid-cols-[150px_1fr]
     "
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        setSpriteRequested(true);
+      }}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative w-full h-auto aspect-video overflow-hidden lg:rounded-[12px] bg-black lg:h-[90px] lg:w-[150px]">
         <img
-          src={video.thumbnail ?? ""}
+          src={video.thumbnailUrl ?? ""}
           alt={video.name}
+          loading="lazy"
+          decoding="async"
           className={`absolute inset-0 h-full w-full rounded-none lg:rounded-[12px] object-cover transition-opacity duration-100 ${
             showSprite ? "opacity-0" : "opacity-100"
           }`}
         />
 
-        {spriteUrl && frameCount > 0 && (
+        {spriteUrl && spriteRequested && frameCount > 0 && (
           <div
             className={`absolute inset-0 transition-opacity duration-100 ${
               showSprite ? "opacity-100" : "opacity-0"
@@ -1344,6 +1074,7 @@ const VideoPreview = ({video}: {video: VideoData}) => {
           <img
             src={video.logo ?? getFaviconUrl(video.website ?? "")}
             alt={video.name}
+            loading="lazy"
             className="h-6 w-6 lg:h-4 lg:w-4 shrink-0 rounded-full ring-[1px] ring-white/20 ring-offset-[2px] ring-offset-black"
           />
           <h3
